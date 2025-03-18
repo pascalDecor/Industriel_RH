@@ -1,4 +1,5 @@
 import logo from "../../public/images/logo.png";
+import logo_light from "../../public/images/logo_light.png";
 import banner from "../../public/images/banner.png";
 import cardFond from "../../public/images/card_fond.png";
 import salary_guide from "../../public/images/salary_guide.png";
@@ -33,6 +34,7 @@ import phone from "../../public/images/icons/phone.png";
 
 export const imagePathFinder = {
   logo: logo,
+  logo_light: logo_light,
   banner: banner,
   cardFond: cardFond,
   salary_guide: salary_guide,
