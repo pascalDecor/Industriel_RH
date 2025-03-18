@@ -3,7 +3,7 @@
 import Button from "@/components/button";
 import Carousel from "@/components/carroussel";
 import { motion } from "framer-motion";
-import { FiArrowLeft, FiArrowRight, FiCheck, FiSearch, FiStar } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight, FiCheck, FiSearch } from "react-icons/fi";
 import { TiLocationOutline } from "react-icons/ti";
 import Image from 'next/image'
 import { imagePathFinder } from "@/utils/imagePathFinder";
@@ -213,14 +213,14 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <div className="w-3/5 pr-4">
             <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-              Worry-free recruitment for today's and tomorrow's Quebec!
+              {"Worry-free recruitment for today's and tomorrow's Quebec!"}
             </h2>
             <p className="text-gray-500 text-sm mb-5">
-              We help you build a strong team to tackle the challenges of Quebec's competitive market.
+              {"We help you build a strong team to tackle the challenges of Quebec's competitive market."}
             </p>
             <div className="flex gap-4 align-middle items-center">
               <p className="text-gray-500 text-sm whitespace-nowrap">
-                I'm looking for a
+                {"I'm looking for a"}
               </p>
               <div className="relative w-60">
                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -299,7 +299,7 @@ export default function Home() {
                 <FiCheck className="text-white" />
               </div>
               <p className="text-gray-500 text-sm mb-5">
-                Access Industrielle RH's extensive network of qualified candidates in manufacturing, construction, healthcare, logistics, and agriculture.
+                {"Access Industrielle RH's extensive network of qualified candidates in manufacturing, construction, healthcare, logistics, and agriculture."}
               </p>
             </div>
             <div className="flex gap-4 align-start items-start">
@@ -374,7 +374,7 @@ export default function Home() {
                 <FiCheck className="text-white" />
               </div>
               <p className="text-gray-500 text-sm mb-5">
-                Personalized solutions to celebrate your team's achievements.
+                {"Personalized solutions to celebrate your team's achievements."}
               </p>
             </div>
             <div className="flex gap-4">
@@ -536,9 +536,7 @@ export default function Home() {
                 <AiFillStar className="text-yellow-500 text-xl" />
               </div>
               <p className="text-sm font-regular text  text-gray-500 text-start mb-2">
-                "Anyone searching for an entry-level position knows how hard
-                it is to find a position that aligns with your future
-                goals. They connected me with the perfect job."
+                {'"Anyone searching for an entry-level position knows how hard it is to find a position that aligns with your future goals. They connected me with the perfect job."'}
               </p>
               <p className="text-sm font-bold text  text-gray-800 text-end absolute bottom-5 right-4">
                 - Sales Assistant
@@ -553,7 +551,7 @@ export default function Home() {
                 <AiFillStar className="text-yellow-500 text-xl" />
               </div>
               <p className="text-sm font-regular text  text-gray-500 text-start mb-2">
-                "Robert Half was able to get the person we needed to do the project in less than a week."
+                {'"Robert Half was able to get the person we needed to do the project in less than a week."'}
               </p>
               <p className="text-sm font-bold text  text-gray-800 text-end absolute bottom-5 right-4">
                 - Billing Analyst
@@ -568,8 +566,7 @@ export default function Home() {
                 <AiFillStar className="text-yellow-500 text-xl" />
               </div>
               <p className="text-sm font-regular text  text-gray-500 text-start mb-2">
-                "I am in a position that fits me. Robert Half is making
-                working from home so much easier. The support is amazing."
+                {'"I am in a position that fits me. Robert Half is making working from home so much easier. The support is amazing."'}
               </p>
               <p className="text-sm font-bold text  text-gray-800 text-end absolute bottom-5 right-4">
                 - Customer Service Representative
