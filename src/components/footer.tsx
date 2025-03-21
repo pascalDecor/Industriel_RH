@@ -9,7 +9,6 @@ import { FaTwitter } from "react-icons/fa6";
 import { BsYoutube } from "react-icons/bs";
 import { LuInstagram } from "react-icons/lu";
 import Button from "./button";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useState, useEffect } from "react";
 
@@ -146,12 +145,6 @@ export function Footer() {
                     </div>
                     <div className="col-span-4 flex flex-col  items-center justify-end">
                         <div className="w-full h-40 bg-gray-200 rounded-[15px] overflow-hidden">
-                            {/* {isClient ? <MapContainer className="h-full w-full">
-                                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                                <Marker position={[48.8566, 2.3522]}>
-                                    <Popup>Paris, France</Popup>
-                                </Marker>
-                            </MapContainer> : null} */}
                         </div>
                     </div>
                 </div>
