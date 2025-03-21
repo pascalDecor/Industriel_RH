@@ -5,15 +5,22 @@ import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Image from "next/image";
 import { imagePathFinder } from "@/utils/imagePathFinder";
+import Button from "./button";
+import { GoArrowUpRight } from "react-icons/go";
 
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  function handleClick() {
+    alert("Clic !");
+  }
+
+
   return (
     <nav className="bg-white text-white shadow-md container fixed z-50 top-0 w-full" style={{ width: "100vw" }}>
       <div className="w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+        <div className="flex justify-between h-18 items-center">
           {/* Logo */}
           <Image src={imagePathFinder.logo} alt="logo" width={150} />
           {/* Desktop Menu */}
@@ -27,7 +34,18 @@ export function Navbar() {
           </div>
 
           <div>
-            <Link href="/login" className="hover:text-gray-600 btn text-gray-400 text-sm">Login</Link>
+            <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-[11px] mr-3 border border-gray-300">
+              <Link href="/login" className="hover:text-gray-600 btn text-gray-400 text-sm flex align-middle items-center">
+
+                <span>Contact Us</span>
+
+                <div className="bg-blue-700 p-1 rounded-full ml-3">
+                  <GoArrowUpRight size={20} className="text-white" />
+                </div>
+              </Link>
+
+            </Button>
+
           </div>
 
           {/* Bouton menu mobile */}

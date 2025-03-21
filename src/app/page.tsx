@@ -12,7 +12,7 @@ import { AiFillStar } from "react-icons/ai";
 export default function Home() {
 
   function handleClick() {
-    alert("Clic !");
+    console.log("Clic !");
   }
 
   const slides = [
