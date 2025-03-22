@@ -23,11 +23,13 @@ export default function RootLayout({
     <html lang="fr" >
       <body
         className={`${plus_Jakarta_Sans.className} antialiased`}
-        style={{ maxWidth: "100vw", width: "100vw", overflowX: "hidden", backgroundColor : "#fff" }}
+        style={{ maxWidth: "100vw", width: "100vw", overflowX: "hidden", backgroundColor: "#fff" }}
       >
-        <Navbar/>
-        {children}
-        <Footer/>
+        <Navbar />
+        <main className="flex flex-col items-center justify-center bg-gray-100 w-full overflow-x-hidden max-w-full pt-16">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

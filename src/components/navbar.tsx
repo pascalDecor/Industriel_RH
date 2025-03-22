@@ -22,7 +22,9 @@ export function Navbar() {
       <div className="w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-18 items-center">
           {/* Logo */}
-          <Image src={imagePathFinder.logo} alt="logo" width={150} />
+          <Link href="/">
+            <Image src={imagePathFinder.logo} alt="logo" width={150} />
+          </Link>
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">
             <Link href="/" className="hover:text-gray-600 text-gray-400 text-sm">Find Jobs</Link>
@@ -35,7 +37,7 @@ export function Navbar() {
 
           <div>
             <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-[11px] mr-3 border border-gray-300">
-              <Link href="/login" className="hover:text-gray-600 btn text-gray-400 text-sm flex align-middle items-center">
+              <Link href="/contact" className="hover:text-gray-600 btn text-gray-400 text-sm flex align-middle items-center">
 
                 <span>Contact Us</span>
 

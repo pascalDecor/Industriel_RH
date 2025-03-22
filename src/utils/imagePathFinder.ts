@@ -31,6 +31,27 @@ import location from "../../public/images/icons/location.png";
 import horloge from "../../public/images/icons/horloge.png";
 import envelop from "../../public/images/icons/envelop.png";
 import phone from "../../public/images/icons/phone.png";
+import we_accept_recruitment from "../../public/images/we-accept-recruitment.png";
+import contact_adresse from "../../public/images/contact_adresse.png";
+import contact_couriel from "../../public/images/contact_couriel.png";
+import contact_langue from "../../public/images/contact_langue.png";
+import contact_telephone from "../../public/images/contact_telephone.png";
+import about_catalyst_of_prosperity from "../../public/images/about_catalyst_of_prosperity.png";
+import reliability from "../../public/images/reliability.png";
+import Technology from "../../public/images/Technology.png";
+import innovative_approach from "../../public/images/innovative_approach.png";
+import expertise from "../../public/images/expertise.png";
+import valeur_diversity from "../../public/images/valeur_diversity.png";
+import valeur_innovation from "../../public/images/valeur_innovation.png";
+import valeur_integrity from "../../public/images/valeur_integrity.png";
+import valeur_sustanability from "../../public/images/valeur_sustanability.png";
+import hire_the_best_francophone_talent_worldwide from "../../public/images/hire_the_best_francophone_talent_worldwide.png";
+import Jerome_youmani_lankoande from "../../public/images/members/Jerome_youmani_lankoande.png";
+import alice_morin from "../../public/images/members/alice_morin.png";
+import eloise_emery from "../../public/images/members/eloise_emery.png";
+import komi_sodoke from "../../public/images/members/komi_sodoke.png";
+import louis_caron from "../../public/images/members/louis_caron.png";
+import paul_farcas from "../../public/images/members/paul_farcas.png";
 
 export const imagePathFinder = {
   logo: logo,
@@ -67,5 +88,26 @@ export const imagePathFinder = {
   icons_location: location,
   icons_horloge: horloge,
   icons_envelop: envelop,
-  icons_phone: phone
+  icons_phone: phone,
+  we_accept_recruitment: we_accept_recruitment,
+  contact_adresse: contact_adresse,
+  contact_couriel: contact_couriel,
+  contact_langue: contact_langue,
+  contact_telephone: contact_telephone,
+  about_catalyst_of_prosperity: about_catalyst_of_prosperity,
+  reliability: reliability,
+  innovative_approach: innovative_approach,
+  expertise: expertise,
+  technology: Technology,
+  valeur_diversity: valeur_diversity,
+  valeur_innovation: valeur_innovation,
+  valeur_integrity: valeur_integrity, 
+  valeur_sustanability: valeur_sustanability,
+  hire_the_best_francophone_talent_worldwide: hire_the_best_francophone_talent_worldwide,
+  Jerome_youmani_lankoande: Jerome_youmani_lankoande,
+  alice_morin: alice_morin,
+  eloise_emery: eloise_emery,
+  komi_sodoke: komi_sodoke,
+  louis_caron: louis_caron,
+  paul_farcas: paul_farcas,
 };

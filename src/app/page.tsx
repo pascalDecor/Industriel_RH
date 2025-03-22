@@ -94,7 +94,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex flex-col items-center justify-center bg-gray-100 w-full overflow-x-hidden max-w-full">
+    < >
       <section className="w-full">
         <Carousel slides={slides} classname="w-dvw z-0" />
         {/* Search bar */}
@@ -676,9 +676,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
-    </main>
+    </>
   );
 }
 
