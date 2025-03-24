@@ -594,11 +594,11 @@ export default function FindJobs() {
                                     <strong className="font-semibold">Continuous career advice: </strong>   <br />
                                     your profile to achieve long-term success.
                                 </p>
-                                    
-                                        <div className="mt-10">
+
+                                <div className="mt-10">
                                     <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 mb-4">
                                         Explore our training programs
-                                                    <div className="bg-white p-2 rounded-full">
+                                        <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
@@ -607,19 +607,16 @@ export default function FindJobs() {
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
                                         </div>
-                                </Button>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
-                                </div>
-                                </div>
+                    </div>
                 </div>
-                            
-                        </div>
-                        </section>
-                    
+            </div>
+        </section>
 
-                    
-                        {/*  Explore success stories   */}
+        {/*  Explore success stories   */}
         <section className="mx-auto w-lvw mb-10 p-10 bg-gray-200">
             <div className="text-center  m-auto max-w-5xl p-10">
 
@@ -678,16 +675,16 @@ export default function FindJobs() {
 
                 <div className="flex mx-auto mt-10 gap-2 align-middle items-center justify-center">
                     <div className="bg-blue-700 p-2 rounded-full ">
-                                      <FiArrowLeft className="text-white" />
-                                    </div>
-                                    <div className="bg-blue-700 p-2 rounded-full">
-                                        <FiArrowRight className="text-white" />
-                                    </div>
+                        <FiArrowLeft className="text-white" />
+                    </div>
+                    <div className="bg-blue-700 p-2 rounded-full">
+                        <FiArrowRight className="text-white" />
+                    </div>
                 </div>
-                            </div>
-                        </section>
+            </div>
+        </section>
 
-                            {/*  App your way to a new job  */}
+        {/*  App your way to a new job  */}
         <section className="mx-auto max-w-5xl mb-10 p-10">
             <div className="flex items-center gap-4">
                 <div className="w-3/5 pr-4">
