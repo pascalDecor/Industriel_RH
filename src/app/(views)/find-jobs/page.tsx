@@ -7,8 +7,9 @@ import Image from 'next/image';
 
 import Carousel from "@/components/carroussel";
 import { motion } from "framer-motion";
-import { FiArrowRight, FiCheck, FiSearch } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight, FiCheck, FiSearch } from "react-icons/fi";
 import { TiLocationOutline } from "react-icons/ti";
+import { AiFillStar } from "react-icons/ai";
 
 export default function FindJobs() {
 
