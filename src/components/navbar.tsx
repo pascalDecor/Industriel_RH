@@ -18,7 +18,7 @@ export function Navbar() {
 
 
   return (
-    <nav className="bg-white text-white shadow-md container fixed z-50 top-0 w-full" style={{ width: "100vw" }}>
+    <nav className="bg-white text-white shadow-md fixed z-50 top-0 w-full">
       <div className="w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-18 items-center">
           {/* Logo */}

@@ -20,7 +20,7 @@ export function Footer() {
 
 
     return (
-        <footer className="bg-[#111225] text-white shadow-md container  z-50 bottom-0 w-full overflow-hidden " style={{ width: "100vw" }}>
+        <footer className="bg-[#111225] text-white shadow-md   z-50 bottom-0 w-full overflow-hidden " >
             <div className="w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
                 <hr className="border-gray-700 border-1" />
