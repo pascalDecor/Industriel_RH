@@ -10,16 +10,9 @@ import { BsYoutube } from "react-icons/bs";
 import { LuInstagram } from "react-icons/lu";
 import Button from "./button";
 import "leaflet/dist/leaflet.css";
-import { useState, useEffect } from "react";
 
 
 export function Footer() {
-
-    const [isClient, setIsClient] = useState(false);
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
 
     function handleClick() {
         alert("Clic !");
