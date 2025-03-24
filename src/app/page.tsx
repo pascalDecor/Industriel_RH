@@ -444,7 +444,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/*   How it works */}
+      {/*   Add specialized talent across your organization */}
       <section className="mx-auto w-5xl mb-10 p-10">
         <div className="w-full bg-cover bg-center bg-blue-900 p-10 rounded-4xl border">
 

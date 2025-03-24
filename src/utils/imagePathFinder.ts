@@ -52,6 +52,14 @@ import eloise_emery from "../../public/images/members/eloise_emery.png";
 import komi_sodoke from "../../public/images/members/komi_sodoke.png";
 import louis_caron from "../../public/images/members/louis_caron.png";
 import paul_farcas from "../../public/images/members/paul_farcas.png";
+import find_a_job_that_works_for_you from "../../public/images/find_a_job_that_works_for_you.png";
+import card_image_1 from "../../public/images/cards/image_1.png";
+import card_image_2 from "../../public/images/cards/image_2.png";
+import card_image_3 from "../../public/images/cards/image_3.png";
+import card_image_4 from "../../public/images/cards/image_4.png";
+import card_image_5 from "../../public/images/cards/image_5.png";
+import card_image_6 from "../../public/images/cards/image_6.png";
+import explore_how_we_help_job_seekers from "../../public/images/explore_how_we_help_job_seekers.png";
 
 export const imagePathFinder = {
   logo: logo,
@@ -110,4 +118,12 @@ export const imagePathFinder = {
   komi_sodoke: komi_sodoke,
   louis_caron: louis_caron,
   paul_farcas: paul_farcas,
+  find_a_job_that_works_for_you: find_a_job_that_works_for_you,
+  card_image_1: card_image_1,
+  card_image_2: card_image_2,
+  card_image_3: card_image_3,
+  card_image_4: card_image_4,
+  card_image_5: card_image_5,
+  card_image_6: card_image_6,
+  explore_how_we_help_job_seekers: explore_how_we_help_job_seekers,
 };

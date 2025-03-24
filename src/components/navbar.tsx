@@ -27,7 +27,7 @@ export function Navbar() {
           </Link>
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">
-            <Link href="/" className="hover:text-gray-600 text-gray-400 text-sm">Find Jobs</Link>
+            <Link href="/find-jobs" className="hover:text-gray-600 text-gray-400 text-sm">Find Jobs</Link>
             <Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">Hire Talent</Link>
             <Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">About Us</Link>
             <Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">Explore Consulting Solutions </Link>
