@@ -11,7 +11,7 @@ export default function HomeBannerCarroussel() {
     }
 
     const slides = [
-        <div key={0} className="w-full h-[730] bg-[url(/images/banner.png)] bg-cover bg-center py-10 ">
+        <div key={0} className="w-full h-[calc(100vh-55px)] bg-[url(/images/banner.png)] bg-cover bg-center py-10 ">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -50,7 +50,7 @@ export default function HomeBannerCarroussel() {
             </motion.div>
         </div>
         ,
-        <div key={1} className="w-full h-[730] bg-[url(/images/banner_1.png)] bg-cover bg-center py-10 ">
+        <div key={1} className="w-full h-[calc(100vh-55px)] bg-[url(/images/banner_1.png)] bg-cover bg-center py-10 ">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -86,7 +86,7 @@ export default function HomeBannerCarroussel() {
                 </div>
             </motion.div>
         </div>,
-        <div key={2} className="w-full h-[730] bg-[url(/images/banner_2.png)] bg-cover bg-center py-10 ">
+        <div key={2} className="w-full h-[calc(100vh-55px)] bg-[url(/images/banner_2.png)] bg-cover bg-center py-10 ">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -125,7 +125,7 @@ export default function HomeBannerCarroussel() {
                 </div>
             </motion.div>
         </div>,
-        <div key={3} className="w-full h-[730] bg-[url(/images/banner_3.png)] bg-cover bg-center py-10 ">
+        <div key={3} className="w-full h-[calc(100vh-55px)] bg-[url(/images/banner_3.png)] bg-cover bg-center py-10 ">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}

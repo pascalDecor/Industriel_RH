@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="fr" >
       <body
-        className={`${plus_Jakarta_Sans.className} antialiased`}
+        className={`${plus_Jakarta_Sans.className} antialiased text-white`}
         style={{ maxWidth: "100vw", width: "100vw", overflowX: "hidden", backgroundColor: "#fff" }}
       >
         <Navbar />
