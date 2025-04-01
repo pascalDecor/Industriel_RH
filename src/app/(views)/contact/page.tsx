@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/button";
+import Button from "@/components/ui/button";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import Image from 'next/image';
 import Link from "next/link";

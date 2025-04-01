@@ -16,10 +16,10 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    "rounded-lg font-semibold transition-all duration-300 focus:outline-none focus:ring";
+    "rounded-lg font-semibold transition-all duration-300 focus:outline-none focus:ring cursor-pointer";
 
   const variantStyles = {
-    primary: "bg-blue-700 text-white hover:bg-blue-600 focus:ring-blue-300",
+    primary: "bg-blue-900 text-white hover:bg-blue-600 focus:ring-blue-300",
     secondary:
       "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400",
     danger: "bg-red-500 text-white hover:bg-red-600 focus:ring-red-300",

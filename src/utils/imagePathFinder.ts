@@ -1,6 +1,9 @@
 import logo from "../../public/images/logo.png";
 import logo_light from "../../public/images/logo_light.png";
 import banner from "../../public/images/banner.png";
+import banner_1 from "../../public/images/banner_1.png";
+import banner_2 from "../../public/images/banner_2.png";
+import banner_3 from "../../public/images/banner_3.png";
 import cardFond from "../../public/images/card_fond.png";
 import salary_guide from "../../public/images/salary_guide.png";
 import navigate_tech_skill from "../../public/images/navigate_tech_skill.png";
@@ -60,11 +63,44 @@ import card_image_4 from "../../public/images/cards/image_4.png";
 import card_image_5 from "../../public/images/cards/image_5.png";
 import card_image_6 from "../../public/images/cards/image_6.png";
 import explore_how_we_help_job_seekers from "../../public/images/explore_how_we_help_job_seekers.png";
+import hire_talent_how_it_work from "../../public/images/hire_talent_how_it_work.png";
+import recruitment_by_outsourcing from "../../public/images/recruitment_by_outsourcing.png";
+import secure_the_right_fit_for_your_team from "../../public/images/icons/secure_the_right_fit_for_your_team.png";
+import find_top_talent_faster from "../../public/images/icons/find_top_talent_faster.png";
+import hire_with_precision_confidence from "../../public/images/icons/hire_with_precision_confidence.png";
+import international_recruitment from "../../public/images/international_recruitment.png";
+import welcome_and_integration from "../../public/images/icons/welcome_and_integration.png";
+import legal_services from "../../public/images/icons/legal_services.png";
+import international_recruitment_icon from "../../public/images/icons/international_recruitment.png";
+import structured_approach from "../../public/images/structured_approach.png";
+import access_to_diverse_talent from "../../public/images/access_to_diverse_talent.png";
+import fill_critical_skill_gaps from "../../public/images/fill_critical_skill_gaps.png";
+import boost_competitiveness from "../../public/images/boost_competitiveness.png";
+import streamlined_processes from "../../public/images/streamlined_processes.png";
+import your_partner_for_manufacturing_workforce_solutions from "../../public/images/your_partner_for_manufacturing_workforce_solutions.png";
+import bg_blue from "../../public/images/bg_blue.png";
+import trending_job_titles from "../../public/images/trending_job_titles.png";
+import leading_agency_for_manufacturing_workforce_solutions from "../../public/images/leading_agency_for_manufacturing_workforce_solutions.png";
+import be_salary_smart from "../../public/images/be_salary_smart.png";
+import career_development from "../../public/images/career_development.png";
+import What_jobs_are_in_demand from "../../public/images/what_jobs_are_in_demand_2.png";
+import landing_a_job from "../../public/images/landing_a_job.png";
+import own_the_future_of_your_work from "../../public/images/own_the_future_of_your_work.png";
+import salary_guide_five from "../../public/images/2025_salary_guide.png";
+import what_jobs_are_in_demand_3 from "../../public/images/what_jobs_are_in_demand_3.png";
+import build_employee_engagement from "../../public/images/build_employee_engagement.png";
+import find_jobs from "../../public/images/navbar/find_Jobs.png";
+import hire_talent from "../../public/images/navbar/hire_talent.png";
+import consulting_solutions from "../../public/images/navbar/consulting_solutions.png";
+import discover_insights from "../../public/images/navbar/discover_insights.png";
 
 export const imagePathFinder = {
   logo: logo,
   logo_light: logo_light,
   banner: banner,
+  banner_1: banner_1,
+  banner_2: banner_2,
+  banner_3: banner_3,
   cardFond: cardFond,
   salary_guide: salary_guide,
   navigate_tech_skill: navigate_tech_skill,
@@ -109,9 +145,10 @@ export const imagePathFinder = {
   technology: Technology,
   valeur_diversity: valeur_diversity,
   valeur_innovation: valeur_innovation,
-  valeur_integrity: valeur_integrity, 
+  valeur_integrity: valeur_integrity,
   valeur_sustanability: valeur_sustanability,
-  hire_the_best_francophone_talent_worldwide: hire_the_best_francophone_talent_worldwide,
+  hire_the_best_francophone_talent_worldwide:
+    hire_the_best_francophone_talent_worldwide,
   Jerome_youmani_lankoande: Jerome_youmani_lankoande,
   alice_morin: alice_morin,
   eloise_emery: eloise_emery,
@@ -126,4 +163,36 @@ export const imagePathFinder = {
   card_image_5: card_image_5,
   card_image_6: card_image_6,
   explore_how_we_help_job_seekers: explore_how_we_help_job_seekers,
+  hire_talent_how_it_work: hire_talent_how_it_work,
+  recruitment_by_outsourcing: recruitment_by_outsourcing,
+  secure_the_right_fit_for_your_team: secure_the_right_fit_for_your_team,
+  find_top_talent_faster: find_top_talent_faster,
+  hire_with_precision_confidence: hire_with_precision_confidence,
+  international_recruitment: international_recruitment,
+  welcome_and_integration: welcome_and_integration,
+  legal_services: legal_services,
+  international_recruitment_icon: international_recruitment_icon,
+  structured_approach: structured_approach,
+  access_to_diverse_talent: access_to_diverse_talent,
+  fill_critical_skill_gaps: fill_critical_skill_gaps,
+  boost_competitiveness: boost_competitiveness,
+  streamlined_processes: streamlined_processes,
+  your_partner_for_manufacturing_workforce_solutions:
+    your_partner_for_manufacturing_workforce_solutions,
+  bg_blue: bg_blue,
+  trending_job_titles: trending_job_titles,
+  leading_agency_for_manufacturing_workforce_solutions:
+    leading_agency_for_manufacturing_workforce_solutions,
+  be_salary_smart: be_salary_smart,
+  career_development: career_development,
+  What_jobs_are_in_demand: What_jobs_are_in_demand,
+  landing_a_job: landing_a_job,
+  own_the_future_of_your_work: own_the_future_of_your_work,
+  salary_guide_five: salary_guide_five,
+  what_jobs_are_in_demand_3: what_jobs_are_in_demand_3,
+  build_employee_engagement: build_employee_engagement,
+  find_jobs: find_jobs,
+  hire_talent: hire_talent,
+  consulting_solutions: consulting_solutions,
+  discover_insights: discover_insights
 };

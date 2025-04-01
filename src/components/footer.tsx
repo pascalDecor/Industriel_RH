@@ -8,7 +8,7 @@ import { ImLinkedin2 } from "react-icons/im";
 import { FaTwitter } from "react-icons/fa6";
 import { BsYoutube } from "react-icons/bs";
 import { LuInstagram } from "react-icons/lu";
-import Button from "./button";
+import Button from "./ui/button";
 import "leaflet/dist/leaflet.css";
 
 
