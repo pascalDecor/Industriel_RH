@@ -55,7 +55,7 @@ export default function FloatingLabelInput({
                 disabled={disabled}
                 required={required}
                 className={clsx(
-                    "w-full px-4 pt-5 pb-2 border rounded-xl text-sm text-light outline-none transition-all text-gray-600",
+                    "w-full px-4 pt-5 pb-3 border rounded-xl text-sm text-light outline-none transition-all text-gray-600",
                     {
                         "border-gray-600": isFocused || hasValue,
                         "border-gray-300": !isFocused && !hasValue,
@@ -70,9 +70,9 @@ export default function FloatingLabelInput({
             {/* Label */}
             <label
                 htmlFor={name}
-                className={`absolute left-4 top-1/2 font-light transform -translate-y-1/2 text-gray-400 transition-all text-sm
-          ${isFocused || hasValue ? "text-[11px] top-4 text-gray-400 font-light " : "text-base top-1/2"}
-          ${error ? "text-red-500 top-1/3" : ""}
+                className={`absolute left-4 top-3/5  font-light transform -translate-y-1/2 text-transparent transition-all text-sm
+          ${isFocused || hasValue ? "text-[11px] !top-3.5 !text-gray-400 font-light " : "text-base top-1/2"}
+          ${error ? "!text-red-500 text-[11px] top-4" : ""}
           ${icon ? "left-10" : ""}
         `}
             >

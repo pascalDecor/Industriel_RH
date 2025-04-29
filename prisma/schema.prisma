@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+// Models define your data and tell Prisma which data to store in the database.
+model User {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  name          String
+  email         String    @unique
+  password      String
+  otp           String? // Code OTP temporaire, nullable
+  otpExpiration DateTime? // Date et heure d’expiration du OTP, nullable
+  articles      Article[]
+}
+
+model Article {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  titre     String
+  contenu   Json[]   @default([])
+  published Boolean  @default(false)
+  image     String?
+  views     Int      @default(0)
+  // Relations
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+
+  tags Tag[]
+  specialites Specialite[]
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  libelle   String
+  // Relations
+  articles  Article[]
+}
+
+model Specialite {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  libelle   String
+  // Relations
+  articles  Article[]
+}

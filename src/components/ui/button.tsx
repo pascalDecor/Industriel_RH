@@ -2,10 +2,13 @@
 
 import React from "react";
 import clsx from "clsx";
+import { LoadingSpinner } from "@/lib/load.helper";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark";
   size?: "sm" | "md" | "lg";
+  isLoading?: boolean;
+  loadingColor?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -13,6 +16,8 @@ const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   size = "md",
   className,
+  isLoading = false,
+  loadingColor = "white",
   ...props
 }) => {
   const baseStyles =
@@ -41,12 +46,16 @@ const Button: React.FC<ButtonProps> = ({
         baseStyles,
         variantStyles[variant],
         sizeStyles[size],
-        className
+        className,
+        "flex items-center justify-center cursor-pointer"
       )}
       onClick={props.onClick}
       {...props} // Passe les props, y compris onClick
     >
       {children}
+      {isLoading && <div className="ml-2">
+        <LoadingSpinner color={loadingColor} />
+      </div>}
     </button>
   );
 };

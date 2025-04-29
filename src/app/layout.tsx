@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+
 import "../css/globals.css";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
+import { Plus_Jakarta_Sans } from "next/font/google";
+
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   variable: "--font-Plus-Jakarta-Sans",
@@ -25,11 +25,7 @@ export default function RootLayout({
         className={`${plus_Jakarta_Sans.className} antialiased text-white`}
         style={{ maxWidth: "100vw", width: "100vw", overflowX: "hidden", backgroundColor: "#fff" }}
       >
-        <Navbar />
-        <main className="flex flex-col items-center justify-center bg-gray-100 w-full overflow-x-hidden max-w-full pt-16">
-          {children}
-        </main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

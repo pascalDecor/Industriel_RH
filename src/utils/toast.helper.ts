@@ -1,0 +1,2 @@
+export const successToastClassName: string = "bg-teal-100 text-teal-700 border-none  shadow-none justify-content-center flex justify-center px-4 rounded-full bg-opacity-50";
+export const errorToastClassName: string = "bg-red-200 text-red-700 border-none  shadow-none  justify-content-center flex justify-center px-4 rounded-full bg-opacity-50";

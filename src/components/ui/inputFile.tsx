@@ -5,12 +5,14 @@ import { FileText, Upload } from "lucide-react";
 import clsx from "clsx";
 import { BsFilePdf } from "react-icons/bs";
 import Image from "next/image";
+import { FaRegFileImage } from "react-icons/fa";
 
 interface FileUploadProps {
     label?: string;
     onFileSelect?: (file: File | null) => void;
     accept?: Accept;
     className?: string;
+    showPreview?: boolean;
 }
 
 export default function FileUpload({
@@ -18,6 +20,7 @@ export default function FileUpload({
     onFileSelect,
     accept = { 'image': ["image/*"], 'application': ["application/*"] },
     className = "",
+    showPreview = true,
 }: Readonly<FileUploadProps>) {
     const [file, setFile] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
@@ -44,7 +47,7 @@ export default function FileUpload({
         if (file.type.includes("pdf")) return <BsFilePdf className="text-red-500 w-10 h-10" />;
         if (file.type.includes("text") || file.name.endsWith(".doc") || file.name.endsWith(".docx"))
             return <FileText className="text-blue-500 w-10 h-10" />;
-        return <Upload className="text-gray-500 w-10 h-10" />;
+        return <FaRegFileImage  className="text-gray-500 w-10 h-10" />;
     };
 
     return (
@@ -65,13 +68,13 @@ export default function FileUpload({
             {/* Aperçu du fichier sélectionné */}
             {file && (
                 <div className="ml-3 flex flex-col items-center">
-                    {preview ? (
+                    {preview && showPreview ? (
                         <Image
                             src={preview}
                             alt="Preview"
                             className="mt-2 w-32 h-28 object-cover rounded-lg shadow"
                         />
-                    ) : (
+                    ) : showPreview && (
                         <div className="flex items-center gap-2">
                             {getFileIcon()}
                             <a

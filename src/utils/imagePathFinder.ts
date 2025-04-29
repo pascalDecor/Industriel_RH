@@ -93,6 +93,7 @@ import find_jobs from "../../public/images/navbar/find_Jobs.png";
 import hire_talent from "../../public/images/navbar/hire_talent.png";
 import consulting_solutions from "../../public/images/navbar/consulting_solutions.png";
 import discover_insights from "../../public/images/navbar/discover_insights.png";
+import login from "../../public/images/login.png";
 
 export const imagePathFinder = {
   logo: logo,
@@ -194,5 +195,6 @@ export const imagePathFinder = {
   find_jobs: find_jobs,
   hire_talent: hire_talent,
   consulting_solutions: consulting_solutions,
-  discover_insights: discover_insights
+  discover_insights: discover_insights,
+  login: login
 };
