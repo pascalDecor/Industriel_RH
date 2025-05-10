@@ -16,6 +16,7 @@ type Props = {
     defaultValue?: OptionType[];
     placeholder?: string;
     enableCreate?: boolean;
+    isMulti?: boolean;
 };
 
 const createOption = (label: string): OptionType => ({
@@ -29,6 +30,7 @@ export default function MultiSelect({
     defaultValue = [],
     placeholder = 'Choisir...',
     enableCreate = false,
+    isMulti = true,
 }: Readonly<Props>) {
     const [selected, setSelected] = useState<MultiValue<OptionType>>(defaultValue);
     const [options, setOptions] = useState<OptionType[]>(items);
@@ -57,7 +59,7 @@ export default function MultiSelect({
         <div className="my-4">
             {enableCreate ? <CreatableSelect
                 className='w-full rounded-xl border-gray-300 border p-2 text-gray-800 outline-none transition-all text-sm'
-                isMulti
+                isMulti={isMulti}
                 isDisabled={isLoading}
                 isLoading={isLoading}
                 options={options}
@@ -70,7 +72,7 @@ export default function MultiSelect({
                 noOptionsMessage={() => 'Aucune option disponible'}
             /> : <Select
                 className='w-full rounded-xl border-gray-300 border p-2 text-gray-800 outline-none transition-all text-sm'
-                isMulti
+                isMulti={isMulti}
                 isDisabled={isLoading}
                 isLoading={isLoading}
                 options={options}

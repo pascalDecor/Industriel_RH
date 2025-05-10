@@ -6,12 +6,10 @@ import { imagePathFinder } from "@/utils/imagePathFinder";
 import Image from 'next/image';
 
 import { FiArrowRight } from "react-icons/fi";
-import HomeBannerCarroussel from "@/components/HomeBannerCarroussel";
 import ExploreSuccessStories from "@/components/ExploreSuccessStories";
 import { useState } from "react";
-import FloatingLabelSelect from "@/components/ui/select";
-import FloatingLabelInput from "@/components/ui/input";
-import FileUpload from "@/components/ui/inputFile";
+import MoveYourCareerForward from "./components/move-your-career-forward";
+import HiringRequest from "./components/hiring-request";
 
 
 export default function ConsultingSolutions() {
@@ -40,7 +38,6 @@ export default function ConsultingSolutions() {
   const [activeTabForm, setActiveTabForm] = useState("0");
 
   return <>
-    <HomeBannerCarroussel />
     {/*Your Partner for Manufacturing Workforce Solutions */}
     <section className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-5 items-center gap-4 mt-10">
@@ -327,135 +324,8 @@ export default function ConsultingSolutions() {
       ))}
     </div>
 
-    <section className="mx-auto w-lvw mb-0 p-10 bg-gray-200 text-center">
-      <h2 className="text-3xl font-semibold text my-10 text-gray-800">
-        Move your career forward
-      </h2>
-
-      <div className="bg-blue-100 rounded-3xl p-10 border max-w-5xl mx-auto border-gray-300 shadow-lg mb-10">
-        <h2 className="text-xl font-medium text-center mb-10 text-gray-600">
-          Submit your spontaneous application
-        </h2>
-        <form action="" className="grid grid-cols-12 gap-4 w-full ">
-          <div className="col-span-12 text-left">
-            <FloatingLabelSelect label="Civility" name="Civility" options={[{
-              label: "Option 1",
-              value: "option1"
-            }, {
-              label: "Option 2",
-              value: "option2"
-            }, {
-              label: "Option 3",
-              value: "option3"
-            }]} />
-          </div>
-          <div className="col-span-6 text-left">
-            <FloatingLabelInput
-              type="text"
-              label="Name*"
-              name="Name"
-              className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-          <div className="col-span-6 text-left">
-            <FloatingLabelInput
-              type="text"
-              label="First name*"
-              name="FirstName"
-              className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-
-          <div className="col-span-6 text-left">
-            <FloatingLabelInput
-              type="text"
-              label="Address*"
-              name="Address"
-              className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-          <div className="col-span-6 text-left">
-            <FloatingLabelSelect label="City*" name="City" options={[{
-              label: "Option 1",
-              value: "option1"
-            }, {
-              label: "Option 2",
-              value: "option2"
-            }, {
-              label: "Option 3",
-              value: "option3"
-            }]} />
-          </div>
-
-          <div className="col-span-6 text-left">
-            <FloatingLabelInput
-              type="number"
-              label="Phone*"
-              name="Phone"
-              className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-          <div className="col-span-6 text-left">
-            <FloatingLabelInput
-              type="email"
-              label="Email*"
-              name="Email"
-              className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-
-          <div className="col-span-6 text-left">
-            <FloatingLabelSelect label="Sector*" name="Sector" options={[{
-              label: "Option 1",
-              value: "option1"
-            }, {
-              label: "Option 2",
-              value: "option2"
-            }, {
-              label: "Option 3",
-              value: "option3"
-            }]} />
-          </div>
-          <div className="col-span-6 text-left">
-            <FloatingLabelSelect label="Function*" name="Function" options={[{
-              label: "Option 1",
-              value: "option1"
-            }, {
-              label: "Option 2",
-              value: "option2"
-            }, {
-              label: "Option 3",
-              value: "option3"
-            }]} />
-          </div>
-
-          <div className="col-span-12 text-left">
-            <FloatingLabelInput
-              type="number"
-              label="Year(s) of experience*"
-              name="Year_of_experience"
-              className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-
-          <div className="col-span-12 text-left">
-            <p className="text-sm font-regular text-gray-500 my-3 ml-2">
-              CV (Word only, doc or docx format)*
-            </p>
-            <FileUpload onFileSelect={(file) => console.log("Fichier sélectionné:", file)} />
-          </div>
-
-          <div className="col-span-12 text-left">
-            <p className="text-sm font-regular text-gray-500 my-3 ml-2">
-              Cover letter (PDF or DOC)*
-            </p>
-            <FileUpload onFileSelect={(file) => console.log("Fichier sélectionné:", file)} />
-          </div>
-
-
-          <div className="col-span-12 text-center">
-            <Button variant="primary" size="md" onClick={handleClick} className="!rounded-full text-sm px-20 mx-auto mt-10">
-              TO START
-            </Button>
-          </div>
-        </form>
-      </div>
-    </section>
-
+    {activeTabForm === "1" ? <MoveYourCareerForward /> :
+      <HiringRequest />}
 
     {/*  Explore success stories   */}
     <ExploreSuccessStories className="bg-white" />

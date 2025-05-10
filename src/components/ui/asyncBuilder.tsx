@@ -8,7 +8,7 @@ interface AsyncBuilderProps<T> {
     hasData: (data: T) => ReactNode;
     loadingComponent?: ReactNode;
     errorComponent?: (error: Error, retry: () => void) => ReactNode;
-    callDataListen?: boolean | number | string; // pour permettre un refetch par clé
+    callDataListen?: any; // pour permettre un refetch par clé
 }
 
 export function AsyncBuilder<T>({

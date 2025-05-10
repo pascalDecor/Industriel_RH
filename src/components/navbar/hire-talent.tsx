@@ -4,18 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import Button from "../ui/button";
+import { redirect } from "next/navigation";
 
 
 export function HireTalentExpandedNavbar() {
     return (
         <div className="lg:flex grid grid-cols-12 gap-10 lg:px-10 mb-5 justify-between items-start w-7xl mx-auto">
     <div className="col-span-3 lg:w-3/12">
-      <div className="bg-white shadow-lg rounded-2xl p-5 w-full">
+      <div className="bg-white shadow-lg rounded-2xl p-5 w-full text-start">
         <Image src={imagePathFinder.hire_talent} alt="logo" className="w-1/2" />
-        <p className="text-gray-500 text-sm mb-5">
+        <p className="text-gray-700 text-sm mb-5 font-semibold">
         {"We're here to connect you with top talent across all levels, from skiled professionals to executive leadership, tailored to your industry needs."} 
         </p>
-        <Button variant="primary" size="md" onClick={() => null} className="!rounded-full text-sm px-10 mx-auto">
+        <Button variant="primary" size="md" onClick={() => redirect("/hire-talent")} className="!rounded-full text-sm px-10">
         Find talents with us
         </Button>
       </div>

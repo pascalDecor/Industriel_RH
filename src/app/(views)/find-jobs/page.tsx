@@ -20,7 +20,7 @@ export default function FindJobs() {
 
 
     return <>
-        <HomeBannerCarroussel />
+        {/* <HomeBannerCarroussel /> */}
         {/*Find a job that works for you */}
         <section className="mx-auto max-w-5xl mb-10 p-10">
             <div className="grid grid-cols-5 items-center gap-4 mt-10">

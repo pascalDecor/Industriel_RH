@@ -3,12 +3,25 @@ import Button from "./ui/button";
 import { TiLocationOutline } from "react-icons/ti";
 import Carousel from "./ui/carroussel";
 import { motion } from "framer-motion";
+import { redirect } from "next/navigation";
 
 export default function HomeBannerCarroussel() {
 
-    function handleClick() {
+    function handleClickFindJobs() {
+        redirect("/find-jobs#");
+    }
+
+    function handleClickPreviewCandidates() {
+        redirect("/hire-talent#");
+    }
+    function handleClickHireNow() {
+        redirect("/hire-talent#contact-infos");
+    }
+
+    function handleClicSearchJobs() {
         console.log("Clic !");
     }
+
 
     const slides = [
         <div key={0} className="w-full h-[calc(100vh-55px)] bg-[url(/images/banner.png)] bg-cover bg-center py-10 ">
@@ -29,17 +42,17 @@ export default function HomeBannerCarroussel() {
                         <div className="flex gap-4">
                             <div>
                                 <p className="text-gray-400 text-sm ">FOR JOB SEEKERS</p>
-                                <Button variant="primary" size="md" onClick={handleClick} className="mt-10 !rounded-full border text-sm">
+                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="mt-10 !rounded-full border text-sm">
                                     Find your next job
                                 </Button>
                             </div>
                             <div className="border-l border-gray-500 pl-4">
                                 <p className="text-gray-400 text-sm ">FOR BUSINESSES</p>
                                 <div className="flex mt-10 gap-3 ">
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm">
+                                    <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-sm">
                                         Preview candidates
                                     </Button>
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm">
+                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-sm">
                                         Hire now
                                     </Button>
                                 </div>
@@ -66,17 +79,17 @@ export default function HomeBannerCarroussel() {
                         <div className="flex gap-4">
                             <div>
                                 <p className="text-gray-400 text-sm ">FOR JOB SEEKERS</p>
-                                <Button variant="primary" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm">
+                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="mt-10 !rounded-full text-sm">
                                     Find your next job
                                 </Button>
                             </div>
                             <div className="border-l border-gray-500 pl-4">
                                 <p className="text-gray-400 text-sm ">FOR BUSINESSES</p>
                                 <div className="flex mt-10 gap-3 ">
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm">
+                                    <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-sm">
                                         Preview candidates
                                     </Button>
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm">
+                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-sm">
                                         Hire now
                                     </Button>
                                 </div>
@@ -105,17 +118,17 @@ export default function HomeBannerCarroussel() {
                         <div className="flex gap-4">
                             <div>
                                 <p className="text-blue-800 text-sm font-semibold">FOR JOB SEEKERS</p>
-                                <Button variant="primary" size="md" onClick={handleClick} className="mt-10 !rounded-full border text-sm">
+                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="mt-10 !rounded-full border text-sm">
                                     Find your next job
                                 </Button>
                             </div>
                             <div className="border-l border-gray-300 pl-4">
                                 <p className="text-gray-800 text-sm font-semibold">FOR BUSINESSES</p>
                                 <div className="flex mt-10 gap-3 ">
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300">
+                                    <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-sm border border-gray-300">
                                         Preview candidates
                                     </Button>
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300">
+                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-sm border border-gray-300">
                                         Hire now
                                     </Button>
                                 </div>
@@ -144,17 +157,17 @@ export default function HomeBannerCarroussel() {
                         <div className="flex gap-4">
                             <div>
                                 <p className="text-blue-800 text-sm font-semibold">FOR JOB SEEKERS</p>
-                                <Button variant="primary" size="md" onClick={handleClick} className="mt-10 !rounded-full border text-sm">
+                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="mt-10 !rounded-full border text-sm">
                                     Find your next job
                                 </Button>
                             </div>
                             <div className="border-l border-gray-300 pl-4">
                                 <p className="text-gray-800 text-sm font-semibold">FOR BUSINESSES</p>
                                 <div className="flex mt-10 gap-3 ">
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300">
+                                    <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-sm border border-gray-300">
                                         Preview candidates
                                     </Button>
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300">
+                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-sm border border-gray-300">
                                         Hire now
                                     </Button>
                                 </div>
@@ -203,7 +216,7 @@ export default function HomeBannerCarroussel() {
                     </div>
 
                     <Button variant="dark"
-                        size="md" onClick={handleClick} className="!rounded-full text-sm whitespace-nowrap">
+                        size="md" onClick={handleClicSearchJobs} className="!rounded-full text-sm whitespace-nowrap">
                         Search Jobs
                     </Button>
                 </div>

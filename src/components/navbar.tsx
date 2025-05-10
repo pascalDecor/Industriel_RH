@@ -13,6 +13,8 @@ import { FindJobsExpandedNavbar } from "./navbar/find-jobs";
 import { ConsultingSolutionsExpandedNavbar } from "./navbar/consulting-solutions";
 import { DiscoverInsightsExpandedNavbar } from "./navbar/discover-insights";
 import { HireTalentExpandedNavbar } from "./navbar/hire-talent";
+import { LocalStorageHelper } from "@/utils/localStorage.helper";
+import { GoTriangleDown } from "react-icons/go";
 
 
 interface NavItem {
@@ -62,8 +64,11 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
-  function handleClick() {
-    console.log("clicked");
+  function activeNavItem(href: string) {
+    return () => {
+      setHoveredItem(href);
+      LocalStorageHelper.setValue("activeNavItem", href);
+    }
   }
 
   return (
@@ -89,12 +94,17 @@ export function Navbar() {
                   key={index}
                   onMouseEnter={() => setHoveredItem(navItem.href)}
                   onMouseLeave={() => setHoveredItem(null)}>
-                  <Link href={navItem.href} className={clsx("hover:text-blue-900 text-gray-400 text-sm",{
-                    "text-blue-600": hoveredItem === navItem.href
+                  <Link href={navItem.href} onClick={activeNavItem(navItem.href)} className={clsx("transition  hover:text-slate-600 hover:underline text-gray-400 text-sm", {
+                    "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
                   })}>
                     {navItem.label}
+                    {(hoveredItem === navItem.href && navItem.href !== "/about") && <GoTriangleDown className={clsx("text-gray-400 ml-0.5 inline-block text-sm",
+                      {
+                        "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
+                      }
+                    )} />}
                   </Link>
-                  {/* Dropdown Content */ }
+                  {/* Dropdown Content */}
                   {(hoveredItem === navItem.href && navItem.expandedComponnent) && <motion.div
                     initial={{ opacity: 0, }}
                     animate={{ opacity: 1, }}
@@ -109,7 +119,7 @@ export function Navbar() {
               /* Contact Button */
             }
             <div>
-              <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-[11px] mr-3 border border-gray-300">
+              <Button variant="light" size="md" className="!rounded-full text-[11px] mr-3 border border-gray-300">
                 <Link href="/contact" className="hover:text-gray-600 btn text-gray-400 text-sm flex align-middle items-center">
                   <span>Contact Us</span>
                   <div className="bg-blue-700 p-1 rounded-full ml-3">

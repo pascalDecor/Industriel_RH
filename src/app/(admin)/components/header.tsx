@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search, Settings } from "lucide-react";
+import { Bell, Search } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,

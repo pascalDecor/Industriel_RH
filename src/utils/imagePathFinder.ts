@@ -94,6 +94,12 @@ import hire_talent from "../../public/images/navbar/hire_talent.png";
 import consulting_solutions from "../../public/images/navbar/consulting_solutions.png";
 import discover_insights from "../../public/images/navbar/discover_insights.png";
 import login from "../../public/images/login.png";
+import avatar from "../../public/images/avatar.png";
+import cv_builder from "../../public/images/cv_builder.png";
+import ir_blog from "../../public/images/ir_blog.png";
+import salary_guide_1 from "../../public/images/salary_guide_1.png";
+import light from "../../public/images/sectors/light.png";
+import bg from "../../public/images/sectors/bg.png";
 
 export const imagePathFinder = {
   logo: logo,
@@ -196,5 +202,11 @@ export const imagePathFinder = {
   hire_talent: hire_talent,
   consulting_solutions: consulting_solutions,
   discover_insights: discover_insights,
-  login: login
+  login: login,
+  avatar: avatar,
+  cv_builder: cv_builder,
+  ir_blog: ir_blog,
+  salary_guide_1: salary_guide_1,
+  light: light,
+  bg: bg,
 };

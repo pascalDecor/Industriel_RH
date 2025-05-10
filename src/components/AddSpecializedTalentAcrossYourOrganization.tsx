@@ -3,18 +3,47 @@ import { imagePathFinder } from "@/utils/imagePathFinder";
 import { FiArrowRight } from "react-icons/fi";
 import Button from "./ui/button";
 import Image from 'next/image'
+import { LoadingSpinner } from "@/lib/load.helper";
+import { HttpService } from "@/utils/http.services";
+import { AsyncBuilder } from "./ui/asyncBuilder";
+import FloatingLabelSelect from "./ui/select";
+import { Sector } from "@/models/sector";
+import { useEffect, useState } from "react";
+import { se } from "date-fns/locale";
+
 
 
 export default function AddSpecializedTalentAcrossYourOrganization() {
 
-    function handleClick() {
-        console.log("Clic !");
+    function handleClickSector(sector: Sector) {
+        setSectorActive(sector);
     }
+
+    function handleClickFunction(sectorId: string) {
+        console.log("functionId", sectorId);
+    }
+
+    const [sectorActive, setSectorActive] = useState<Sector | undefined>(undefined);
+    const [sectors, setSectors] = useState<Sector[]>([]);
+
+    useEffect(() => {
+        HttpService.index<Sector>({ url: '/sectors', fromJson: (json: any) => Sector.fromJSON(json), })
+            .then((data) => {
+                setSectors(data.data);
+                if (sectorActive === undefined) {
+                    setSectorActive(data.data[0]);
+                }
+            });
+
+    }, []);
+
 
 
     return (
         <>
             {/*   Add specialized talent across your organization */}
+
+
             <section className="mx-auto w-5xl mb-10 p-10">
                 <div className="w-full bg-cover bg-center bg-blue-900 p-10 rounded-4xl border">
 
@@ -23,29 +52,19 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                     </h2>
 
                     <div className="flex mb-10 gap-4 mx-auto items-center justify-center">
-                        <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full text-sm">
-                            Manufacturing
-                        </Button>
-                        <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500 fw">
-                            Construction
-                        </Button>
-                        <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500">
-                            Healthcare
-                        </Button>
-                        <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500">
-                            Transport
-                        </Button>
-                        <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500">
-                            Agriculture & Agro-Food
-                        </Button>
+                        {
+                            sectorActive &&
+                            sectors.map((s) =>
+                                <Button key={s.id} variant={sectorActive.id === s.id ? "dark" : "light"} size="md" onClick={() => handleClickSector(s)} className="!rounded-full text-sm">
+                                    {s.libelle}
+                                </Button>
+                            )}
                     </div>
 
                     <div className="grid grid-cols-6 w-full ">
-                        <div className="col-span-3">
+                        <div className="col-span-3 relative">
                             <p className="text-sm font-light text text-start mb-4">
-                                From entry-level roles to leadership positions, we connect
-                                you with top candidates who have the in-demand skills
-                                and experience to meet your workforce needs in key sectors:
+                                {sectorActive && sectorActive?.sections.filter((s) => s.page === "home")[0]?.description} :
                             </p>
                             <p className="text-sm font-bold text text-start mb-4">
                                 Trending job titles
@@ -72,15 +91,20 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                     </p>
                                 </div>
                             </div>
-                            <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-14 absolute mt-10">
+                            <Image src={imagePathFinder.light}
+                                width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto mt-5 w-4/5 absolute z-20 bottom-20 -right-65" />
+                            <Button variant="light" size="md" onClick={() => handleClickFunction(sectorActive?.id ?? "")} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-10 absolute mt-20 whitespace-normal z-30">
                                 Learn more about our Manufacturing hiring solutions
                                 <div className="bg-blue-700 p-1 rounded-full ml-3">
                                     <FiArrowRight className="text-white" />
                                 </div>
                             </Button>
                         </div>
-                        <div className="col-span-3 p-0">
-                            <Image src={imagePathFinder.add_specialized_talent_across_your_organization} alt="  We Source the Talent" className=" mb-4 mx-auto" />
+                        <div className="col-span-3 p-0 relative">
+                        <Image src={imagePathFinder.bg}
+                                width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full absolute top-0 z-0" />
+                            {sectorActive && <Image src={sectorActive === undefined ? imagePathFinder.add_specialized_talent_across_your_organization : sectorActive.sections.filter((s) => s.page === "home")[0]?.image}
+                                width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full relative z-10" />}
                         </div>
                     </div>
 

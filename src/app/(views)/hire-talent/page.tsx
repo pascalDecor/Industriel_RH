@@ -23,7 +23,7 @@ export default function FindJobs() {
 
 
     return <>
-        <HomeBannerCarroussel />
+        {/* <HomeBannerCarroussel /> */}
         {/*Find your next hire */}
         <section className="mx-auto mb-10 p-10 text-center max-w-3xl">
             <h2 className="text-3xl font-semibold text mb-5 text-gray-800">
@@ -463,7 +463,7 @@ export default function FindJobs() {
                 </div>
             </div>
 
-
+            <div className="absolute -mt-20" id="contact-infos"></div>
             <div className="mx-auto max-w-5xl mb-10 p-10">
                 <div className="grid grid-cols-12 items-start justify-center gap-5 w-full">
 

@@ -100,11 +100,11 @@ export default function AddArticle() {
                         <input type="text" hidden value={article.specialites.map((s) => s.id).join(',')} name="specialites"
                             onChange={(e) => setArticle(article.update({ specialites: article.specialites }))} />
                         <AsyncBuilder
-                            promise={async () => { return HttpService.index<Specialite>({ url: '/specialites', fromJson: (json: any) => Specialite.fromJSON(json), }) }}
+                            promise={async () => { return HttpService.index<Specialite>({ url: '/specialites?limit=50', fromJson: (json: any) => Specialite.fromJSON(json), }) }}
                             loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                             hasData={(data) => <MultiSelect
                                 placeholder='Sélectionner les spécialités'
-                                items={data.map((s) => ({ value: s.id, label: s.libelle }))}
+                                items={data.data.map((s) => ({ value: s.id, label: s.libelle }))}
                                 onChange={(e) => setArticle(article.update({ specialites: e.map((e) => Specialite.fromJSON({ id: e.value, libelle: e.label })) }))
                                 }
                             />
@@ -122,7 +122,7 @@ export default function AddArticle() {
                             hasData={(data) => <MultiSelect
                                 enableCreate={true}
                                 placeholder='Sélectionner les tags'
-                                items={data.map((s) => ({ value: s.id, label: s.libelle }))}
+                                items={data.data.map((s) => ({ value: s.id, label: s.libelle }))}
                                 onChange={(e) => setArticle(article.update({ tags: e.map((e) => Tag.fromJSON({ id: e.value, libelle: e.label })) }))}
                             />
                             }

@@ -93,53 +93,61 @@ const routes: Onglet[] = [
     ]
   },
   {
-    label: "Community",
+    label: "Candidatures",
     leading: Users,
-    href: "/community",
+    href: "/candidatures",
     color: "text-pink-500",
   },
+  // {
+  //   label: "Finance",
+  //   leading: Wallet,
+  //   href: "/finance",
+  //   color: "text-orange-500",
+  // },
   {
-    label: "Finance",
-    leading: Wallet,
-    href: "/finance",
-    color: "text-orange-500",
-  },
-  {
-    label: "Job Board",
+    label: "Management",
     leading: Briefcase,
-    href: "/jobs",
+    href: "/management",
     color: "text-emerald-500",
+    children: [
+      {
+        label: "Secteurs",
+        leading: LayoutDashboard,
+        href: "/secteurs",
+        color: "text-sky-500",
+      },
+    ]
   },
-  {
-    label: "Tasks",
-    leading: CheckSquare,
-    href: "/tasks",
-    color: "text-red-500",
-  },
-  {
-    label: "Messages",
-    leading: MessageSquare,
-    href: "/messages",
-    color: "text-blue-500",
-  },
-  {
-    label: "Inbox",
-    leading: Inbox,
-    href: "/inbox",
-    color: "text-indigo-500",
-  },
-  {
-    label: "Calendar",
-    leading: Calendar,
-    href: "/calendar",
-    color: "text-green-500",
-  },
-  {
-    label: "Campaigns",
-    leading: Megaphone,
-    href: "/campaigns",
-    color: "text-yellow-500",
-  },
+  // {
+  //   label: "Tasks",
+  //   leading: CheckSquare,
+  //   href: "/tasks",
+  //   color: "text-red-500",
+  // },
+  // {
+  //   label: "Messages",
+  //   leading: MessageSquare,
+  //   href: "/messages",
+  //   color: "text-blue-500",
+  // },
+  // {
+  //   label: "Inbox",
+  //   leading: Inbox,
+  //   href: "/inbox",
+  //   color: "text-indigo-500",
+  // },
+  // {
+  //   label: "Calendar",
+  //   leading: Calendar,
+  //   href: "/calendar",
+  //   color: "text-green-500",
+  // },
+  // {
+  //   label: "Campaigns",
+  //   leading: Megaphone,
+  //   href: "/campaigns",
+  //   color: "text-yellow-500",
+  // },
   {
     label: "Settings",
     leading: Settings,

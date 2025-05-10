@@ -1,20 +1,17 @@
 import { NextResponse } from "next/server"
 import prisma from '@/lib/connect_db';
+import { withQuery } from "@/lib/prisma/helpers";
+import { Specialite } from "@prisma/client";
 
-export const GET = async (req: Request) => {
-    try {
-        const specialites = await prisma.specialite.findMany({
-            include: {
-                _count: {
-                    select: { articles: true },
-                },
-            }
-        });
-        return NextResponse.json(specialites, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+export const GET = withQuery<Specialite, typeof prisma.specialite>(
+    prisma.specialite,
+    {
+        searchFields: ['libelle'],
+        defaultSortBy: 'createdAt',
+        defaultSortOrder: 'desc',
+        countFields: ['articles'],
     }
-}
+)
 
 export const POST = async (req: Request) => {
     try {

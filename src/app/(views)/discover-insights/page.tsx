@@ -70,7 +70,7 @@ export default function DiscoverInsights() {
 
 
   return <>
-    <HomeBannerCarroussel />
+    {/* <HomeBannerCarroussel /> */}
     {/*Own the future of your work */}
     <section className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-5 items-center gap-4 mt-10">

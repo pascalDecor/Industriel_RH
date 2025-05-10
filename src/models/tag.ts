@@ -8,11 +8,11 @@ export class Tag extends BaseModel<TagProps> {
     });
   }
 
-  get createdAt(): Date {
+  get createdAt(): Date | undefined {
     return this.props.createdAt;
   }
 
-  get updatedAt(): Date {
+  get updatedAt(): Date | undefined {
     return this.props.updatedAt;
   }
 

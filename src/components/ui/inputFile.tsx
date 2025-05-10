@@ -1,11 +1,23 @@
 "use client";
 import { useState } from "react";
 import { Accept, useDropzone } from "react-dropzone";
-import { FileText, Upload } from "lucide-react";
-import clsx from "clsx";
-import { BsFilePdf } from "react-icons/bs";
+import { Upload } from "lucide-react";
 import Image from "next/image";
-import { FaRegFileImage } from "react-icons/fa";
+import { imageTypes } from "@/constant/types";
+
+import {
+    FaFilePdf,
+    FaFileWord,
+    FaFileExcel,
+    FaFilePowerpoint,
+    FaRegFileImage,
+    FaFileVideo,
+    FaFileAudio,
+    FaFileArchive,
+    FaFileCode,
+    FaFileAlt,
+} from 'react-icons/fa'
+import clsx from 'clsx'
 
 interface FileUploadProps {
     label?: string;
@@ -15,6 +27,96 @@ interface FileUploadProps {
     showPreview?: boolean;
 }
 
+type FileLike = File | { url: string; name?: string; type?: string } | string;
+
+// Déterminer l'icône selon le type de fichier
+export const getFileIcon = (fileInput?: FileLike, className?: string) => {
+    if (!fileInput) return null
+
+    // Extraire nom et mime
+    let name = ''
+    let mime = ''
+
+    if (typeof fileInput === 'string') {
+        // URL passée directement
+        try {
+            const url = new URL(fileInput, window.location.origin)
+            const parts = url.pathname.split('/')
+            name = parts.pop() || fileInput
+        } catch {
+            name = fileInput
+        }
+    } else if (fileInput instanceof File) {
+        name = fileInput.name
+        mime = fileInput.type
+    } else {
+        // Objet avec url, nom, type
+        if (fileInput.name) {
+            name = fileInput.name
+        } else {
+            try {
+                const url = new URL(fileInput.url, window.location.origin)
+                const parts = url.pathname.split('/')
+                name = parts.pop() || fileInput.url
+            } catch {
+                name = fileInput.url
+            }
+        }
+        mime = fileInput.type || ''
+    }
+
+    const ext = name.split('.').pop()?.toLowerCase() || ''
+    const baseClasses = clsx('w-10 h-10', className)
+
+    switch (true) {
+        case mime === 'application/pdf' || ext === 'pdf':
+            return <FaFilePdf className={clsx('text-red-500', baseClasses)} />
+
+        case
+            mime === 'application/msword' ||
+            mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+            ['doc', 'docx'].includes(ext):
+            return <FaFileWord className={clsx('text-blue-700', baseClasses)} />
+
+        case
+            mime === 'application/vnd.ms-excel' ||
+            mime === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+            ext === 'csv':
+            return <FaFileExcel className={clsx('text-green-600', baseClasses)} />
+
+        case
+            mime === 'application/vnd.ms-powerpoint' ||
+            mime === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+            ['ppt', 'pptx'].includes(ext):
+            return <FaFilePowerpoint className={clsx('text-orange-600', baseClasses)} />
+
+        case mime.startsWith('image/') ||
+            ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'ico'].includes(ext):
+            return <FaRegFileImage className={clsx('text-purple-500', baseClasses)} />
+
+        case mime.startsWith('video/') ||
+            ['mp4', 'mov', 'avi', 'mkv', 'webm'].includes(ext):
+            return <FaFileVideo className={clsx('text-yellow-500', baseClasses)} />
+
+        case mime.startsWith('audio/') ||
+            ['mp3', 'wav', 'flac', 'aac', 'ogg'].includes(ext):
+            return <FaFileAudio className={clsx('text-indigo-500', baseClasses)} />
+
+        case ['zip', 'rar', '7z', 'tar', 'gz', 'bz2'].includes(ext):
+            return <FaFileArchive className={clsx('text-gray-500', baseClasses)} />
+
+        case ['js', 'ts', 'jsx', 'tsx', 'json', 'html', 'css', 'md', 'xml', 'yml', 'yaml'].includes(ext):
+            return <FaFileCode className={clsx('text-blue-400', baseClasses)} />
+
+        case mime.startsWith('text/') || ['txt', 'rtf'].includes(ext):
+            return <FaFileAlt className={clsx('text-blue-500', baseClasses)} />
+
+        default:
+            return <FaFileAlt className={clsx('text-gray-400', baseClasses)} />
+    }
+}
+
+
 export default function FileUpload({
     label = "Click or drag a file to this area to upload",
     onFileSelect,
@@ -22,7 +124,7 @@ export default function FileUpload({
     className = "",
     showPreview = true,
 }: Readonly<FileUploadProps>) {
-    const [file, setFile] = useState<File | null>(null);
+    let [file, setFile] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
 
     const onDrop = (acceptedFiles: File[]) => {
@@ -41,14 +143,6 @@ export default function FileUpload({
     });
 
 
-    // Déterminer l'icône selon le type de fichier
-    const getFileIcon = () => {
-        if (!file) return null;
-        if (file.type.includes("pdf")) return <BsFilePdf className="text-red-500 w-10 h-10" />;
-        if (file.type.includes("text") || file.name.endsWith(".doc") || file.name.endsWith(".docx"))
-            return <FileText className="text-blue-500 w-10 h-10" />;
-        return <FaRegFileImage  className="text-gray-500 w-10 h-10" />;
-    };
 
     return (
         <div className="w-full flex items-center justify-center">
@@ -66,22 +160,25 @@ export default function FileUpload({
             </div>
 
             {/* Aperçu du fichier sélectionné */}
-            {file && (
+            {(file && showPreview) && (
                 <div className="ml-3 flex flex-col items-center">
-                    {preview && showPreview ? (
-                        <Image
-                            src={preview}
-                            alt="Preview"
-                            className="mt-2 w-32 h-28 object-cover rounded-lg shadow"
-                        />
-                    ) : showPreview && (
-                        <div className="flex items-center gap-2">
-                            {getFileIcon()}
+                    {(preview && imageTypes.includes(file.type)) ? (
+                        <a
+                            href={URL.createObjectURL(file)}
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            <Image src={preview}
+                                alt="Preview" width={100} height={100}
+                                className="mt-2 w-32 h-28 object-cover rounded-lg shadow" />
+                        </a>
+                    ) : (
+                        <div className="text-center gap-2 bg-white px-2 py-3 rounded-lg h-full shadow">
+                            {getFileIcon(file, "w-5 h-5 mx-auto")}
                             <a
                                 href={URL.createObjectURL(file)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-blue-600 underline text-sm"
+                                className="text-slate-600 underline text-sm"
                             >
                                 {file.name}
                             </a>

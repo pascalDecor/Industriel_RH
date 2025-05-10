@@ -66,6 +66,36 @@ export const SignUpOTPFormSchema = z.object({
     .trim()
 });
 
+export const AddApplicationFormSchema = z.object({
+  lastName: z
+    .string()
+    .min(2, { message: "Last name must be at least 2 characters long." })
+    .trim(),
+  firstName: z
+    .string()
+    .min(2, { message: "First name must be at least 2 characters long." })
+    .trim(),
+  email: z.string().email({ message: "Please enter a valid email." }).trim(),
+  phone: z
+    .string()
+    .min(7, { message: "Be at least 10 characters long" })
+    .regex(/[0-9]/, { message: "Contain at least one number." })
+    .trim(),
+  adresse: z
+    .string()
+    .min(2, { message: "Be at least 2 characters long" })
+    .trim(),
+  year_of_experience: z
+    .number(),
+  cv: z.string(),
+  coverLetter: z.string(),
+  state: z.string(),
+  sectorId: z.string(),
+  functionId: z.string(),
+  civilityId: z.string(),
+  cityId: z.string()
+});
+
 export type FormState =
   | {
       errors?: {
@@ -80,6 +110,26 @@ export type FormStateOTP =
   | {
       errors?: {
         otp?: string[];
+      };
+      message?: string;
+    }
+  | undefined;
+
+export type FormStateAddApplication =
+  | {
+      errors?: {
+        lastName?: string[];
+        firstName?: string[];
+        email?: string[];
+        phone?: string[];
+        adresse?: string[];
+        cv?: string[];
+        coverLetter?: string[];
+        state?: string[];
+        sectorId?: string[];
+        functionId?: string[];
+        civilityId?: string[];
+        cityId?: string[];
       };
       message?: string;
     }

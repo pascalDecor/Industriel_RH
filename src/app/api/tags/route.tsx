@@ -1,14 +1,18 @@
 import { NextResponse } from "next/server"
 import prisma from '@/lib/connect_db';
+import { Tag } from "@prisma/client";
+import { withQuery } from "@/lib/prisma/helpers";
 
-export const GET = async (req: Request) => {
-    try {
-        const tags = await prisma.tag.findMany();
-        return NextResponse.json(tags, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+export const GET = withQuery<Tag, typeof prisma.tag>(
+    prisma.tag,
+    {
+        searchFields: ['libelle'],
+        defaultSortBy: 'createdAt',
+        defaultSortOrder: 'desc',
+        countFields: ['articles'],
     }
-}
+)
+
 
 export const POST = async (req: Request) => {
     try {

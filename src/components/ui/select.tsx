@@ -35,7 +35,7 @@ export default function FloatingLabelSelect({
             <select
                 id={name}
                 name={name}
-                value={value}
+                value={value && ""}
                 onChange={(e) => {
                     setHasValue(!!e.target.value);
                     if (onChange) onChange(e);

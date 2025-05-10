@@ -40,8 +40,10 @@ model Article {
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 
-  tags Tag[]
+  tags        Tag[]
   specialites Specialite[]
+
+  @@index([authorId])
 }
 
 model Tag {
@@ -60,4 +62,109 @@ model Specialite {
   libelle   String
   // Relations
   articles  Article[]
+}
+
+model Function {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  libelle   String
+  // Relations
+  sector    Sector   @relation(fields: [sectorId], references: [id])
+  sectorId  String
+
+  candidats Application[]
+
+  @@index([sectorId])
+}
+
+model Sector {
+  id                      String        @id @default(cuid())
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  libelle                 String
+  description             String?
+  alternativeDescriptions String[]      @default([])
+  // Relations
+  functions               Function[]
+  candidats               Application[]
+  Sections                SectionUI[]
+}
+
+model SectionUI {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  libelle     String
+  description String?
+  image       String
+  page        String
+  // Relations
+  sector      Sector   @relation(fields: [sectorId], references: [id])
+  sectorId    String
+
+  @@index([sectorId])
+}
+
+model Civility {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  libelle   String
+  // Relations
+  candidats Application[]
+}
+
+model Country {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  libelle   String
+  // Relations
+  cities    City[]
+}
+
+model City {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  libelle   String
+  // Relations
+  country   Country       @relation(fields: [countryId], references: [id])
+  countryId String
+  candidats Application[]
+
+  @@index([countryId])
+}
+
+model Application {
+  id                 String   @id @default(cuid())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  lastName           String
+  firstName          String
+  email              String
+  phone              String
+  adresse            String
+  year_of_experience Int
+  cv                 String
+  coverLetter        String?
+  state              String   @default("pending")
+  // Relations
+  sector             Sector   @relation(fields: [sectorId], references: [id])
+  sectorId           String
+  // 
+  function           Function @relation(fields: [functionId], references: [id])
+  functionId         String
+  // 
+  civility           Civility @relation(fields: [civilityId], references: [id])
+  civilityId         String
+  // 
+  city               City     @relation(fields: [cityId], references: [id])
+  cityId             String
+
+  @@index([sectorId])
+  @@index([functionId])
+  @@index([civilityId])
+  @@index([cityId])
 }

@@ -11,6 +11,7 @@ import PartnersAccreditation from "@/components/PartnersAccreditation";
 import ExploreSuccessStories from "@/components/ExploreSuccessStories";
 import AddSpecializedTalentAcrossYourOrganization from "@/components/AddSpecializedTalentAcrossYourOrganization";
 import HomeBannerCarroussel from "@/components/HomeBannerCarroussel";
+import { redirect } from "next/navigation";
 
 export default function Home() {
 
@@ -40,7 +41,7 @@ export default function Home() {
                   know what you should earn or pay in local and national markets.
                 </p>
               </div>
-              <Image className="w-1/3 rounded-lg" src={imagePathFinder.salary_guide} alt="Salary Guide" />
+              <Image className="w-1/3 rounded-lg" src={imagePathFinder.salary_guide_1} alt="Salary Guide" />
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] 
@@ -49,14 +50,13 @@ export default function Home() {
             <div className="flex">
               <div>
                 <h6 className="text-blue-800 text-sm mb-3 font-semibold">
-                  What jobs are in demand?
+                  CV buider
                 </h6>
                 <p className="text-gray-500 text-sm">
-                  Explore our Demand for Skilled Talent report to
-                  see what specializations employers need most.
+                  Create your resume. Highlight your skills. Get noticed.
                 </p>
               </div>
-              <Image className="w-1/3 rounded-lg" src={imagePathFinder.what_jobs_are_in_demand} alt="What jobs are in demand?" />
+              <Image className="w-1/3 rounded-lg" src={imagePathFinder.cv_builder} alt="What jobs are in demand?" />
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] 
@@ -65,14 +65,13 @@ export default function Home() {
             <div className="flex">
               <div>
                 <h6 className="text-blue-800 text-sm mb-3 font-semibold">
-                  Robert Half blog
+                  IR blog
                 </h6>
                 <p className="text-gray-500 text-sm">
-                  Stay one step ahead with the latest data, insights, tips and tricks
-                  from some of the foremost experts in the talent solutions business.
+                  Stay one step ahead with the latest data, insights, tips and tricks from some of the foremost experts in the talent solutions business.
                 </p>
               </div>
-              <Image className="w-1/3 rounded-lg" src={imagePathFinder.robert_half_blog} alt="Robert Half blog" />
+              <Image className="w-1/3 rounded-lg" src={imagePathFinder.ir_blog} alt="Robert Half blog" />
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] 
@@ -119,7 +118,7 @@ export default function Home() {
                   focus:outline-none focus:ring-2 focus:ring-blue-500"/>
               </div>
             </div>
-            <Button variant="primary" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm">
+            <Button variant="primary" size="md" onClick={() => redirect("/hire-talent#")} className="mt-10 !rounded-full text-sm">
               Preview candidates
             </Button>
           </div>
@@ -206,7 +205,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex gap-4">
-              <Button variant="primary" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm">
+              <Button variant="primary" size="md" onClick={() => redirect("/hire-talent#")} className="mt-10 !rounded-full text-sm">
                 Find your next hire
               </Button>
               <Button variant="light" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm border border-gray-300">
@@ -265,8 +264,8 @@ export default function Home() {
               </p>
             </div>
             <div className="flex gap-4">
-              <Button variant="primary" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm">
-                Find your next hire
+              <Button variant="primary" size="md" onClick={() => redirect("/hire-talent#")} className="mt-10 !rounded-full text-sm">
+                Find your consulting solution
               </Button>
               <Button variant="light" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm border border-gray-300">
                 Learn more
@@ -317,8 +316,8 @@ export default function Home() {
               </p>
             </div>
             <div className="flex gap-4">
-              <Button variant="primary" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm">
-                Find your next hire
+              <Button variant="primary" size="md" onClick={() => redirect("/find-jobs#")} className="mt-10 !rounded-full text-sm">
+              Get job matches
               </Button>
               <Button variant="light" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm border border-gray-300">
                 Learn more

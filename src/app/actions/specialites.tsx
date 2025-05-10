@@ -37,6 +37,7 @@ export async function addSpecialite(state: FormState, formData: FormData) {
             url: `/specialites/${validatedFields.data.id}`,
             data: validatedFields.data,
         };
+        console.log("payload", payload);
         const temp = await (
             validatedFields.data.id.length < 1 ?
                 HttpService.add<Specialite>(payload) :
