@@ -17,6 +17,7 @@ import { useState } from "react";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FonctionsListe from "./functions/liste";
+import { SectorSections } from "./sections";
 
 interface Props {
     params: { id: string }
@@ -109,11 +110,13 @@ export default function Secteur({ params }: Readonly<Props>) {
                         <div className="bg-slate-200 py-0 px-0 w-full rounded-xl">
                             <TabsList className="w-fit px-0 py-5 bg-slate-200">
                                 <TabsTrigger className="py-5 px-10 cursor-pointer w-fit" value="fonctions">Fonctions</TabsTrigger>
-                                <TabsTrigger className="py-5 px-10 cursor-pointer" value="Pages">Pages</TabsTrigger>
+                                <TabsTrigger className="py-5 px-10 cursor-pointer" value="Sections">Sections</TabsTrigger>
                             </TabsList>
                         </div>
                         <TabsContent value="fonctions"><FonctionsListe sectorId={sector?.id ?? ''} /></TabsContent>
-                        <TabsContent value="Pages">Change your password here.</TabsContent>
+                        <TabsContent value="Sections">
+                            <SectorSections sector={sector!} />
+                        </TabsContent>
                     </Tabs>
                 </div>
             </div>

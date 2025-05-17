@@ -55,14 +55,6 @@ export class Article extends BaseModel<ArticleProps> {
     return this.props.specialites!;
   }
 
-  /** Mise à jour partielle */
-  update(
-    fields: Partial<Omit<ArticleProps, "id" | "createdAt" | "updatedAt">>
-  ) {
-    this.props = { ...this.props, ...fields };
-    return this;
-  }
-
   addTag(tag: TagProps): void {
     this.props.tags = [...(this.props.tags ?? []), tag];
   }

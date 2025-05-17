@@ -2,12 +2,26 @@ import { imagePathFinder } from "@/utils/imagePathFinder";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import Image from 'next/image'
 import { AiFillStar } from "react-icons/ai";
+import { Notice } from "@/models/notice";
+import { HttpService } from "@/utils/http.services";
+import { useState, useEffect } from "react";
+import ShowStars from "@/app/(admin)/management/notices/showStars";
 
 
 interface ExploreSuccessStoriesInputProps {
   className?: string;
 }
 export default function ExploreSuccessStories({ className }: Readonly<ExploreSuccessStoriesInputProps>) {
+
+  const [notices, setNotices] = useState<Notice[]>([]);
+
+  useEffect(() => {
+    HttpService.index<Notice>({ url: '/notices', fromJson: (json: any) => Notice.fromJSON(json), })
+      .then((data) => {
+        setNotices(data.data);
+      });
+
+  }, []);
 
   return (
     <>
@@ -21,51 +35,19 @@ export default function ExploreSuccessStories({ className }: Readonly<ExploreSuc
           </h2>
 
           <div className="grid grid-cols-6 gap-3">
-            <div className="col-span-2 bg-white rounded-2xl p-7 text-center shadow-2xl relative">
-              <div className="flex mb-3 gap-2">
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
+            {notices.map((n) =>
+              <div key={n.id} className="col-span-2 bg-white rounded-2xl p-7 text-center hover:shadow shadow-2xl relative">
+                <div className="mb-3">
+                  <ShowStars star={n.stars} />
+                </div>
+                <p className="text-sm font-regular text  text-gray-500 text-start mb-5">
+                  "{n.content}"
+                </p>
+                <p className="text-sm font-bold text  text-gray-800 text-end absolute bottom-5 right-4">
+                  - {n.author}
+                </p>
               </div>
-              <p className="text-sm font-regular text  text-gray-500 text-start mb-2">
-                {'"Anyone searching for an entry-level position knows how hard it is to find a position that aligns with your future goals. They connected me with the perfect job."'}
-              </p>
-              <p className="text-sm font-bold text  text-gray-800 text-end absolute bottom-5 right-4">
-                - Sales Assistant
-              </p>
-            </div>
-            <div className="col-span-2 bg-white rounded-2xl p-7 text-center shadow-2xl relative">
-              <div className="flex mb-3 gap-2">
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-              </div>
-              <p className="text-sm font-regular text  text-gray-500 text-start mb-2">
-                {'"Robert Half was able to get the person we needed to do the project in less than a week."'}
-              </p>
-              <p className="text-sm font-bold text  text-gray-800 text-end absolute bottom-5 right-4">
-                - Billing Analyst
-              </p>
-            </div>
-            <div className="col-span-2 bg-white rounded-2xl p-7 text-center shadow-2xl relative">
-              <div className="flex mb-3 gap-2">
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-                <AiFillStar className="text-yellow-500 text-xl" />
-              </div>
-              <p className="text-sm font-regular text  text-gray-500 text-start mb-2">
-                {'"I am in a position that fits me. Robert Half is making working from home so much easier. The support is amazing."'}
-              </p>
-              <p className="text-sm font-bold text  text-gray-800 text-end absolute bottom-5 right-4">
-                - Customer Service Representative
-              </p>
-            </div>
+            )}
           </div>
 
           <div className="flex mx-auto mt-10 gap-2 align-middle items-center justify-center">

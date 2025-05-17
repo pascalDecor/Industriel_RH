@@ -24,11 +24,4 @@ export class City extends BaseModel<CityProps> {
     return this.props.libelle;
   }
 
-  /** Mise à jour partielle */
-  update(
-    fields: Partial<Omit<CityProps, "id" | "createdAt" | "updatedAt">>
-  ) {
-    this.props = { ...this.props, ...fields };
-    return this;
-  }
 }

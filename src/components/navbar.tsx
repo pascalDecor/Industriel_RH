@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Image from "next/image";
 import { imagePathFinder } from "@/utils/imagePathFinder";
@@ -15,18 +15,20 @@ import { DiscoverInsightsExpandedNavbar } from "./navbar/discover-insights";
 import { HireTalentExpandedNavbar } from "./navbar/hire-talent";
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { GoTriangleDown } from "react-icons/go";
+import { HttpService } from "@/utils/http.services";
+import { Sector } from "@/models/sector";
 
 
 interface NavItem {
   label: string;
   href: string;
-  expandedComponnent?: React.FC;
+  expandedComponnent?: React.FC<{sectors: Sector[]}>;
 }
 
 
 // Contenu affiché au hover
 const dropdownContent = {
-  "find-jobs": <FindJobsExpandedNavbar />,
+  "find-jobs": <FindJobsExpandedNavbar sectors={[]} />,
   "hire-talent": "Trouvez les meilleurs talents pour votre entreprise.",
   "about": "En savoir plus sur notre entreprise et notre mission.",
   "consulting-solutions": "Découvrez nos solutions de conseil personnalisées.",
@@ -63,6 +65,20 @@ const navItems: NavItem[] = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+   const [sectors, setSectors] = useState<Sector[]>([]);
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        const temp = await HttpService.index<Sector>({
+          url: '/sectors',
+          fromJson: (json: any) => Sector.fromJSON(json)
+        });
+        setSectors(temp.data);
+      };
+      fetchData();
+    }, []);
+  
 
   function activeNavItem(href: string) {
     return () => {
@@ -110,7 +126,7 @@ export function Navbar() {
                     animate={{ opacity: 1, }}
                     exit={{ opacity: 0, }}
                     className="absolute w-full left-0 top-15 mt-2 bg-gray-100 p-4  text-gray-700 shadow-xl">
-                    {navItem.expandedComponnent && <navItem.expandedComponnent />}
+                    {navItem.expandedComponnent && <navItem.expandedComponnent sectors={sectors} />}
                   </motion.div>}
                 </div>)}
             </div>

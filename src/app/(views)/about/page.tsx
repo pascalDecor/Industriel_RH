@@ -26,7 +26,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
     {/* Catalyst of prosperity for Quebec businesses */}
     <section className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-4 items-center gap-4">
-        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full">
+        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
           <Image src={imagePathFinder.expertise} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             Expertise
@@ -35,7 +35,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
             We excel in accurately identifying top francophone talent, ensuring a seamless match with your specific needs. Our deep understanding of industries guarantees tailored solutions for your workforce challenges.
           </p>
         </div>
-        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full">
+        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
           <Image src={imagePathFinder.technology} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             Technology
@@ -43,7 +43,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
           <p className="text-sm font-regular text  text-gray-500 text-center ">
             Using cutting-edge software, we streamline CV management and immigration procedures, delivering an efficient and hassle-free recruitment process for all stakeholders.          </p>
         </div>
-        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full">
+        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
           <Image src={imagePathFinder.innovative_approach} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             Innovative Approach
@@ -51,7 +51,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
           <p className="text-sm font-regular text  text-gray-500 text-center ">
             Our commitment goes beyond recruitment. By prioritizing social integration and cultural adaptation, we ensure a smooth transition and long-term success for employees and companies alike.          </p>
         </div>
-        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full" >
+        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg" >
           <Image src={imagePathFinder.reliability} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             Reliability
@@ -63,14 +63,14 @@ Let us bridge the gap between talent and opportunity, empowering your business t
       </div>
     </section>
 
-    {/*  Mission, Vision et Valeurs */}
+    {/*  Mission, Vision and Values */}
     <section className="mx-auto max-w-5xl p-10 flex items-center justify-center">
       <div className="bg-blue-900 p-10 rounded-3xl border max-w-5xl w-5xl mx-auto">
         <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
-          Mission, Vision et Valeurs
+          Mission, Vision and Values
         </h2>
         <div className="grid grid-cols-12  items-center gap-14 mt-10">
-          <div className="col-span-6 text-left bg-white rounded-2xl p-7 h-full">
+          <div className="col-span-6 text-left bg-white rounded-2xl p-7 h-full hover:bg-blue-100 hover:shadow-lg">
             <p className="font-bold text mb-5  text-blue-800 text-start">
               MISSION
             </p>
@@ -78,7 +78,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
               Empowering companies with the best talents to thrive in their industries. We aim to simplify recruitment, ensuring seamless integration of candidates while contributing to the success of businesses and the well-being of workers.
             </p>
           </div>
-          <div className="col-span-6 text-left bg-white rounded-2xl p-7 h-full">
+          <div className="col-span-6 text-left bg-white rounded-2xl p-7 h-full hover:bg-blue-100 hover:shadow-lg">
             <p className="font-bold text mb-5  text-blue-800 text-start">
               VISION
             </p>
@@ -87,13 +87,13 @@ Let us bridge the gap between talent and opportunity, empowering your business t
           </div>
         </div>
         <h2 className="text-xl font-semibold text mt-10 text-white text-center">
-          VALEURS
+          VALUES
         </h2>
         <p className="text-sm font-regular text  text-white text-center mb-10">
-          Valeurs véhicules par Industrielle RH
+          Vehicle values ​​by Industrial HR
         </p>
         <div className="grid grid-cols-2 grid-rows-2 gap-4 place-items-center">
-          <div className="bg-[url(/images/card_fond.png)] 
+          <div className="bg-[url(/images/card_fond.png)] hover:border-5 hover:border-blue-400
                   bg-white bg-cover bg-center rounded-lg p-4">
             <div className="flex">
               <div>
@@ -110,7 +110,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
               </div>
             </div>
           </div>
-          <div className="bg-[url(/images/card_fond.png)] 
+          <div className="bg-[url(/images/card_fond.png)] hover:border-5 hover:border-blue-400
                   bg-white bg-cover bg-center rounded-lg p-4">
             <div className="flex">
               <div>
@@ -127,7 +127,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
               </div>
             </div>
           </div>
-          <div className="bg-[url(/images/card_fond.png)] 
+          <div className="bg-[url(/images/card_fond.png)] hover:border-5 hover:border-blue-400
                   bg-white bg-cover bg-center rounded-lg p-4">
             <div className="flex">
               <div>
@@ -144,7 +144,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
               </div>
             </div>
           </div>
-          <div className="bg-[url(/images/card_fond.png)] 
+          <div className="bg-[url(/images/card_fond.png)] hover:border-5 hover:border-blue-400
                   bg-white bg-cover bg-center rounded-lg p-4">
             <div className="flex">
               <div>
@@ -190,74 +190,37 @@ of our recruitment solutions, we are committed to helping your organization thri
 
     {/*  Leadership team  */}
     <section className="mx-auto w-lvw mb-0 px-10 py-24 bg-gray-200">
-      <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
+      <h2 className="text-3xl font-semibold text mb-10 text-black text-center">
         Leadership team
       </h2>
 
-      <div className="mx-auto max-w-5xl mb-10 p-10 grid grid-cols-3 gap-4">
-        <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-          <Image src={imagePathFinder.Jerome_youmani_lankoande} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
-          <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
-            Jérôme Youmani Lankoandé +
+      <div className="mx-auto max-w-5xl p-10 grid grid-cols-3 items-end gap-4">
+        <div className="col-span-1">
+          <div className="w-full border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t hover:from-blue-300 hover:to-blue-100  hover:shadow-lg from-gray-300 to-gray-200 pb-20">
+            <Image src={imagePathFinder.jamel_hein} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
+            <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
+            JAMEL HEIN
           </p>
-          <p className="text-sm font-regular text  text-gray-500 text-center">
+          <p className="text-sm font-regular text-gray-500 text-center">
             Président Directeur Général
           </p>
+          </div>
+         
         </div>
-        <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-          <Image src={imagePathFinder.alice_morin} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
-          <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
-            Alice Morin
+        <div className="col-span-2 border bg-blue-900 p-7 rounded-4xl text-center h-full hover:bg-blue-800">
+          <p className="text-sm font-light text-white text-start mb-3">
+            Mon ambition derrière la création d’Industrielle RH est née de mon propre parcours. Ayant occupé plusieurs postes à différents échelons dans le monde industriel et des services, j’ai pu observer de près les réalités des employeurs, tout comme celles des travailleurs. J’ai compris les défis auxquels font face les entreprises pour recruter efficacement, et ce que recherchent vraiment les employés pour s’épanouir.
           </p>
-          <p className="text-sm font-regular text  text-gray-500 text-center">
-            Gestionnaire de projet TI
+          <p className="text-sm font-light text-white text-start mb-3">
+            Fort de cette expérience, j’ai voulu créer une entreprise humaine, innovante et tournée vers l’action, capable d’accompagner les employeurs dans la recherche de talents fiables, qu’ils soient d’ici ou d’ailleurs. Industrielle RH est le reflet de ma volonté de combler le fossé entre les besoins du marché du travail québécois et les aspirations des candidats, en offrant un service personnalisé, fondé sur le respect, l’intégrité et une vraie compréhension des enjeux de chacun.
           </p>
-        </div>
-        <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-          <Image src={imagePathFinder.louis_caron} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
-          <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
-            Louis Caron
-          </p>
-          <p className="text-sm font-regular text  text-gray-500 text-center">
-            Directeur de Projet
+          <p className="text-sm font-light text-white text-start mb-3">
+            Je crois fermement que le succès d’une entreprise passe par la qualité des personnes qui la composent, et chaque jour, je m’engage à bâtir des ponts solides entre les talents et les opportunités.
           </p>
         </div>
 
       </div>
-      <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-        Board of Directors
-      </h2>
 
-      <div className="mx-auto max-w-5xl mb-10 p-10 grid grid-cols-3 gap-4">
-        <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-          <Image src={imagePathFinder.paul_farcas} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
-          <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
-            Paul Farcas
-          </p>
-          <p className="text-sm font-regular text  text-gray-500 text-center">
-            {"Directeur des Systémes d' Information"}
-          </p>
-        </div>
-        <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-          <Image src={imagePathFinder.komi_sodoke} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
-          <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
-            Komi Sodoke, PhD
-          </p>
-          <p className="text-sm font-regular text  text-gray-500 text-center">
-            Directeur de Projet-Intelligence Artificielle
-          </p>
-        </div>
-        <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center  bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-          <Image src={imagePathFinder.eloise_emery} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
-          <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
-            Éloïse Emery
-          </p>
-          <p className="text-sm font-regular text  text-gray-500 text-center">
-            Développeuse Web et Designer UX/UI
-          </p>
-        </div>
-
-      </div>
     </section>
 
   </>

@@ -70,7 +70,7 @@ export class Application extends BaseModel<ApplicationProps> {
 
   get cityId(): string {
     return this.props.cityId;
-  } 
+  }
 
   get sector(): Sector | undefined {
     return Sector.fromJSON(this.props.sector!);
@@ -81,20 +81,11 @@ export class Application extends BaseModel<ApplicationProps> {
   }
 
   get civility(): Civility | undefined {
-    return  Civility.fromJSON(this.props.civility!);
+    return Civility.fromJSON(this.props.civility!);
   }
 
   get city(): City | undefined {
     return City.fromJSON(this.props.city!);
-  } 
-
-
-
-  /** Mise à jour partielle */
-  update(
-    fields: Partial<Omit<ApplicationProps, "id" | "createdAt" | "updatedAt">>
-  ) {
-    this.props = { ...this.props, ...fields };
-    return this;
   }
+
 }

@@ -87,9 +87,9 @@ export const AddApplicationFormSchema = z.object({
     .trim(),
   year_of_experience: z
     .number(),
-  cv: z.string(),
-  coverLetter: z.string(),
-  state: z.string(),
+  cv: z.string().min(2, { message: "Please chose a document at least 5 MO." }).trim(),
+  coverLetter: z.string().min(2, { message: "Please chose a document at least 5 MO." }).trim(),
+  state: z.string().trim(),
   sectorId: z.string(),
   functionId: z.string(),
   civilityId: z.string(),
@@ -134,3 +134,5 @@ export type FormStateAddApplication =
       message?: string;
     }
   | undefined;
+
+  

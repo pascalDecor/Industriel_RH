@@ -146,6 +146,7 @@ export default function DiscoverInsights() {
 
 
     {/* Refine your focus */}
+    <div className="absolute -mt-400" id="refine_your_focus"></div>
     <section className="mx-auto w-lvw mb-10 p-10 bg-gray-200 text-center">
       <h2 className="text-3xl font-semibold text my-10 text-black text-center">
         Refine your focus
@@ -282,7 +283,7 @@ export default function DiscoverInsights() {
         </p>
 
         <div className="flex mt-5 align-center items-center mx-auto w-fit">
-          <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full px-10 py-3 text-sm mx-auto mt-10 w-fit whitespace-nowrap">
+          <Button variant="dark" size="md"  onClick={() => redirect("#refine_your_focus")}  className="!rounded-full px-10 py-3 text-sm mx-auto mt-10 w-fit whitespace-nowrap">
             Subscribe to updates
           </Button>
         </div>

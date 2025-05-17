@@ -43,40 +43,37 @@ export default function Contact() {
                     </p>
 
                     <div className="grid grid-cols-4 gap-4 w-full mb-10 ">
-                        <div className="col-span-1 p-7 text-left">
-                            <Image src={imagePathFinder.contact_telephone} alt="Describe your Need" className="w-14 mb-4 mx-auto" />
-                            <p className="text-sm font-semibold text mb-3   text-gray-600 text-left">
-                                Téléphone: <br /> 514-700-7212
-                            </p>
-                            <p className="text-sm font-semibold text  text-gray-600 text-left">
-                                Sans frais: <br /> 1-800-403-0582
+                        <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
+                            <Image src={imagePathFinder.contact_telephone} alt="Describe your Need" className="w-20 mb-4" />
+                            <p className="font-semibold text  text-gray-600 text-left">
+                                Phone: <br /> 819-919-8693
                             </p>
                         </div>
-                        <div className="col-span-1 p-7 text-left">
-                            <Image src={imagePathFinder.contact_couriel} alt="Describe your Need" className="w-14 mb-4" />
-                            <p className="text-sm font-semibold text mb-3  text-gray-600 text-left">
+                        <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
+                            <Image src={imagePathFinder.contact_couriel} alt="Describe your Need" className="w-20 mb-4" />
+                            <p className=" font-semibold text mb-3  text-gray-600 text-left">
                                 Courriel
                             </p>
-                            <p className="text-sm font-semibold text  text-gray-600 text-left">
-                                <Link href="mailto:info@buildup.ca">info@buildup.ca</Link>
+                            <p className=" font-semibold text  text-gray-600 text-left">
+                                <Link href="mailto:info@industriellerh.ca">info@industriellerh.ca</Link>
                             </p>
                         </div>
-                        <div className="col-span-1 p-7 text-left">
-                            <Image src={imagePathFinder.contact_adresse} alt="Describe your Need" className="w-14 mb-4" />
-                            <p className="text-sm font-semibold text mb-3   text-gray-600 text-left">
+                        <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
+                            <Image src={imagePathFinder.contact_adresse} alt="Describe your Need" className="w-20 mb-4" />
+                            <p className=" font-semibold text mb-3   text-gray-600 text-left">
                                 Adresse
                             </p>
-                            <p className="text-sm font-semibold text  text-gray-600 text-left">
-                                3800 Rue Saint-Patrick #312, Montréal, QC, H4E 1A4
+                            <p className=" font-semibold text  text-gray-600 text-left">
+                                5805 Av. de Darlington Montréal, QC H3S 2H6
                             </p>
                         </div>
-                        <div className="col-span-1 p-7 text-left">
-                            <Image src={imagePathFinder.contact_langue} alt="Describe your Need" className="w-14 mb-4" />
-                            <p className="text-sm font-semibold text  mb-3  text-gray-600 text-left">
+                        <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
+                            <Image src={imagePathFinder.contact_langue} alt="Describe your Need" className="w-20 mb-4" />
+                            <p className=" font-semibold text  mb-3  text-gray-600 text-left">
                                 Langues parlées
                             </p>
-                            <p className="text-sm font-semibold text  text-gray-600 text-left">
-                                Français et Anglais
+                            <p className=" font-semibold text  text-gray-600 text-left">
+                                French & English
                             </p>
                         </div>
                     </div>
@@ -89,7 +86,6 @@ export default function Contact() {
                     <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
                         Your contact information
                     </h2>
-
 
                     <form action="" className="grid grid-cols-12 gap-4 w-full mb-10 ">
                         <div className="col-span-6 text-left">
@@ -133,24 +129,16 @@ export default function Contact() {
                             <p className="text-white font-semibold">Tell us about the position</p>
                         </div>
 
-                        <div className="col-span-6 text-left">
+                        <div className="col-span-12 text-left">
                             <input
                                 type="text"
                                 placeholder="Postal Code"
                                 className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         </div>
-                        <div className="col-span-6 text-left mb-10">
-                            <select name="position" id="position" className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                                <option value="option3">Option 3</option>
-                            </select>
-                        </div>
+
                         <div className="col-span-12 text-left ">
                             <p className="text-white font-semibold">Explaine your need</p>
                         </div>
-
-
 
                         <div className="col-span-12 text-left mb-4">
                             <textarea rows={6} name="position" id="position" className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">

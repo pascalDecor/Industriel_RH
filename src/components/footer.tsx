@@ -10,6 +10,7 @@ import { BsYoutube } from "react-icons/bs";
 import { LuInstagram } from "react-icons/lu";
 import Button from "./ui/button";
 import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 
 export function Footer() {
@@ -28,9 +29,9 @@ export function Footer() {
                     <div className="col-span-3">
                         <h4 className=" font-bold mb-4">Services</h4>
                         <ul className="list-none">
-                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">Browse Jobs</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">International Recruitment</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">Recruitment by Outsourcing</Link></li>
+                            <li><Link href="/find-jobs" className="hover:text-gray-600 text-gray-400 text-sm">Browse Jobs</Link></li>
+                            <li><Link href="/hire-talent" className="hover:text-gray-600 text-gray-400 text-sm">International Recruitment</Link></li>
+                            <li><Link href="/hire-talent" className="hover:text-gray-600 text-gray-400 text-sm">Recruitment by Outsourcing</Link></li>
                         </ul>
                     </div>
                     <div className="col-span-3">
@@ -46,7 +47,8 @@ export function Footer() {
                     <div className="col-span-3">
                         <h4 className=" font-bold mb-4">About Us</h4>
                         <ul className="list-none">
-                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">About industrielle RH <br /> Careers with Us </Link></li>
+                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">About industrielle RH </Link></li>
+                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">Careers with Us </Link></li>
                         </ul>
                     </div>
                     <div className="col-span-3">
@@ -85,11 +87,11 @@ export function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="mailto:nwinnogme.hien" className="hover:text-gray-600 text-gray-400 text-sm flex gap-2">
+                                <Link href="mailto:recrutement@industriellerh.com" className="hover:text-gray-600 text-gray-400 text-sm flex gap-2">
                                     <div className="flex items-start">
                                         <Image src={imagePathFinder.icons_envelop} alt="logo" width={20} />
                                     </div>
-                                    <span>nwinnogme.hien@gmail.com</span>
+                                    <span>recrutement@industriellerh.com</span>
                                 </Link>
                             </li>
                         </ul>
@@ -137,7 +139,13 @@ export function Footer() {
                         </Button>
                     </div>
                     <div className="col-span-4 flex flex-col  items-center justify-end">
-                        <div className="w-full h-40 bg-gray-200 rounded-[15px] overflow-hidden">
+                    <div className="w-full h-40 bg-gray-200 rounded-[15px] overflow-hidden">
+                            <MapContainer className="h-full w-full">
+                                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                <Marker position={[48.8566, 2.3522]}>
+                                    <Popup>Paris, France</Popup>
+                                </Marker>
+                            </MapContainer>
                         </div>
                     </div>
                 </div>
@@ -147,23 +155,20 @@ export function Footer() {
                 <div className="grid grid-cols-12 gap-4 align-middle justify-between mt-10">
                     <div className="col-span-6">
                         <ul className="list-none grid grid-cols-12 gap-1 text-sm">
-                            <li className="col-span-2">
-                                <Link href="/about" className="hover:text-gray-600 text-gray-400 text-[11px]">Fraud Alert</Link>
+                            <li className="col-span-2 whitespace-nowrap">
+                                <Link href="/terme-of-conditions" className="hover:text-gray-600 text-gray-400 text-[11px]">Fraud Alert</Link>
                             </li>
-                            <li className="col-span-3 border-l-2 border-gray-700 pl-3 text-center">
-                                <Link href="#" className="hover:text-gray-600 text-gray-400 text-[11px]">Privacy Policy</Link>
+                            <li className="col-span-2 whitespace-nowrap border-l-2 border-gray-700 pl-3 text-center">
+                                <Link href="/privacy-policy" className="hover:text-gray-600 text-gray-400 text-[11px]">Privacy Policy</Link>
                             </li>
-                            <li className="col-span-3 border-l-2 border-gray-700 pl-3 text-center">
-                                <Link href="#" className="hover:text-gray-600 text-gray-400 text-[11px]">Terms of Use</Link>
-                            </li>
-                            <li className="col-span-4 border-l-2 border-gray-700 pl-3 text-center">
-                                <Link href="#" className="hover:text-gray-600 text-gray-400 text-[11px]">Modern Slavery Report</Link>
+                            <li className="col-span-2 whitespace-nowrap border-l-2 border-gray-700 pl-3 text-center">
+                                <Link href="/terme-of-use" className="hover:text-gray-600 text-gray-400 text-[11px]">Terms of Use</Link>
                             </li>
                         </ul>
                     </div>
                     <div className="col-span-6 text-end">
-                        <p className="text-[11px] text-gray-400 font-light">© 2025 Robert Half Canada Inc. All Rights Reserved.
-                            Numéro de permis du Québec AP-2000503</p>
+                        <p className="text-[11px] text-gray-400 font-light">© 2025 Industrielle RH Inc. All Rights Reserved. 
+                        Quebec license number AP-2000503</p>
                     </div>
 
                 </div>

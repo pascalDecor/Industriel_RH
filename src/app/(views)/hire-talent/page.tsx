@@ -14,6 +14,7 @@ import FloatingLabelInput from "@/components/ui/input";
 import FloatingLabelSelect from "@/components/ui/select";
 import FloatingLabelTextarea from "@/components/ui/textarea";
 import PartnersAccreditation from "@/components/PartnersAccreditation";
+import { redirect } from "next/navigation";
 
 export default function FindJobs() {
 
@@ -25,6 +26,7 @@ export default function FindJobs() {
     return <>
         {/* <HomeBannerCarroussel /> */}
         {/*Find your next hire */}
+
         <section className="mx-auto mb-10 p-10 text-center max-w-3xl">
             <h2 className="text-3xl font-semibold text mb-5 text-gray-800">
                 {"Find your next hire"}
@@ -33,20 +35,21 @@ export default function FindJobs() {
                 {"Preview recruiter-assessed and Al-matched candidates or provide open role details to hire now. The choice is yours."}
             </p>
             <div className="flex gap-4 mt-10 align-center items-center mx-auto w-fit">
-                <Button variant="primary" size="md" onClick={handleClick} className="!rounded-full text-sm">
+                <Button variant="primary" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm">
                     Preview candidates
                 </Button>
-                <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300">
+                <Button variant="light" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm border border-gray-300">
                     Hire now
                 </Button>
             </div>
             <p className="text-gray-500 mt-5 font-semibold">
                 {"Or contact us at "}
-                <Link href="tel:819-919-8683" className="font-bold text-blue-800 ml-2 underline">819-919-8683</Link>
+                <Link href="tel:819-919-7699" className="font-bold text-blue-800 ml-2 underline">819-919-7699</Link>
             </p>
         </section>
 
         {/* Explore our talent solutions  */}
+        <div className="absolute -mt-60" id="recruitment_by_outsourcing"></div>
         <section className="mx-auto w-full mb-10 px-10 py-2">
             <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
                 Explore our talent solutions
@@ -61,7 +64,7 @@ export default function FindJobs() {
                         Entrust us with the management of your short- or long-term workforce needs. Access qualified
                         professionals ready to join your teams quickly while you focus on your strategic priorities.
                     </p>
-                    <Button variant="primary" size="md" onClick={handleClick} className="mt-5 !rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={()=>redirect("#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm">
                         Learn more
                     </Button>
                 </div>
@@ -73,7 +76,7 @@ export default function FindJobs() {
                         Find exceptional french talent worldwide to meet your specific needs.
                         Our experts support you at every step, from pre-selecting candidates to their seamless integration.
                     </p>
-                    <Button variant="primary" size="md" onClick={handleClick} className="mt-5 !rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={()=>redirect("#international_recruitment")} className="mt-5 !rounded-full text-sm">
                         Learn more
                     </Button>
                 </div>
@@ -252,13 +255,15 @@ export default function FindJobs() {
                     </div>
                 </div>
                 <div className="col-span-12 flex justify-center items-center">
-                    <Button variant="primary" size="md" onClick={handleClick} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
+                    <Button variant="primary" size="md"  onClick={() => redirect("/discover-insights#refine_your_focus")}  className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
                         Subscribe to updates
                     </Button>
                 </div>
             </div>
         </section>
 
+
+        <div className="absolute -mt-800" id="candidates"></div>
         {/*  Search  */}
         <section className="mx-auto w-full py-20 text-center">
             <h2 className="text-3xl font-semibold text-center mb-10 text-gray-800">
@@ -291,11 +296,11 @@ export default function FindJobs() {
 
             <p className="text-gray-500 text-center">
                 {"Need immediate help? Call "}
-                <Link href="tel:819-919-8683" className="font-bold text-blue-800 ml-2 underline">819-919-8683</Link>
+                <Link href="tel:819-919-7699" className="font-bold text-blue-800 ml-2 underline">819-919-7699</Link>
             </p>
         </section>
 
-
+        <div className="absolute -mt-20" id="contact_us"></div>
         {/* How we help you find a job  */}
         <section className="mx-auto w-full mb-10 px-10 py-24 bg-gray-200">
 
@@ -424,7 +429,7 @@ export default function FindJobs() {
                     <p className="text-gray-500 text-sm mb-5">
                         {`Recruitment Process Outsourcing (IPR or RPO) is a very interesting solution for companies that have specific, recurring and well-defined needs. `}
                     </p>
-                    <Button variant="primary" size="md" onClick={handleClick} className="!rounded-full text-sm mx-auto">
+                    <Button variant="primary" size="md" onClick={()=>redirect("#candidates")} className="!rounded-full text-sm">
                         Hire talents
                     </Button>
                 </div>
@@ -475,7 +480,7 @@ export default function FindJobs() {
                             {"Take seconds to fill out this form and let us handle it. Whether it's for a specific role or broader needs, we've got your back."}
                         </p>
                         <p className="text-gray-500  text-sm font-bold mb-5">
-                            {"Or contact us by phone 819-919-8683"}
+                            {"Or contact us by phone 819-919-7699"}
                         </p>
 
                     </div>
@@ -576,7 +581,7 @@ export default function FindJobs() {
 
         {/*  Explore success stories   */}
         <ExploreSuccessStories />
-
+        <div className="absolute mt-1000" id="international_recruitment"></div>
         {/* International recruitment  */}
         <section className="mx-auto max-w-5xl mb-10 px-10 py-10">
             <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
@@ -594,7 +599,7 @@ export default function FindJobs() {
 recruiters and our network of
 partners allow us to offer you 360- degree support in order to quickly welcome your new recruits. `}
                     </p>
-                    <Button variant="primary" size="md" onClick={handleClick} className="!rounded-full text-sm mx-auto">
+                    <Button variant="primary" size="md" onClick={()=> redirect("#candidates")} className="!rounded-full text-sm">
                         Hire talents
                     </Button>
                 </div>
@@ -603,12 +608,12 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                 </div>
             </div>
 
-            <h2 className="text-xl font-medium text-center mb-10 text-gray-800">
-                {"All-inclusive recruitment solution: from research to integration, we take care of everything!"}
+            <h2 className="text-xl font-medium text-center capitalize mb-10 text-gray-800">
+                {"All-inclusive recruitment solution:"} <br /> {"From research to integration, we take care of everything!"}
             </h2>
 
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-3 gap-4 text-center">
-                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white">
+                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white hover:shadow-lg">
                     <Image src={imagePathFinder.international_recruitment_icon} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         International recruitment
@@ -617,7 +622,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                         Specialists in hiring skilled temporary foreign workers for manufacturing jobs in Quebec.
                     </p>
                 </div>
-                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white">
+                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white hover:shadow-lg">
                     <Image src={imagePathFinder.legal_services} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         Legal services
@@ -626,7 +631,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                         We simplify the process with expert legal support at every stage
                     </p>
                 </div>
-                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white">
+                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white hover:shadow-lg">
                     <Image src={imagePathFinder.welcome_and_integration} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         Welcome and integration
@@ -690,7 +695,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                                 Guarantee and ongoing Support
                             </p>
                         </div>
-                        <Button variant="primary" size="md" onClick={handleClick} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
+                        <Button variant="primary" size="md" onClick={()=>redirect("#contact-infos")} className="!rounded-full text-sm  mt-10 w-fit whitespace-nowrap">
                             Contact Us
                         </Button>
 

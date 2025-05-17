@@ -4,7 +4,7 @@ import { signUp, signUpOTP } from '@/app/actions/auth'
 import Button from '@/components/ui/button';
 import FloatingLabelInput from '@/components/ui/input';
 import { LocalStorageHelper } from '@/utils/localStorage.helper';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useActionState, useEffect, useState } from 'react'
 
 export default function Login() {
@@ -13,7 +13,7 @@ export default function Login() {
 
     const [email, setEmail] = useState('');
     const [otp, setOTP] = useState('');
-    
+
 
     useEffect(() => {
         console.log(state);
@@ -21,10 +21,10 @@ export default function Login() {
             LocalStorageHelper.setBoolValue("isLoggedIn", true);
             LocalStorageHelper.setValue("email", email);
         }
-        else{
+        else {
             const isLoggedIn = LocalStorageHelper.getBoolValue("isLoggedIn");
             const emailStored = LocalStorageHelper.getValue("email");
-            if(isLoggedIn && emailStored){
+            if (isLoggedIn && emailStored) {
                 state = true;
                 setEmail(emailStored);
             }
@@ -33,7 +33,9 @@ export default function Login() {
         if (stateOTP === true) {
             LocalStorageHelper.removeKey("isLoggedIn");
             LocalStorageHelper.removeKey("email");
-            redirect('/dashboard');
+            const router = useRouter();
+            router.push('/dashboard');
+
         }
     }, [state, action, pending, stateOTP, actionOTP, pendingOTP]);
 
@@ -56,7 +58,7 @@ export default function Login() {
                             value={otp} onChange={(e) => setOTP(e.target.value)}
                         />
                     </div>
-                    <Button className='px-8 w-full' disabled={pending} type="submit">Soumettre</Button>
+                    <Button className='px-8 w-full' disabled={pendingOTP} type="submit">Soumettre</Button>
                 </form> :
                 <form action={action} className='w-100'>
                     <div className='mb-5'>
@@ -76,7 +78,7 @@ export default function Login() {
                             </ul>
                         </div>}
                     </div>
-                    <Button className='px-8 w-full'isLoading={pending || pendingOTP} disabled={pending || pendingOTP} type="submit">Sign in</Button>
+                    <Button className='px-8 w-full' isLoading={(pending || pendingOTP)} disabled={(pending || pendingOTP)} type="submit">Sign in</Button>
                 </form>}
         </div>
     )

@@ -23,12 +23,4 @@ export class Fonction extends BaseModel<FonctionProps> {
   get sectorId(): string {
     return this.props.sectorId;
   }
-
-  /** Mise à jour partielle */
-  update(
-    fields: Partial<Omit<FonctionProps, "id" | "createdAt" | "updatedAt">>
-  ) {
-    this.props = { ...this.props, ...fields };
-    return this;
-  }
 }

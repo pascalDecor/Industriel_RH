@@ -6,6 +6,14 @@ export interface TagProps {
   articles?: ArticleProps[];
 }
 
+export interface NoticeProps {
+  id: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  content: string;
+  author: string;
+  stars: number;
+}
 
 export interface CivilityProps {
   id: string;
@@ -39,6 +47,9 @@ export interface SectorProps {
     functions: number;
   };
   Sections?: SectionProps[];
+  description?: string;
+  alternativeDescriptions?: string[];
+  articles?: ArticleProps[];
 }
 
 export interface SectionProps {
@@ -46,10 +57,12 @@ export interface SectionProps {
   createdAt?: Date;
   updatedAt?: Date;
   libelle: string;
-  description? : string;
+  description?: string;
   page?: string;
   image?: string;
   sectorId?: string;
+  sector?: SectorProps;
+  slug: string;
 }
 
 export interface SpecialiteProps {
@@ -86,7 +99,7 @@ export interface ApplicationProps {
   email: string;
   phone: string;
   adresse: string;
-  year_of_experience : number;
+  year_of_experience: number;
   cv: string;
   coverLetter?: string;
   state: string;
@@ -98,6 +111,26 @@ export interface ApplicationProps {
   function?: FonctionProps;
   civility?: CivilityProps;
   city?: CityProps;
+}
+
+export interface HireProps {
+  id: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  lastName: string;
+  firstName: string;
+  email: string;
+  phone: string;
+  number_of_positions: number;
+  document_support?: string;
+  details_of_positions: JSON[];
+  company_name: string;
+  company_website?: string;
+  //
+  state: string;
+  sectors: SectorProps[];
+  civilityId: string;
+  civility?: CivilityProps;
 }
 
 export interface UserProps {

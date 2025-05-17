@@ -7,10 +7,10 @@ import Image from 'next/image';
 
 import { FiArrowRight, FiCheck, FiSearch } from "react-icons/fi";
 import { TiLocationOutline } from "react-icons/ti";
-import HomeBannerCarroussel from "@/components/HomeBannerCarroussel";
 import AppYourWayToNewJob from "@/components/AppYourWayToNewJob";
 import ExploreSuccessStories from "@/components/ExploreSuccessStories";
 import AddSpecializedTalentAcrossYourOrganization from "@/components/AddSpecializedTalentAcrossYourOrganization";
+import { redirect } from "next/navigation";
 
 export default function FindJobs() {
 
@@ -52,7 +52,7 @@ export default function FindJobs() {
                             Let our recruiters help you find a job that is right for you
                         </p>
                     </div>
-                    <Button variant="primary" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-10 !rounded-full text-sm">
                         Submit your CV
                     </Button>
                 </div>
@@ -76,7 +76,7 @@ export default function FindJobs() {
                     <p className="text-sm font-regular text-gray-500 ">
                         Add your latest resume to match with open positions.
                     </p>
-                    <Button variant="primary" size="md" onClick={handleClick} className="mt-5 !rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
                         Upload resume
                     </Button>
                 </div>
@@ -87,8 +87,8 @@ export default function FindJobs() {
                     <p className="text-sm font-regular text-gray-500 ">
                         Choose from hundreds of jobs (with new ones posted daily)
                     </p>
-                    <Button variant="primary" size="md" onClick={handleClick} className="mt-5 !rounded-full text-sm">
-                        Upload resume
+                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
+                        Search
                     </Button>
                 </div>
             </div>
@@ -214,7 +214,7 @@ export default function FindJobs() {
                     </div>
                 </div>
                 <div className="col-span-12 flex justify-center items-center">
-                    <Button variant="primary" size="md" onClick={handleClick} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
+                    <Button variant="primary" size="md" onClick={() => redirect("/discover-insights#refine_your_focus")} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
                         Subscribe to updates
                     </Button>
                 </div>
@@ -278,13 +278,13 @@ export default function FindJobs() {
                                     Simply apply or upload your resume to gain access to in-demand jobs with competitive pay and benefits.
                                 </p>
                                 <div className="flex gap-4 mt-5">
-                                    <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="dark" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
                                         Apply to jobs
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="light" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
                                         Upload your resume
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -309,7 +309,7 @@ export default function FindJobs() {
                                     Job matches will be sent to your inbox and your phone.
                                 </p>
                                 <div className="flex gap-4 mt-5">
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="light" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
                                         Upload your resume
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -338,13 +338,13 @@ export default function FindJobs() {
                                     {"We'll guide you through interviews, advocate for you with interested employers, and even negotiate salary on your behalf."}
                                 </p>
                                 <div className="flex gap-4 mt-5">
-                                    <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full text-[12px] !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
                                         Get interview tips
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-[12px] !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
                                         Explore our salary guide
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -369,7 +369,7 @@ export default function FindJobs() {
                                     As your career develops, our free online training and expertise will help you stay on top of your skills, keep your profile current, and offer insights along the way.
                                 </p>
                                 <div className="flex gap-4 mt-5">
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
                                         Get career advice
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -409,13 +409,13 @@ export default function FindJobs() {
                                 </p>
 
                                 <div className="mt-10">
-                                    <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 mb-4">
+                                    <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 mb-4">
                                         Explore our training programs
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
-                                    <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
                                         Learn about our legal support
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />

@@ -21,6 +21,7 @@ import {
 import Image from "next/image";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import React, { useState } from "react";
+import { LuAlbum } from "react-icons/lu";
 
 
 interface Onglet {
@@ -98,6 +99,12 @@ const routes: Onglet[] = [
     href: "/candidatures",
     color: "text-pink-500",
   },
+  {
+    label: "Embauches",
+    leading: LuAlbum,
+    href: "/hires",
+    color: "text-orange-500",
+  },
   // {
   //   label: "Finance",
   //   leading: Wallet,
@@ -114,6 +121,12 @@ const routes: Onglet[] = [
         label: "Secteurs",
         leading: LayoutDashboard,
         href: "/secteurs",
+        color: "text-sky-500",
+      },
+      {
+        label: "Avis",
+        leading: LayoutDashboard,
+        href: "/notices",
         color: "text-sky-500",
       },
     ]

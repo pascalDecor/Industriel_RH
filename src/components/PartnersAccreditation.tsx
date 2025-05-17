@@ -27,7 +27,7 @@ export default function PartnersAccreditation() {
 
                         </div>
                         <div className="col-span-1 bg-white rounded-2xl p-3 text-center flex flex-col items-center justify-center">
-                            <Image src={imagePathFinder.partners_dusco} alt="Seamless Integration" className="w-full my-auto" />
+                            <Image src={imagePathFinder.partners_pme_mtl} alt="Seamless Integration" className="w-full my-auto" />
 
                         </div>
                         <div className="col-span-1 bg-white rounded-2xl p-3 text-center flex flex-col items-center justify-center">

@@ -25,20 +25,4 @@ export class User extends BaseModel<UserProps> {
   get avatarUrl(): string {
     return this.props.avatarUrl!;
   }
-
-  /** Exemple de méthode métier : changer le nom */
-  setName(name: string): void {
-    this.props = { ...this.props, name: name };
-  }
-
-  /** Exemple de méthode métier : changer l'email */
-  setEmail(email: string): void {
-    this.props = { ...this.props, email: email };
-  }
-
-  /** Exemple de méthode métier : changer l'avatar */
-  setAvatarUrl(avatarUrl: string): void {
-    this.props = { ...this.props, avatarUrl: avatarUrl };
-  }
-
 }

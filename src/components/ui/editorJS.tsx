@@ -14,20 +14,19 @@ const Paragraph = require('@editorjs/paragraph');
 const Embed = require('@editorjs/embed');
 const ImageTool = require('@editorjs/image');
 
-export default function EditorJSComponent({ onChange }: { onChange?: (data: any) => void }) {
+export default function EditorJSComponent({ onChange, placeholder = "Commence à écrire ton article ici...", className }: { onChange?: (data: any) => void, placeholder?: string, className?: string }) {
     const editorRef = useRef<EditorJS | null>(null);
 
     useEffect(() => {
         if (!editorRef.current) {
             const editor = new EditorJS({
                 holder: 'editorjs',
-                placeholder: 'Commence à écrire ton article ici...',
+                placeholder: placeholder,
+
                 onReady: () => {
                     console.log('Editor.js is ready to work!');
                 },
                 async onChange(api) {
-                    // console.log('onChange API', api);
-                    // const data = await api.saver.save();
                     const data = await editorRef.current!.save();
                     onChange?.(data);
                 },
@@ -91,7 +90,7 @@ export default function EditorJSComponent({ onChange }: { onChange?: (data: any)
                             uploader: {
                                 async uploadByFile(file: File) {
                                     // Exemple d'upload simplifié localement
-                                    console.log("upload simplifié localement file",file);
+                                    console.log("upload simplifié localement file", file);
                                     // const formData = new FormData();
                                     // formData.append('image', file);
 
@@ -101,7 +100,6 @@ export default function EditorJSComponent({ onChange }: { onChange?: (data: any)
                                     // });
 
                                     // const result = await res.json();
-
                                     console.log("upload file URL.createObjectURL(file!)", URL.createObjectURL(file!));
 
                                     return {
@@ -121,7 +119,7 @@ export default function EditorJSComponent({ onChange }: { onChange?: (data: any)
         }
 
         return () => {
-           const isMounted = false;
+            const isMounted = false;
             if (editorRef.current && typeof editorRef.current.destroy === 'function') {
                 editorRef.current.destroy();
                 editorRef.current = null;
@@ -132,7 +130,7 @@ export default function EditorJSComponent({ onChange }: { onChange?: (data: any)
     return (
         <div
             id="editorjs"
-            className="border border-gray-300 rounded-xl p-4 min-h-[300px] max-h-[auto]"
+            className={className + " border border-gray-300 rounded-xl p-4 min-h-[300px] w-full overflow-y-auto"}
         />
     );
 }

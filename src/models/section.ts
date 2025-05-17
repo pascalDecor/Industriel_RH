@@ -35,11 +35,7 @@ export class Section extends BaseModel<SectionProps> {
     return this.props.sectorId ?? "";
   }
 
-  /** Mise à jour partielle */
-  update(
-    fields: Partial<Omit<SectionProps, "id" | "createdAt" | "updatedAt">>
-  ) {
-    this.props = { ...this.props, ...fields };
-    return this;
+  get slug(): string {
+    return this.props.slug;
   }
 }

@@ -1,11 +1,11 @@
 "use client";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface FloatingLabelSelectProps {
     label: string;
     name?: string;
-    value?: string;
+    value?: { label: string; value: string };
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     options: { label: string; value: string }[];
     error?: string;
@@ -28,6 +28,11 @@ export default function FloatingLabelSelect({
 }: Readonly<FloatingLabelSelectProps>) {
     const [isFocused, setIsFocused] = useState(false);
     const [hasValue, setHasValue] = useState(!!value);
+
+    useEffect(() => {
+        setHasValue(!!value);
+    }, [value]);
+
 
     return (
         <div className="relative w-full">

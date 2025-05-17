@@ -1,5 +1,5 @@
 import { BaseModel } from "./baseModel";
-import { SectorProps } from "./props";
+import { FonctionProps, SectorProps } from "./props";
 import { Section } from "./section";
 
 export class Sector extends BaseModel<SectorProps> {
@@ -29,11 +29,17 @@ export class Sector extends BaseModel<SectorProps> {
     return this.props._count?.functions ?? 0;
   }
 
-  /** Mise à jour partielle */
-  update(
-    fields: Partial<Omit<SectorProps, "id" | "createdAt" | "updatedAt">>
-  ) {
-    this.props = { ...this.props, ...fields };
-    return this;
+  get functions(): FonctionProps[] {
+    return this.props.functions ?? [];
   }
+
+  get description(): string | undefined {
+    return this.props.description;
+  }
+
+  get alternativeDescriptions(): string[] | undefined {
+    return this.props.alternativeDescriptions;
+  }
+
+
 }

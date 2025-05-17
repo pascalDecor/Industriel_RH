@@ -28,12 +28,4 @@ export class Specialite extends BaseModel<SpecialiteProps> {
   get articleCount(): number {
     return this.props._count?.articles ?? 0;
   }
-
-  /** Mise à jour partielle */
-  update(
-    fields: Partial<Omit<SpecialiteProps, "id" | "createdAt" | "updatedAt">>
-  ) {
-    this.props = { ...this.props, ...fields };
-    return this;
-  }
 }

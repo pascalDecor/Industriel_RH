@@ -24,11 +24,4 @@ export class Civility extends BaseModel<CivilityProps> {
     return this.props.libelle;
   }
 
-  /** Mise à jour partielle */
-  update(
-    fields: Partial<Omit<CivilityProps, "id" | "createdAt" | "updatedAt">>
-  ) {
-    this.props = { ...this.props, ...fields };
-    return this;
-  }
 }

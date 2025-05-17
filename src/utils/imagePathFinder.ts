@@ -27,6 +27,7 @@ import partners_CRIC from "../../public/images/partenaires/CRIC.png";
 import partners_cnesst from "../../public/images/partenaires/cnesst.png";
 import partners_dusco from "../../public/images/partenaires/dusco.png";
 import partners_stride from "../../public/images/partenaires/stride.png";
+import partners_pme_mtl from "../../public/images/partenaires/pme_mtl.png";
 import app_your_way_to_a_new_job from "../../public/images/app_your_way_to_a_new_job.png";
 import apple from "../../public/images/apple.png";
 import google_play from "../../public/images/google_play.png";
@@ -55,6 +56,7 @@ import eloise_emery from "../../public/images/members/eloise_emery.png";
 import komi_sodoke from "../../public/images/members/komi_sodoke.png";
 import louis_caron from "../../public/images/members/louis_caron.png";
 import paul_farcas from "../../public/images/members/paul_farcas.png";
+import jamel_hein from "../../public/images/members/jamel_hein.png";
 import find_a_job_that_works_for_you from "../../public/images/find_a_job_that_works_for_you.png";
 import card_image_1 from "../../public/images/cards/image_1.png";
 import card_image_2 from "../../public/images/cards/image_2.png";
@@ -72,6 +74,7 @@ import international_recruitment from "../../public/images/international_recruit
 import welcome_and_integration from "../../public/images/icons/welcome_and_integration.png";
 import legal_services from "../../public/images/icons/legal_services.png";
 import international_recruitment_icon from "../../public/images/icons/international_recruitment.png";
+import check from "../../public/images/icons/check.png";
 import structured_approach from "../../public/images/structured_approach.png";
 import access_to_diverse_talent from "../../public/images/access_to_diverse_talent.png";
 import fill_critical_skill_gaps from "../../public/images/fill_critical_skill_gaps.png";
@@ -100,6 +103,7 @@ import ir_blog from "../../public/images/ir_blog.png";
 import salary_guide_1 from "../../public/images/salary_guide_1.png";
 import light from "../../public/images/sectors/light.png";
 import bg from "../../public/images/sectors/bg.png";
+import hire from "../../public/images/hire.png";
 
 export const imagePathFinder = {
   logo: logo,
@@ -209,4 +213,8 @@ export const imagePathFinder = {
   salary_guide_1: salary_guide_1,
   light: light,
   bg: bg,
+  partners_pme_mtl: partners_pme_mtl,
+  jamel_hein : jamel_hein,
+  check : check,
+  hire : hire
 };

@@ -8,32 +8,9 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
     const fileCv = formData.get('cv') as File;
     const fileLetter = formData.get('coverLetter') as File;
 
-    let imageCvPath = "";
-    let imageLetterPath = "";
-    // Upload cv
-    const formDataImage = new FormData();
-    formDataImage.append('image', fileCv);
+    let imageCvPath = fileCv.name;
+    let imageLetterPath = fileLetter.name;
 
-    const res = await fetch(baseApiURL + '/upload', {
-        method: 'POST',
-        body: formDataImage,
-    });
-    const result = await res.json();
-    imageCvPath = result.file.url;
-    console.log("imagePath", imageCvPath);
-    // 
-    // Upload letter
-    const formDataLetter = new FormData();
-    formDataLetter.append('image', fileLetter);
-
-    const resLetter = await fetch(baseApiURL + '/upload', {
-        method: 'POST',
-        body: formDataLetter,
-    });
-    const resultLetter = await resLetter.json();
-    imageLetterPath = resultLetter.file.url;
-    console.log("imagePath", imageLetterPath);
-    //
     // Validate form fields
     const validatedFields = AddApplicationFormSchema.safeParse({
         lastName: formData.get('name'),
@@ -62,13 +39,44 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
         }
     }
     else {
-        const temp = await HttpService.add<Application>({
-            url: "/applications",
-            data: validatedFields.data,
-        }).then((res) => {
-            console.log(res);
-            return res;
-        })
-        return (temp as any).state;
+
+        // Upload cv
+        if (fileCv.size > 0) {
+            const formDataImage = new FormData();
+            formDataImage.append('image', fileCv);
+
+            const res = await fetch(baseApiURL + '/upload', {
+                method: 'POST',
+                body: formDataImage,
+            });
+            const result = await res.json();
+            imageCvPath = result.file.url;
+            console.log("imagePath", imageCvPath);
+        }
+        // 
+        // Upload letter
+        if (fileLetter.size > 0) {
+            const formDataLetter = new FormData();
+            formDataLetter.append('image', fileLetter);
+
+            const resLetter = await fetch(baseApiURL + '/upload', {
+                method: 'POST',
+                body: formDataLetter,
+            });
+            const resultLetter = await resLetter.json();
+            imageLetterPath = resultLetter.file.url;
+            console.log("imagePath", imageLetterPath);
+        }
+        //
+        if (imageCvPath.startsWith("http") && imageLetterPath.startsWith("http")) {
+            const temp = await HttpService.add<Application>({
+                url: "/applications",
+                data: validatedFields.data,
+            }).then((res) => {
+                console.log(res);
+                return res;
+            })
+            return (temp as any).state;
+        }
     }
 }

@@ -20,11 +20,4 @@ export class Tag extends BaseModel<TagProps> {
     return this.props.libelle;
   }
 
-  /** Mise à jour partielle */
-  update(
-    fields: Partial<Omit<TagProps, "id" | "createdAt" | "updatedAt">>
-  ) {
-    this.props = { ...this.props, ...fields };
-    return this;
-  }
 }

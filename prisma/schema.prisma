@@ -89,6 +89,8 @@ model Sector {
   functions               Function[]
   candidats               Application[]
   Sections                SectionUI[]
+
+  hires Hire[]
 }
 
 model SectionUI {
@@ -96,6 +98,7 @@ model SectionUI {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   libelle     String
+  slug        String
   description String?
   image       String
   page        String
@@ -113,6 +116,16 @@ model Civility {
   libelle   String
   // Relations
   candidats Application[]
+  hires     Hire[]
+}
+
+model Notice {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String
+  author    String
+  stars     Int      @default(4)
 }
 
 model Country {
@@ -167,4 +180,28 @@ model Application {
   @@index([functionId])
   @@index([civilityId])
   @@index([cityId])
+}
+
+model Hire {
+  id                   String   @id @default(cuid())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  lastName             String
+  firstName            String
+  email                String
+  phone                String
+  number_of_positions  Int
+  document_support     String?
+  details_of_positions Json[]   @default([])
+  company_name         String
+  company_website      String?
+  state                String   @default("pending")
+
+  // Relations
+  civility   Civility @relation(fields: [civilityId], references: [id])
+  civilityId String
+
+  sectors Sector[]
+
+  @@index([civilityId])
 }

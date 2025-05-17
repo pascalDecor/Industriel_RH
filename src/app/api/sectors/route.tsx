@@ -10,7 +10,7 @@ export const GET = withQuery<Sector, typeof prisma.sector>(
         defaultSortBy: 'createdAt',
         defaultSortOrder: 'desc',
         countFields: ['functions'],
-        includeFields: [ 'Sections']
+        includeFields: [ 'Sections', 'functions' ]
     }
 )
 

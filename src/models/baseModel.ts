@@ -25,7 +25,9 @@ export abstract class BaseModel<Props extends { id: string }> {
   }
 
   /** Exemple de mise à jour partielle */
-  update(fields: Partial<Omit<Props, "id">>): void {
-    this.props = { ...this.props, ...fields };
+ update(fields: Partial<Omit<Props, "id" | "createdAt" | "updatedAt">>): this {
+    const NewClass = this.constructor as new (props: Props) => this;
+    const newProps = { ...this.props, ...fields };
+    return new NewClass(newProps);
   }
 }

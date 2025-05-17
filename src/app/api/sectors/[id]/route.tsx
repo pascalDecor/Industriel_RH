@@ -11,6 +11,8 @@ export const GET = async (_req: Request, context: { params: Promise<{ id: string
                 _count: {
                     select: { functions: true },
                 },
+                Sections : true,
+                functions: true
             },
         });
 

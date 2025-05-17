@@ -10,6 +10,7 @@ import FloatingLabelSelect from "./ui/select";
 import { Sector } from "@/models/sector";
 import { useEffect, useState } from "react";
 import { se } from "date-fns/locale";
+import { motion } from "framer-motion";
 
 
 
@@ -70,38 +71,35 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                 Trending job titles
                             </p>
                             <div className="grid grid-cols-4 mb-4">
-                                <div className="col-span-2">
-                                    <p className="text-sm font-light text text-start mb-4 underline">
-                                        Welders
-                                    </p>
-                                </div>
-                                <div className="col-span-2">
-                                    <p className="text-sm font-light text text-start mb-4 underline">
-                                        Machine Operators
-                                    </p>
-                                </div>
-                                <div className="col-span-2">
-                                    <p className="text-sm font-light text text-start mb-4 underline">
-                                        Assemblers
-                                    </p>
-                                </div>
-                                <div className="col-span-2">
-                                    <p className="text-sm font-light text text-start mb-4 underline">
-                                        Industrial Mechanics
-                                    </p>
-                                </div>
+                                {sectorActive && sectorActive?.functions.map((f) =>
+                                    <div className="col-span-2" key={f.id}>
+                                        <p className="text-sm font-light text text-start mb-4 underline">
+                                            {f.libelle}
+                                        </p>
+                                    </div>)}
                             </div>
-                            <Image src={imagePathFinder.light}
-                                width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto mt-5 w-4/5 absolute z-20 bottom-20 -right-65" />
-                            <Button variant="light" size="md" onClick={() => handleClickFunction(sectorActive?.id ?? "")} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-10 absolute mt-20 whitespace-normal z-30">
-                                Learn more about our Manufacturing hiring solutions
-                                <div className="bg-blue-700 p-1 rounded-full ml-3">
-                                    <FiArrowRight className="text-white" />
-                                </div>
-                            </Button>
+                            <div className="relative mb-10 pt-10">
+                                <motion.img key={sectorActive?.id} src={imagePathFinder.light.src} initial={{
+                                    y: 100,
+                                    opacity: 0
+                                }} animate={{
+                                    y: 0,
+                                    opacity: 1
+                                }} exit={{
+                                    x: -100,
+                                    opacity: 0
+                                }} width={500} height={500} alt="We Source the Talent" className="-mb-4 mt-30 mx-auto bottom-0 w-5/6 absolute z-20  -right-75" />
+                                
+                                <Button variant="light" size="md" onClick={() => handleClickFunction(sectorActive?.id ?? "")} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-10 absolute !whitespace-nowrap z-30">
+                                    Learn more about our Manufacturing hiring solutions
+                                    <div className="bg-blue-700 p-1 rounded-full ml-3">
+                                        <FiArrowRight className="text-white" />
+                                    </div>
+                                </Button>
+                            </div>
                         </div>
-                        <div className="col-span-3 p-0 relative">
-                        <Image src={imagePathFinder.bg}
+                        <div className="col-span-3 p-5 relative">
+                            <Image src={imagePathFinder.bg}
                                 width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full absolute top-0 z-0" />
                             {sectorActive && <Image src={sectorActive === undefined ? imagePathFinder.add_specialized_talent_across_your_organization : sectorActive.sections.filter((s) => s.page === "home")[0]?.image}
                                 width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full relative z-10" />}
