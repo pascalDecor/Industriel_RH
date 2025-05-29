@@ -1,5 +1,4 @@
 
-const { PrismaClient } = require("@prisma/client");
 
 module.exports = async function createSectors(prisma) {
   console.log("🔹 seed sectors…");

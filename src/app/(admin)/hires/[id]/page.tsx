@@ -16,12 +16,12 @@ import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbS
 import { Slash } from "lucide-react";
 import EditorContent from "@/components/ui/editorContent";
 
-interface Props {
-    params: { id: string }
+type PageProps = {
+    params: Promise<{ id: string }>
 }
 
-export default function DetailsHires({ params }: Readonly<Props>) {
-
+export default async function DetailsHires({params}: PageProps) {
+    const { id } = await params;
 
     const [loadingDelete, setLoadingDelete] = useState(false);
     const [loadingValidate, setLoadingValidate] = useState(false);
@@ -32,7 +32,7 @@ export default function DetailsHires({ params }: Readonly<Props>) {
 
     useEffect(() => {
         HttpService.show<Hire>({
-            url: `/hires/${params.id}`,
+            url: `/hires/${id}`,
             fromJson: (json: any) => Hire.fromJSON(json)
         }).then((res) => {
             if (res) {

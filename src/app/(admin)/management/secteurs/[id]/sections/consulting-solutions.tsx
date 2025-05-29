@@ -1,3 +1,5 @@
+"use client";
+
 import { Sector } from "@/models/sector";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";

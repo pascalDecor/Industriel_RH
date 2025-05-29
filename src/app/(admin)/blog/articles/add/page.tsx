@@ -105,7 +105,7 @@ export default function AddArticle() {
                             hasData={(data) => <MultiSelect
                                 placeholder='Sélectionner les spécialités'
                                 items={data.data.map((s) => ({ value: s.id, label: s.libelle }))}
-                                onChange={(e) => setArticle(article.update({ specialites: e.map((e) => Specialite.fromJSON({ id: e.value, libelle: e.label })) }))
+                                onChange={(e) => setArticle(article.update({ specialites: e.map((e) => Specialite.fromJSON({ id: e.value, libelle: e.label }).toJSON()) }))
                                 }
                             />
                             }

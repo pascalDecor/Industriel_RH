@@ -3,6 +3,7 @@
 import { signUp, signUpOTP } from '@/app/actions/auth'
 import Button from '@/components/ui/button';
 import FloatingLabelInput from '@/components/ui/input';
+import InputError from '@/components/ui/inputError';
 import { LocalStorageHelper } from '@/utils/localStorage.helper';
 import { useRouter } from 'next/router';
 import { useActionState, useEffect, useState } from 'react'
@@ -71,12 +72,7 @@ export default function Login() {
                     <div className='mb-10'>
                         <label htmlFor="password" className='mb-2 block text-sm text-gray-500'>Password</label>
                         <FloatingLabelInput error={state?.errors && state?.errors.password && ' '} label="password" name="password" type="password" />
-                        {state?.errors?.password && <div className='bg-red-200 rounded-lg p-4 mt-3 text-sm'>
-                            <p className='text-red-800 font-semibold mb-2'>Password must:</p>
-                            <ul>
-                                {state?.errors && state.errors.password.map(error => <li key={error}> - {error}</li>)}
-                            </ul>
-                        </div>}
+                        <InputError messages={state?.errors?.password} inputName="password" />
                     </div>
                     <Button className='px-8 w-full' isLoading={(pending || pendingOTP)} disabled={(pending || pendingOTP)} type="submit">Sign in</Button>
                 </form>}

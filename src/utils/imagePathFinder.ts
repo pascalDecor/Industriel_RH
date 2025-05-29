@@ -104,6 +104,14 @@ import salary_guide_1 from "../../public/images/salary_guide_1.png";
 import light from "../../public/images/sectors/light.png";
 import bg from "../../public/images/sectors/bg.png";
 import hire from "../../public/images/hire.png";
+import quebec_tax_calculator from "../../public/images/quebec-tax-calculator.png";
+import salaire_net from "../../public/images/salaire_net.png";
+import morgage_calculator from "../../public/images/morgage_calculator.png";
+import mortgage_calc from "../../public/images/mortgage_calc.png";
+import salary_guide_page from "../../public/images/salary_guide_page.png";
+import salaryIQ from "../../public/images/salaryIQ.png";
+import valid_cnesst from "../../public/images/valid_cnesst.png";
+import validCNESST from "../../public/images/validCNESST.png";
 
 export const imagePathFinder = {
   logo: logo,
@@ -216,5 +224,13 @@ export const imagePathFinder = {
   partners_pme_mtl: partners_pme_mtl,
   jamel_hein : jamel_hein,
   check : check,
-  hire : hire
+  hire : hire,
+  quebec_tax_calculator : quebec_tax_calculator,
+  salaire_net : salaire_net,
+  morgage_calculator : morgage_calculator,
+  mortgage_calc : mortgage_calc,
+  salary_guide_page : salary_guide_page,
+  salaryIQ : salaryIQ,
+  valid_cnesst : valid_cnesst,
+  validCNESST : validCNESST
 };

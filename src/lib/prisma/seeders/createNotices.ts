@@ -1,4 +1,3 @@
-const { PrismaClient } = require("@prisma/client");
 
 module.exports = async function createNotices(prisma) {
   console.log("🔹 seed notices...");

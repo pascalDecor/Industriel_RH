@@ -1,6 +1,5 @@
 "use client";
 
-
 import { AsyncBuilder } from "@/components/ui/asyncBuilder";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import Button from "@/components/ui/button";
@@ -20,11 +19,12 @@ import FonctionsListe from "./functions/liste";
 import { SectorSections } from "./sections";
 
 interface Props {
-    params: { id: string }
+    params: Promise<{ id: string }>
 }
 
 
-export default function Secteur({ params }: Readonly<Props>) {
+export default async function Secteur({ params }: Props) {
+    const { id } = await params;
 
     const [loadingDelete, setLoadingDelete] = useState(false);
     let [changeCount, setchangeCount] = useState(0);
@@ -48,7 +48,7 @@ export default function Secteur({ params }: Readonly<Props>) {
     return <AsyncBuilder
         promise={async () => {
             return HttpService.show<Sector>({
-                url: `/sectors/${params.id}`,
+                url: `/sectors/${id}`,
                 fromJson: (json: any) => Sector.fromJSON(json)
             });
         }}

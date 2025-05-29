@@ -1,4 +1,3 @@
-const { PrismaClient } = require("@prisma/client");
 
 module.exports = async function createTags(prisma) {
   console.log("🔹 seed tags");

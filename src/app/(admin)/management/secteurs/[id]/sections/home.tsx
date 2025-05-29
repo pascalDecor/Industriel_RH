@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/components/ui/button";
 import { Sector } from "@/models/sector";
 import { imagePathFinder } from "@/utils/imagePathFinder";

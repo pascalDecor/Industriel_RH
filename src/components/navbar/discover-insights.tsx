@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import { Sector } from "@/models/sector";
 
 
-export function DiscoverInsightsExpandedNavbar({sectors}: {sectors: Sector[]}) {
+export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] }) {
   return (
     <div className="lg:flex grid grid-cols-12 gap-10 lg:px-10 mb-5 justify-between items-start w-7xl mx-auto">
       <div className="col-span-3 lg:w-3/12">
@@ -53,17 +53,23 @@ export function DiscoverInsightsExpandedNavbar({sectors}: {sectors: Sector[]}) {
             TOOLS
           </p>
           <div className=" grid grid-rows-5 gap-5">
-            <Link href={"/find-jobs"} className="text-gray-500 text-sm">
+            <Link href={"/quebec-tax-calculator"} className="text-gray-500 text-sm">
               Quebec tax calculator
             </Link>
-            <Link href={"/find-jobs"} className="text-gray-500 text-sm">
+            <Link href={"/morgage-calculator"} className="text-gray-500 text-sm">
               Morgage calculator
             </Link>
-            <Link href={"/find-jobs"} className="text-gray-500 text-sm">
+            <Link href={"/salary-guide"} className="text-gray-500 text-sm">
               Salary guide
             </Link>
             <Link href={"/find-jobs"} className="text-gray-500 text-sm">
               Resume Builder
+            </Link>
+            <Link href={"/valid-cnesst"} className="text-gray-500 text-sm">
+              ValidCNESST
+            </Link>
+            <Link href={"/find-jobs"} className="text-gray-500 text-sm">
+              VivreFrais
             </Link>
           </div>
         </div>

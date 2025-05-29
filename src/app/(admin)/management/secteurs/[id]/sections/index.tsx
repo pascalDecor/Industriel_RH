@@ -1,3 +1,6 @@
+"use client";
+
+
 import { Sector } from "@/models/sector";
 import { SectionUIAddSpecializedTalentAcrossYourOrganization } from "./home";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@radix-ui/react-accordion";

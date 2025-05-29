@@ -1,5 +1,3 @@
-const { PrismaClient } = require("@prisma/client");
-
 
 module.exports = async function createSpecialites(prisma) {
   console.log("🔹 seed specialites…");
