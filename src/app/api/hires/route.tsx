@@ -16,7 +16,7 @@ export const GET = withQuery<Hire, typeof prisma.hire>(
 
 export const POST = async (req: Request) => {
     try {
-        let data = await req.json();
+        const data = await req.json();
          data.details_of_positions = [data.details_of_positions];
          console.log("data", data);
         const hireCreated = await prisma.hire.create({

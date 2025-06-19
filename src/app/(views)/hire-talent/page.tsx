@@ -6,7 +6,6 @@ import { imagePathFinder } from "@/utils/imagePathFinder";
 import Image from 'next/image';
 
 import { FiCheck, FiSearch } from "react-icons/fi";
-import HomeBannerCarroussel from "@/components/HomeBannerCarroussel";
 import ExploreSuccessStories from "@/components/ExploreSuccessStories";
 import AddSpecializedTalentAcrossYourOrganization from "@/components/AddSpecializedTalentAcrossYourOrganization";
 import Link from "next/link";

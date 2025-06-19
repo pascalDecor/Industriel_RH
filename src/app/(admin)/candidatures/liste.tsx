@@ -13,7 +13,7 @@ import Pagination from "@/components/paginationCustom";
 
 
 export default function ListeCandidatures({state, search} : Readonly<{state: string, search: string}>) {
-    let [changeCount, setchangeCount] = useState(0);
+    const [changeCount, setchangeCount] = useState(0);
     const [page, setPage] = useState(1);
     return (
      <div className="py-5">

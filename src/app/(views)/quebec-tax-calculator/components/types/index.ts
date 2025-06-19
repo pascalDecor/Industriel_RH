@@ -19,10 +19,10 @@ export interface TaxResults {
   effectiveTaxRate: number;
   federalTaxRate: number;
   provincialTaxRate: number;
-  rrspContribution: number;
-  tfsaContribution: number;
-  takeHomeAfterContributions: number;
-  deductions: Deduction[];
+  rrspContribution?: number;
+  tfsaContribution?: number;
+  takeHomeAfterContributions?: number;
+  deductions?: Deduction[];
 }
 
 export interface ContributionLimits {

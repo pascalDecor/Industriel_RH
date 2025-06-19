@@ -67,7 +67,7 @@ export const TaxPieChart: React.FC<TaxPieChartProps> = ({ netIncome, totalTax })
           font: {
             family: "'Inter', sans-serif",
             size: 14,
-            weight: '500',
+            weight: 'bold' as const,
           },
           usePointStyle: true,
           pointStyle: 'circle',
@@ -97,14 +97,14 @@ export const TaxPieChart: React.FC<TaxPieChartProps> = ({ netIncome, totalTax })
       },
       tooltip: {
         enabled: true,
-        position: 'nearest',
+        position: 'nearest' as const,
         backgroundColor: 'rgba(255, 255, 255, 0.98)',
         titleColor: '#1e293b',
         bodyColor: '#1e293b',
         titleFont: {
           family: "'Inter', sans-serif",
           size: 14,
-          weight: '600',
+          weight: 'bold' as const,
         },
         bodyFont: {
           family: "'Inter', sans-serif",
@@ -114,8 +114,8 @@ export const TaxPieChart: React.FC<TaxPieChartProps> = ({ netIncome, totalTax })
         boxPadding: 6,
         cornerRadius: 8,
         displayColors: false,
-        yAlign: 'bottom',
-        xAlign: 'center',
+        yAlign: 'bottom' as const,
+        xAlign: 'center' as const,
         caretSize: 8,
         caretPadding: 8,
         callbacks: {

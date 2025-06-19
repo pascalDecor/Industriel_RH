@@ -1,10 +1,11 @@
-
-
-module.exports = async function createCountries(prisma) {
+module.exports = async function createCountries(prisma: {
+  country: {
+    findFirst: (arg0: { where: { libelle: string } }) => any;
+    create: (arg0: { data: { libelle: string } }) => any;
+  };
+}) {
   console.log("🔹 seed countries…");
-  const noms = [
-    "Canada",
-  ];
+  const noms = ["Canada"];
 
   for (const libelle of noms) {
     const sp = await prisma.country.findFirst({
@@ -18,4 +19,4 @@ module.exports = async function createCountries(prisma) {
       });
     }
   }
-}
+};

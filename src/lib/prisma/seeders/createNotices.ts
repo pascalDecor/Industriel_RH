@@ -1,5 +1,11 @@
-
-module.exports = async function createNotices(prisma) {
+module.exports = async function createNotices(prisma: {
+  notice: {
+    findFirst: (arg0: { where: { author: string } }) => any;
+    create: (arg0: {
+      data: { content: string; author: string; stars: number };
+    }) => any;
+  };
+}) {
   console.log("🔹 seed notices...");
   const notices = [
     {
@@ -24,7 +30,7 @@ module.exports = async function createNotices(prisma) {
 
   for (const notice of notices) {
     const sp = await prisma.notice.findFirst({
-      where: { author: notice.author }  
+      where: { author: notice.author }
     });
     if (!sp) {
       await prisma.notice.create({

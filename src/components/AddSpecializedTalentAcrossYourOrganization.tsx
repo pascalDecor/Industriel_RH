@@ -1,4 +1,6 @@
 
+"use client";
+
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import { FiArrowRight } from "react-icons/fi";
 import Button from "./ui/button";

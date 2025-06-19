@@ -1,3 +1,5 @@
+"use client";
+
 import { FiSearch } from "react-icons/fi";
 import Button from "./ui/button";
 import { TiLocationOutline } from "react-icons/ti";

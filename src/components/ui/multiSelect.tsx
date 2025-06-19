@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
-import { MultiValue, ActionMeta } from 'react-select';
+import { MultiValue, ActionMeta, SingleValue } from 'react-select';
 import Select from 'react-select';
 
 type OptionType = {
@@ -34,12 +34,12 @@ export default function MultiSelect({
     isMulti = true,
     className = '',
 }: Readonly<Props>) {
-    const [selected, setSelected] = useState<MultiValue<OptionType>>(defaultValue);
+    const [selected, setSelected] = useState<MultiValue<OptionType> | SingleValue<OptionType>>(defaultValue);
     const [options, setOptions] = useState<OptionType[]>(items);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (
-        newValue: MultiValue<OptionType>,
+        newValue: MultiValue<OptionType> | SingleValue<OptionType>,
         _actionMeta: ActionMeta<OptionType>
     ) => {
         setSelected(newValue);
@@ -60,7 +60,7 @@ export default function MultiSelect({
     return (
         <div className="">
             {enableCreate ? <CreatableSelect
-                className={className +'w-full rounded-xl border-gray-300 border p-2 text-gray-800 outline-none transition-all text-sm'}
+                className={className + 'w-full rounded-xl border-gray-300 border p-2 text-gray-800 outline-none transition-all text-sm'}
                 isMulti={isMulti}
                 isDisabled={isLoading}
                 isLoading={isLoading}
@@ -73,7 +73,7 @@ export default function MultiSelect({
                 classNamePrefix="react-select"
                 noOptionsMessage={() => 'Aucune option disponible'}
             /> : <Select
-                className={className +'w-full rounded-xl border-gray-300 border p-2 text-gray-800 outline-none transition-all text-sm'}
+                className={className + 'w-full rounded-xl border-gray-300 border p-2 text-gray-800 outline-none transition-all text-sm'}
                 isMulti={isMulti}
                 isDisabled={isLoading}
                 isLoading={isLoading}

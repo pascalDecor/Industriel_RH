@@ -1,3 +1,5 @@
+"use client";
+
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import Image from "next/image";
 

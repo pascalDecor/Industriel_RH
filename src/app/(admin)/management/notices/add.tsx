@@ -12,7 +12,7 @@ import { AiFillStar } from "react-icons/ai";
 
 export default function AddNotices({ notice, onChange }: { notice: Notice, onChange: (state: any) => void }) {
 
-    let [state, action, pending] = useActionState(addNotice, undefined);
+    const [state, action, pending] = useActionState(addNotice, undefined);
     const [content, setContent] = useState(notice.content);
     const [author, setAuthor] = useState(notice.author);
 

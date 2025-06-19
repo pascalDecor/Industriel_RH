@@ -22,7 +22,7 @@ type ItemSectorsProps = {
 export default function ItemSectors({ sector, onChange, onActive }: ItemSectorsProps) {
 
 
-    let [changeCount, setchangeCount] = useState(0);
+    const [changeCount, setchangeCount] = useState(0);
     const [open, setOpen] = useState(false);
 
     const [loadingDelete, setLoadingDelete] = useState(false);

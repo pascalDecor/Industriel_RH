@@ -69,7 +69,7 @@ const dashboardCard01 = () => {
     dark: '#4B5563'
   };
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -209,7 +209,7 @@ const dashboardCard02 = () => {
     dark: '#4B5563'
   };   
   
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -349,7 +349,7 @@ const dashboardCard03 = () => {
     dark: '#4B5563'
   };   
   
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -499,7 +499,7 @@ const dashboardCard04 = () => {
     dark: '#4B5563'
   };   
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -940,7 +940,7 @@ const dashboardCard06 = () => {
     dark: '#4B5563'
   }; 
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'doughnut',
     data: {
@@ -1091,7 +1091,7 @@ const dashboardCard08 = () => {
     dark: '#4B5563'
   };   
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -1340,7 +1340,7 @@ const dashboardCard09 = () => {
     dark: '#4B5563'
   };   
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {

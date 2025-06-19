@@ -26,7 +26,7 @@ class SimpleImage {
         const wrapper = document.createElement('div');
 
         settings.forEach(tune => {
-            let button = document.createElement('div');
+            const button = document.createElement('div');
 
             button.classList.add('cdx-settings-button');
             button.innerHTML = tune.icon;

@@ -1,7 +1,8 @@
+"use client";
+
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import Image from 'next/image'
-import { AiFillStar } from "react-icons/ai";
 import { Notice } from "@/models/notice";
 import { HttpService } from "@/utils/http.services";
 import { useState, useEffect } from "react";

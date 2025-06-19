@@ -14,7 +14,7 @@ export const GET = withQuery<Notice, typeof prisma.notice>(
 
 export const POST = async (req: Request) => {
     try {
-        let data = await req.json();
+        const data = await req.json();
         const noticeCreated = await prisma.notice.create({
             data: { content: data.content, author: data.author, stars: data.stars },
         });

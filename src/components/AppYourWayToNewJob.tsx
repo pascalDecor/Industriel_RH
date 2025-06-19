@@ -1,4 +1,6 @@
 
+"use client";
+
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import { FiCheck } from "react-icons/fi";
 import Button from "./ui/button";

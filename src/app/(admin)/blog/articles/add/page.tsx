@@ -21,7 +21,7 @@ import { redirect } from 'next/navigation';
 import { useActionState, useEffect, useRef, useState } from 'react'
 
 export default function AddArticle() {
-    let [state, action, pending] = useActionState(addArticle, undefined);
+    const [state, action, pending] = useActionState(addArticle, undefined);
 
     const [article, setArticle] = useState(Article.fromJSON({} as any));
     const inputRef = useRef<HTMLInputElement>(null);

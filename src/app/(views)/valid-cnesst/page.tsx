@@ -1,22 +1,16 @@
 "use client";
 
-import { AsyncBuilder } from "@/components/ui/asyncBuilder";
 import Button from "@/components/ui/button";
-import FloatingLabelInput from "@/components/ui/input";
-import FloatingLabelSelect from "@/components/ui/select";
-import { LoadingSpinner } from "@/lib/load.helper";
-import { City } from "@/models/city";
 import { SectionProps } from "@/models/props";
 import { Section } from "@/models/section";
 import { Sector } from "@/models/sector";
-import { HttpService } from "@/utils/http.services";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import Image from 'next/image';
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import MorgageCalculator from "./components/Calculator";
+import DashboardCNESST from "./pages/Dashboard";
 
 export default function QuebecTaxCalculator() {
   const [sector, setSector] = useState<Sector | undefined>(undefined);
@@ -66,7 +60,7 @@ Our CNESST Compliance Validator allows HR professionals to verify that every con
     {/*  Quebec Tax Calculator   */}
     <section className="mx-auto w-lvw mb-10 px-10 py-24 bg-gray-200">
       <div className="mx-auto max-w-5xl" >
-        <MorgageCalculator />
+        <DashboardCNESST />
       </div>
     </section>
 

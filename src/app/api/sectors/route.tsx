@@ -16,7 +16,7 @@ export const GET = withQuery<Sector, typeof prisma.sector>(
 
 export const POST = async (req: Request) => {
     try {
-        let data = await req.json();
+        const data = await req.json();
         const sectorCreated = await prisma.sector.create({
             data: { libelle: data.libelle, description: data.description }
         });

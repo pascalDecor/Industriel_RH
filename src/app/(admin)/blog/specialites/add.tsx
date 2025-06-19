@@ -8,7 +8,7 @@ import { useActionState, useEffect, useState } from "react";
 
 export default function AddSpecialites({ specialite, onChange }: { specialite: Specialite, onChange: (state: any) => void }) {
 
-    let [state, action, pending] = useActionState(addSpecialite, undefined);
+    const [state, action, pending] = useActionState(addSpecialite, undefined);
     const [libelle, setLibelle] = useState(specialite.libelle);
 
     useEffect(() => {

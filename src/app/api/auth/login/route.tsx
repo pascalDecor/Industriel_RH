@@ -1,7 +1,7 @@
 // pages/api/auth/login.ts
 
-import bcrypt from 'bcrypt'
-import { randomInt } from 'crypto'
+import bcrypt from 'bcrypt';
+import { randomInt } from 'crypto';
 import prisma from '@/lib/connect_db';
 import { NextResponse } from 'next/server';
 import { sendMail } from '@/lib/mail';

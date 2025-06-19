@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/components/ui/button";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import { redirect } from "next/navigation";

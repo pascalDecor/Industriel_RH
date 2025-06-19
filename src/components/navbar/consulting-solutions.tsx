@@ -1,13 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import Button from "../ui/button";
 import { redirect } from "next/navigation";
 import { Sector } from "@/models/sector";
-import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { LoadingSpinner } from "@/lib/load.helper";
+import { LocalStorageHelper } from "@/utils/localStorage.helper";
 
 
 export function ConsultingSolutionsExpandedNavbar({sectors}: {sectors: Sector[]}) {

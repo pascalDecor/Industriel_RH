@@ -27,7 +27,7 @@ export default async function Secteur({ params }: Props) {
     const { id } = await params;
 
     const [loadingDelete, setLoadingDelete] = useState(false);
-    let [changeCount, setchangeCount] = useState(0);
+    const [changeCount, setchangeCount] = useState(0);
     const [open, setOpen] = useState(false);
 
 

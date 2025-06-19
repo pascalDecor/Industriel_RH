@@ -17,7 +17,7 @@ export const GET = withQuery<Article, typeof prisma.article>(
 
 export const POST = async (req: Request) => {
     try {
-        let data = await req.json();
+        const data = await req.json();
         data.contenu = [data.contenu];
 
         console.log("data", data);

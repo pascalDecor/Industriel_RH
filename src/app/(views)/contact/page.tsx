@@ -150,9 +150,7 @@ export default function Contact() {
                                 Submit
                             </Button>
                         </div>
-
                     </form>
-
                 </div>
             </section>
 

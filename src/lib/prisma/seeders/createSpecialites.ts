@@ -1,5 +1,9 @@
-
-module.exports = async function createSpecialites(prisma) {
+module.exports = async function createSpecialites(prisma: {
+  specialite: {
+    findFirst: (arg0: { where: { libelle: string } }) => any;
+    create: (arg0: { data: { libelle: string } }) => any;
+  };
+}) {
   console.log("🔹 seed specialites…");
   const noms = [
     "Career Development",
@@ -43,4 +47,4 @@ module.exports = async function createSpecialites(prisma) {
       });
     }
   }
-}
+};

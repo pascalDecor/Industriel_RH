@@ -7,7 +7,7 @@ import { useActionState, useEffect, useState } from "react";
 
 export default function AddFonctions({ fonction,sectorId, onChange }: { fonction: any, sectorId: string, onChange: (state: boolean) => void }) {
 
-    let [state, action, pending] = useActionState(addFonction, undefined);
+    const [state, action, pending] = useActionState(addFonction, undefined);
     const [libelle, setLibelle] = useState(fonction.libelle);
 
     useEffect(() => {

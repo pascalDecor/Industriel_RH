@@ -79,7 +79,7 @@ const fintechCard01 = () => {
     dark: '#4B5563'
   };   
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -346,7 +346,7 @@ const fintechCard03 = () => {
     dark: '#4B5563'
   };
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -562,7 +562,7 @@ const fintechCard04 = () => {
     dark: '#4B5563'
   }; 
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -775,7 +775,7 @@ const fintechCard07 = () => {
     dark: '#4B5563'
   };  
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -960,7 +960,7 @@ const fintechCard08 = () => {
     dark: '#4B5563'
   };
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -1124,7 +1124,7 @@ const fintechCard09 = () => {
     dark: '#4B5563'
   };
 
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -1279,7 +1279,7 @@ const fintechCard10 = () => {
     dark: '#4B5563'
   };  
   
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -1425,7 +1425,7 @@ const fintechCard11 = () => {
     dark: '#4B5563'
   };  
   
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -1571,7 +1571,7 @@ const fintechCard12 = () => {
     dark: '#4B5563'
   };  
   
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -1717,7 +1717,7 @@ const fintechCard13 = () => {
     dark: '#4B5563'
   };  
   
-  // eslint-disable-next-line no-unused-vars
+   
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -1917,7 +1917,7 @@ const fintechCard14 = () => {
     }; 
 
     if (!ctx) return;
-    // eslint-disable-next-line no-unused-vars
+     
     const chart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -1936,12 +1936,12 @@ const fintechCard14 = () => {
           // Line
           {
             data: miniChart.data,
-            // eslint-disable-next-line max-len
+             
             borderColor: miniChart.growth ? '#3EC972' : '#FF5656',
             borderWidth: 2,
             pointRadius: 0,
             pointHoverRadius: 3,
-            // eslint-disable-next-line max-len
+             
             pointBackgroundColor: miniChart.growth ? '#3EC972' : '#FF5656',
             pointHoverBackgroundColor: miniChart.growth ? '#3EC972' : '#FF5656',
             pointBorderWidth: 0,

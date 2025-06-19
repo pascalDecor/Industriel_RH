@@ -10,7 +10,7 @@ import { useActionState, useEffect, useState } from 'react'
 
 export default function Login() {
     let [state, action, pending] = useActionState(signUp, undefined);
-    let [stateOTP, actionOTP, pendingOTP] = useActionState(signUpOTP, undefined);
+    const [stateOTP, actionOTP, pendingOTP] = useActionState(signUpOTP, undefined);
 
     const [email, setEmail] = useState('');
     const [otp, setOTP] = useState('');

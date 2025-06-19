@@ -17,7 +17,7 @@ import Pagination from "@/components/paginationCustom";
 import FloatingLabelInput from "@/components/ui/input";
 
 export default function Specialites() {
-    let [changeCount, setchangeCount] = useState(0);
+    const [changeCount, setchangeCount] = useState(0);
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');

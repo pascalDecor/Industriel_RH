@@ -14,11 +14,11 @@ export interface QueryOptions<T> {
   // Callback pour filtres relationnels complexes
   modifyWhere?: (where: any, params: URLSearchParams) => void 
   // Comptage des relations associées
-  countFields?: (keyof T)[]                            
+  countFields?: (keyof T | string)[]                            
   // Chargement des relations (include)
-  includeFields?: (keyof T)[]                          
+  includeFields?: (keyof T | string)[]                          
   // Soft-delete / archivage
-  archivedField?: keyof T        
+  archivedField?: keyof T | string        
   defaultArchived?: boolean      
   // Activation / désactivation
   activeField?: keyof T          

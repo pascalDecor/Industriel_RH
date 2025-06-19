@@ -16,7 +16,7 @@ export const GET = withQuery<Application, typeof prisma.application>(
 
 export const POST = async (req: Request) => {
     try {
-        let data = await req.json();
+        const data = await req.json();
         const applicationCreated = await prisma.application.create({
             data: data,
         });

@@ -22,7 +22,7 @@ export const GET = withQuery<Function, typeof prisma.function>(
 
 export const POST = async (req: Request) => {
     try {
-        let data = await req.json();
+        const data = await req.json();
         const functionCreated = await prisma.function.create({
             data: { libelle: data.libelle, sectorId: data.sectorId }
         });

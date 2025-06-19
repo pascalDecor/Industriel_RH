@@ -8,7 +8,7 @@ import { useActionState, useEffect, useState } from "react";
 
 export default function AddSectors({ sector, onChange }: { sector: Sector, onChange: (state: any) => void }) {
 
-    let [state, action, pending] = useActionState(addSector, undefined);
+    const [state, action, pending] = useActionState(addSector, undefined);
     const [libelle, setLibelle] = useState(sector.libelle);
 
     useEffect(() => {

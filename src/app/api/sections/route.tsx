@@ -14,7 +14,7 @@ export const GET = withQuery<SectionUI, typeof prisma.sectionUI>(
 
 export const POST = async (req: Request) => {
     try {
-        let data = await req.json();
+        const data = await req.json();
         const sectionUICreated = await prisma.sectionUI.create({
             data: data
         });

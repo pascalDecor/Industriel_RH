@@ -1,18 +1,95 @@
-
-
-module.exports = async function createSectors(prisma) {
+module.exports = async function createSectors(prisma: {
+  sector: {
+    findFirst: (arg0: { where: { libelle: string } }) => any;
+    create: (arg0: { data: { libelle: string; description: string } }) => any;
+  };
+  function: {
+    createMany: (arg0: {
+      data:
+        | { libelle: string; sectorId: any }[]
+        | { libelle: string; sectorId: any }[]
+        | { libelle: string; sectorId: any }[]
+        | { libelle: string; sectorId: any }[]
+        | { libelle: string; sectorId: any }[];
+    }) => any;
+  };
+  sectionUI: {
+    createMany: (arg0: {
+      data:
+        | {
+            libelle: string;
+            slug: string;
+            description: string;
+            image: string;
+            page: string;
+            sectorId: any;
+          }[]
+        | {
+            libelle: string;
+            slug: string;
+            description: string;
+            image: string;
+            page: string;
+            sectorId: any;
+          }[]
+        | {
+            libelle: string;
+            slug: string;
+            description: string;
+            image: string;
+            page: string;
+            sectorId: any;
+          }[]
+        | {
+            libelle: string;
+            slug: string;
+            description: string;
+            image: string;
+            page: string;
+            sectorId: any;
+          }[]
+        | {
+            libelle: string;
+            slug: string;
+            description: string;
+            image: string;
+            page: string;
+            sectorId: any;
+          }[];
+    }) => any;
+  };
+}) {
   console.log("🔹 seed sectors…");
   const noms = [
-    {libelle :"Manufacturing", description: "Welders, Machine Operators, Assemblers, and Industrial Mechanics."},
-    {libelle :"Construction", description: "Electricians, Heavy Equipment Operators, and Project Managers."},
-    {libelle :"Healthcare", description: "Nurses, Caregivers, and Medical Technicians."},
-    {libelle :"Transport", description: "Truck Drivers, Warehouse Supervisors, and Logistics Coordinators."},
-    {libelle :"Agriculture & Agro-Food", description: "Farm Workers, Machine Operators, and Food Processing Technicians"},
+    {
+      libelle: "Manufacturing",
+      description:
+        "Welders, Machine Operators, Assemblers, and Industrial Mechanics."
+    },
+    {
+      libelle: "Construction",
+      description:
+        "Electricians, Heavy Equipment Operators, and Project Managers."
+    },
+    {
+      libelle: "Healthcare",
+      description: "Nurses, Caregivers, and Medical Technicians."
+    },
+    {
+      libelle: "Transport",
+      description:
+        "Truck Drivers, Warehouse Supervisors, and Logistics Coordinators."
+    },
+    {
+      libelle: "Agriculture & Agro-Food",
+      description:
+        "Farm Workers, Machine Operators, and Food Processing Technicians"
+    }
   ];
 
   for (const sector of noms) {
     const spf = await prisma.sector.findFirst({
-      where: { libelle: sector.libelle}
+      where: { libelle: sector.libelle }
     });
     if (!spf) {
       const sp = await prisma.sector.create({
@@ -301,7 +378,8 @@ module.exports = async function createSectors(prisma) {
                 sectorId: sp.id
               },
               {
-                libelle: "Your Partner for Agriculture & Agro-Food Workforce Solutions",
+                libelle:
+                  "Your Partner for Agriculture & Agro-Food Workforce Solutions",
                 slug: "consulting_solutions_section_1",
                 description:
                   "We specialize in connecting skilled workers with leading manufacturers. From welders and machine operators to industrial mechanics and quality control specialists, we provide tailored recruitment solutions for permanent and temporary roles.",
@@ -311,7 +389,8 @@ module.exports = async function createSectors(prisma) {
                 sectorId: sp.id
               },
               {
-                libelle: "Your Partner for Agriculture & Agro-Food Workforce Solutions",
+                libelle:
+                  "Your Partner for Agriculture & Agro-Food Workforce Solutions",
                 slug: "consulting_solutions_section_2",
                 description:
                   "From entry-level roles to leadership positions, we connect you with top candidates who have the in-demand skills and experience to meet your workforce needs in key sectors",
@@ -320,7 +399,8 @@ module.exports = async function createSectors(prisma) {
                 sectorId: sp.id
               },
               {
-                libelle: "Leading agency for Agriculture & Agro-Food workforce solutions",
+                libelle:
+                  "Leading agency for Agriculture & Agro-Food workforce solutions",
                 slug: "consulting_solutions_section_3",
                 description:
                   "Looking for your next opportunity in manufacturing? We connect skilled professionals like you with leading employers. From welding and machine operation to quality control and industrial maintenance, we'll help you find the perfect role to match your skills and career goals.",

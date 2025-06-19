@@ -1,10 +1,11 @@
+"use client";
+
 import React, { useState } from 'react';
 import InputField from './InputField';
 import SelectField from './SelectField';
 import CalculatorResults from './CalculatorResults';
 import Tooltip from './Tooltip';
 import { calculateMortgage } from './utils/mortgageCalculator';
-import { HelpCircleIcon } from 'lucide-react';
 
 const MorgageCalculator: React.FC = () => {
   const [formData, setFormData] = useState({

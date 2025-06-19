@@ -21,7 +21,7 @@ import InputError from "@/components/ui/inputError";
 
 
 export default function MoveYourCareerForward() {
-    let [state, action, pending] = useActionState(addCandidature, undefined);
+    const [state, action, pending] = useActionState(addCandidature, undefined);
     const [sectorId, setSectorId] = useState<string | undefined>(undefined);
 
     const [candidature, setCandidature] = useState(Application.fromJSON({} as any));

@@ -16,7 +16,7 @@ export const GET = withQuery<Tag, typeof prisma.tag>(
 
 export const POST = async (req: Request) => {
     try {
-        let data = await req.json();
+        const data = await req.json();
         const tagCreated = await prisma.tag.create({
             data: data
         });

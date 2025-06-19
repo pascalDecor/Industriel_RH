@@ -14,9 +14,9 @@ export const GET = async (req: Request) => {
 export const POST = async (req: Request) => {
     try {
 
-        let data = await req.json();
-        let email = data.email;
-        let password = data.password;
+        const data = await req.json();
+        const email = data.email;
+        const password = data.password;
 
         // Vérifier si l'utilisateur existe déjà
         const user = await prisma.user.findUnique({

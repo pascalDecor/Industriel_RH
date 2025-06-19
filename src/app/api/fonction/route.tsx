@@ -14,7 +14,7 @@ export const GET = withQuery<Specialite, typeof prisma.specialite>(
 
 export const POST = async (req: Request) => {
     try {
-        let data = await req.json();
+        const data = await req.json();
         const specialiteCreated = await prisma.specialite.create({
             data: { libelle: data.libelle }
         });

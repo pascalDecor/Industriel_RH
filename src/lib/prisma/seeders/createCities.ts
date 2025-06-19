@@ -1,6 +1,10 @@
-
-
-module.exports = async function createCivilities(prisma) {
+module.exports = async function createCivilities(prisma: {
+  country: { findFirst: (arg0: { where: { libelle: string } }) => any };
+  city: {
+    findFirst: (arg0: { where: { libelle: string } }) => any;
+    create: (arg0: { data: { libelle: string; countryId: any } }) => any;
+  };
+}) {
   console.log("🔹 seed cities...");
   const noms = [
     "Alma",
@@ -8,7 +12,7 @@ module.exports = async function createCivilities(prisma) {
     "Amqui",
     "Québec",
     "Saguenay",
-    "Sherbrooke", 
+    "Sherbrooke",
     "Trois-Rivières",
     "Baie-Comeau",
     "Baie-Saint-Paul",
@@ -77,14 +81,14 @@ module.exports = async function createCivilities(prisma) {
     "Herblay",
     "Hérouville-Saint-Clair",
     "Hérouville-Saint-Clair-Sud",
-    "Hull",    
+    "Hull",
     "Illkirch-Graffenstaden",
     "Ingwiller",
     "Isigny-sur-Mer",
     "Ivry",
     "Izegem",
     "Jargeau",
-    "Juvisy-sur-Orge",    
+    "Juvisy-sur-Orge",
     "Laon",
     "Lausanne",
     "Lavaux-Oron",
@@ -103,10 +107,10 @@ module.exports = async function createCivilities(prisma) {
     "Maubeuge",
     "Mazamet",
     "Métis-sur-Mer",
-    "Mirabel",
+    "Mirabel"
   ];
 
-  const country = await prisma.country.findFirst({  
+  const country = await prisma.country.findFirst({
     where: { libelle: "Canada" }
   });
 
@@ -123,4 +127,4 @@ module.exports = async function createCivilities(prisma) {
       });
     }
   }
-}
+};

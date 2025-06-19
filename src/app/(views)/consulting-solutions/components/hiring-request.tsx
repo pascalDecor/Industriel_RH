@@ -21,7 +21,7 @@ import SuccessSend from "./successSend";
 
 export default function HiringRequest() {
 
-    let [state, action, pending] = useActionState(addHire, undefined);
+    const [state, action, pending] = useActionState(addHire, undefined);
 
     const [hire, setHire] = useState(Hire.fromJSON({} as any));
 

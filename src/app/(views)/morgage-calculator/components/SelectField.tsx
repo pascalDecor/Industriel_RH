@@ -1,3 +1,6 @@
+"use client";
+
+
 import React, { ReactNode } from 'react';
 import { ChevronDownIcon } from 'lucide-react';
 import clsx from 'clsx';

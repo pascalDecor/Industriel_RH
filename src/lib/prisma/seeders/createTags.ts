@@ -1,5 +1,9 @@
-
-module.exports = async function createTags(prisma) {
+module.exports = async function createTags(prisma: {
+  tag: {
+    findFirst: (arg0: { where: { libelle: string } }) => any;
+    create: (arg0: { data: { libelle: string } }) => any;
+  };
+}) {
   console.log("🔹 seed tags");
   const noms = [
     "News",

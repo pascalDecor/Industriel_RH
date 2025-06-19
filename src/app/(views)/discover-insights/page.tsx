@@ -4,12 +4,12 @@
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import Image from 'next/image';
 
-import HomeBannerCarroussel from "@/components/HomeBannerCarroussel";
 import Button from "@/components/ui/button";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { useState } from "react";
 import FloatingLabelInput from "@/components/ui/input";
 import FloatingLabelSelect from "@/components/ui/select";
+import { redirect } from "next/navigation";
 
 
 interface FilterElementsProps {

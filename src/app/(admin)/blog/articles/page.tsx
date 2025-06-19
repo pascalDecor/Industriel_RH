@@ -15,7 +15,7 @@ import FloatingLabelInput from "@/components/ui/input";
 export default function Blog() {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
-    let [changeCount, setchangeCount] = useState(0);
+    const [changeCount, setchangeCount] = useState(0);
 
     return (
         <div className="space-y-8">

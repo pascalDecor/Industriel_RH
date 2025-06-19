@@ -19,7 +19,7 @@ import { redirect } from "next/navigation";
 
 
 export default function Notices() {
-    let [changeCount, setchangeCount] = useState(0);
+    const [changeCount, setchangeCount] = useState(0);
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
