@@ -49,7 +49,9 @@ const ValidationReport = () => {
     try {
       const correctedDoc = await correctDocument(document.id);
       if (correctedDoc.correctedVersion?.url) {
-        window.open(correctedDoc.correctedVersion.url, '_blank');
+        if (window !== undefined) {
+          window.open(correctedDoc.correctedVersion.url, '_blank');
+        }
       }
     } catch (error) {
       console.error('Error generating correction:', error);

@@ -1,3 +1,5 @@
+"use client";
+
 import { Article } from "./article";
 import { BaseModel } from "./baseModel";
 import { SpecialiteProps } from "./props";

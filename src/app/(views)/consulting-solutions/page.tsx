@@ -10,11 +10,13 @@ import ExploreSuccessStories from "@/components/ExploreSuccessStories";
 import { useEffect, useState } from "react";
 import MoveYourCareerForward from "./components/move-your-career-forward";
 import HiringRequest from "./components/hiring-request";
-import { redirect } from "next/navigation";
 import { Sector } from "@/models/sector";
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { Section } from "@/models/section";
 import { SectionProps } from "@/models/props";
+import { useRouter } from "next/navigation";
+
+
 
 
 export default function ConsultingSolutions() {
@@ -22,6 +24,8 @@ export default function ConsultingSolutions() {
   const [section1, setSection1] = useState<Section | undefined>(undefined);
   const [section2, setSection2] = useState<Section | undefined>(undefined);
   const [section3, setSection3] = useState<Section | undefined>(undefined);
+  
+  const router = useRouter();
 
 
   useEffect(() => {
@@ -31,7 +35,7 @@ export default function ConsultingSolutions() {
       const tempSector = Sector.fromJSON(temp as SectionProps);
       setSector(tempSector);
     } else {
-      redirect("/");
+      router.push("/");
     }
   }, []);
 
@@ -117,7 +121,7 @@ export default function ConsultingSolutions() {
                   Access qualified professionals ready to Join your teams quickly while you
                   focus on your strategic priorities.
                 </p>
-                <Button variant="primary" size="md" onClick={() => redirect("/hire-talent#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm">
+                <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm">
                   Learn more
                 </Button>
               </div>
@@ -129,12 +133,12 @@ export default function ConsultingSolutions() {
                   Find exceptional french talent worldwide to meet your specific needs.
                   Our experts support you at every step, from pre selecting candidates to their seamless integration in Canada.
                 </p>
-                <Button variant="primary" size="md" onClick={() => redirect("/hire-talent#international_recruitment")} className="mt-5 !rounded-full text-sm">
+                <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#international_recruitment")} className="mt-5 !rounded-full text-sm">
                   Learn more
                 </Button>
               </div>
               <div className="col-span-2 text-center">
-                <Button variant="dark" size="md" onClick={() => redirect("/contact")} className="mt-5 mx-auto text-center !rounded-full text-sm">
+                <Button variant="dark" size="md" onClick={() => router.push("/contact")} className="mt-5 mx-auto text-center !rounded-full text-sm">
                   Contact US
                 </Button>
               </div>
@@ -153,7 +157,7 @@ export default function ConsultingSolutions() {
                 <p className="text-sm font-regular text-gray-500 ">
                   Add your latest resume to match with open positions.
                 </p>
-                <Button variant="primary" size="md" onClick={() => redirect("#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
+                <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
                   Upload resume
                 </Button>
               </div>
@@ -165,7 +169,7 @@ export default function ConsultingSolutions() {
                   Choose from hundreds of jobs (with new ones posted daily)
 
                 </p>
-                <Button variant="primary" size="md" onClick={() => redirect("#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
+                <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
                   Search
                 </Button>
               </div>
@@ -394,7 +398,7 @@ export default function ConsultingSolutions() {
           </div>
         </div>
         <div className="col-span-12 flex justify-center items-center">
-          <Button variant="primary" size="md" onClick={() => redirect("/discover-insights#refine_your_focus")} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
+          <Button variant="primary" size="md" onClick={() => router.push("/discover-insights#refine_your_focus")} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
             Subscribe to updates
           </Button>
         </div>

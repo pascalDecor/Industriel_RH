@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import "../css/globals.css";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { LanguageProvider } from "./(views)/valid-cnesst/context/LanguageContext";
+import { ComplianceProvider } from "./(views)/valid-cnesst/context/ComplianceContext";
 
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
@@ -21,12 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" >
-      <body
-        className={`${plus_Jakarta_Sans.className} antialiased text-white`}
-        style={{ maxWidth: "100vw", width: "100vw", overflowX: "hidden", backgroundColor: "#fff" }}
-      >
-        {children}
-      </body>
+     
+          <body className={`${plus_Jakarta_Sans.className} antialiased text-white`} style={{
+            maxWidth: "100vw",
+            width: "100vw",
+            overflowX: "hidden",
+            backgroundColor: "#fff"
+          }}>
+            {children}
+          </body>
     </html>
   );
 }

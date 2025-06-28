@@ -1,3 +1,5 @@
+"use client";
+
 import { BaseModel } from "./baseModel";
 import { Civility } from "./civility";
 import { HireProps, SectorProps } from "./props";

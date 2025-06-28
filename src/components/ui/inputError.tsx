@@ -1,4 +1,5 @@
 
+"use client";
 
 export default function InputError({ messages, inputName }: { messages: string[], inputName: string }) {
     return messages && <div className='bg-red-200 rounded-lg p-4 mt-3 text-sm'>

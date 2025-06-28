@@ -1,3 +1,5 @@
+"use client";
+
 import logo from "../../public/images/logo.png";
 import logo_light from "../../public/images/logo_light.png";
 import banner from "../../public/images/banner.png";

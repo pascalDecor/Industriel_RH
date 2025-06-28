@@ -1,3 +1,6 @@
+
+"use client";
+
 import { baseApiURL } from '@/constant/api';
 import { FormState, AddArticleFormSchema, } from '@/lib/definitions'
 import { Article } from '@/models/article'

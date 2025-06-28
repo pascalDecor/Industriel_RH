@@ -1,4 +1,8 @@
-import SyncLoader from "react-spinners/ClipLoader";
+"use client";
+
+import dynamic from "next/dynamic";
+
+const SyncLoader =     dynamic(() => import("react-spinners/ClipLoader").then(mod => mod.default), { ssr: false });
 
 export function LoadingSpinner({
   color = "#fff"

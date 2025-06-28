@@ -1,3 +1,5 @@
+"use client";
+
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { User } from "../user";
 

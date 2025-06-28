@@ -1,3 +1,5 @@
+"use client";
+
 // BaseModel générique pour gestion uniforme des entités
 export abstract class BaseModel<Props extends { id: string }> {
   protected props: Props;

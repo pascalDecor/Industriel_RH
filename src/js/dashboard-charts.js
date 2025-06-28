@@ -1,3 +1,5 @@
+"use client";
+
 // Utility functions
 const hexToRGB = (h) => {
   let r = 0;

@@ -1,3 +1,5 @@
+"use client";
+
 import { BaseModel } from "./baseModel";
 import { NoticeProps } from "./props";
 

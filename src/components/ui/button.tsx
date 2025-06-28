@@ -2,7 +2,13 @@
 
 import React from "react";
 import clsx from "clsx";
-import { LoadingSpinner } from "@/lib/load.helper";
+import dynamic from "next/dynamic";
+
+
+const LoadingSpinner = dynamic(() =>
+  import("@/lib/load.helper").then(mod => mod.LoadingSpinner),
+  { ssr: false }
+);
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "danger" | "success" | "warning" | "light" | "dark";

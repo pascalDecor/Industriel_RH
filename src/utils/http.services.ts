@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use client";
+
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 import { baseApiURL } from "../constant/api";

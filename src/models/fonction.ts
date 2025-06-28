@@ -1,3 +1,5 @@
+"use client";
+
 import { BaseModel } from "./baseModel";
 import { FonctionProps } from "./props";
 

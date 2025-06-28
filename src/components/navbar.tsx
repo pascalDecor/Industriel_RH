@@ -9,20 +9,45 @@ import Button from "./ui/button";
 import { GoArrowUpRight } from "react-icons/go";
 import { motion } from "framer-motion";
 import clsx from "clsx";
-import { FindJobsExpandedNavbar } from "./navbar/find-jobs";
-import { ConsultingSolutionsExpandedNavbar } from "./navbar/consulting-solutions";
-import { DiscoverInsightsExpandedNavbar } from "./navbar/discover-insights";
-import { HireTalentExpandedNavbar } from "./navbar/hire-talent";
+
+
+const FindJobsExpandedNavbar = dynamic(() =>
+  import("./navbar/find-jobs").then(mod => mod.FindJobsExpandedNavbar),
+  { ssr: false }
+);
+
+const ConsultingSolutionsExpandedNavbar = dynamic(() =>
+  import("./navbar/consulting-solutions").then(mod => mod.ConsultingSolutionsExpandedNavbar),
+  { ssr: false }
+);
+
+const DiscoverInsightsExpandedNavbar = dynamic(() =>
+  import("./navbar/discover-insights").then(mod => mod.DiscoverInsightsExpandedNavbar),
+  { ssr: false }
+);
+
+const HireTalentExpandedNavbar = dynamic(() =>
+  import("./navbar/hire-talent").then(mod => mod.HireTalentExpandedNavbar),
+  { ssr: false }
+);
+
+// import { FindJobsExpandedNavbar } from "./navbar/find-jobs";
+// import { ConsultingSolutionsExpandedNavbar } from "./navbar/consulting-solutions";
+// import { DiscoverInsightsExpandedNavbar } from "./navbar/discover-insights";
+// import { HireTalentExpandedNavbar } from "./navbar/hire-talent";
+
+
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { GoTriangleDown } from "react-icons/go";
 import { HttpService } from "@/utils/http.services";
 import { Sector } from "@/models/sector";
+import dynamic from "next/dynamic";
 
 
 interface NavItem {
   label: string;
   href: string;
-  expandedComponnent?: React.FC<{sectors: Sector[]}>;
+   expandedComponnent?: React.ComponentType<{ sectors: Sector[] }>; 
 }
 
 

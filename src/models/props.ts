@@ -1,3 +1,5 @@
+"use client";
+
 export interface TagProps {
   id: string;
   createdAt?: Date;

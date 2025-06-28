@@ -1,3 +1,5 @@
+"use client";
+
 !(function () {
   if (typeof window !== "undefined") {
     (function () {

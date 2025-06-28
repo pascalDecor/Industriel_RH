@@ -1,3 +1,5 @@
+"use client";
+
 import { useLogin, useLoginOTP } from '@/hooks/useLogin'
 import { SignUpFormSchema, FormState, FormStateOTP, SignUpOTPFormSchema } from '@/lib/definitions'
 import { LocalStorageHelper } from '@/utils/localStorage.helper';

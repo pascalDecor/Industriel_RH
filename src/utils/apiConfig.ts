@@ -1,3 +1,5 @@
+"use client";
+
 import { UserProvider } from "@/models/providers/userProvider";
 import { User } from "@/models/user";
 

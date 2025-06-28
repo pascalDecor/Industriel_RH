@@ -4,7 +4,7 @@
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import Image from 'next/image';
 
-import Button from "@/components/ui/button";
+ import Button from "@/components/ui/button";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { useState } from "react";
 import FloatingLabelInput from "@/components/ui/input";

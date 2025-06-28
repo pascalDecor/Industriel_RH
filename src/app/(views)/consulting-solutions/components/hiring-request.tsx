@@ -15,8 +15,9 @@ import { addHire } from "@/app/actions/hire";
 import InputError from "@/components/ui/inputError";
 import MultiSelect from "@/components/ui/multiSelect";
 import { Sector } from "@/models/sector";
-import EditorJSComponent from "@/components/ui/editorJS";
+const EditorJSComponent = dynamic(() => import("@/components/ui/editorJS"), { ssr: false });
 import SuccessSend from "./successSend";
+import dynamic from "next/dynamic";
 
 
 export default function HiringRequest() {
@@ -43,7 +44,7 @@ export default function HiringRequest() {
             Tell us what you need, we'll take care of the rest!
         </h2>
         {state === true ?
-           <SuccessSend/>
+            <SuccessSend />
             :
             <div className="bg-blue-100 rounded-3xl p-10 border max-w-5xl mx-auto border-gray-300 shadow-lg mb-10">
                 <h2 className="text-xl font-medium text-center mb-10 text-gray-600">

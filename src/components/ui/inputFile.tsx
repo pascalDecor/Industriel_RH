@@ -40,7 +40,7 @@ export const getFileIcon = (fileInput?: FileLike, className?: string) => {
     if (typeof fileInput === 'string') {
         // URL passée directement
         try {
-            const url = new URL(fileInput, window.location.origin)
+            const url = new URL(fileInput, window && window.location.origin)
             const parts = url.pathname.split('/')
             name = parts.pop() || fileInput
         } catch {
@@ -55,7 +55,7 @@ export const getFileIcon = (fileInput?: FileLike, className?: string) => {
             name = fileInput.name
         } else {
             try {
-                const url = new URL(fileInput.url, window.location.origin)
+                const url = new URL(fileInput.url, window && window.location.origin)
                 const parts = url.pathname.split('/')
                 name = parts.pop() || fileInput.url
             } catch {

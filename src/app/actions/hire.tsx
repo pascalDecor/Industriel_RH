@@ -1,3 +1,5 @@
+"use client";
+
 import { baseApiURL } from '@/constant/api';
 import { Hire } from '@/models/hire';
 import { HttpService } from '@/utils/http.services'

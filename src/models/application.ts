@@ -1,3 +1,5 @@
+"use client";
+
 import { BaseModel } from "./baseModel";
 import { City } from "./city";
 import { Civility } from "./civility";

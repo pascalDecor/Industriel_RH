@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { mockValidateDocument, mockCorrectDocument } from '../services/validationService';
 

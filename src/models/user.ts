@@ -1,4 +1,6 @@
 
+"use client";
+
 import { userAvartarURL } from "@/constant/api";
 import { BaseModel } from "./baseModel";
 import { UserProps } from "./props";

@@ -1,3 +1,5 @@
+"use client";
+
 // Light switcher
 const lightSwitches = document.querySelectorAll('.light-switch');
 if (lightSwitches.length > 0) {

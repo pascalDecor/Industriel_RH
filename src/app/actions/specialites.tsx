@@ -1,3 +1,5 @@
+"use client";
+
 import { HttpService } from "@/utils/http.services";
 import { Specialite } from "@prisma/client";
 import { z } from "zod";

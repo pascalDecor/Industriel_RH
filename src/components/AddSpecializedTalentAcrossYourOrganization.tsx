@@ -5,16 +5,10 @@ import { imagePathFinder } from "@/utils/imagePathFinder";
 import { FiArrowRight } from "react-icons/fi";
 import Button from "./ui/button";
 import Image from 'next/image'
-import { LoadingSpinner } from "@/lib/load.helper";
 import { HttpService } from "@/utils/http.services";
-import { AsyncBuilder } from "./ui/asyncBuilder";
-import FloatingLabelSelect from "./ui/select";
 import { Sector } from "@/models/sector";
 import { useEffect, useState } from "react";
-import { se } from "date-fns/locale";
 import { motion } from "framer-motion";
-
-
 
 export default function AddSpecializedTalentAcrossYourOrganization() {
 
