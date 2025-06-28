@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
         port: "3000",
         pathname: "/**",
         search: ""
+      },
+      {
+        protocol: "https",
+        hostname: "industriel-rh.vercel.app",
+        // port: "443", // if you're using self-signed certificates
+        pathname: "/**",
+        search: ""
       }
     ]
   },

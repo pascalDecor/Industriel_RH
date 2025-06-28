@@ -5,7 +5,7 @@ import Button from '@/components/ui/button';
 import FloatingLabelInput from '@/components/ui/input';
 import InputError from '@/components/ui/inputError';
 import { LocalStorageHelper } from '@/utils/localStorage.helper';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react'
 
 export default function Login() {
@@ -14,6 +14,8 @@ export default function Login() {
 
     const [email, setEmail] = useState('');
     const [otp, setOTP] = useState('');
+
+    const router = useRouter();
 
 
     useEffect(() => {
@@ -34,7 +36,7 @@ export default function Login() {
         if (stateOTP === true) {
             LocalStorageHelper.removeKey("isLoggedIn");
             LocalStorageHelper.removeKey("email");
-            const router = useRouter();
+
             router.push('/dashboard');
 
         }
