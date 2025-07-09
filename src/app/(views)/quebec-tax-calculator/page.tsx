@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { TaxCalculator } from "./components/Calculator";
+import { HttpService } from "@/utils/http.services";
 
 export default function QuebecTaxCalculator() {
   const [sector, setSector] = useState<Sector | undefined>(undefined);
@@ -27,7 +28,16 @@ export default function QuebecTaxCalculator() {
       const tempSector = Sector.fromJSON(temp as SectionProps);
       setSector(tempSector);
     } else {
-      redirect("/");
+      const fetchData = async () => {
+        const temp = await HttpService.index<Sector>({
+          url: '/sectors',
+          fromJson: (json: any) => Sector.fromJSON(json)
+        });
+        if (temp.data.length > 0) {
+          LocalStorageHelper.setValue("activeSector", JSON.stringify(temp.data[0]));
+        }
+      }
+      fetchData();
     }
   }, []);
 
@@ -42,7 +52,7 @@ export default function QuebecTaxCalculator() {
     <section className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-5 items-center gap-4 mt-10">
         <div className="lg:col-span-3 col-span-12  pr-4">
-           <Image loading="lazy" src={imagePathFinder.salaire_net} className="h-8 w-auto" alt="Salary Net" />
+          <Image loading="lazy" src={imagePathFinder.salaire_net} className="h-8 w-auto" alt="Salary Net" />
           <h2 className="text-3xl font-semibold text mb-5 text-gray-800">
             {"Calculate your taxes with our tool"}
           </h2>
