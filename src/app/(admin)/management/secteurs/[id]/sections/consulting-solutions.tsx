@@ -55,7 +55,7 @@ export function SectionUIConsultingSolutionsSection1({ sectorIn }: { sectorIn: S
                         <div className="lg:col-span-2 col-span-12">
                             <Popover>
                                 <PopoverTrigger>
-                                    <Image src={section.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
+                                    <Image loading="lazy" src={section.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
                                     <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />
@@ -111,7 +111,7 @@ export function SectionUIConsultingSolutionsSection2({ sectorIn }: { sectorIn: S
                             <div className="col-span-3 p-0">
                                 <Popover>
                                     <PopoverTrigger>
-                                        <Image src={section.image || imagePathFinder.trending_job_titles} alt="image" width={500} height={500} />
+                                        <Image loading="lazy" src={section.image || imagePathFinder.trending_job_titles} alt="image" width={500} height={500} />
                                     </PopoverTrigger>
                                     <PopoverContent className="z-50">
                                         <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />
@@ -149,7 +149,7 @@ export function SectionUIConsultingSolutionsSection3({ sectorIn }: { sectorIn: S
                         <div className="lg:col-span-2 col-span-12 pr-4">
                             <Popover>
                                 <PopoverTrigger>
-                                    <Image src={section.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
+                                    <Image loading="lazy" src={section.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
                                     <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />

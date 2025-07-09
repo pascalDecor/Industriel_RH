@@ -18,22 +18,22 @@ export default function PartnersAccreditation() {
 
                     <div className="grid grid-cols-5 gap-4 w-full mb-10 ">
                         <div className="col-span-1 bg-white rounded-2xl p-3 text-center flex flex-col items-center justify-center">
-                            <Image src={imagePathFinder.partners_desjardins} alt="Describe your Need" className="w-full my-auto" />
+                            <Image loading="lazy" src={imagePathFinder.partners_desjardins} alt="Describe your Need" className="w-full my-auto" />
                         </div>
                         <div className="col-span-1 bg-white rounded-2xl p-3 text-center flex flex-col items-center justify-center">
-                            <Image src={imagePathFinder.partners_CRIC} alt="  We Source the Talent" className="w-full my-auto" />
+                            <Image loading="lazy" src={imagePathFinder.partners_CRIC} alt="  We Source the Talent" className="w-full my-auto" />
 
                         </div>
                         <div className="col-span-1 bg-white rounded-2xl p-3 text-center flex flex-col items-center justify-center">
-                            <Image src={imagePathFinder.partners_cnesst} alt="Select and Approve" className="w-full my-auto" />
+                            <Image loading="lazy" src={imagePathFinder.partners_cnesst} alt="Select and Approve" className="w-full my-auto" />
 
                         </div>
                         <div className="col-span-1 bg-white rounded-2xl p-3 text-center flex flex-col items-center justify-center">
-                            <Image src={imagePathFinder.partners_pme_mtl} alt="Seamless Integration" className="w-full my-auto" />
+                            <Image loading="lazy" src={imagePathFinder.partners_pme_mtl} alt="Seamless Integration" className="w-full my-auto" />
 
                         </div>
                         <div className="col-span-1 bg-white rounded-2xl p-3 text-center flex flex-col items-center justify-center">
-                            <Image src={imagePathFinder.partners_stride} alt="Continuous Support" className="w-full my-auto" />
+                            <Image loading="lazy" src={imagePathFinder.partners_stride} alt="Continuous Support" className="w-full my-auto" />
                         </div>
 
                     </div>

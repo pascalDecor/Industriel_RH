@@ -19,7 +19,7 @@ export default function AuthLayout({
             <div className="flex h-full w-full  items-center justify-center">
                 <div className="w-1/2 flex items-center justify-center">
                     <Link href="/" className="absolute left-10 top-10">
-                        <Image src={imagePathFinder.logo} alt="logo" width={150} />
+                        <Image loading="lazy" src={imagePathFinder.logo} alt="logo" width={150} />
                     </Link>
                     <main className="m-auto">
                         {children}

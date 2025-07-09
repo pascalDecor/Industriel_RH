@@ -42,7 +42,7 @@ export default function QuebecTaxCalculator() {
     <section className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-5 items-center gap-4 mt-10">
         <div className="lg:col-span-3 col-span-12  pr-4">
-          <Image src={imagePathFinder.mortgage_calc} className="h-8 w-auto" alt="Salary Net" />
+          <Image loading="lazy" src={imagePathFinder.mortgage_calc} className="h-8 w-auto" alt="Salary Net" />
           <h2 className="text-3xl font-semibold text mb-5 text-gray-800">
             {"Calculate your Morgage Payment"}
           </h2>
@@ -51,7 +51,7 @@ export default function QuebecTaxCalculator() {
           </p>
         </div>
         <div className="lg:col-span-2 col-span-12">
-          <Image src={imagePathFinder.morgage_calculator} alt="Salary Guide" />
+          <Image loading="lazy" src={imagePathFinder.morgage_calculator} alt="Salary Guide" />
         </div>
       </div>
     </section>
@@ -126,7 +126,7 @@ export default function QuebecTaxCalculator() {
             </Button>
           </div>
           <div className="col-span-3 p-0">
-            <Image src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="  We Source the Talent" className=" mb-4 mx-auto" />
+            <Image loading="lazy" src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="  We Source the Talent" className=" mb-4 mx-auto" />
           </div>
         </div>
 
@@ -144,7 +144,7 @@ export default function QuebecTaxCalculator() {
       <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-8 text-left">
         <div className="col-span-3">
           <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image src={imagePathFinder.be_salary_smart} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.be_salary_smart} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 Be salary smart
@@ -159,7 +159,7 @@ export default function QuebecTaxCalculator() {
         <div className="col-span-3">
 
           <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image src={imagePathFinder.career_development} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.career_development} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 Career development
@@ -172,7 +172,7 @@ export default function QuebecTaxCalculator() {
         </div>
         <div className="col-span-3">
           <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image src={imagePathFinder.What_jobs_are_in_demand} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.What_jobs_are_in_demand} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 What jobs are in demand?
@@ -186,7 +186,7 @@ export default function QuebecTaxCalculator() {
         </div>
         <div className="col-span-3">
           <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image src={imagePathFinder.landing_a_job} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.landing_a_job} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 Landing a job

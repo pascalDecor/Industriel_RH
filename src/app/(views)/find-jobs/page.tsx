@@ -57,7 +57,7 @@ export default function FindJobs() {
                     </Button>
                 </div>
                 <div className="lg:col-span-2 col-span-12">
-                    <Image src={imagePathFinder.find_a_job_that_works_for_you} alt="Salary Guide" />
+                    <Image loading="lazy" src={imagePathFinder.find_a_job_that_works_for_you} alt="Salary Guide" />
                 </div>
             </div>
         </section>
@@ -104,7 +104,7 @@ export default function FindJobs() {
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-4 text-left">
                 <div className="col-span-3">
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_1} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_1} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 {"6 Tips to Ease Hiring in Canada's Tight Labour Market"}
@@ -115,7 +115,7 @@ export default function FindJobs() {
                         </div>
                     </div>
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_2} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_2} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 {"Starting a New Job? Don't Make These 5 Mistakes"}
@@ -147,7 +147,7 @@ export default function FindJobs() {
                         </p>
                     </div>
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_3} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_3} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 Benefits of Using a Recruitment Agency in Canada to Hire Talent in 2025
@@ -160,7 +160,7 @@ export default function FindJobs() {
                 </div>
                 <div className="col-span-3">
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_4} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_4} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 December 2024 Labour Force Survey: Canadian Employment Rises b...
@@ -171,7 +171,7 @@ export default function FindJobs() {
                         </div>
                     </div>
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_5} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_5} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 {"Why More Canadians Should Be Setting Career New Year's Resolutions"}
@@ -203,7 +203,7 @@ export default function FindJobs() {
                         </p>
                     </div>
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_6} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_6} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 New Year, New Career: 7 Canada-Centric Job Search Tips for 2025
@@ -319,7 +319,7 @@ export default function FindJobs() {
                             </div>
                         </div>
 
-                        <Image src={imagePathFinder.explore_how_we_help_job_seekers} alt="  We Source the Talent" className="w-full mb-4 mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.explore_how_we_help_job_seekers} alt="  We Source the Talent" className="w-full mb-4 mx-auto" />
                     </div>
                     <div className="col-span-3">
                         <div className="flex gap-4 mb-10">

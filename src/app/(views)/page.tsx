@@ -41,7 +41,7 @@ export default function Home() {
                   know what you should earn or pay in local and national markets.
                 </p>
               </div>
-              <Image className="w-1/3 rounded-lg" src={imagePathFinder.salary_guide_1} alt="Salary Guide" />
+              <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.salary_guide_1} alt="Salary Guide" />
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] 
@@ -56,7 +56,7 @@ export default function Home() {
                   Create your resume. Highlight your skills. Get noticed.
                 </p>
               </div>
-              <Image className="w-1/3 rounded-lg" src={imagePathFinder.cv_builder} alt="What jobs are in demand?" />
+              <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.cv_builder} alt="What jobs are in demand?" />
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] 
@@ -71,7 +71,7 @@ export default function Home() {
                   Stay one step ahead with the latest data, insights, tips and tricks from some of the foremost experts in the talent solutions business.
                 </p>
               </div>
-              <Image className="w-1/3 rounded-lg" src={imagePathFinder.ir_blog} alt="Robert Half blog" />
+              <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.ir_blog} alt="Robert Half blog" />
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] 
@@ -87,7 +87,7 @@ export default function Home() {
                   tech team to support business priorities.
                 </p>
               </div>
-              <Image className="w-1/3 rounded-lg" src={imagePathFinder.navigate_tech_skill} alt="Navigate tech skills gaps" />
+              <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.navigate_tech_skill} alt="Navigate tech skills gaps" />
             </div>
           </div>
 
@@ -123,7 +123,7 @@ export default function Home() {
             </Button>
           </div>
           <div className="w-2/5">
-            <Image src={imagePathFinder.preview_candidat} alt="Salary Guide" />
+            <Image loading="lazy" src={imagePathFinder.preview_candidat} alt="Salary Guide" />
           </div>
         </div>
       </section>
@@ -138,31 +138,31 @@ export default function Home() {
 
           <div className="grid grid-cols-5 gap-4 w-full mb-10 ">
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image src={imagePathFinder.describe_your_need} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
+              <Image loading="lazy" src={imagePathFinder.describe_your_need} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 Describe your Need
               </p>
             </div>
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image src={imagePathFinder.we_source_the_talent} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
+              <Image loading="lazy" src={imagePathFinder.we_source_the_talent} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 We Source the Talent
               </p>
             </div>
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image src={imagePathFinder.select_and_approve} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
+              <Image loading="lazy" src={imagePathFinder.select_and_approve} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 Select and Approve
               </p>
             </div>
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image src={imagePathFinder.seamless_integration} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
+              <Image loading="lazy" src={imagePathFinder.seamless_integration} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 Seamless Integration
               </p>
             </div>
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image src={imagePathFinder.continuous_support} alt="Continuous Support" className="w-10 mb-4 mx-auto" />
+              <Image loading="lazy" src={imagePathFinder.continuous_support} alt="Continuous Support" className="w-10 mb-4 mx-auto" />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 Continuous Support
               </p>
@@ -214,7 +214,7 @@ export default function Home() {
             </div>
           </div>
           <div className="w-2/5">
-            <Image src={imagePathFinder.find_your_next_hire} alt="Salary Guide" />
+            <Image loading="lazy" src={imagePathFinder.find_your_next_hire} alt="Salary Guide" />
           </div>
         </div>
       </section>
@@ -224,7 +224,7 @@ export default function Home() {
       <section className="mx-auto w-lvw mb-10 p-10 bg-gray-200">
         <div className="flex items-center gap-4 m-auto max-w-5xl p-10">
           <div className="w-3/5 mr-7">
-            <Image src={imagePathFinder.we_are_experts_in_employee_recognition} alt="Salary Guide" />
+            <Image loading="lazy" src={imagePathFinder.we_are_experts_in_employee_recognition} alt="Salary Guide" />
           </div>
           <div className="w-3/5 pr-4">
             <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
@@ -325,7 +325,7 @@ export default function Home() {
             </div>
           </div>
           <div className="w-3/5">
-            <Image src={imagePathFinder.shape_the_career_you_want} alt="Salary Guide" />
+            <Image loading="lazy" src={imagePathFinder.shape_the_career_you_want} alt="Salary Guide" />
           </div>
         </div>
       </section>

@@ -51,7 +51,7 @@ export default function AppYourWayToNewJob() {
                         <div className="flex gap-4">
                             <Button variant="dark" size="md" onClick={handleClick} className="mt-10 !rounded-[10px]  text-left">
                                 <div className="flex gap-4 items-center">
-                                    <Image src={imagePathFinder.apple} alt="Describe your Need" className="w-6 my-auto" />
+                                    <Image loading="lazy" src={imagePathFinder.apple} alt="Describe your Need" className="w-6 my-auto" />
                                     <div>
                                         <p className="text-[11px] font-light -mb-1">Download on the</p>
                                         <p className="text-white">App Store</p>
@@ -60,7 +60,7 @@ export default function AppYourWayToNewJob() {
                             </Button>
                             <Button variant="dark" size="md" onClick={handleClick} className="mt-10 !rounded-[10px]  text-left">
                                 <div className="flex gap-4 items-center">
-                                    <Image src={imagePathFinder.google_play} alt="Describe your Need" className="w-6 my-auto" />
+                                    <Image loading="lazy" src={imagePathFinder.google_play} alt="Describe your Need" className="w-6 my-auto" />
                                     <div>
                                         <p className="text-[11px] font-light -mb-1">Download on the</p>
                                         <p className="text-white">Google Play</p>
@@ -70,7 +70,7 @@ export default function AppYourWayToNewJob() {
                         </div>
                     </div>
                     <div className="w-3/5">
-                        <Image src={imagePathFinder.app_your_way_to_a_new_job} alt="App your way to a new job" />
+                        <Image loading="lazy" src={imagePathFinder.app_your_way_to_a_new_job} alt="App your way to a new job" />
                     </div>
                 </div>
             </section>

@@ -57,7 +57,7 @@ export function Footer() {
                             <li>
                                 <Link href="#" className="hover:text-gray-600 text-gray-400 text-sm flex gap-2">
                                     <div className="flex items-start">
-                                        <Image src={imagePathFinder.icons_location} alt="logo" width={20} />
+                                        <Image loading="lazy" src={imagePathFinder.icons_location} alt="logo" width={20} />
                                     </div>
                                     <span>5805 Av. de Darlington Montréal,QC H3S 2H6</span>
                                 </Link>
@@ -65,7 +65,7 @@ export function Footer() {
                             <li>
                                 <Link href="tel:819-919-8683" className="hover:text-gray-600 text-gray-400 text-sm flex gap-2">
                                     <div className="flex items-start">
-                                        <Image src={imagePathFinder.icons_phone} alt="logo" width={20} />
+                                        <Image loading="lazy" src={imagePathFinder.icons_phone} alt="logo" width={20} />
                                     </div>
                                     <span>819-919-8683 (CANADA)</span>
                                 </Link>
@@ -73,7 +73,7 @@ export function Footer() {
                             <li>
                                 <Link href="tel:+22676443636" className="hover:text-gray-600 text-gray-400 text-sm flex gap-2">
                                     <div className="flex items-start">
-                                        <Image src={imagePathFinder.icons_phone} alt="logo" width={20} />
+                                        <Image loading="lazy" src={imagePathFinder.icons_phone} alt="logo" width={20} />
                                     </div>
                                     <span>+(226)76443636 (BURKINA FASO)</span>
                                 </Link>
@@ -81,7 +81,7 @@ export function Footer() {
                             <li>
                                 <Link href="#" className="hover:text-gray-600 text-gray-400 text-sm flex gap-2">
                                     <div className="flex items-start">
-                                        <Image src={imagePathFinder.icons_horloge} alt="logo" width={20} />
+                                        <Image loading="lazy" src={imagePathFinder.icons_horloge} alt="logo" width={20} />
                                     </div>
                                     <span>Du lundi au vendredi de 8h30 à 17h00</span>
                                 </Link>
@@ -89,7 +89,7 @@ export function Footer() {
                             <li>
                                 <Link href="mailto:recrutement@industriellerh.com" className="hover:text-gray-600 text-gray-400 text-sm flex gap-2">
                                     <div className="flex items-start">
-                                        <Image src={imagePathFinder.icons_envelop} alt="logo" width={20} />
+                                        <Image loading="lazy" src={imagePathFinder.icons_envelop} alt="logo" width={20} />
                                     </div>
                                     <span>recrutement@industriellerh.com</span>
                                 </Link>
@@ -101,7 +101,7 @@ export function Footer() {
                 <div className="grid grid-cols-12 gap-10 align-end justify-between mt-10">
                     <div className="col-span-4 flex flex-col  items-start justify-end">
 
-                        <Image src={imagePathFinder.logo_light} alt="logo" width={200} />
+                        <Image loading="lazy" src={imagePathFinder.logo_light} alt="logo" width={200} />
                         <div className="mt-5 flex gap-2">
                             <div className="col-span-1 bg-white hover:bg-blue-100 rounded-md text-blue-800 hover:text-blue-600 w-10 h-10 ">
                                 <Link href="#" className="w-full h-full flex justify-center items-center">

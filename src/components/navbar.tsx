@@ -100,6 +100,10 @@ export function Navbar() {
           fromJson: (json: any) => Sector.fromJSON(json)
         });
         setSectors(temp.data);
+
+        if(temp.data.length > 0) {
+          LocalStorageHelper.setValue("activeSector", JSON.stringify(temp.data[0]));
+        }
       };
       fetchData();
     }, []);
@@ -123,7 +127,7 @@ export function Navbar() {
               /* Logo */
             }
             <Link href="/">
-              <Image src={imagePathFinder.logo} alt="logo" width={150} />
+              <Image loading="lazy" src={imagePathFinder.logo} alt="logo" width={150} />
             </Link>
 
             {

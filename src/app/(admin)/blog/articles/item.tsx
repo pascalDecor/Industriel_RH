@@ -9,8 +9,8 @@ export default function ItemArticles({ article, onChange, className = "col-span-
     return (
         <Card key={article.id} className={clsx("relative p-3 lg:p-5 shadow-none hover:shadow-xl cursor-pointer border-none mb-5", className)}>
             <div className="relative w-full h-60 rounded-lg overflow-hidden">
-                <Image src={article.image} width={100} height={100} className="rounded-lg w-full h-full blur-[1.5px] absolute left-0 top-0" alt="Salary Guide" />
-                <Image src={article.image} width={100} height={100} className="mx-auto w-auto h-full blur-[0px]" alt="Salary Guide" />
+                <Image loading="lazy" src={article.image} width={100} height={100} className="rounded-lg w-full h-full blur-[1.5px] absolute left-0 top-0" alt="Salary Guide" />
+                <Image loading="lazy" src={article.image} width={100} height={100} className="mx-auto w-auto h-full blur-[0px]" alt="Salary Guide" />
             </div>
             <h3 className="font-bold my-0">{article.titre}</h3>
             <p className="text-slate-700 text-sm -mt-3 line-clamp-3 my-2">

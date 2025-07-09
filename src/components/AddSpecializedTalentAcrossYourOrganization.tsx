@@ -95,9 +95,9 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                             </div>
                         </div>
                         <div className="col-span-3 p-5 relative">
-                            <Image src={imagePathFinder.bg}
+                            <Image loading="lazy" src={imagePathFinder.bg}
                                 width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full absolute top-0 z-0" />
-                            {sectorActive && <Image src={sectorActive === undefined ? imagePathFinder.add_specialized_talent_across_your_organization : sectorActive.sections.filter((s) => s.page === "home")[0]?.image}
+                            {sectorActive && <Image loading="lazy" src={sectorActive === undefined ? imagePathFinder.add_specialized_talent_across_your_organization : sectorActive.sections.filter((s) => s.page === "home")[0]?.image}
                                 width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full relative z-10" />}
                         </div>
                     </div>

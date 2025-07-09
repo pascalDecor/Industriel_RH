@@ -84,12 +84,12 @@ export default function ConsultingSolutions() {
           </p>
         </div>
         <div className="lg:col-span-2 col-span-12">
-          <Image src={section1?.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt="Your Partner for Manufacturing Workforce Solutions" />
+          <Image loading="lazy" src={section1?.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt="Your Partner for Manufacturing Workforce Solutions" />
         </div>
       </div>
     </section>
 
-    <div className="flex">
+    <div className="flex items-center justify-center">
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -206,7 +206,7 @@ export default function ConsultingSolutions() {
                 </Button>
               </div>
               <div className="col-span-3 p-0">
-                <Image src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="  We Source the Talent" className=" mb-4 mx-auto" />
+                <Image loading="lazy" src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="  We Source the Talent" className=" mb-4 mx-auto" />
               </div>
             </div>
 
@@ -252,7 +252,7 @@ export default function ConsultingSolutions() {
                 </Button>
               </div>
               <div className="col-span-3 p-0">
-                <Image src={imagePathFinder.trending_job_titles} alt="  We Source the Talent" className=" mb-4 mx-auto" />
+                <Image loading="lazy" src={imagePathFinder.trending_job_titles} alt="  We Source the Talent" className=" mb-4 mx-auto" />
               </div>
             </div>
 
@@ -288,7 +288,7 @@ export default function ConsultingSolutions() {
       <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-4 text-left">
         <div className="col-span-3">
           <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image src={imagePathFinder.card_image_1} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.card_image_1} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 {"6 Tips to Ease Hiring in Canada's Tight Labour Market"}
@@ -299,7 +299,7 @@ export default function ConsultingSolutions() {
             </div>
           </div>
           <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image src={imagePathFinder.card_image_2} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.card_image_2} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 {"Starting a New Job? Don't Make These 5 Mistakes"}
@@ -331,7 +331,7 @@ export default function ConsultingSolutions() {
             </p>
           </div>
           <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image src={imagePathFinder.card_image_3} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.card_image_3} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 Benefits of Using a Recruitment Agency in Canada to Hire Talent in 2025
@@ -344,7 +344,7 @@ export default function ConsultingSolutions() {
         </div>
         <div className="col-span-3">
           <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image src={imagePathFinder.card_image_4} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.card_image_4} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 December 2024 Labour Force Survey: Canadian Employment Rises b...
@@ -355,7 +355,7 @@ export default function ConsultingSolutions() {
             </div>
           </div>
           <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image src={imagePathFinder.card_image_5} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.card_image_5} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 {"Why More Canadians Should Be Setting Career New Year's Resolutions"}
@@ -387,7 +387,7 @@ export default function ConsultingSolutions() {
             </p>
           </div>
           <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image src={imagePathFinder.card_image_6} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.card_image_6} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 New Year, New Career: 7 Canada-Centric Job Search Tips for 2025
@@ -411,7 +411,7 @@ export default function ConsultingSolutions() {
     <section className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-6 items-center gap-4 mt-10">
         <div className="lg:col-span-3 col-span-6">
-          <Image src={section3?.image || imagePathFinder.leading_agency_for_manufacturing_workforce_solutions} width={500} height={500} alt={section3?.libelle ?? "Leading agency for manufacturing workforce solutions"} />
+          <Image loading="lazy" src={section3?.image || imagePathFinder.leading_agency_for_manufacturing_workforce_solutions} width={500} height={500} alt={section3?.libelle ?? "Leading agency for manufacturing workforce solutions"} />
         </div>
         <div className="lg:col-span-3 col-span-6  pl-4">
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
@@ -424,7 +424,7 @@ export default function ConsultingSolutions() {
       </div>
     </section>
     <div className="absolute mt-100" id="move_your_career_forward"></div>
-    <div className="flex">
+    <div className="flex items-center justify-center">
       {tabsForm.map((tab) => (
         <button
           key={tab.id}
@@ -454,7 +454,7 @@ export default function ConsultingSolutions() {
       <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-8 text-left">
         <div className="col-span-3">
           <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image src={imagePathFinder.be_salary_smart} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.be_salary_smart} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 Be salary smart
@@ -469,7 +469,7 @@ export default function ConsultingSolutions() {
         <div className="col-span-3">
 
           <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image src={imagePathFinder.career_development} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.career_development} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 Career development
@@ -482,7 +482,7 @@ export default function ConsultingSolutions() {
         </div>
         <div className="col-span-3">
           <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image src={imagePathFinder.What_jobs_are_in_demand} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.What_jobs_are_in_demand} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 What jobs are in demand?
@@ -496,7 +496,7 @@ export default function ConsultingSolutions() {
         </div>
         <div className="col-span-3">
           <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image src={imagePathFinder.landing_a_job} alt="  We Source the Talent" className="mx-auto" />
+            <Image loading="lazy" src={imagePathFinder.landing_a_job} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                 Landing a job

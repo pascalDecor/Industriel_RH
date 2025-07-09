@@ -174,7 +174,7 @@ export default function SideBar() {
     <div className="space-y-4 py-4 flex flex-col h-lvh bg-white w-64 !rounded-br-3xl !rounded-tl-3xl">
       <div className="px-3 py-2 flex-1">
         <Link href="/" className="flex items-center pl-3 mb-5 mt-3">
-          <Image src={imagePathFinder.logo} alt="logo" width={150} />
+          <Image loading="lazy" src={imagePathFinder.logo} alt="logo" width={150} />
         </Link>
         <div className="space-y-1">
           {routes.map((route) => (

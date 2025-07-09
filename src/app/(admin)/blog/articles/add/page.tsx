@@ -70,8 +70,15 @@ export default function AddArticle() {
                                 console.log("article.image", article.image);
                             }} />
                         {
-                            article.image.length > 0 &&
-                            <Image src={article.image} alt={article.titre} width={100} height={100} className="w-full mt-5 rounded-lg" />
+                            !!article.image && article.image.trim() !== '' && (
+                                <Image loading="lazy"
+                                    src={article.image}
+                                    alt={article.titre}
+                                    width={100}
+                                    height={100}
+                                    className="w-full mt-5 rounded-lg"
+                                />
+                            )
                         }
 
                         <InputError messages={state?.errors?.image} inputName="image" />

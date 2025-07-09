@@ -21,7 +21,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
           </p>
         </div>
         <div className="lg:col-span-2 col-span-12">
-          <Image src={imagePathFinder.about_catalyst_of_prosperity} alt="Salary Guide" />
+          <Image loading="lazy" src={imagePathFinder.about_catalyst_of_prosperity} alt="Salary Guide" />
         </div>
       </div>
     </section>
@@ -29,7 +29,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
     <section className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-4 items-center gap-4">
         <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
-          <Image src={imagePathFinder.expertise} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
+          <Image loading="lazy" src={imagePathFinder.expertise} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             Expertise
           </p>
@@ -38,7 +38,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
           </p>
         </div>
         <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
-          <Image src={imagePathFinder.technology} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
+          <Image loading="lazy" src={imagePathFinder.technology} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             Technology
           </p>
@@ -46,7 +46,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
             Using cutting-edge software, we streamline CV management and immigration procedures, delivering an efficient and hassle-free recruitment process for all stakeholders.          </p>
         </div>
         <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
-          <Image src={imagePathFinder.innovative_approach} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
+          <Image loading="lazy" src={imagePathFinder.innovative_approach} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             Innovative Approach
           </p>
@@ -54,7 +54,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
             Our commitment goes beyond recruitment. By prioritizing social integration and cultural adaptation, we ensure a smooth transition and long-term success for employees and companies alike.          </p>
         </div>
         <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg" >
-          <Image src={imagePathFinder.reliability} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
+          <Image loading="lazy" src={imagePathFinder.reliability} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             Reliability
           </p>
@@ -108,7 +108,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
                 </p>
               </div>
               <div className="p-5 m-auto w-50 ">
-                <Image className="w-full" src={imagePathFinder.valeur_innovation} alt="Salary Guide" />
+                <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_innovation} alt="Salary Guide" />
               </div>
             </div>
           </div>
@@ -125,7 +125,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
                 </p>
               </div>
               <div className="p-5 m-auto w-50 ">
-                <Image className="w-full" src={imagePathFinder.valeur_integrity} alt="What jobs are in demand?" />
+                <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_integrity} alt="What jobs are in demand?" />
               </div>
             </div>
           </div>
@@ -142,7 +142,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
                 </p>
               </div>
               <div className="p-5 m-auto w-50 ">
-                <Image className="w-full" src={imagePathFinder.valeur_diversity} alt="Robert Half blog" />
+                <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_diversity} alt="Robert Half blog" />
               </div>
             </div>
           </div>
@@ -159,7 +159,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
                 </p>
               </div>
               <div className="p-5 m-auto w-50 ">
-                <Image className="w-full" src={imagePathFinder.valeur_sustanability} alt="Navigate tech skills gaps" />
+                <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_sustanability} alt="Navigate tech skills gaps" />
               </div>
             </div>
           </div>
@@ -173,7 +173,7 @@ Let us bridge the gap between talent and opportunity, empowering your business t
       <div className="grid grid-cols-5 items-center gap-4 lg:gap-10 mt-10">
 
         <div className="lg:col-span-2 col-span-12">
-          <Image src={imagePathFinder.hire_the_best_francophone_talent_worldwide} alt="Salary Guide" />
+          <Image loading="lazy" src={imagePathFinder.hire_the_best_francophone_talent_worldwide} alt="Salary Guide" />
         </div>
         <div className="lg:col-span-3 col-span-12  pr-4">
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
@@ -199,7 +199,7 @@ of our recruitment solutions, we are committed to helping your organization thri
       <div className="mx-auto max-w-5xl p-10 grid grid-cols-3 items-end gap-4">
         <div className="col-span-1">
           <div className="w-full border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t hover:from-blue-300 hover:to-blue-100  hover:shadow-lg from-gray-300 to-gray-200 pb-20">
-            <Image src={imagePathFinder.jamel_hein} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
+            <Image loading="lazy" src={imagePathFinder.jamel_hein} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
             <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
             JAMEL HEIN
           </p>

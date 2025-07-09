@@ -26,7 +26,7 @@ export default function Contact() {
                         </p>
                     </div>
                     <div className="lg:col-span-2 col-span-12">
-                        <Image src={imagePathFinder.we_accept_recruitment} alt="Salary Guide" />
+                        <Image loading="lazy" src={imagePathFinder.we_accept_recruitment} alt="Salary Guide" />
                     </div>
                 </div>
             </section>
@@ -44,13 +44,13 @@ export default function Contact() {
 
                     <div className="grid grid-cols-4 gap-4 w-full mb-10 ">
                         <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
-                            <Image src={imagePathFinder.contact_telephone} alt="Describe your Need" className="w-20 mb-4" />
+                            <Image loading="lazy" src={imagePathFinder.contact_telephone} alt="Describe your Need" className="w-20 mb-4" />
                             <p className="font-semibold text  text-gray-600 text-left">
                                 Phone: <br /> 819-919-8693
                             </p>
                         </div>
                         <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
-                            <Image src={imagePathFinder.contact_couriel} alt="Describe your Need" className="w-20 mb-4" />
+                            <Image loading="lazy" src={imagePathFinder.contact_couriel} alt="Describe your Need" className="w-20 mb-4" />
                             <p className=" font-semibold text mb-3  text-gray-600 text-left">
                                 Courriel
                             </p>
@@ -59,7 +59,7 @@ export default function Contact() {
                             </p>
                         </div>
                         <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
-                            <Image src={imagePathFinder.contact_adresse} alt="Describe your Need" className="w-20 mb-4" />
+                            <Image loading="lazy" src={imagePathFinder.contact_adresse} alt="Describe your Need" className="w-20 mb-4" />
                             <p className=" font-semibold text mb-3   text-gray-600 text-left">
                                 Adresse
                             </p>
@@ -68,7 +68,7 @@ export default function Contact() {
                             </p>
                         </div>
                         <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
-                            <Image src={imagePathFinder.contact_langue} alt="Describe your Need" className="w-20 mb-4" />
+                            <Image loading="lazy" src={imagePathFinder.contact_langue} alt="Describe your Need" className="w-20 mb-4" />
                             <p className=" font-semibold text  mb-3  text-gray-600 text-left">
                                 Langues parlées
                             </p>

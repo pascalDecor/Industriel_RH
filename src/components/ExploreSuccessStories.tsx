@@ -30,7 +30,7 @@ export default function ExploreSuccessStories({ className }: Readonly<ExploreSuc
       <section className={`mx-auto w-lvw mb-10 p-10 bg-gray-200 ${className}`}>
         <div className="text-center  m-auto max-w-5xl p-10">
 
-          <Image src={imagePathFinder.logo_only} alt="Salary Guide" className="w-20 mx-auto mb-5" />
+          <Image loading="lazy" src={imagePathFinder.logo_only} alt="Salary Guide" className="w-20 mx-auto mb-5" />
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
             Explore success stories
           </h2>

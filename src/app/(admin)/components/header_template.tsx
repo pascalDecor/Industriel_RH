@@ -218,7 +218,7 @@ export function HeaderOld() {
 
                         <div className="inline-flex cm84d">
                             <button className="inline-flex justify-center items-center cqogy" aria-haspopup="true" >
-                                <Image className="rounded-full cue4z cmwfi" src={imagePathFinder.icons_location} width="32" height="32" alt="User" />
+                                <Image loading="lazy" className="rounded-full cue4z cmwfi" src={imagePathFinder.icons_location} width="32" height="32" alt="User" />
                                 <div className="flex items-center c941w">
                                     <span className="text-sm dark:text-gray-100 c8bkw c941w c1k3n c1ukq ccuo4 croon">Acme Inc.</span>
                                     <svg className="w-3 h-3 cpts2 coqgc cbm9w cdqku cmpw7" viewBox="0 0 12 12">

@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function SuccessSend() {
     return <div className="mx-auto mb-0 p-5 rounded-2xl bg-blue-200 text-center">
-        <Image src={imagePathFinder.check} alt="Successfully sent your request" className="mx-auto w-30 mb-3" />
+        <Image loading="lazy" src={imagePathFinder.check} alt="Successfully sent your request" className="mx-auto w-30 mb-3" />
         <h2 className="text-3xl font-semibold text mb-2 text-gray-800">
             Successfully sent your request!
         </h2>

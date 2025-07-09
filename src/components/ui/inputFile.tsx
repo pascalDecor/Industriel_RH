@@ -167,7 +167,7 @@ export default function FileUpload({
                             href={URL.createObjectURL(file)}
                             target="_blank"
                             rel="noopener noreferrer">
-                            <Image src={preview}
+                            <Image loading="lazy" src={preview}
                                 alt="Preview" width={100} height={100}
                                 className="mt-2 w-32 h-28 object-cover rounded-lg shadow" />
                         </a>

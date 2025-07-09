@@ -123,7 +123,7 @@ export function UpdateImageSectorComponent({ section, onChange }: { section: Sec
                         }} />
                     {
                         (inputRef.current && inputRef.current.files && inputRef.current.files[0]) &&
-                        <Image src={temp} alt={section.libelle} width={400} height={400} className="w-full mt-5 rounded-lg" />
+                        <Image loading="lazy" src={temp} alt={section.libelle} width={400} height={400} className="w-full mt-5 rounded-lg" />
                     }
                 </div>
                 <Button isLoading={loading} className="w-full mt-5">Mettre à jour</Button>

@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
       }
     ]
   },
+  experimental: {
+    optimizeCss: true
+  },
+  reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true
   }

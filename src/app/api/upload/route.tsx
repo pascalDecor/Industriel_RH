@@ -1,29 +1,45 @@
+import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY! // ou SUPABASE_ANON_KEY si le bucket est public
+);
 
 export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get('image') as File;
+  
 
-  if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 });
+  if (!file) {
+    return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+  }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
   const filename = `${Date.now()}-${file.name.replace(/\s/g, '-')}`;
-  const uploadDir = path.join(process.cwd(), 'public/uploads');
-  await mkdir(uploadDir, { recursive: true });
-  const filePath = path.join(uploadDir, filename);
 
-  await writeFile(filePath, buffer);
+  const path = `public/${filename}`;
 
-  const host = req.headers.get('host');
-  const protocol = req.headers.get('x-forwarded-proto') ?? 'http';
-  const baseUrl = `${protocol}://${host}`;
+  // Upload vers Supabase Storage
+  const { data, error } = await supabase.storage
+    .from(process.env.SUPABASE_BUCKET_NAME!) // Remplace par le nom de ton bucket
+    .upload(path , file, {
+      contentType: file.type,
+      cacheControl: '3600',
+      upsert: false,
+    });
 
-  const fileUrl = `${baseUrl}/uploads/${filename}`;
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  const { data: publicUrlData } = supabase.storage
+    .from('my-bucket')
+    .getPublicUrl(`uploads/${filename}`);
 
   return NextResponse.json({
     success: 1,
-    file: { url: fileUrl },
+    file: {
+      url: publicUrlData.publicUrl,
+    },
   });
 }

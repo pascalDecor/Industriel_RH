@@ -90,7 +90,7 @@ export default function FindJobs() {
             <section className="mx-auto max-w-5xl mb-10 p-10">
                 <div className="grid grid-cols-4 items-center justify-center gap-25 w-full">
                     <div className="lg:col-span-2 col-span-12">
-                        <Image src={imagePathFinder.hire_talent_how_it_work} alt="Salary Guide" />
+                        <Image loading="lazy" src={imagePathFinder.hire_talent_how_it_work} alt="Salary Guide" />
                     </div>
                     <div className="lg:col-span-2 col-span-12">
                         <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
@@ -144,7 +144,7 @@ export default function FindJobs() {
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-4 text-left">
                 <div className="col-span-3">
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_1} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_1} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 {"6 Tips to Ease Hiring in Canada's Tight Labour Market"}
@@ -155,7 +155,7 @@ export default function FindJobs() {
                         </div>
                     </div>
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_2} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_2} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 {"Starting a New Job? Don't Make These 5 Mistakes"}
@@ -187,7 +187,7 @@ export default function FindJobs() {
                         </p>
                     </div>
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_3} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_3} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 Benefits of Using a Recruitment Agency in Canada to Hire Talent in 2025
@@ -200,7 +200,7 @@ export default function FindJobs() {
                 </div>
                 <div className="col-span-3">
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_4} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_4} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 December 2024 Labour Force Survey: Canadian Employment Rises b...
@@ -211,7 +211,7 @@ export default function FindJobs() {
                         </div>
                     </div>
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_5} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_5} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 {"Why More Canadians Should Be Setting Career New Year's Resolutions"}
@@ -243,7 +243,7 @@ export default function FindJobs() {
                         </p>
                     </div>
                     <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image src={imagePathFinder.card_image_6} alt="  We Source the Talent" className="mx-auto" />
+                        <Image loading="lazy" src={imagePathFinder.card_image_6} alt="  We Source the Talent" className="mx-auto" />
                         <div className="p-5">
                             <p className="text-sm font-regular text-blue-900 font-bold mb-5">
                                 New Year, New Career: 7 Canada-Centric Job Search Tips for 2025
@@ -433,13 +433,13 @@ export default function FindJobs() {
                     </Button>
                 </div>
                 <div className="lg:col-span-2 col-span-12">
-                    <Image src={imagePathFinder.recruitment_by_outsourcing} alt="Salary Guide" />
+                    <Image loading="lazy" src={imagePathFinder.recruitment_by_outsourcing} alt="Salary Guide" />
                 </div>
             </div>
 
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-3 gap-4 text-left">
                 <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white">
-                    <Image src={imagePathFinder.find_top_talent_faster} className="!w-10 mb-5" alt="Salary Guide" />
+                    <Image loading="lazy" src={imagePathFinder.find_top_talent_faster} className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         Find top talent faster
                     </p>
@@ -448,7 +448,7 @@ export default function FindJobs() {
                     </p>
                 </div>
                 <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white">
-                    <Image src={imagePathFinder.hire_with_precision_confidence} className="!w-10 mb-5" alt="Salary Guide" />
+                    <Image loading="lazy" src={imagePathFinder.hire_with_precision_confidence} className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         Hire with precision & confidence
                     </p>
@@ -457,7 +457,7 @@ export default function FindJobs() {
                     </p>
                 </div>
                 <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white">
-                    <Image src={imagePathFinder.secure_the_right_fit_for_your_team} className="!w-10 mb-5" alt="Salary Guide" />
+                    <Image loading="lazy" src={imagePathFinder.secure_the_right_fit_for_your_team} className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         Secure the right fit for your team
                     </p>
@@ -603,7 +603,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                     </Button>
                 </div>
                 <div className="lg:col-span-2 col-span-12">
-                    <Image src={imagePathFinder.international_recruitment} alt="Salary Guide" />
+                    <Image loading="lazy" src={imagePathFinder.international_recruitment} alt="Salary Guide" />
                 </div>
             </div>
 
@@ -613,7 +613,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
 
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-3 gap-4 text-center">
                 <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white hover:shadow-lg">
-                    <Image src={imagePathFinder.international_recruitment_icon} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
+                    <Image loading="lazy" src={imagePathFinder.international_recruitment_icon} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         International recruitment
                     </p>
@@ -622,7 +622,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                     </p>
                 </div>
                 <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white hover:shadow-lg">
-                    <Image src={imagePathFinder.legal_services} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
+                    <Image loading="lazy" src={imagePathFinder.legal_services} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         Legal services
                     </p>
@@ -631,7 +631,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                     </p>
                 </div>
                 <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white hover:shadow-lg">
-                    <Image src={imagePathFinder.welcome_and_integration} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
+                    <Image loading="lazy" src={imagePathFinder.welcome_and_integration} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         Welcome and integration
                     </p>
@@ -648,7 +648,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
             <div className="mx-auto max-w-5xl  p-10">
                 <div className="grid grid-cols-4 items-start justify-center gap-20 w-full">
                     <div className="lg:col-span-2 col-span-12">
-                        <Image src={imagePathFinder.structured_approach} className="!w-full" alt="Salary Guide" />
+                        <Image loading="lazy" src={imagePathFinder.structured_approach} className="!w-full" alt="Salary Guide" />
                     </div>
                     <div className="lg:col-span-2 col-span-12">
                         <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
@@ -726,7 +726,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                                 bringing fresh perspectives and expertise.
                             </p>
                         </div>
-                        <Image className="w-1/3 rounded-lg" src={imagePathFinder.access_to_diverse_talent} alt="Navigate tech skills gaps" />
+                        <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.access_to_diverse_talent} alt="Navigate tech skills gaps" />
                     </div>
                 </div>
 
@@ -742,7 +742,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                                 Meet your workforce needs in high- demand sectors where local talent is scarce.
                             </p>
                         </div>
-                        <Image className="w-1/3 rounded-lg" src={imagePathFinder.fill_critical_skill_gaps} alt="Robert Half blog" />
+                        <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.fill_critical_skill_gaps} alt="Robert Half blog" />
                     </div>
                 </div>
 
@@ -758,7 +758,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                                 Strengthen your business with globally experienced candidates who elevate your operations and innovation.
                             </p>
                         </div>
-                        <Image className="w-1/3 rounded-lg" src={imagePathFinder.boost_competitiveness} alt="Salary Guide" />
+                        <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.boost_competitiveness} alt="Salary Guide" />
                     </div>
                 </div>
                 <div className="bg-[url(/images/card_fond.png)] 
@@ -773,7 +773,7 @@ partners allow us to offer you 360- degree support in order to quickly welcome y
                                 Benefit from a fully managed recruitment process, from sourcing to integration, ensuring a seamless experience.
                             </p>
                         </div>
-                        <Image className="w-1/3 rounded-lg" src={imagePathFinder.streamlined_processes} alt="What jobs are in demand?" />
+                        <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.streamlined_processes} alt="What jobs are in demand?" />
                     </div>
                 </div>
             </div>

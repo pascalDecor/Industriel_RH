@@ -73,7 +73,7 @@ export default function ItemHires({ hire, onChange, onActive }: ItemHiresProps) 
         <Card className="p-5 border-none mb-3 shadow-none flex flex-row justify-between items-start cursor-pointer" key={hire.id} onClick={() => onActive && onActive(hire)}>
             <div>
                 <div className="flex items-center space-x-4 mb-4">
-                    <Image src={imagePathFinder.hire} alt={hire.lastName + " " + hire.firstName} width={50} height={50} className="rounded-full bg-blue-200" />
+                    <Image loading="lazy" src={imagePathFinder.hire} alt={hire.lastName + " " + hire.firstName} width={50} height={50} className="rounded-full bg-blue-200" />
                     <div>
                         <div className="flex items-center space-x-2">
                             <p className="mb-0.5 text-slate-700 font-semibold py-0 text-sm">
