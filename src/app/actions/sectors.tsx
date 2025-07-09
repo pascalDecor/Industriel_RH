@@ -1,7 +1,7 @@
 "use client";
 
+import { Sector } from "@/models/sector";
 import { HttpService } from "@/utils/http.services";
-import { Sector } from "@prisma/client";
 import { z } from "zod";
 
 // Definitions

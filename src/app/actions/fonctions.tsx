@@ -1,7 +1,6 @@
 "use client";
 
 import { HttpService } from "@/utils/http.services";
-import { Function } from "@prisma/client";
 import { z } from "zod";
 
 // Definitions

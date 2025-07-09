@@ -1,7 +1,7 @@
 "use client";
 
+import { Notice } from "@/models/notice";
 import { HttpService } from "@/utils/http.services";
-import { Notice } from "@prisma/client";
 import { z } from "zod";
 
 // Definitions
