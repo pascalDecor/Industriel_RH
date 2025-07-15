@@ -18,6 +18,13 @@ const nextConfig: NextConfig = {
         // port: "443", // if you're using self-signed certificates
         pathname: "/**",
         search: ""
+      },
+      {
+        protocol: "https",
+        hostname: "fstfsffzkgjggvtdhvwu.supabase.co",
+        // port: "443", // if you're using self-signed certificates
+        pathname: "/**",
+        search: ""
       }
     ]
   },
