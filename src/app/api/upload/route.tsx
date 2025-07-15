@@ -40,7 +40,7 @@ export async function POST(req: Request) {
   }
 
   const { data: publicUrlData } = supabase.storage
-    .from('my-bucket')
+    .from('vercel')
     .getPublicUrl(`uploads/${safeName}`);
 
   return NextResponse.json({
