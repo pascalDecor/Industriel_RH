@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // ou SUPABASE_ANON_KEY si le bucket est public
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
 const sanitizeFileName = (name: string) =>
@@ -17,7 +17,6 @@ export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get('image') as File;
 
-
   if (!file) {
     return NextResponse.json({ error: 'No file provided' }, { status: 400 });
   }
@@ -26,9 +25,11 @@ export async function POST(req: Request) {
   const safeName = sanitizeFileName(originalName);
   const path = `public/${Date.now()}-${safeName}`;
 
-  // Upload vers Supabase Storage
+  const bucket = process.env.SUPABASE_BUCKET_NAME!;
+
+  // Upload
   const { data, error } = await supabase.storage
-    .from(process.env.SUPABASE_BUCKET_NAME!) // Remplace par le nom de ton bucket
+    .from(bucket)
     .upload(path, file, {
       contentType: file.type,
       cacheControl: '3600',
@@ -39,9 +40,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  // Récupérer l'URL publique
   const { data: publicUrlData } = supabase.storage
-    .from('vercel')
-    .getPublicUrl(`uploads/${safeName}`);
+    .from(bucket)
+    .getPublicUrl(path);
 
   return NextResponse.json({
     success: 1,
