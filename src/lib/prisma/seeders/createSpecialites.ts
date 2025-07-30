@@ -1,9 +1,4 @@
-module.exports = async function createSpecialites(prisma: {
-  specialite: {
-    findFirst: (arg0: { where: { libelle: string } }) => any;
-    create: (arg0: { data: { libelle: string } }) => any;
-  };
-}) {
+module.exports = async function createSpecialites(prisma) {
   console.log("🔹 seed specialites…");
   const noms = [
     "Career Development",

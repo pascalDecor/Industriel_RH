@@ -5,7 +5,7 @@ import Button from '@/components/ui/button';
 import FloatingLabelInput from '@/components/ui/input';
 import InputError from '@/components/ui/inputError';
 import { LocalStorageHelper } from '@/utils/localStorage.helper';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react'
 
 export default function Login() {
@@ -16,6 +16,8 @@ export default function Login() {
     const [otp, setOTP] = useState('');
 
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams.get('redirect') || '/dashboard';
 
 
     useEffect(() => {
@@ -37,10 +39,13 @@ export default function Login() {
             LocalStorageHelper.removeKey("isLoggedIn");
             LocalStorageHelper.removeKey("email");
 
-            router.push('/dashboard');
-
+            // Attendre que les cookies soient propagés puis rediriger
+            console.log(`Connexion réussie, redirection vers ${redirectTo} dans 500ms...`);
+            setTimeout(() => {
+                router.push(redirectTo);
+            }, 500);
         }
-    }, [state, action, pending, stateOTP, actionOTP, pendingOTP]);
+    }, [state, action, pending, stateOTP, actionOTP, pendingOTP, router, email, redirectTo]);
 
 
     return (

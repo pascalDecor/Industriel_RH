@@ -15,11 +15,13 @@ import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { Section } from "@/models/section";
 import { SectionProps } from "@/models/props";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 
 
 
 export default function ConsultingSolutions() {
+  const { t } = useTranslation();
   const [sector, setSector] = useState<Sector | undefined>(undefined);
   const [section1, setSection1] = useState<Section | undefined>(undefined);
   const [section2, setSection2] = useState<Section | undefined>(undefined);
@@ -52,19 +54,19 @@ export default function ConsultingSolutions() {
   }
 
   const tabs = [
-    { id: "0", label: "I'm looking to hire" },
-    { id: "1", label: "I'm looking for a job" },
+    { id: "0", label: t('consulting.tabs.looking_to_hire') },
+    { id: "1", label: t('consulting.tabs.looking_for_job') },
   ];
 
   const tabsForm = [
-    { id: "0", label: "I'm looking to hire" },
-    { id: "1", label: "I'm looking for a job" },
+    { id: "0", label: t('consulting.tabs.looking_to_hire') },
+    { id: "1", label: t('consulting.tabs.looking_for_job') },
   ];
 
   const tabsType = [
-    { id: "0", label: "Construction" },
-    { id: "1", label: "manufacturing" },
-    { id: "2", label: "Healthcare" },
+    { id: "0", label: t('sectors.construction') },
+    { id: "1", label: t('sectors.manufacturing') },
+    { id: "2", label: t('sectors.healthcare') },
   ];
 
   const [activeTab, setActiveTab] = useState("0");
@@ -108,74 +110,70 @@ export default function ConsultingSolutions() {
         {activeTab === "0" ?
           <div>
             <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-              {"Ready to hire? We're ready to help"}
+              {t('consulting.ready_to_hire.title')}
             </h2>
 
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-2 gap-10 text-left">
               <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
-                  Outsourced Recruitment
+                  {t('hire_talent.solutions.outsourced.title')}
                 </p>
                 <p className="text-sm font-regular text-gray-500 ">
-                  Entract us with the management of your short or long term workforse needs.
-                  Access qualified professionals ready to Join your teams quickly while you
-                  focus on your strategic priorities.
+                  {t('hire_talent.solutions.outsourced.description')}
                 </p>
                 <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm">
-                  Learn more
+                  {t('button.learn_more')}
                 </Button>
               </div>
               <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
-                  International Recruitment
+                  {t('hire_talent.solutions.international.title')}
                 </p>
                 <p className="text-sm font-regular text-gray-500 ">
-                  Find exceptional french talent worldwide to meet your specific needs.
-                  Our experts support you at every step, from pre selecting candidates to their seamless integration in Canada.
+                  {t('hire_talent.solutions.international.description')}
                 </p>
                 <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#international_recruitment")} className="mt-5 !rounded-full text-sm">
-                  Learn more
+                  {t('button.learn_more')}
                 </Button>
               </div>
               <div className="col-span-2 text-center">
                 <Button variant="dark" size="md" onClick={() => router.push("/contact")} className="mt-5 mx-auto text-center !rounded-full text-sm">
-                  Contact US
+                  {t('nav.contact')}
                 </Button>
               </div>
             </div>
           </div> :
           <div>
             <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-              {"How we help you find a job"}
+              {t('find_jobs.how_help.title')}
             </h2>
 
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-2 gap-10 text-left">
               <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
-                  Upload your resume
+                  {t('find_jobs.upload_resume.title')}
                 </p>
                 <p className="text-sm font-regular text-gray-500 ">
-                  Add your latest resume to match with open positions.
+                  {t('find_jobs.upload_resume.description')}
                 </p>
                 <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
-                  Upload resume
+                  {t('find_jobs.upload_resume.button')}
                 </Button>
               </div>
               <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
-                  Search available jobs
+                  {t('find_jobs.search_jobs.title')}
                 </p>
                 <p className="text-sm font-regular text-gray-500 ">
-                  Choose from hundreds of jobs (with new ones posted daily)
-
+                  {t('find_jobs.search_jobs.description')}
                 </p>
                 <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
-                  Search
+                  {t('find_jobs.search_jobs.button')}
                 </Button>
               </div>
               <div className="col-span-2 text-center">
                 <Button variant="dark" size="md" onClick={handleClick} className="mt-5 mx-auto text-center !rounded-full text-sm">
-                  Contact US
+                  {t('nav.contact')}
                 </Button>
               </div>
             </div>
@@ -184,10 +182,10 @@ export default function ConsultingSolutions() {
 
         <section className="mx-auto w-5xl mb-10 p-10">
           <div className="w-full bg-blue-900  bg-[url(/images/bg_blue.png)] bg-cover bg-center py-15 px-20 rounded-4xl border">
-            <div className="grid grid-cols-6 w-full ">
+            <div className="grid grid-cols-6 w-full text-white">
               <div className="col-span-3">
                 <p className="text-sm font-bold text text-start mb-4">
-                  Trending job titles
+                  {t('specialized_talent.trending_jobs')}
                 </p>
                 <div className="grid grid-cols-4 mb-4">
                   {sector && sector?.functions.map((f) =>
@@ -199,7 +197,7 @@ export default function ConsultingSolutions() {
                   )}
                 </div>
                 <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-5  mt-10">
-                  And many more!
+                  {t('consulting.and_many_more')}
                   <div className="bg-blue-700 p-1 rounded-full ml-3">
                     <FiArrowRight className="text-white" />
                   </div>
@@ -220,7 +218,7 @@ export default function ConsultingSolutions() {
             <div className="grid grid-cols-6 w-full ">
               <div className="col-span-3">
                 <p className="text-sm font-bold text text-start mb-4">
-                  Trending job titles
+                  {t('specialized_talent.trending_jobs')}
                 </p>
                 <div className="grid grid-cols-4 mb-4">
                   <div className="col-span-2">
@@ -245,7 +243,7 @@ export default function ConsultingSolutions() {
                   </div>
                 </div>
                 <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-5  mt-10">
-                  And many more!
+                  {t('consulting.and_many_more')}
                   <div className="bg-blue-700 p-1 rounded-full ml-3">
                     <FiArrowRight className="text-white" />
                   </div>
@@ -313,21 +311,21 @@ export default function ConsultingSolutions() {
         <div className="col-span-3">
           <div className=" bg-blue-900 text-white rounded-lg p-10 shadow-lg mb-4">
             <p className="text-sm font-regular font-bold mb-3">
-              FEATURED
+              {t('find_jobs.featured')}
             </p>
             <p className="text-sm font-regular ">
-              What jobs are in demand?
+              {t('find_jobs.what_jobs_demand')}
             </p>
           </div>
           <div className=" bg-black text-white rounded-lg p-10 shadow-lg mb-4">
             <p className="text-sm font-regular font-bold mb-3">
-              TAG RESULTS
+              {t('find_jobs.tag_results')}
             </p>
             <p className="text-sm font-regular mb-10">
-              Landing a job
+              {t('find_jobs.landing_job')}
             </p>
             <p className="text-sm font-regular">
-              64 posts
+              {t('find_jobs.posts_count', { count: '64' })}
             </p>
           </div>
           <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
@@ -369,21 +367,21 @@ export default function ConsultingSolutions() {
         <div className="col-span-3">
           <div className=" bg-blue-900 text-white rounded-lg p-10 shadow-lg mb-4">
             <p className="text-sm font-regular font-bold mb-3">
-              FEATURED
+              {t('find_jobs.featured')}
             </p>
             <p className="text-sm font-regular ">
-              What jobs are in demand?
+              {t('find_jobs.what_jobs_demand')}
             </p>
           </div>
           <div className=" bg-black text-white rounded-lg p-10 shadow-lg mb-4">
             <p className="text-sm font-regular font-bold mb-3">
-              TAG RESULTS
+              {t('find_jobs.tag_results')}
             </p>
             <p className="text-sm font-regular mb-10">
-              Landing a job
+              {t('find_jobs.landing_job')}
             </p>
             <p className="text-sm font-regular">
-              72 posts
+              {t('find_jobs.posts_count', { count: '72' })}
             </p>
           </div>
           <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
@@ -399,7 +397,7 @@ export default function ConsultingSolutions() {
         </div>
         <div className="col-span-12 flex justify-center items-center">
           <Button variant="primary" size="md" onClick={() => router.push("/discover-insights#refine_your_focus")} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
-            Subscribe to updates
+            {t('find_jobs.subscribe_updates')}
           </Button>
         </div>
       </div>
@@ -447,7 +445,7 @@ export default function ConsultingSolutions() {
     <section className="mx-auto w-lvw mb-10 p-10 ">
 
       <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-        Hiring trends & insights
+        {t('consulting.hiring_trends.title')}
       </h2>
 
 
@@ -457,10 +455,10 @@ export default function ConsultingSolutions() {
             <Image loading="lazy" src={imagePathFinder.be_salary_smart} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                Be salary smart
+                {t('consulting.hiring_trends.be_salary_smart')}
               </p>
               <p className="text-sm font-regular text-gray-500 ">
-                Get the data top companies use to attract and retain skilled talent. Start with our salary calculator.
+                {t('consulting.hiring_trends.be_salary_smart_desc')}
               </p>
             </div>
           </div>
@@ -472,10 +470,10 @@ export default function ConsultingSolutions() {
             <Image loading="lazy" src={imagePathFinder.career_development} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                Career development
+                {t('consulting.hiring_trends.career_development')}
               </p>
               <p className="text-sm font-regular text-gray-500 ">
-                Get up-to-date information on employment trends in your industry, including salaries, skills and changes to the labor market.
+                {t('consulting.hiring_trends.career_development_desc')}
               </p>
             </div>
           </div>
@@ -485,10 +483,10 @@ export default function ConsultingSolutions() {
             <Image loading="lazy" src={imagePathFinder.What_jobs_are_in_demand} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                What jobs are in demand?
+                {t('find_jobs.what_jobs_demand')}
               </p>
               <p className="text-sm font-regular text-gray-500 ">
-                Explore our Demand for Skilled Talent report to see what specializations employers need most.
+                {t('consulting.hiring_trends.what_jobs_demand_desc')}
               </p>
             </div>
           </div>
@@ -499,10 +497,10 @@ export default function ConsultingSolutions() {
             <Image loading="lazy" src={imagePathFinder.landing_a_job} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                Landing a job
+                {t('find_jobs.landing_job')}
               </p>
               <p className="text-sm font-regular text-gray-500 ">
-                Learn how to write a professional resume, prep for a job interview and make a lasting impression on hiring managers.
+                {t('consulting.hiring_trends.landing_job_desc')}
               </p>
             </div>
           </div>

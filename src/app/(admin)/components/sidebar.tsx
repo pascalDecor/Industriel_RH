@@ -143,12 +143,12 @@ const routes: Onglet[] = [
   //   href: "/messages",
   //   color: "text-blue-500",
   // },
-  // {
-  //   label: "Inbox",
-  //   leading: Inbox,
-  //   href: "/inbox",
-  //   color: "text-indigo-500",
-  // },
+  {
+    label: "Contacts",
+    leading: Inbox,
+    href: "/contacts",
+    color: "text-indigo-500",
+  },
   // {
   //   label: "Calendar",
   //   leading: Calendar,

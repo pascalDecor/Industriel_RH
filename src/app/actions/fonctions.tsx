@@ -35,19 +35,16 @@ export async function addFonction(state: FormState, formData: FormData) {
         }
     }
     else {
-        console.log("validatedFields.data", validatedFields.data);
         const payload = {
             url: `/fonctions/${validatedFields.data.id}`,
             data: validatedFields.data,
         };
-        console.log("payload", payload);
         const temp = await (
             validatedFields.data.id.length < 1 ?
                 HttpService.add<Function>(payload) :
                 HttpService.update<Function>(payload)).then((res) => {
-                    console.log(res);
                     return res;
                 })
-        return (temp as any).state;
+        return (temp as { state?: boolean }).state ?? false;
     }
 }

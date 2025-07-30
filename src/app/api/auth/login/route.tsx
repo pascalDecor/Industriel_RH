@@ -5,11 +5,30 @@ import { randomInt } from 'crypto';
 import prisma from '@/lib/connect_db';
 import { NextResponse } from 'next/server';
 import { sendMail } from '@/lib/mail';
+import { loginRateLimit, getRequestIdentifier, checkRateLimit } from '@/lib/rateLimit';
+import { logLoginFailed, logRateLimitExceeded, securityLogger, SecurityEventType, SecurityLevel } from '@/lib/securityLogger';
 
 export const POST = async (req: Request) => {
     try {
         if (req.method !== 'POST') {
             return NextResponse.json({ message: 'Méthode non autorisée' }, { status: 405 });
+        }
+
+        // Vérifier le rate limiting
+        const identifier = getRequestIdentifier(req);
+        const rateLimitCheck = checkRateLimit(loginRateLimit, identifier);
+        
+        if (!rateLimitCheck.success) {
+            logRateLimitExceeded(req, identifier);
+            return NextResponse.json(
+                { message: rateLimitCheck.error },
+                { 
+                    status: 429,
+                    headers: rateLimitCheck.resetTime ? {
+                        'Retry-After': Math.ceil((rateLimitCheck.resetTime - Date.now()) / 1000).toString()
+                    } : {}
+                }
+            );
         }
 
         const { email, password } = await req.json();
@@ -21,12 +40,16 @@ export const POST = async (req: Request) => {
 
         // Si l'utilisateur n'existe pas, renvoyer une erreur
         if (!user) {
+            loginRateLimit.recordAttempt(identifier, false);
+            logLoginFailed(req, email, "Utilisateur inexistant");
             return NextResponse.json({ message: 'Identifiants invalides' }, { status: 401 });
         }
 
         // Comparer le mot de passe en utilisant bcrypt
         const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
+            loginRateLimit.recordAttempt(identifier, false);
+            logLoginFailed(req, email, "Mot de passe incorrect");
             return NextResponse.json({ message: 'Identifiants invalides' }, { status: 401 });
         }
 
@@ -47,8 +70,21 @@ export const POST = async (req: Request) => {
             `Votre code de vérification est ${otp}. Il est valable 10 minutes.`
         );
 
+        // Enregistrer le succès de la première étape
+        loginRateLimit.recordAttempt(identifier, true);
+        
+        // Log du succès de la première étape
+        securityLogger.log(
+            SecurityEventType.LOGIN_SUCCESS,
+            SecurityLevel.INFO,
+            `Première étape de connexion réussie pour ${email}`,
+            req,
+            { userId: user.id, email, metadata: { step: 'credentials_validated', otp: otp } }
+        );
+        
         return NextResponse.json({ message: 'Code OTP envoyé par email' }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error }, { status: 500 });
+        console.error('Erreur lors de la connexion:', error);
+        return NextResponse.json({ message: 'Erreur interne du serveur' }, { status: 500 });
     }
 }

@@ -19,12 +19,14 @@ import FonctionsListe from "./functions/liste";
 import { SectorSections } from "./sections";
 
 interface Props {
-    params: Promise<{ id: string }>
+    params: {
+        id: string
+    }
 }
 
 
-export default async function Secteur({ params }: Props) {
-    const { id } = await params;
+export default function Secteur({ params }: Props) {
+    const { id } = params;
 
     const [loadingDelete, setLoadingDelete] = useState(false);
     const [changeCount, setchangeCount] = useState(0);
@@ -52,6 +54,7 @@ export default async function Secteur({ params }: Props) {
                 fromJson: (json: any) => Sector.fromJSON(json)
             });
         }}
+        callDataListen={changeCount}
         loadingComponent={<LoadingSpinner color="#0F766E" />}
         hasData={(data) => {
             const { data: sector } = data;
@@ -82,7 +85,7 @@ export default async function Secteur({ params }: Props) {
                         </div>
                         <div className="flex space-x-2">
 
-                            <Dialog>
+                            <Dialog open={open} onOpenChange={setOpen}>
                                 <DialogTrigger>
                                     <Button title="Modifier" variant="success" size="sm" className="!rounded-full text-[11px] h-8 w-8 !bg-green-200 !text-green-700 !p-2">
                                         <MdOutlineModeEditOutline className="h-5 w-5" />

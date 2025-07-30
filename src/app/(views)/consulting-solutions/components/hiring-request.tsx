@@ -18,10 +18,11 @@ import { Sector } from "@/models/sector";
 const EditorJSComponent = dynamic(() => import("@/components/ui/editorJS"), { ssr: false });
 import SuccessSend from "./successSend";
 import dynamic from "next/dynamic";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 
 export default function HiringRequest() {
-
+    const { t } = useTranslation();
     const [state, action, pending] = useActionState(addHire, undefined);
 
     const [hire, setHire] = useState(Hire.fromJSON({} as any));
@@ -41,14 +42,14 @@ export default function HiringRequest() {
 
     return <section className="mx-auto w-lvw mb-0 p-10 bg-gray-200 text-center">
         <h2 className="text-3xl font-semibold text my-10 text-gray-800">
-            Tell us what you need, we'll take care of the rest!
+            {t('hire_talent.contact.title')}
         </h2>
         {state === true ?
             <SuccessSend />
             :
             <div className="bg-blue-100 rounded-3xl p-10 border max-w-5xl mx-auto border-gray-300 shadow-lg mb-10">
                 <h2 className="text-xl font-medium text-center mb-10 text-gray-600">
-                    Submit your hiring Request
+                    {t('consulting.hiring_request.subtitle')}
                 </h2>
                 <form action={action} className="grid grid-cols-12 gap-4 w-full ">
                     <div className="col-span-12 text-left">
@@ -58,7 +59,7 @@ export default function HiringRequest() {
                             hasData={(data) =>
                                 <FloatingLabelSelect
                                     error={state?.errors && state?.errors.civilityId && state.errors.civilityId.join(', ')}
-                                    label="Civility"
+                                    label={t('form.civility')}
                                     name="civility"
                                     onChange={(e) => { setHire(hire.update({ civilityId: e.target.value })) }}
                                     options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
@@ -68,7 +69,7 @@ export default function HiringRequest() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="text"
-                            label="Name*"
+                            label={t('form.last_name') + '*'}
                             name="name"
                             value={hire.lastName}
                             error={state?.errors && state?.errors.lastName && state.errors.lastName.join(', ')}
@@ -78,7 +79,7 @@ export default function HiringRequest() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="text"
-                            label="First name*"
+                            label={t('form.first_name') + '*'}
                             name="firstName"
                             value={hire.firstName}
                             error={state?.errors && state?.errors.firstName && state.errors.firstName.join(', ')}
@@ -88,7 +89,7 @@ export default function HiringRequest() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="number"
-                            label="Phone*"
+                            label={t('form.phone') + '*'}
                             name="phone"
                             value={hire.phone}
                             error={state?.errors && state?.errors.phone && state.errors.phone.join(', ')}

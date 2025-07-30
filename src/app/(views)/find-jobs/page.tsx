@@ -11,8 +11,10 @@ import AppYourWayToNewJob from "@/components/AppYourWayToNewJob";
 import ExploreSuccessStories from "@/components/ExploreSuccessStories";
 import AddSpecializedTalentAcrossYourOrganization from "@/components/AddSpecializedTalentAcrossYourOrganization";
 import { redirect } from "next/navigation";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 export default function FindJobs() {
+    const { t } = useTranslation();
 
     function handleClick() {
         console.log("Clic !");
@@ -26,14 +28,14 @@ export default function FindJobs() {
             <div className="grid grid-cols-5 items-center gap-4 mt-10">
                 <div className="lg:col-span-3 col-span-12  pr-4">
                     <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-                        {"Find a job that works for you"}
+                        {t('find_jobs.hero.title')}
                     </h2>
                     <div className="flex gap-4 align-start items-start">
                         <div className="bg-blue-700 p-1 rounded-full">
                             <FiCheck className="text-white" />
                         </div>
                         <p className="text-gray-500 text-sm mb-5">
-                            {"Choose from hundreds of jobs"}
+                            {t('find_jobs.hero.feature1')}
                         </p>
                     </div>
                     <div className="flex gap-4 align-start items-start">
@@ -41,7 +43,7 @@ export default function FindJobs() {
                             <FiCheck className="text-white" />
                         </div>
                         <p className="text-gray-500 text-sm mb-5">
-                            Discover new and exclusive opportunities posted every day
+                            {t('find_jobs.hero.feature2')}
                         </p>
                     </div>
                     <div className="flex gap-4 align-start items-start">
@@ -49,11 +51,11 @@ export default function FindJobs() {
                             <FiCheck className="text-white" />
                         </div>
                         <p className="text-gray-500 text-sm mb-5">
-                            Let our recruiters help you find a job that is right for you
+                            {t('find_jobs.hero.feature3')}
                         </p>
                     </div>
                     <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-10 !rounded-full text-sm">
-                        Submit your CV
+                        {t('find_jobs.hero.submit_cv')}
                     </Button>
                 </div>
                 <div className="lg:col-span-2 col-span-12">
@@ -65,30 +67,30 @@ export default function FindJobs() {
         {/* How we help you find a job  */}
         <section className="mx-auto w-full mb-0 px-10 py-24 bg-gray-200">
             <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-                How we help you find a job
+                {t('find_jobs.how_help.title')}
             </h2>
 
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-2 gap-10 text-left">
                 <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
-                        Upload your resume
+                        {t('find_jobs.upload_resume.title')}
                     </p>
                     <p className="text-sm font-regular text-gray-500 ">
-                        Add your latest resume to match with open positions.
+                        {t('find_jobs.upload_resume.description')}
                     </p>
                     <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
-                        Upload resume
+                        {t('find_jobs.upload_resume.button')}
                     </Button>
                 </div>
                 <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
-                        Search available jobs
+                        {t('find_jobs.search_jobs.title')}
                     </p>
                     <p className="text-sm font-regular text-gray-500 ">
-                        Choose from hundreds of jobs (with new ones posted daily)
+                        {t('find_jobs.search_jobs.description')}
                     </p>
                     <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
-                        Search
+                        {t('find_jobs.search_jobs.button')}
                     </Button>
                 </div>
             </div>
@@ -98,7 +100,7 @@ export default function FindJobs() {
 
 
             <h2 className="text-3xl font-semibold text mb-10 mt-10 text-black text-center">
-                Grow, learn and prepare
+                {t('find_jobs.grow_learn.title')}
             </h2>
 
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-4 text-left">
@@ -129,18 +131,18 @@ export default function FindJobs() {
                 <div className="col-span-3">
                     <div className=" bg-blue-900 text-white rounded-lg p-10 shadow-lg mb-4">
                         <p className="text-sm font-regular font-bold mb-3">
-                            FEATURED
+                            {t('find_jobs.featured')}
                         </p>
                         <p className="text-sm font-regular ">
-                            What jobs are in demand?
+                            {t('find_jobs.what_jobs_demand')}
                         </p>
                     </div>
                     <div className=" bg-black text-white rounded-lg p-10 shadow-lg mb-4">
                         <p className="text-sm font-regular font-bold mb-3">
-                            TAG RESULTS
+                            {t('find_jobs.tag_results')}
                         </p>
                         <p className="text-sm font-regular mb-10">
-                            Landing a job
+                            {t('find_jobs.landing_job')}
                         </p>
                         <p className="text-sm font-regular">
                             64 posts
@@ -185,18 +187,18 @@ export default function FindJobs() {
                 <div className="col-span-3">
                     <div className=" bg-blue-900 text-white rounded-lg p-10 shadow-lg mb-4">
                         <p className="text-sm font-regular font-bold mb-3">
-                            FEATURED
+                            {t('find_jobs.featured')}
                         </p>
                         <p className="text-sm font-regular ">
-                            What jobs are in demand?
+                            {t('find_jobs.what_jobs_demand')}
                         </p>
                     </div>
                     <div className=" bg-black text-white rounded-lg p-10 shadow-lg mb-4">
                         <p className="text-sm font-regular font-bold mb-3">
-                            TAG RESULTS
+                            {t('find_jobs.tag_results')}
                         </p>
                         <p className="text-sm font-regular mb-10">
-                            Landing a job
+                            {t('find_jobs.landing_job')}
                         </p>
                         <p className="text-sm font-regular">
                             72 posts
@@ -215,7 +217,7 @@ export default function FindJobs() {
                 </div>
                 <div className="col-span-12 flex justify-center items-center">
                     <Button variant="primary" size="md" onClick={() => redirect("/discover-insights#refine_your_focus")} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
-                        Subscribe to updates
+                        {t('find_jobs.subscribe_updates')}
                     </Button>
                 </div>
             </div>
@@ -228,7 +230,7 @@ export default function FindJobs() {
                     <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                     <input
                         type="text"
-                        placeholder="Job Title, Skills, or Keywords"
+                        placeholder={t('find_jobs.search.job_placeholder')}
                         className="pl-10 pr-4 py-2 border border-gray-300 w-full
             bg-white text-gray-600 text-sm rounded-full 
             focus:outline-none focus:ring-2 focus:ring-blue-500"/>
@@ -238,7 +240,7 @@ export default function FindJobs() {
                     <TiLocationOutline className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                     <input
                         type="text"
-                        placeholder="City, Province, or Postal Code"
+                        placeholder={t('find_jobs.search.location_placeholder')}
                         className="pl-10 pr-4 py-2 border border-gray-300  w-full
             bg-white text-gray-600 text-sm rounded-full 
             focus:outline-none focus:ring-2 focus:ring-blue-500"/>
@@ -246,7 +248,7 @@ export default function FindJobs() {
 
                 <Button variant="dark"
                     size="md" onClick={handleClick} className="!rounded-full text-sm whitespace-nowrap col-span-4">
-                    Search Jobs
+                    {t('find_jobs.search.button')}
                 </Button>
             </div>
         </section>
@@ -256,11 +258,11 @@ export default function FindJobs() {
             <div className="w-full bg-cover bg-center bg-blue-900 p-10 rounded-4xl border">
 
                 <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
-                    Explore how we help job seekers
+                    {t('find_jobs.help_seekers.title')}
                 </h2>
 
 
-                <div className="grid grid-cols-6 w-full gap-10">
+                <div className="grid grid-cols-6 w-full gap-10 text-white">
                     <div className="col-span-3">
                         <div className="flex gap-4 mb-10">
                             <div>
@@ -272,20 +274,20 @@ export default function FindJobs() {
                             </div>
                             <div className="">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
-                                    Starting your job search at no cost
+                                    {t('find_jobs.step1.title')}
                                 </p>
                                 <p className="text-sm font-light text text-start">
-                                    Simply apply or upload your resume to gain access to in-demand jobs with competitive pay and benefits.
+                                    {t('find_jobs.step1.description')}
                                 </p>
                                 <div className="flex gap-4 mt-5">
                                     <Button variant="dark" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
-                                        Apply to jobs
+                                        {t('find_jobs.step1.apply_button')}
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
                                     <Button variant="light" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
-                                        Upload your resume
+                                        {t('find_jobs.step1.upload_button')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
                                         </div>
@@ -303,14 +305,14 @@ export default function FindJobs() {
                             </div>
                             <div className="">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
-                                    Making the match
+                                    {t('find_jobs.step2.title')}
                                 </p>
                                 <p className="text-sm font-light text text-start">
-                                    Job matches will be sent to your inbox and your phone.
+                                    {t('find_jobs.step2.description')}
                                 </p>
                                 <div className="flex gap-4 mt-5">
                                     <Button variant="light" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
-                                        Upload your resume
+                                        {t('find_jobs.step1.upload_button')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
                                         </div>
@@ -332,20 +334,20 @@ export default function FindJobs() {
                             </div>
                             <div className="">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
-                                    Helping you land the job
+                                    {t('find_jobs.step3.title')}
                                 </p>
                                 <p className="text-sm font-light text text-start">
-                                    {"We'll guide you through interviews, advocate for you with interested employers, and even negotiate salary on your behalf."}
+                                    {t('find_jobs.step3.description')}
                                 </p>
                                 <div className="flex gap-4 mt-5">
                                     <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
-                                        Get interview tips
+                                        {t('find_jobs.step3.interview_tips')}
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
                                     <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
-                                        Explore our salary guide
+                                        {t('find_jobs.step3.salary_guide')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
                                         </div>
@@ -363,14 +365,14 @@ export default function FindJobs() {
                             </div>
                             <div className="">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
-                                    Staying focused on your future
+                                    {t('find_jobs.step4.title')}
                                 </p>
                                 <p className="text-sm font-light text text-start">
-                                    As your career develops, our free online training and expertise will help you stay on top of your skills, keep your profile current, and offer insights along the way.
+                                    {t('find_jobs.step4.description')}
                                 </p>
                                 <div className="flex gap-4 mt-5">
                                     <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
-                                        Get career advice
+                                        {t('find_jobs.step4.career_advice')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
                                         </div>
@@ -388,35 +390,33 @@ export default function FindJobs() {
                             </div>
                             <div className="">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
-                                    Supporting you throughout your career
+                                    {t('find_jobs.step5.title')}
                                 </p>
                                 <p className="text-sm font-light text text-start mb-4">
-                                    We go beyond just landing the job.
-                                    Industrielle RH is here to support you throughout your employment journey:
+                                    {t('find_jobs.step5.description')}
                                 </p>
                                 <p className="text-sm font-light text text-start mb-4">
-                                    <strong className="font-semibold">Upskill with free training: </strong>   <br />
-                                    Access professional development
-                                    opportunities to grow and adapt in your role.
+                                    <strong className="font-semibold">{t('find_jobs.step5.upskill_title')} </strong>   <br />
+                                    {t('find_jobs.step5.upskill_desc')}
                                 </p>
                                 <p className="text-sm font-light text text-start mb-4">
-                                    <strong className="font-semibold">Legal assistance at your side: </strong>   <br />
-                                    Get support to understand your rights and navigate any challenges with confidence.
+                                    <strong className="font-semibold">{t('find_jobs.step5.legal_title')} </strong>   <br />
+                                    {t('find_jobs.step5.legal_desc')}
                                 </p>
                                 <p className="text-sm font-light text text-start mb-4">
-                                    <strong className="font-semibold">Continuous career advice: </strong>   <br />
-                                    your profile to achieve long-term success.
+                                    <strong className="font-semibold">{t('find_jobs.step5.career_advice_title')} </strong>   <br />
+                                    {t('find_jobs.step5.career_advice_desc')}
                                 </p>
 
                                 <div className="mt-10">
                                     <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 mb-4">
-                                        Explore our training programs
+                                        {t('find_jobs.step5.training_button')}
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
                                     <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
-                                        Learn about our legal support
+                                        {t('find_jobs.step5.legal_button')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
                                         </div>

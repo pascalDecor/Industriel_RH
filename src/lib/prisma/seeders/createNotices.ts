@@ -1,11 +1,4 @@
-module.exports = async function createNotices(prisma: {
-  notice: {
-    findFirst: (arg0: { where: { author: string } }) => any;
-    create: (arg0: {
-      data: { content: string; author: string; stars: number };
-    }) => any;
-  };
-}) {
+module.exports = async function createNotices(prisma) {
   console.log("🔹 seed notices...");
   const notices = [
     {

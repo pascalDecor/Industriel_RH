@@ -22,7 +22,6 @@ export const PUT = async (req: Request, context: { params: Promise<{ id: string 
     try {
 
         const { id } = await context.params;
-        console.log("params", id);
         const data = await req.json();
         const updated = await prisma.notice.update({
             where: { id: id },

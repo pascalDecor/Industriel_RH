@@ -38,7 +38,6 @@ export async function addNotice(state: FormState, formData: FormData) {
         }
     }
     else {
-        console.log("validatedFields.data", validatedFields.data);
         const payload = {
             url: `/notices/${validatedFields.data.id}`,
             data: validatedFields.data,
@@ -49,6 +48,6 @@ export async function addNotice(state: FormState, formData: FormData) {
                 HttpService.update<Notice>(payload)).then((res) => {
                     return res;
                 })
-        return (temp as any).state;
+        return (temp as { state?: boolean }).state ?? false;
     }
 }

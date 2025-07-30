@@ -40,7 +40,7 @@ export async function useLogin({
       description: error.message,
       duration: 5000
     });
-    LocalStorageHelper.removeKey("user");
+    // Nettoyage géré par le middleware et les cookies
     console.log(error);
     return false;
   }
@@ -64,10 +64,8 @@ export async function useLoginOTP({
         duration: 3000
       });
       console.log(response);
-      LocalStorageHelper.setValue(
-        "user",
-        JSON.stringify(response.data.user)
-      );
+      // Les données utilisateur sont maintenant gérées via cookies sécurisés
+      // Plus besoin de localStorage pour les données sensibles
       return true;
     } else {
       toast.error(response.data.message, {
@@ -82,7 +80,7 @@ export async function useLoginOTP({
       description: error.message,
       duration: 5000
     });
-    LocalStorageHelper.removeKey("user");
+    // Nettoyage géré par le middleware et les cookies
     console.log(error);
     return false;
   }
@@ -96,7 +94,7 @@ export async function useLogout(): Promise<any> {
         className: successToastClassName,
         duration: 3000
       });
-      LocalStorageHelper.removeKey("user");
+      // Nettoyage géré par le middleware et les cookies
       return true;
     }
     toast.error(response.data.message, {

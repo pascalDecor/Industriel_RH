@@ -5,9 +5,11 @@ import { imagePathFinder } from "@/utils/imagePathFinder";
 import { FiCheck } from "react-icons/fi";
 import Button from "./ui/button";
 import Image from 'next/image'
+import { useTranslation } from "@/contexts/LanguageContext";
 
 
 export default function AppYourWayToNewJob() {
+    const { t } = useTranslation();
 
     function handleClick() {
         console.log("Clic !");
@@ -21,14 +23,14 @@ export default function AppYourWayToNewJob() {
                 <div className="flex items-center gap-4">
                     <div className="w-3/5 pr-4">
                         <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-                            App your way to a new job
+                            {t('mobile_app.title')}
                         </h2>
                         <div className="flex gap-4 align-start items-start">
                             <div className="bg-blue-700 p-1 rounded-full">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
-                                Get instantly notified of job matches
+                                {t('mobile_app.feature1')}
                             </p>
                         </div>
                         <div className="flex gap-4 align-start items-start">
@@ -36,7 +38,7 @@ export default function AppYourWayToNewJob() {
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
-                                Filter searches by skills and preferences
+                                {t('mobile_app.feature2')}
                             </p>
                         </div>
                         <div className="flex gap-4 align-start items-start">
@@ -44,7 +46,7 @@ export default function AppYourWayToNewJob() {
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
-                                Apply in a tap and much more
+                                {t('mobile_app.feature3')}
                             </p>
                         </div>
 
@@ -53,8 +55,8 @@ export default function AppYourWayToNewJob() {
                                 <div className="flex gap-4 items-center">
                                     <Image loading="lazy" src={imagePathFinder.apple} alt="Describe your Need" className="w-6 my-auto" />
                                     <div>
-                                        <p className="text-[11px] font-light -mb-1">Download on the</p>
-                                        <p className="text-white">App Store</p>
+                                        <p className="text-[11px] font-light -mb-1">{t('mobile_app.download_on')}</p>
+                                        <p className="text-white">{t('mobile_app.app_store')}</p>
                                     </div>
                                 </div>
                             </Button>
@@ -62,8 +64,8 @@ export default function AppYourWayToNewJob() {
                                 <div className="flex gap-4 items-center">
                                     <Image loading="lazy" src={imagePathFinder.google_play} alt="Describe your Need" className="w-6 my-auto" />
                                     <div>
-                                        <p className="text-[11px] font-light -mb-1">Download on the</p>
-                                        <p className="text-white">Google Play</p>
+                                        <p className="text-[11px] font-light -mb-1">{t('mobile_app.download_on')}</p>
+                                        <p className="text-white">{t('mobile_app.google_play')}</p>
                                     </div>
                                 </div>
                             </Button>

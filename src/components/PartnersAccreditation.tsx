@@ -1,10 +1,11 @@
 "use client";
 
 import { imagePathFinder } from "@/utils/imagePathFinder";
-
+import { useTranslation } from "@/contexts/LanguageContext";
 import Image from 'next/image'
 
 export default function PartnersAccreditation() {
+    const { t } = useTranslation();
 
     return (
         <>
@@ -13,7 +14,7 @@ export default function PartnersAccreditation() {
                 <div className="w-full bg-[url(/images/partners_accreditation.png)] bg-cover bg-center bg-blue-900 p-10 rounded-4xl border">
 
                     <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
-                        Partners & Accreditation
+                        {t('partners.title')}
                     </h2>
 
                     <div className="grid grid-cols-5 gap-4 w-full mb-10 ">

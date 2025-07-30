@@ -43,7 +43,14 @@ model Article {
   tags        Tag[]
   specialites Specialite[]
 
+  // Index optimisés pour les requêtes fréquentes
   @@index([authorId])
+  @@index([createdAt])
+  @@index([published])
+  @@index([titre])
+  @@index([views])
+  @@index([published, createdAt])
+  @@index([authorId, published])
 }
 
 model Tag {
@@ -53,6 +60,9 @@ model Tag {
   libelle   String
   // Relations
   articles  Article[]
+
+  @@index([libelle])
+  @@index([createdAt])
 }
 
 model Specialite {
@@ -62,6 +72,9 @@ model Specialite {
   libelle   String
   // Relations
   articles  Article[]
+
+  @@index([libelle])
+  @@index([createdAt])
 }
 
 model Function {
@@ -204,4 +217,120 @@ model Hire {
   sectors Sector[]
 
   @@index([civilityId])
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  firstName   String  
+  lastName    String   
+  companyName String?  
+  jobTitle    String?  
+  workEmail   String   
+  workPhone   String   
+  postalCode  String?  
+  message     String   @db.Text
+  status      String   @default("pending") // pending, contacted, resolved
+  priority    String   @default("normal") // low, normal, high, urgent
+  
+  @@index([status])
+  @@index([createdAt])
+  @@index([workEmail])
+}
+
+model JobSearch {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  jobTitle    String   @db.VarChar(200)
+  location    String   @db.VarChar(200)
+  email       String?  @db.VarChar(320)
+  phone       String?  @db.VarChar(20)
+  experience  String?  @db.VarChar(50)
+  keywords    String[] @default([])
+  salary      String?  @db.VarChar(50)
+  jobType     String?  @db.VarChar(50) // full-time, part-time, contract, remote
+  
+  @@index([jobTitle])
+  @@index([location])
+  @@index([createdAt])
+}
+
+model SalaryCalculation {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  jobTitle    String   @db.VarChar(200)
+  industry    String   @db.VarChar(100)
+  location    String   @db.VarChar(200)
+  experience  Int      @db.SmallInt
+  education   String?  @db.VarChar(100)
+  skills      String[] @default([])
+  company     String?  @db.VarChar(200)
+  salaryRange String   @db.VarChar(100)
+  email       String?  @db.VarChar(320)
+  
+  @@index([jobTitle])
+  @@index([industry])
+  @@index([location])
+  @@index([createdAt])
+}
+
+model TaxCalculation {
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  annualIncome     Decimal  @db.Decimal(12, 2)
+  province         String   @db.VarChar(50)
+  filingStatus     String   @db.VarChar(50)
+  federalTax       Decimal  @db.Decimal(12, 2)
+  provincialTax    Decimal  @db.Decimal(12, 2)
+  totalTax         Decimal  @db.Decimal(12, 2)
+  netIncome        Decimal  @db.Decimal(12, 2)
+  effectiveRate    Decimal  @db.Decimal(5, 2)
+  marginalRate     Decimal  @db.Decimal(5, 2)
+  email            String?  @db.VarChar(320)
+  
+  @@index([province])
+  @@index([annualIncome])
+  @@index([createdAt])
+}
+
+model MortgageCalculation {
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  homePrice        Decimal  @db.Decimal(12, 2)
+  downPayment      Decimal  @db.Decimal(12, 2)
+  interestRate     Decimal  @db.Decimal(5, 4)
+  loanTerm         Int      @db.SmallInt
+  propertyTax      Decimal? @db.Decimal(12, 2)
+  insurance        Decimal? @db.Decimal(12, 2)
+  monthlyPayment   Decimal  @db.Decimal(12, 2)
+  totalInterest    Decimal  @db.Decimal(12, 2)
+  totalPayment     Decimal  @db.Decimal(12, 2)
+  email            String?  @db.VarChar(320)
+  
+  @@index([homePrice])
+  @@index([createdAt])
+}
+
+model CNESSTValidation {
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  companyName   String   @db.VarChar(200)
+  companyNumber String?  @db.VarChar(50)
+  email         String   @db.VarChar(320)
+  phone         String?  @db.VarChar(20)
+  documentPath  String   @db.VarChar(500)
+  documentType  String   @db.VarChar(100)
+  validationResult Json?  @default("{}")
+  status        String   @default("pending") // pending, validated, rejected
+  notes         String?  @db.Text
+  
+  @@index([companyName])
+  @@index([status])
+  @@index([createdAt])
 }

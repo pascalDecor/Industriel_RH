@@ -11,8 +11,12 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import SalaryGuide from "./components/SalaryGuide";
+import { useTranslation } from "@/contexts/LanguageContext";
+import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 
 export default function QuebecTaxCalculator() {
+  const { t } = useTranslation();
+  const { translateFunction } = useDynamicTranslation();
   const [sector, setSector] = useState<Sector | undefined>(undefined);
   const [section2, setSection2] = useState<Section | undefined>(undefined);
 
@@ -44,10 +48,10 @@ export default function QuebecTaxCalculator() {
         <div className="lg:col-span-3 col-span-12  pr-4">
           <Image loading="lazy" src={imagePathFinder.salaryIQ} className="h-8 w-auto" alt="Salary Net" />
           <h2 className="text-3xl font-semibold text mb-5 text-gray-800">
-            {"Discover Your Value"}
+            {t('salary_guide.hero.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
-            {`AI-powered salary insights to help you negotiate with confidence and make informed career decisions.`}
+            {t('salary_guide.hero.description')}
           </p>
         </div>
         <div className="lg:col-span-2 col-span-12">
@@ -66,36 +70,35 @@ export default function QuebecTaxCalculator() {
     <section>
       <div>
         <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-          {"How we help you find a job"}
+          {t('find_jobs.how_help.title')}
         </h2>
 
         <div className="max-w-5xl mb-10 mx-auto grid grid-cols-2 gap-10 text-left">
           <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
             <p className="text-sm font-regular text-gray-500 font-bold mb-3">
-              Upload your resume
+              {t('find_jobs.upload_resume.title')}
             </p>
             <p className="text-sm font-regular text-gray-500 ">
-              Add your latest resume to match with open positions.
+              {t('find_jobs.upload_resume.description')}
             </p>
             <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
-              Upload resume
+              {t('find_jobs.upload_resume.button')}
             </Button>
           </div>
           <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
             <p className="text-sm font-regular text-gray-500 font-bold mb-3">
-              Search available jobs
+              {t('find_jobs.search_jobs.title')}
             </p>
             <p className="text-sm font-regular text-gray-500 ">
-              Choose from hundreds of jobs (with new ones posted daily)
-
+              {t('find_jobs.search_jobs.description')}
             </p>
             <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
-              Search
+              {t('find_jobs.search_jobs.button')}
             </Button>
           </div>
           <div className="col-span-2 text-center">
             <Button variant="dark" size="md" onClick={() => redirect("/contact")} className="mt-5 mx-auto text-center !rounded-full text-sm">
-              Contact US
+              {t('nav.contact')}
             </Button>
           </div>
         </div>
@@ -104,22 +107,22 @@ export default function QuebecTaxCalculator() {
 
     <section className="mx-auto w-5xl mb-10 p-10">
       <div className="w-full bg-blue-900  bg-[url(/images/bg_blue.png)] bg-cover bg-center py-15 px-20 rounded-4xl border">
-        <div className="grid grid-cols-6 w-full ">
+        <div className="grid grid-cols-6 w-full text-white">
           <div className="col-span-3">
             <p className="text-sm font-bold text text-start mb-4">
-              Trending job titles
+              {t('salary_guide.trending_jobs.title')}
             </p>
             <div className="grid grid-cols-4 mb-4">
               {sector && sector?.functions.map((f) =>
                 <div key={f.id} className="col-span-2">
                   <p className="text-sm font-light text text-start mb-4 underline">
-                    {f.libelle}
+                    {translateFunction(f)}
                   </p>
                 </div>
               )}
             </div>
             <Button variant="light" size="md" onClick={() => redirect("/discover-insights#refine_your_focus")} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-5  mt-10">
-              And many more!
+              {t('salary_guide.trending_jobs.and_many_more')}
               <div className="bg-blue-700 p-1 rounded-full ml-3">
                 <FiArrowRight className="text-white" />
               </div>
@@ -137,7 +140,7 @@ export default function QuebecTaxCalculator() {
     <section className="mx-auto w-lvw mb-10 p-10 ">
 
       <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-        Hiring trends & insights
+        {t('salary_guide.hiring_trends.title')}
       </h2>
 
 
@@ -147,10 +150,10 @@ export default function QuebecTaxCalculator() {
             <Image loading="lazy" src={imagePathFinder.be_salary_smart} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                Be salary smart
+                {t('salary_guide.hiring_trends.be_salary_smart')}
               </p>
               <p className="text-sm font-regular text-gray-500 ">
-                Get the data top companies use to attract and retain skilled talent. Start with our salary calculator.
+                {t('salary_guide.hiring_trends.be_salary_smart_desc')}
               </p>
             </div>
           </div>
@@ -162,10 +165,10 @@ export default function QuebecTaxCalculator() {
             <Image loading="lazy" src={imagePathFinder.career_development} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                Career development
+                {t('salary_guide.hiring_trends.career_development')}
               </p>
               <p className="text-sm font-regular text-gray-500 ">
-                Get up-to-date information on employment trends in your industry, including salaries, skills and changes to the labor market.
+                {t('salary_guide.hiring_trends.career_development_desc')}
               </p>
             </div>
           </div>
@@ -175,10 +178,10 @@ export default function QuebecTaxCalculator() {
             <Image loading="lazy" src={imagePathFinder.What_jobs_are_in_demand} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                What jobs are in demand?
+                {t('salary_guide.hiring_trends.what_jobs_demand')}
               </p>
               <p className="text-sm font-regular text-gray-500 ">
-                Explore our Demand for Skilled Talent report to see what specializations employers need most.
+                {t('salary_guide.hiring_trends.what_jobs_demand_desc')}
               </p>
             </div>
           </div>
@@ -189,10 +192,10 @@ export default function QuebecTaxCalculator() {
             <Image loading="lazy" src={imagePathFinder.landing_a_job} alt="  We Source the Talent" className="mx-auto" />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                Landing a job
+                {t('salary_guide.hiring_trends.landing_job')}
               </p>
               <p className="text-sm font-regular text-gray-500 ">
-                Learn how to write a professional resume, prep for a job interview and make a lasting impression on hiring managers.
+                {t('salary_guide.hiring_trends.landing_job_desc')}
               </p>
             </div>
           </div>

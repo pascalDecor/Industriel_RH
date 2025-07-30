@@ -1,23 +1,22 @@
 "use client";
 
 import { imagePathFinder } from "@/utils/imagePathFinder";
+import { useTranslation } from "@/contexts/LanguageContext";
 import Image from 'next/image';
 
 export default function About() {
+  const { t } = useTranslation();
+  
   return <>
     {/* Catalyst of prosperity for Quebec businesses */}
     <section className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-5 items-center gap-4 mt-10">
         <div className="lg:col-span-3 col-span-12  pr-4">
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-            {"Catalyst of prosperity for Quebec businesses"}
+            {t('about.catalyst.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
-            {`At Industrielle RH, we firmly believe that people are the cornerstone of every company's success. 
-As a specialized staffing agency, we excel in both local and international recruitment, offering a seamless process from understanding your
- needs to integrating the ideal candidates into your team. Guided by our core values of collaboration, innovation, and integrity,
-  we are committed to building lasting partnerships and delivering impactful results.
-Let us bridge the gap between talent and opportunity, empowering your business to thrive and creating a solid foundation for sustainable growth.`}
+            {t('about.catalyst.description')}
           </p>
         </div>
         <div className="lg:col-span-2 col-span-12">
@@ -31,35 +30,38 @@ Let us bridge the gap between talent and opportunity, empowering your business t
         <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
           <Image loading="lazy" src={imagePathFinder.expertise} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
-            Expertise
+            {t('about.expertise.title')}
           </p>
           <p className="text-sm font-regular text  text-gray-500 text-center">
-            We excel in accurately identifying top francophone talent, ensuring a seamless match with your specific needs. Our deep understanding of industries guarantees tailored solutions for your workforce challenges.
+            {t('about.expertise.description')}
           </p>
         </div>
         <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
           <Image loading="lazy" src={imagePathFinder.technology} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
-            Technology
+            {t('about.technology.title')}
           </p>
           <p className="text-sm font-regular text  text-gray-500 text-center ">
-            Using cutting-edge software, we streamline CV management and immigration procedures, delivering an efficient and hassle-free recruitment process for all stakeholders.          </p>
+            {t('about.technology.description')}
+          </p>
         </div>
         <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
           <Image loading="lazy" src={imagePathFinder.innovative_approach} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
-            Innovative Approach
+            {t('about.innovative_approach.title')}
           </p>
           <p className="text-sm font-regular text  text-gray-500 text-center ">
-            Our commitment goes beyond recruitment. By prioritizing social integration and cultural adaptation, we ensure a smooth transition and long-term success for employees and companies alike.          </p>
+            {t('about.innovative_approach.description')}
+          </p>
         </div>
         <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg" >
           <Image loading="lazy" src={imagePathFinder.reliability} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
-            Reliability
+            {t('about.reliability.title')}
           </p>
           <p className="text-sm font-regular text  text-gray-500 text-center">
-            We offer a six-month guarantee on our placements, providing peace of mind and reinforcing our dedication to delivering quality results and unmatched service.          </p>
+            {t('about.reliability.description')}
+          </p>
         </div>
 
       </div>
@@ -69,30 +71,31 @@ Let us bridge the gap between talent and opportunity, empowering your business t
     <section className="mx-auto max-w-5xl p-10 flex items-center justify-center">
       <div className="bg-blue-900 p-10 rounded-3xl border max-w-5xl w-5xl mx-auto">
         <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
-          Mission, Vision and Values
+          {t('about.mission_vision_values.title')}
         </h2>
         <div className="grid grid-cols-12  items-center gap-14 mt-10">
           <div className="col-span-6 text-left bg-white rounded-2xl p-7 h-full hover:bg-blue-100 hover:shadow-lg">
             <p className="font-bold text mb-5  text-blue-800 text-start">
-              MISSION
+              {t('about.mission.title')}
             </p>
             <p className="text-sm font-regular text  text-gray-500 text-start mb-2">
-              Empowering companies with the best talents to thrive in their industries. We aim to simplify recruitment, ensuring seamless integration of candidates while contributing to the success of businesses and the well-being of workers.
+              {t('about.mission.description')}
             </p>
           </div>
           <div className="col-span-6 text-left bg-white rounded-2xl p-7 h-full hover:bg-blue-100 hover:shadow-lg">
             <p className="font-bold text mb-5  text-blue-800 text-start">
-              VISION
+              {t('about.vision.title')}
             </p>
             <p className="text-sm font-regular text  text-gray-500 text-start mb-2">
-              To become the leading partner for Quebec businesses in sourcing and integrating top-tier talents from around the world, driving mutual growth and societal impact.            </p>
+              {t('about.vision.description')}
+            </p>
           </div>
         </div>
         <h2 className="text-xl font-semibold text mt-10 text-white text-center">
-          VALUES
+          {t('about.values.title')}
         </h2>
         <p className="text-sm font-regular text  text-white text-center mb-10">
-          Vehicle values ​​by Industrial HR
+          {t('about.values.subtitle')}
         </p>
         <div className="grid grid-cols-2 grid-rows-2 gap-4 place-items-center">
           <div className="bg-[url(/images/card_fond.png)] hover:border-5 hover:border-blue-400
@@ -100,11 +103,10 @@ Let us bridge the gap between talent and opportunity, empowering your business t
             <div className="flex">
               <div>
                 <h6 className="text-blue-800 uppercase text-sm mb-3 font-semibold">
-                  INNOVATION
+                  {t('about.innovation.title')}
                 </h6>
                 <p className="text-gray-500 text-sm">
-                  The company was created with the belief that we can bring innovations that
-                  will contribute to improving our society. We will continue to make innovation our reason for existence.
+                  {t('about.innovation.description')}
                 </p>
               </div>
               <div className="p-5 m-auto w-50 ">
@@ -117,11 +119,10 @@ Let us bridge the gap between talent and opportunity, empowering your business t
             <div className="flex">
               <div>
                 <h6 className="text-blue-800 uppercase text-sm mb-3 font-semibold">
-                  Integrity
+                  {t('about.integrity.title')}
                 </h6>
                 <p className="text-gray-500 text-sm">
-                  Integrity guides all our actions. We create solutions
-                  that enhance transparency in the world and develop partnerships that reflect this commitment.
+                  {t('about.integrity.description')}
                 </p>
               </div>
               <div className="p-5 m-auto w-50 ">
@@ -134,11 +135,10 @@ Let us bridge the gap between talent and opportunity, empowering your business t
             <div className="flex">
               <div>
                 <h6 className="text-blue-800 uppercase text-sm mb-3 font-semibold">
-                  Diversity
+                  {t('about.diversity.title')}
                 </h6>
                 <p className="text-gray-500 text-sm">
-                  Humanity is at the heart of our mission. We value the diversity of people who work for our client companies .
-                  We firmly believe that talent has no nationality or race.
+                  {t('about.diversity.description')}
                 </p>
               </div>
               <div className="p-5 m-auto w-50 ">
@@ -151,11 +151,10 @@ Let us bridge the gap between talent and opportunity, empowering your business t
             <div className="flex">
               <div>
                 <h6 className="text-blue-800 uppercase text-sm mb-3 font-semibold">
-                  Sustainability
+                  {t('about.sustainability.title')}
                 </h6>
                 <p className="text-gray-500 text-sm">
-                  IR is determined to be, wherever it operates, a socially and
-                  environmentally responsible company with a commitment to sustainable development.
+                  {t('about.sustainability.description')}
                 </p>
               </div>
               <div className="p-5 m-auto w-50 ">
@@ -177,13 +176,10 @@ Let us bridge the gap between talent and opportunity, empowering your business t
         </div>
         <div className="lg:col-span-3 col-span-12  pr-4">
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-            {"Hire the best francophone talent Worldwide"}
+            {t('about.francophone_talent.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
-            {`Industrielle RH is led by a team of dedicated professionals specializing in recruitment and workforce management.
-             Our team consists of experts in talent acquisition, immigration processes, workforce integration, and professional training. 
-With extensive experience and a solid reputation for professionalism, respect for deadlines, and the sustainability 
-of our recruitment solutions, we are committed to helping your organization thrive byconnecting you with the best francophone talent`}
+            {t('about.francophone_talent.description')}
           </p>
         </div>
 
@@ -193,7 +189,7 @@ of our recruitment solutions, we are committed to helping your organization thri
     {/*  Leadership team  */}
     <section className="mx-auto w-lvw mb-0 px-10 py-24 bg-gray-200">
       <h2 className="text-3xl font-semibold text mb-10 text-black text-center">
-        Leadership team
+        {t('about.leadership_team.title')}
       </h2>
 
       <div className="mx-auto max-w-5xl p-10 grid grid-cols-3 items-end gap-4">
@@ -204,20 +200,20 @@ of our recruitment solutions, we are committed to helping your organization thri
             JAMEL HEIN
           </p>
           <p className="text-sm font-regular text-gray-500 text-center">
-            Président Directeur Général
+            {t('about.positions.ceo')}
           </p>
           </div>
          
         </div>
         <div className="col-span-2 border bg-blue-900 p-7 rounded-4xl text-center h-full hover:bg-blue-800">
           <p className="text-sm font-light text-white text-start mb-3">
-            Mon ambition derrière la création d’Industrielle RH est née de mon propre parcours. Ayant occupé plusieurs postes à différents échelons dans le monde industriel et des services, j’ai pu observer de près les réalités des employeurs, tout comme celles des travailleurs. J’ai compris les défis auxquels font face les entreprises pour recruter efficacement, et ce que recherchent vraiment les employés pour s’épanouir.
+            {t('about.ceo_message.paragraph1')}
           </p>
           <p className="text-sm font-light text-white text-start mb-3">
-            Fort de cette expérience, j’ai voulu créer une entreprise humaine, innovante et tournée vers l’action, capable d’accompagner les employeurs dans la recherche de talents fiables, qu’ils soient d’ici ou d’ailleurs. Industrielle RH est le reflet de ma volonté de combler le fossé entre les besoins du marché du travail québécois et les aspirations des candidats, en offrant un service personnalisé, fondé sur le respect, l’intégrité et une vraie compréhension des enjeux de chacun.
+            {t('about.ceo_message.paragraph2')}
           </p>
           <p className="text-sm font-light text-white text-start mb-3">
-            Je crois fermement que le succès d’une entreprise passe par la qualité des personnes qui la composent, et chaque jour, je m’engage à bâtir des ponts solides entre les talents et les opportunités.
+            {t('about.ceo_message.paragraph3')}
           </p>
         </div>
 

@@ -18,9 +18,11 @@ import { City } from "@/models/city";
 import { Application } from "@/models/application";
 import SuccessSend from "./successSend";
 import InputError from "@/components/ui/inputError";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 
 export default function MoveYourCareerForward() {
+    const { t } = useTranslation();
     const [state, action, pending] = useActionState(addCandidature, undefined);
     const [sectorId, setSectorId] = useState<string | undefined>(undefined);
 
@@ -53,14 +55,14 @@ export default function MoveYourCareerForward() {
 
     return <section className="mx-auto w-lvw mb-0 p-10 bg-gray-200 text-center">
         <h2 className="text-3xl font-semibold text my-10 text-gray-800">
-            Move your career forward
+            {t('consulting.move_career.title')}
         </h2>
         {state === true ?
             <SuccessSend />
             :
             <div className="bg-blue-100 rounded-3xl p-10 border max-w-5xl mx-auto border-gray-300 shadow-lg mb-10">
                 <h2 className="text-xl font-medium text-center mb-10 text-gray-600">
-                    Submit your spontaneous application
+                    {t('consulting.move_career.subtitle')}
                 </h2>
                 <form action={action} className="grid grid-cols-12 gap-4 w-full ">
                     <div className="col-span-12 text-left">
@@ -70,7 +72,7 @@ export default function MoveYourCareerForward() {
                             hasData={(data) =>
                                 <FloatingLabelSelect
                                     error={state?.errors && state?.errors.civilityId && state.errors.civilityId.join(', ')}
-                                    label="Civility"
+                                    label={t('form.civility')}
                                     name="civility"
                                     onChange={(e) => { setCandidature(candidature.update({ civilityId: e.target.value })) }}
                                     options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
@@ -81,7 +83,7 @@ export default function MoveYourCareerForward() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="text"
-                            label="Name*"
+                            label={t('form.last_name') + '*'}
                             name="name"
                             value={candidature.lastName}
                             error={state?.errors && state?.errors.lastName && state.errors.lastName.join(', ')}
@@ -91,7 +93,7 @@ export default function MoveYourCareerForward() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="text"
-                            label="First name*"
+                            label={t('form.first_name') + '*'}
                             name="firstName"
                             value={candidature.firstName}
                             error={state?.errors && state?.errors.firstName && state.errors.firstName.join(', ')}
@@ -102,7 +104,7 @@ export default function MoveYourCareerForward() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="text"
-                            label="Address*"
+                            label={t('form.address') + '*'}
                             name="adresse"
                             value={candidature.adresse}
                             error={state?.errors && state?.errors.adresse && state.errors.adresse.join(', ')}
@@ -115,7 +117,7 @@ export default function MoveYourCareerForward() {
                             loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                             hasData={(data) =>
                                 <FloatingLabelSelect
-                                    label="City"
+                                    label={t('form.city')}
                                     required
                                     name="city"
                                     error={state?.errors && state?.errors.cityId && state.errors.cityId.join(', ')}
@@ -128,7 +130,7 @@ export default function MoveYourCareerForward() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="number"
-                            label="Phone*"
+                            label={t('form.phone') + '*'}
                             name="phone"
                             value={candidature.phone}
                             error={state?.errors && state?.errors.phone && state.errors.phone.join(', ')}
@@ -138,7 +140,7 @@ export default function MoveYourCareerForward() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="email"
-                            label="Email*"
+                            label={t('form.email') + '*'}
                             name="email"
                             value={candidature.email}
                             error={state?.errors && state?.errors.email && state.errors.email.join(', ')}
@@ -153,7 +155,7 @@ export default function MoveYourCareerForward() {
                             hasData={(data) =>
                                 <FloatingLabelSelect
                                     error={state?.errors && state?.errors.titre && state.errors.titre.join(', ')}
-                                    label="Sector"
+                                    label={t('form.sector')}
                                     required
                                     name="sector"
                                     onChange={(e) => { setSectorId(e.target.value); setCandidature(candidature.update({ sectorId: e.target.value })) }}
@@ -168,7 +170,7 @@ export default function MoveYourCareerForward() {
                             callDataListen={sectorId}
                             hasData={(data) =>
                                 <FloatingLabelSelect
-                                    label="Function"
+                                    label={t('form.function')}
                                     required
                                     name="function"
                                     error={state?.errors && state?.errors.functionId && state.errors.functionId.join(', ')}
@@ -181,7 +183,7 @@ export default function MoveYourCareerForward() {
                     <div className="col-span-12 text-left">
                         <FloatingLabelInput
                             type="number"
-                            label="Year(s) of experience"
+                            label={t('form.years_experience')}
                             name="year_of_experience"
                             value={JSON.stringify(candidature.year_of_experience)}
                             required
@@ -192,7 +194,7 @@ export default function MoveYourCareerForward() {
 
                     <div className="col-span-12 text-left">
                         <p className="text-sm font-regular text-gray-500 my-3 ml-2">
-                            CV (Word only, doc or docx format)*
+                            {t('form.cv_format')}
                         </p>
                         <input type="file" hidden name="cv" ref={inputCvRef} onChange={(e) => handleUploadCV(e.target.files![0])} />
                         <FileUpload onFileSelect={(file) => {
@@ -207,7 +209,7 @@ export default function MoveYourCareerForward() {
 
                     <div className="col-span-12 text-left">
                         <p className="text-sm font-regular text-gray-500 my-3 ml-2">
-                            Cover letter (PDF or DOC)*
+                            {t('form.cover_letter_format')}
                         </p>
                         <input type="file" hidden name="coverLetter" ref={inputLetterRef} onChange={(e) => handleUploadLetter(e.target.files![0])} />
                         <FileUpload onFileSelect={(file) => {
@@ -223,7 +225,7 @@ export default function MoveYourCareerForward() {
 
                     <div className="col-span-12 text-center">
                         <Button className="!rounded-full text-sm px-20 mx-auto mt-10" type="submit" isLoading={pending} disabled={pending}>
-                            TO START
+                            {t('form.submit')}
                         </Button>
                     </div>
                 </form>

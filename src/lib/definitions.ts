@@ -27,7 +27,6 @@ export const AddArticleFormSchema = z.object({
 
   contenu: z.object({}),
   image: z.string(),
-
   published: z.boolean(),
 
   tags: z
@@ -87,10 +86,15 @@ export const AddApplicationFormSchema = z.object({
     .string()
     .min(2, { message: "Be at least 2 characters long" })
     .trim(),
-  year_of_experience: z
-    .number(),
-  cv: z.string().min(2, { message: "Please chose a document at least 5 MO." }).trim(),
-  coverLetter: z.string().min(2, { message: "Please chose a document at least 5 MO." }).trim(),
+  year_of_experience: z.number(),
+  cv: z
+    .string()
+    .min(2, { message: "Please chose a document at least 5 MO." })
+    .trim(),
+  coverLetter: z
+    .string()
+    .min(2, { message: "Please chose a document at least 5 MO." })
+    .trim(),
   state: z.string().trim(),
   sectorId: z.string(),
   functionId: z.string(),
@@ -137,4 +141,20 @@ export type FormStateAddApplication =
     }
   | undefined;
 
-  
+export type FormStateAddConntact =
+  | {
+      errors?: {
+        firstName: string[];
+        lastName: string[];
+        companyName?: string[];
+        jobTitle?: string[];
+        workEmail: string[];
+        workPhone: string[];
+        postalCode?: string[];
+        message: string[];
+        status: string[];
+        priority: string[];
+      };
+      message?: string;
+    }
+  | undefined;

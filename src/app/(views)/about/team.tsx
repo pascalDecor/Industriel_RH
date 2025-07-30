@@ -1,14 +1,17 @@
 "use client";
 
 import { imagePathFinder } from "@/utils/imagePathFinder";
+import { useTranslation } from "@/contexts/LanguageContext";
 import Image from "next/image";
 
 export default function Team() {
+    const { t } = useTranslation();
+    
     return <>
         {/* Catalyst of prosperity for Quebec businesses */}
         <section className="mx-auto w-lvw mb-0 px-10 py-24 bg-gray-200">
             <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-                Leadership team
+                {t('about.leadership_team.title')}
             </h2>
 
             <div className="mx-auto max-w-5xl mb-10 p-10 grid grid-cols-3 gap-4">
@@ -18,7 +21,7 @@ export default function Team() {
                         Jérôme Youmani Lankoandé +
                     </p>
                     <p className="text-sm font-regular text  text-gray-500 text-center">
-                        Président Directeur Général
+                        {t('about.positions.ceo')}
                     </p>
                 </div>
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
@@ -27,7 +30,7 @@ export default function Team() {
                         Alice Morin
                     </p>
                     <p className="text-sm font-regular text  text-gray-500 text-center">
-                        Gestionnaire de projet TI
+                        {t('about.positions.it_manager')}
                     </p>
                 </div>
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
@@ -36,13 +39,13 @@ export default function Team() {
                         Louis Caron
                     </p>
                     <p className="text-sm font-regular text  text-gray-500 text-center">
-                        Directeur de Projet
+                        {t('about.positions.project_director')}
                     </p>
                 </div>
 
             </div>
             <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-                Board of Directors
+                {t('about.leadership_team.board_title')}
             </h2>
 
             <div className="mx-auto max-w-5xl mb-10 p-10 grid grid-cols-3 gap-4">
@@ -52,7 +55,7 @@ export default function Team() {
                         Paul Farcas
                     </p>
                     <p className="text-sm font-regular text  text-gray-500 text-center">
-                        {"Directeur des Systémes d' Information"}
+                        {t('about.positions.it_systems_director')}
                     </p>
                 </div>
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
@@ -61,7 +64,7 @@ export default function Team() {
                         Komi Sodoke, PhD
                     </p>
                     <p className="text-sm font-regular text  text-gray-500 text-center">
-                        Directeur de Projet-Intelligence Artificielle
+                        {t('about.positions.ai_project_director')}
                     </p>
                 </div>
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center  bg-gradient-to-t from-gray-300 to-gray-200 h-full">
@@ -70,7 +73,7 @@ export default function Team() {
                         Éloïse Emery
                     </p>
                     <p className="text-sm font-regular text  text-gray-500 text-center">
-                        Développeuse Web et Designer UX/UI
+                        {t('about.positions.web_developer')}
                     </p>
                 </div>
 

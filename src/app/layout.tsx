@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="fr" >
      
-          <body className={`${plus_Jakarta_Sans.className} antialiased text-white`} style={{
+          <body className={`${plus_Jakarta_Sans.className} antialiased text-black`} style={{
             maxWidth: "100vw",
             width: "100vw",
             overflowX: "hidden",

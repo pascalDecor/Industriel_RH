@@ -40,7 +40,7 @@ export default function Header({ user }: Readonly<{ user: User | null }>) {
             <DropdownMenuTrigger asChild>
               <div className="flex items-center justify-center gap-2 cursor-pointer">
                 <Avatar className="cursor-pointer">
-                  <AvatarImage src={user?.avatarUrl} className="rounded-full h-10 w-10 bg-blue-300" />
+                  {user?.avatarUrl && <AvatarImage src={user.avatarUrl} className="rounded-full h-10 w-10 bg-blue-300" />}
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div>

@@ -4,6 +4,7 @@ import { Search, X } from 'lucide-react';
 import InputField from '../../morgage-calculator/components/InputField';
 import SelectField from '../../morgage-calculator/components/SelectField';
 import Button from '@/components/ui/button';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 interface SalaryFormProps {
   onSearch: (jobTitle: string, location: string, experience: string) => void;
@@ -11,6 +12,7 @@ interface SalaryFormProps {
 }
 
 const SalaryForm: React.FC<SalaryFormProps> = ({ onSearch, loading }) => {
+  const { t } = useTranslation();
   const [jobTitle, setJobTitle] = useState('');
   const [location, setLocation] = useState('');
   const [experience, setExperience] = useState('');
@@ -33,7 +35,7 @@ const SalaryForm: React.FC<SalaryFormProps> = ({ onSearch, loading }) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-2">
           <label htmlFor="jobTitle" className="block text-sm font-medium text-gray-300 dark:text-gray-300">
-            Job Title *
+            {t('salary_guide.form.job_title')} *
           </label>
           <InputField
             type="text"
@@ -43,14 +45,14 @@ const SalaryForm: React.FC<SalaryFormProps> = ({ onSearch, loading }) => {
             value={jobTitle}
             onChange={(e) => setJobTitle(e)}
             // className="form-input"
-            placeholder="e.g. Software Engineer"
+            placeholder={t('salary_guide.form.job_title_placeholder')}
           // required
           />
         </div>
 
         <div className="space-y-2">
           <label htmlFor="location" className="block text-sm font-medium text-gray-300 dark:text-gray-300">
-            Location
+            {t('salary_guide.form.location')}
           </label>
           <InputField
             type="text"
@@ -60,13 +62,13 @@ const SalaryForm: React.FC<SalaryFormProps> = ({ onSearch, loading }) => {
             value={location}
             onChange={(e) => setLocation(e)}
             // className="form-input"
-            placeholder="e.g. New York, NY"
+            placeholder={t('salary_guide.form.location_placeholder')}
           />
         </div>
 
         <div className="space-y-2">
           <label htmlFor="experience" className="block text-sm font-medium text-gray-300 dark:text-gray-300">
-            Years of Experience
+            {t('salary_guide.form.experience')}
           </label>
           <SelectField
             id="experience"
@@ -76,11 +78,11 @@ const SalaryForm: React.FC<SalaryFormProps> = ({ onSearch, loading }) => {
             onChange={(e) => setExperience(e)}
             // className="form-input"
             options={[
-              { value: '0-1', label: '0-1 years' },
-              { value: '1-3', label: '1-3 years' },
-              { value: '3-5', label: '3-5 years' },
-              { value: '5-10', label: '5-10 years' },
-              { value: '10+', label: '10+ years' },
+              { value: '0-1', label: t('salary_guide.form.experience_0_1') },
+              { value: '1-3', label: t('salary_guide.form.experience_1_3') },
+              { value: '3-5', label: t('salary_guide.form.experience_3_5') },
+              { value: '5-10', label: t('salary_guide.form.experience_5_10') },
+              { value: '10+', label: t('salary_guide.form.experience_10_plus') },
             ]}
           />
         </div>
@@ -93,7 +95,7 @@ const SalaryForm: React.FC<SalaryFormProps> = ({ onSearch, loading }) => {
           disabled={loading}
         >
           <Search className="w-4 h-4 mr-2" />
-          {loading ? 'Analyzing...' : 'Search Salary'}
+          {loading ? t('salary_guide.form.analyzing') : t('salary_guide.form.search_salary')}
         </Button>
 
         <motion.button

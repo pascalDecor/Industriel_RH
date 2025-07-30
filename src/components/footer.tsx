@@ -8,16 +8,14 @@ import { ImLinkedin2 } from "react-icons/im";
 import { FaTwitter } from "react-icons/fa6";
 import { BsYoutube } from "react-icons/bs";
 import { LuInstagram } from "react-icons/lu";
-import Button from "./ui/button";
+import { useTranslation } from "@/contexts/LanguageContext";
+import LanguageSelector from "./LanguageSelector";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 
 export function Footer() {
-
-    function handleClick() {
-        alert("Clic !");
-    }
+    const { t } = useTranslation();
 
 
     return (
@@ -27,32 +25,32 @@ export function Footer() {
                 <hr className="border-gray-700 border-1" />
                 <div className="grid grid-cols-12 gap-4 align-middle justify-between mt-10">
                     <div className="col-span-3">
-                        <h4 className=" font-bold mb-4">Services</h4>
+                        <h4 className=" font-bold mb-4">{t('footer.services')}</h4>
                         <ul className="list-none">
-                            <li><Link href="/find-jobs" className="hover:text-gray-600 text-gray-400 text-sm">Browse Jobs</Link></li>
-                            <li><Link href="/hire-talent" className="hover:text-gray-600 text-gray-400 text-sm">International Recruitment</Link></li>
-                            <li><Link href="/hire-talent" className="hover:text-gray-600 text-gray-400 text-sm">Recruitment by Outsourcing</Link></li>
+                            <li><Link href="/find-jobs" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.browse_jobs')}</Link></li>
+                            <li><Link href="/hire-talent" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.international_recruitment')}</Link></li>
+                            <li><Link href="/hire-talent" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.recruitment_outsourcing')}</Link></li>
                         </ul>
                     </div>
                     <div className="col-span-3">
-                        <h4 className=" font-bold mb-4">Areas of Expertise</h4>
+                        <h4 className=" font-bold mb-4">{t('footer.areas_expertise')}</h4>
                         <ul className="list-none">
-                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">Manufacturing</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">Construction</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">Healthcare</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">Transport</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">Agriculture & Agro-Food</Link></li>
+                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.manufacturing')}</Link></li>
+                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.construction')}</Link></li>
+                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.healthcare')}</Link></li>
+                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.transport')}</Link></li>
+                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.agriculture')}</Link></li>
                         </ul>
                     </div>
                     <div className="col-span-3">
-                        <h4 className=" font-bold mb-4">About Us</h4>
+                        <h4 className=" font-bold mb-4">{t('footer.about_us')}</h4>
                         <ul className="list-none">
-                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">About industrielle RH </Link></li>
-                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">Careers with Us </Link></li>
+                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.about_industrielle')}</Link></li>
+                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.careers')}</Link></li>
                         </ul>
                     </div>
                     <div className="col-span-3">
-                        <h4 className=" font-bold mb-4">Location</h4>
+                        <h4 className=" font-bold mb-4">{t('footer.location')}</h4>
                         <ul className="list-none flex flex-col gap-3">
                             <li>
                                 <Link href="#" className="hover:text-gray-600 text-gray-400 text-sm flex gap-2">
@@ -83,7 +81,7 @@ export function Footer() {
                                     <div className="flex items-start">
                                         <Image loading="lazy" src={imagePathFinder.icons_horloge} alt="logo" width={20} />
                                     </div>
-                                    <span>Du lundi au vendredi de 8h30 à 17h00</span>
+                                    <span>{t('footer.hours')}</span>
                                 </Link>
                             </li>
                             <li>
@@ -130,13 +128,8 @@ export function Footer() {
                             </div>
                         </div>
                     </div>
-                    <div className="col-span-4 flex flex-col  items-center justify-end">
-                        <Button variant="primary" size="md" onClick={handleClick} className="!rounded-full text-[11px] ">
-                            <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-[11px] mr-3">
-                                Canada (English)
-                            </Button>
-                            Select a region and language
-                        </Button>
+                    <div className="col-span-4 flex flex-col items-center justify-end">
+                        <LanguageSelector />
                     </div>
                     <div className="col-span-4 flex flex-col  items-center justify-end">
                     <div className="w-full h-40 bg-gray-200 rounded-[15px] overflow-hidden">
@@ -156,19 +149,20 @@ export function Footer() {
                     <div className="col-span-6">
                         <ul className="list-none grid grid-cols-12 gap-1 text-sm">
                             <li className="col-span-2 whitespace-nowrap">
-                                <Link href="/terme-of-conditions" className="hover:text-gray-600 text-gray-400 text-[11px]">Fraud Alert</Link>
+                                <Link href="/terme-of-conditions" className="hover:text-gray-600 text-gray-400 text-[11px]">{t('footer.fraud_alert')}</Link>
                             </li>
                             <li className="col-span-2 whitespace-nowrap border-l-2 border-gray-700 pl-3 text-center">
-                                <Link href="/privacy-policy" className="hover:text-gray-600 text-gray-400 text-[11px]">Privacy Policy</Link>
+                                <Link href="/privacy-policy" className="hover:text-gray-600 text-gray-400 text-[11px]">{t('footer.privacy_policy')}</Link>
                             </li>
                             <li className="col-span-2 whitespace-nowrap border-l-2 border-gray-700 pl-3 text-center">
-                                <Link href="/terme-of-use" className="hover:text-gray-600 text-gray-400 text-[11px]">Terms of Use</Link>
+                                <Link href="/terme-of-use" className="hover:text-gray-600 text-gray-400 text-[11px]">{t('footer.terms_of_use')}</Link>
                             </li>
                         </ul>
                     </div>
                     <div className="col-span-6 text-end">
-                        <p className="text-[11px] text-gray-400 font-light">© 2025 Industrielle RH Inc. All Rights Reserved. 
-                        Quebec license number AP-2000503</p>
+                        <p className="text-[11px] text-gray-400 font-light">
+                            {t('footer.rights_reserved')} {t('footer.quebec_license')}
+                        </p>
                     </div>
 
                 </div>

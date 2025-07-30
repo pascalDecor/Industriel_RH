@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import { MultiValue, ActionMeta, SingleValue } from 'react-select';
 import Select from 'react-select';
@@ -18,6 +18,7 @@ type Props = {
     enableCreate?: boolean;
     isMulti?: boolean;
     className?: string;
+    onCreateOption?: (inputValue: string) => Promise<OptionType | null>;
 };
 
 const createOption = (label: string): OptionType => ({
@@ -33,10 +34,16 @@ export default function MultiSelect({
     enableCreate = false,
     isMulti = true,
     className = '',
+    onCreateOption,
 }: Readonly<Props>) {
     const [selected, setSelected] = useState<MultiValue<OptionType> | SingleValue<OptionType>>(defaultValue);
     const [options, setOptions] = useState<OptionType[]>(items);
     const [isLoading, setIsLoading] = useState(false);
+
+    // Mettre à jour les options quand les items changent
+    useEffect(() => {
+        setOptions(items);
+    }, [items]);
 
     const handleChange = (
         newValue: MultiValue<OptionType> | SingleValue<OptionType>,
@@ -46,15 +53,34 @@ export default function MultiSelect({
         onChange?.(newValue as OptionType[]);
     };
 
-    const handleCreate = (inputValue: string) => {
+    const handleCreate = async (inputValue: string) => {
         setIsLoading(true);
-        const newOption = createOption(inputValue);
-        setTimeout(() => {
-            setOptions((prev) => [...prev, newOption]);
-            setSelected((prev) => [...(prev as OptionType[]), newOption]);
-            onChange?.([...(selected as OptionType[]), newOption]);
+        try {
+            if (onCreateOption) {
+                const createdOption = await onCreateOption(inputValue);
+                if (createdOption) {
+                    const newOptions = [...options, createdOption];
+                    const newSelected = [...(selected as OptionType[]), createdOption];
+                    
+                    setOptions(newOptions);
+                    setSelected(newSelected);
+                    onChange?.(newSelected);
+                }
+            } else {
+                // Fallback vers l'ancienne logique
+                const newOption = createOption(inputValue);
+                const newOptions = [...options, newOption];
+                const newSelected = [...(selected as OptionType[]), newOption];
+                
+                setOptions(newOptions);
+                setSelected(newSelected);
+                onChange?.(newSelected);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la création:', error);
+        } finally {
             setIsLoading(false);
-        }, 2000);
+        }
     };
 
     return (

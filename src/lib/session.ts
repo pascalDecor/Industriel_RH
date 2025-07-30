@@ -9,7 +9,7 @@ export const setCookie = (
   maxAge: number,
   path = "/"
 ) => {
-  res.headers.set(
+  res.headers.append(
     "Set-Cookie",
     serialize(name, value, {
       httpOnly: true,
@@ -22,7 +22,7 @@ export const setCookie = (
 };
 
 export const deleteCookie = (res: NextResponse, name: string, path = "/") => {
-  res.headers.set(
+  res.headers.append(
     "Set-Cookie",
     serialize(name, "", {
       httpOnly: true,

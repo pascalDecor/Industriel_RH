@@ -7,13 +7,14 @@ import { Notice } from "@/models/notice";
 import { HttpService } from "@/utils/http.services";
 import { useState, useEffect } from "react";
 import ShowStars from "@/app/(admin)/management/notices/showStars";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 
 interface ExploreSuccessStoriesInputProps {
   className?: string;
 }
 export default function ExploreSuccessStories({ className }: Readonly<ExploreSuccessStoriesInputProps>) {
-
+  const { t } = useTranslation();
   const [notices, setNotices] = useState<Notice[]>([]);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function ExploreSuccessStories({ className }: Readonly<ExploreSuc
 
           <Image loading="lazy" src={imagePathFinder.logo_only} alt="Salary Guide" className="w-20 mx-auto mb-5" />
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-            Explore success stories
+            {t('success_stories.title')}
           </h2>
 
           <div className="grid grid-cols-6 gap-3">

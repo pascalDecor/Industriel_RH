@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import EditorJS from '@editorjs/editorjs';
+import '@/styles/editorjs.css';
 
 // Importations dynamiques des outils
 const Header = require('@editorjs/header');
@@ -82,32 +83,76 @@ export default function EditorJSComponent({ onChange, placeholder = "Commence à
                         class: ImageTool,
                         config: {
                             endpoints: {
-                                // byFile: '/api/upload', // Tu devras créer cette API route
+                                byFile: '/api/upload',
                                 byUrl: '/api/fetchImage', // Optionnel
                             },
-                            captionPlaceholder: 'Légende...',
-                            buttonContent: 'Choisir une image',
+                            captionPlaceholder: 'Légende de l\'image...',
+                            buttonContent: 'Sélectionner une image',
                             uploader: {
                                 async uploadByFile(file: File) {
-                                    // Exemple d'upload simplifié localement
-                                    console.log("upload simplifié localement file", file);
-                                    // const formData = new FormData();
-                                    // formData.append('image', file);
+                                    try {
+                                        console.log("Uploading file:", file.name);
+                                        
+                                        const formData = new FormData();
+                                        formData.append('image', file);
 
-                                    // const res = await fetch('/api/upload', {
-                                    //     method: 'POST',
-                                    //     body: formData,
-                                    // });
+                                        const response = await fetch('/api/upload', {
+                                            method: 'POST',
+                                            credentials: 'include',
+                                            body: formData,
+                                        });
 
-                                    // const result = await res.json();
-                                    console.log("upload file URL.createObjectURL(file!)", URL.createObjectURL(file!));
+                                        const result = await response.json();
+                                        console.log("Upload result:", result);
 
-                                    return {
-                                        success: 1,
-                                        file: {
-                                            url: URL.createObjectURL(file!), // L’URL de l’image renvoyée par l’API
-                                        },
-                                    };
+                                        if (result.success === 1) {
+                                            return {
+                                                success: 1,
+                                                file: {
+                                                    url: result.file.url,
+                                                },
+                                            };
+                                        } else {
+                                            throw new Error(result.error || 'Upload failed');
+                                        }
+                                    } catch (error) {
+                                        console.error('Error uploading file:', error);
+                                        return {
+                                            success: 0,
+                                            message: 'Erreur lors de l\'upload de l\'image',
+                                        };
+                                    }
+                                },
+                                async uploadByUrl(url: string) {
+                                    try {
+                                        const response = await fetch('/api/fetchImage', {
+                                            method: 'POST',
+                                            credentials: 'include',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ url }),
+                                        });
+
+                                        const result = await response.json();
+
+                                        if (result.success === 1) {
+                                            return {
+                                                success: 1,
+                                                file: {
+                                                    url: result.file.url,
+                                                },
+                                            };
+                                        } else {
+                                            throw new Error(result.error || 'Fetch failed');
+                                        }
+                                    } catch (error) {
+                                        console.error('Error fetching image:', error);
+                                        return {
+                                            success: 0,
+                                            message: 'Erreur lors de la récupération de l\'image',
+                                        };
+                                    }
                                 },
                             },
                         },
@@ -128,9 +173,14 @@ export default function EditorJSComponent({ onChange, placeholder = "Commence à
     }, []);
 
     return (
-        <div
-            id="editorjs"
-            className={className + " border border-gray-300 rounded-xl p-4 min-h-[300px] w-full overflow-y-auto"}
-        />
+        <div className="w-full">
+            <div
+                id="editorjs"
+                className={className + " border border-gray-300 rounded-xl p-4 min-h-[300px] w-full overflow-y-auto"}
+            />
+            <p className="text-xs text-gray-500 mt-2">
+                💡 <strong>Astuce :</strong> Cliquez sur le bouton "+" à gauche pour ajouter des images, tableaux et plus encore.
+            </p>
+        </div>
     );
 }

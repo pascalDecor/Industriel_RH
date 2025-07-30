@@ -1,10 +1,4 @@
-module.exports = async function createCivilities(prisma: {
-  country: { findFirst: (arg0: { where: { libelle: string } }) => any };
-  city: {
-    findFirst: (arg0: { where: { libelle: string } }) => any;
-    create: (arg0: { data: { libelle: string; countryId: any } }) => any;
-  };
-}) {
+module.exports = async function createCivilities(prisma) {
   console.log("🔹 seed cities...");
   const noms = [
     "Alma",

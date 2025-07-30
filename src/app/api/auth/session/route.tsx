@@ -13,7 +13,11 @@ export async function GET() {
 
     try {
         // 2. Vérifie le JWT
-        const { userId } = jwToken.verify(token) as { userId: string };
+        const decoded = await jwToken.verify(token);
+        if (!decoded) {
+            return NextResponse.json({ session: null }, { status: 200 });
+        }
+        const userId = decoded.id;
 
         // 3. Récupère l’utilisateur en base
         const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -21,9 +25,13 @@ export async function GET() {
             // user supprimé entre-temps
             return NextResponse.json({ session: null }, { status: 200 });
         }
-        // 4. Renvoie payload → front : { session: { user, token } }
+        // 4. Renvoie payload → front : { session: { user } } (sans le token pour sécurité)
+        const { password, otp, otpExpiration, ...safeUser } = user;
+
+        console.log("session", safeUser);
+        
         return NextResponse.json(
-            { session: { user, token } },
+            { session: { user: safeUser } },
             { status: 200 }
         );
     } catch (err) {

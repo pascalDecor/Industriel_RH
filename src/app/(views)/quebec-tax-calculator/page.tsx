@@ -169,7 +169,7 @@ export default function QuebecTaxCalculator() {
 
     <section className="mx-auto w-5xl mb-10 p-10">
       <div className="w-full bg-blue-900  bg-[url(/images/bg_blue.png)] bg-cover bg-center py-15 px-20 rounded-4xl border">
-        <div className="grid grid-cols-6 w-full ">
+        <div className="grid grid-cols-6 w-full text-white ">
           <div className="col-span-3">
             <p className="text-sm font-bold text text-start mb-4">
               Trending job titles

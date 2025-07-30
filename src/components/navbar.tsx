@@ -9,6 +9,7 @@ import Button from "./ui/button";
 import { GoArrowUpRight } from "react-icons/go";
 import { motion } from "framer-motion";
 import clsx from "clsx";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 
 const FindJobsExpandedNavbar = dynamic(() =>
@@ -60,38 +61,41 @@ const dropdownContent = {
   "discover-insights": "Restez informé des tendances du marché.",
 };
 
-const navItems: NavItem[] = [
+// Fonction pour obtenir les éléments de navigation traduits
+const getNavItems = (t: (key: string) => string): NavItem[] => [
   {
-    label: "Find Jobs",
+    label: t('nav.find_jobs'),
     href: "/find-jobs",
     expandedComponnent: FindJobsExpandedNavbar,
   },
   {
-    label: "Hire Talent",
+    label: t('nav.hire_talent'),
     href: "/hire-talent",
     expandedComponnent: HireTalentExpandedNavbar,
   },
   {
-    label: "About",
+    label: t('nav.about'),
     href: "/about",
   },
   {
-    label: "Consulting Solutions",
+    label: t('nav.consulting'),
     href: "/consulting-solutions",
     expandedComponnent: ConsultingSolutionsExpandedNavbar,
   },
   {
-    label: "Discover Insights",
-    href: "/discover-insights",
+    label: t('nav.salary_guide'),
+    href: "/salary-guide",
     expandedComponnent: DiscoverInsightsExpandedNavbar,
   },
 ];
 
 export function Navbar() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
-   const [sectors, setSectors] = useState<Sector[]>([]);
+  const [sectors, setSectors] = useState<Sector[]>([]);
+  
+  const navItems = getNavItems(t);
   
     useEffect(() => {
       const fetchData = async () => {
@@ -117,7 +121,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className="bg-white text-white shadow-md fixed z-50 top-0 w-full hover:bg-gray-100">
+    <nav className="bg-white text-black shadow-md fixed z-50 top-0 w-full hover:bg-gray-100">
       <div className={clsx("relative w-full")}>
         <div className={clsx("w-7xl mx-auto px-4 sm:px-6 lg:px-8 ", {
           "h-100": isOpen
@@ -166,7 +170,7 @@ export function Navbar() {
             <div>
               <Button variant="light" size="md" className="!rounded-full text-[11px] mr-3 border border-gray-300">
                 <Link href="/contact" className="hover:text-gray-600 btn text-gray-400 text-sm flex align-middle items-center">
-                  <span>Contact Us</span>
+                  <span>{t('nav.contact')}</span>
                   <div className="bg-blue-700 p-1 rounded-full ml-3">
                     <GoArrowUpRight size={20} className="text-white" />
                   </div>

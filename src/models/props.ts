@@ -135,6 +135,22 @@ export interface HireProps {
   civility?: CivilityProps;
 }
 
+export interface ContactProps {
+  id: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  firstName: string;
+  lastName: string;
+  companyName?: string;
+  jobTitle?: string;
+  workEmail: string;
+  workPhone: string;
+  postalCode?: string;
+  message: string;
+  status: string;
+  priority: string;
+}
+
 export interface UserProps {
   id: string;
   name: string;

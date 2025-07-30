@@ -34,19 +34,16 @@ export async function addSector(state: FormState, formData: FormData) {
         }
     }
     else {
-        console.log("validatedFields.data", validatedFields.data);
         const payload = {
             url: `/sectors/${validatedFields.data.id}`,
             data: validatedFields.data,
         };
-        console.log("payload", payload);
         const temp = await (
             validatedFields.data.id.length < 1 ?
                 HttpService.add<Sector>(payload) :
                 HttpService.update<Sector>(payload)).then((res) => {
-                    console.log(res);
                     return res;
                 })
-        return (temp as any).state;
+        return (temp as { state?: boolean }).state ?? false;
     }
 }

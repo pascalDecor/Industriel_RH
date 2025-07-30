@@ -44,7 +44,7 @@ export default function ItemSectors({ sector, onChange, onActive }: ItemSectorsP
 
 
     return (
-        <Card className="p-5 border-none mb-3 shadow-none flex flex-row justify-between items-center cursor-pointer hover:shadow-md"
+        <div className="p-5 !border-none !shadow-none flex flex-row justify-between items-center cursor-pointer hover:shadow-md"
             key={sector.id} onClick={() => onActive && onActive(sector)}>
             <div>
                 <p className="my-0 text-slate-700 font-semibold py-0">
@@ -54,7 +54,7 @@ export default function ItemSectors({ sector, onChange, onActive }: ItemSectorsP
                     {sector.functionsCount} fonction(s) . crée le {formatDateFr(sector.createdAt ?? new Date())}
                 </p>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger>
                         <Button title="Modifier" variant="success" size="sm" className="!rounded-full text-[11px] h-8 w-8 !bg-green-200 !text-green-700 !p-2">
@@ -66,17 +66,30 @@ export default function ItemSectors({ sector, onChange, onActive }: ItemSectorsP
                             if (state) {
                                 setchangeCount(c => c + 1);
                                 setOpen(false);
+                                if (onChange) {
+                                    onChange(state);
+                                }
                             }
                         }} />
                     </DialogContent>
                 </Dialog>
 
-
-                <Button loadingColor="red" isLoading={loadingDelete} onClick={handleDelete(sector.id)} title="Supprimer" variant="danger" size="sm" className="!rounded-full text-[11px] h-8 w-8 !bg-red-200 !text-red-700 !p-2">
+                <Button 
+                    loadingColor="red" 
+                    isLoading={loadingDelete} 
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(sector.id)();
+                    }} 
+                    title="Supprimer" 
+                    variant="danger" 
+                    size="sm" 
+                    className="!rounded-full text-[11px] h-8 w-8 !bg-red-200 !text-red-700 !p-2"
+                >
                     {!loadingDelete && <LuTrash2 className="h-5 w-5" />}
                 </Button>
             </div>
 
-        </Card>
+        </div>
     )
 }

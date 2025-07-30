@@ -16,12 +16,15 @@ import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbS
 import { Slash } from "lucide-react";
 import EditorContent from "@/components/ui/editorContent";
 
+
 type PageProps = {
-    params: Promise<{ id: string }>
+    params: {
+        id: string
+    }
 }
 
-export default async function DetailsHires({params}: PageProps) {
-    const { id } = await params;
+export default function DetailsHires({ params }: PageProps) {
+    const { id } = params;
 
     const [loadingDelete, setLoadingDelete] = useState(false);
     const [loadingValidate, setLoadingValidate] = useState(false);

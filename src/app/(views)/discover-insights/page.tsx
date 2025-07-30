@@ -278,7 +278,7 @@ export default function DiscoverInsights() {
     {/*   Add specialized talent across your organization */}
     <section className="mx-auto w-5xl mb-10 p-10">
       <div className="w-full bg-blue-900  bg-[url(/images/bg_blue.png)] bg-cover bg-center py-15 px-20 rounded-4xl border">
-        <p className="font-medium text-3xl text-center mb-4">
+        <p className="font-medium text-3xl text-center mb-4 text-white">
           Get insights in your inbox
         </p>
 

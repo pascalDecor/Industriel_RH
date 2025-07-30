@@ -5,8 +5,10 @@ import SalaryResults from './SalaryResults';
 import { SearchIcon } from 'lucide-react';
 import { useSalaryData } from './hooks/useSalaryData';
 import { SalaryData } from './types';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 const SalaryGuide: React.FC = () => {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useState({
     jobTitle: '',
     location: '',
@@ -43,8 +45,8 @@ const SalaryGuide: React.FC = () => {
           animate={{ opacity: 1 }}
           className="bg-error-50 border border-error-200 text-error-800 rounded-lg p-4 my-6"
         >
-          <p>Error: {error}</p>
-          <p className="text-sm mt-2">Please try again with a different search query.</p>
+          <p>{t('salary_guide.error.title')} {error}</p>
+          <p className="text-sm mt-2">{t('salary_guide.error.try_again')}</p>
         </motion.div>
       )}
       
@@ -62,8 +64,8 @@ const SalaryGuide: React.FC = () => {
       {!loading && !data && !error && (
         <div className="text-center my-12 text-gray-500 dark:text-gray-400">
           <SearchIcon className="h-16 w-16 mx-auto mb-4 opacity-30" />
-          <p className="text-xl">Enter your job details to get started</p>
-          <p className="mt-2">We'll analyze thousands of data points to provide you with accurate salary insights.</p>
+          <p className="text-xl">{t('salary_guide.start.title')}</p>
+          <p className="mt-2">{t('salary_guide.start.description')}</p>
         </div>
       )}
     </div>

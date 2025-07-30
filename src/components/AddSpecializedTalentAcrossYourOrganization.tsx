@@ -9,8 +9,10 @@ import { HttpService } from "@/utils/http.services";
 import { Sector } from "@/models/sector";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 export default function AddSpecializedTalentAcrossYourOrganization() {
+    const { t } = useTranslation();
 
     function handleClickSector(sector: Sector) {
         setSectorActive(sector);
@@ -45,7 +47,7 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                 <div className="w-full bg-cover bg-center bg-blue-900 p-10 rounded-4xl border">
 
                     <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
-                        Add specialized talent across your organization
+                        {t('specialized_talent.title')}
                     </h2>
 
                     <div className="flex mb-10 gap-4 mx-auto items-center justify-center">
@@ -58,13 +60,13 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                             )}
                     </div>
 
-                    <div className="grid grid-cols-6 w-full ">
+                    <div className="grid grid-cols-6 w-full text-white">
                         <div className="col-span-3 relative">
                             <p className="text-sm font-light text text-start mb-4">
                                 {sectorActive && sectorActive?.sections.filter((s) => s.page === "home")[0]?.description} :
                             </p>
                             <p className="text-sm font-bold text text-start mb-4">
-                                Trending job titles
+                                {t('specialized_talent.trending_jobs')}
                             </p>
                             <div className="grid grid-cols-4 mb-4">
                                 {sectorActive && sectorActive?.functions.map((f) =>
@@ -87,7 +89,7 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                 }} width={500} height={500} alt="We Source the Talent" className="-mb-4 mt-30 mx-auto bottom-0 w-5/6 absolute z-20  -right-75" />
                                 
                                 <Button variant="light" size="md" onClick={() => handleClickFunction(sectorActive?.id ?? "")} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-10 absolute !whitespace-nowrap z-30">
-                                    Learn more about our Manufacturing hiring solutions
+                                    {t('specialized_talent.learn_more', { sector: sectorActive?.libelle || 'Manufacturing' })}
                                     <div className="bg-blue-700 p-1 rounded-full ml-3">
                                         <FiArrowRight className="text-white" />
                                     </div>
