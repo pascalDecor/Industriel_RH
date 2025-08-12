@@ -11,6 +11,7 @@ import {
     Tooltip,
     ResponsiveContainer,
 } from "recharts";
+import ApiDocsCard from "../components/ApiDocsCard";
 
 
 
@@ -73,6 +74,7 @@ export default function Dashboard() {
                         </ResponsiveContainer>
                     </div>
                 </Card>
+                
                 <Card className="p-7 shadow-none border-none">
                     <div className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <h3 className="text-sm font-bold">Total Revenue</h3>
@@ -93,8 +95,36 @@ export default function Dashboard() {
                         </ResponsiveContainer>
                     </div>
                 </Card>
+            </div>
 
-
+            {/* Carte Documentation API */}
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="lg:col-span-2">
+                    <ApiDocsCard />
+                </div>
+                <div className="space-y-4">
+                    <Card className="p-6 shadow-none border-none">
+                        <h3 className="text-lg font-medium mb-2">Accès rapide</h3>
+                        <div className="space-y-2">
+                            <a
+                                href="/api-docs"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block text-sm text-blue-600 hover:text-blue-800 hover:underline"
+                            >
+                                📖 Documentation API Swagger
+                            </a>
+                            <a
+                                href="/api/swagger"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block text-sm text-blue-600 hover:text-blue-800 hover:underline"
+                            >
+                                📄 Spécification OpenAPI JSON
+                            </a>
+                        </div>
+                    </Card>
+                </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">

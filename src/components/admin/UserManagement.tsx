@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AddUserModal from './AddUserModal';
 import UserProfile from './UserProfile';
+import EditUserModal from './EditUserModal';
 
 interface UserManagementProps {
   className?: string;
@@ -46,6 +47,7 @@ export default function UserManagement({ className }: UserManagementProps) {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [showUserProfile, setShowUserProfile] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     loadUsers();
@@ -359,7 +361,13 @@ export default function UserManagement({ className }: UserManagementProps) {
                             </DropdownMenuItem>
                             
                             <PermissionGuard permissions={[Permission.USERS_UPDATE]}>
-                              <DropdownMenuItem className="flex items-center gap-2">
+                              <DropdownMenuItem 
+                                className="flex items-center gap-2"
+                                onClick={() => {
+                                  setSelectedUserId(user.id);
+                                  setShowEditModal(true);
+                                }}
+                              >
                                 <Edit className="h-4 w-4" />
                                 Modifier
                               </DropdownMenuItem>
@@ -427,6 +435,19 @@ export default function UserManagement({ className }: UserManagementProps) {
               setShowUserProfile(false);
               setSelectedUserId(null);
             }}
+          />
+        )}
+
+        {/* Modal d'édition utilisateur */}
+        {selectedUserId && (
+          <EditUserModal
+            userId={selectedUserId}
+            isOpen={showEditModal}
+            onClose={() => {
+              setShowEditModal(false);
+              setSelectedUserId(null);
+            }}
+            onUserUpdated={loadUsers}
           />
         )}
       </div>

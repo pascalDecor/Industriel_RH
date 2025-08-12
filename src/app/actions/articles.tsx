@@ -11,7 +11,43 @@ import { LocalStorageHelper } from '@/utils/localStorage.helper';
 // import path from 'path';
 
 export async function addArticle(state: FormState, formData: FormData) {
-    const user = User.fromJSON(JSON.parse(LocalStorageHelper.getValue("user")) ?? {});
+    // Récupération temporaire de l'ID utilisateur depuis le formulaire
+    // Idéalement, ceci devrait venir de la session authentifiée
+    const authorIdFromForm = formData.get('authorId')?.toString();
+    console.log("AuthorId reçu du formulaire:", authorIdFromForm);
+
+    // Pour le moment, utilisons l'ID du formulaire ou un utilisateur par défaut
+    let userId = authorIdFromForm;
+    
+    // Si aucun ID n'est fourni, essayons le localStorage en backup
+    if (!userId) {
+        try {
+            const userData = LocalStorageHelper.getValue("userLocal");
+            console.log("Données brutes du localStorage 'userLocal':", userData);
+            
+            if (userData) {
+                const parsedData = JSON.parse(userData);
+                console.log("Données parsées du localStorage:", parsedData);
+                const user = User.fromJSON(parsedData);
+                console.log("Objet User créé:", user);
+                userId = user.id;
+                console.log("ID utilisateur depuis localStorage:", userId);
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération de l'utilisateur:", error);
+        }
+    }
+
+    // Vérifier qu'un utilisateur est trouvé
+    if (!userId) {
+        console.error("Aucun ID utilisateur trouvé");
+        return {
+            errors: { general: ["Impossible d'identifier l'utilisateur. Veuillez vous reconnecter."] },
+        };
+    }
+
+    console.log("ID utilisateur final:", userId);
+    
     const contenu = JSON.parse(formData.get('contenu')?.toString() ?? '{}');
     const file = formData.get('image') as File;
 
@@ -48,7 +84,7 @@ export async function addArticle(state: FormState, formData: FormData) {
                 .filter(Boolean)
                 .map((s) => ({ id: s.trim() })),
         },
-        authorId: user.id,
+        authorId: userId,
     });
 
 

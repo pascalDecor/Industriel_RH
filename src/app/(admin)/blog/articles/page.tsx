@@ -11,11 +11,28 @@ import { AsyncBuilder } from "@/components/ui/asyncBuilder";
 import ItemArticles from "./item";
 import Pagination from "@/components/paginationCustom";
 import FloatingLabelInput from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+interface OngletProps {
+    id: "published" | "unpublished";
+    libelle: string;
+}
 
 export default function Blog() {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const [changeCount, setchangeCount] = useState(0);
+
+    const onglets: OngletProps[] = [
+        {
+            id: "published",
+            libelle: "Publiés"
+        },
+        {
+            id: "unpublished",
+            libelle: "Non publiés"
+        }
+    ];
 
     return (
         <div className="space-y-8">
@@ -29,36 +46,53 @@ export default function Blog() {
                     <Button className="w-full py-3" onClick={() => redirect('/blog/articles/add')}>Ajouter un article</Button>
                 </div>
             </div>
-            {/* Liste des articles */}
 
-            <AsyncBuilder promise={async () => {
-                return HttpService.index<Article>({
-                    url: '/articles?page=' + page + '&search=' + search,
-                    fromJson: (json: any) => Article.fromJSON(json)
-                });
-            }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>} callDataListen={changeCount} hasData={data => {
-                setPage(data.meta.page);
-                return <>
-                    {search && data.data.length === 0 && <div className="text-center text-slate-500 font-bold bg-white rounded-lg p-10">Aucun résultat !</div>}
-                    {data.data.length !== 0 && <p className="text-slate-700 text-sm mb-4 font-semibold">{data.meta.total} résultats</p>}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-10">
-                        {data.data.map(s =>
-                            <ItemArticles key={s.id} article={s} onChange={state => {
-                                if (state) {
-                                    setchangeCount(c => c + 1);
-                                }
-                            }} />
-                        )}
+            <div>
+                <Tabs defaultValue={onglets[0].id} className="w-full">
+                    <div className="bg-slate-200 py-0 px-0 w-full rounded-xl">
+                        <TabsList className="w-fit px-0 py-5 bg-slate-200">
+                            {onglets.map(onglet =>
+                                <TabsTrigger
+                                    key={onglet.id}
+                                    className="py-5 px-10 cursor-pointer w-fit"
+                                    value={onglet.id}>{onglet.libelle}</TabsTrigger>)}
+                        </TabsList>
                     </div>
-                    {(data.data.length !== 0 && data.meta.totalPages > 1) && <div className="flex justify-center w-full">
-                        <Pagination className="my-5 mx-auto" currentPage={page} totalPages={data.meta.totalPages} onPageChange={newPage => {
-                            setPage(newPage);
-                            setchangeCount(c => c + 1);
-                        }} siblingCount={1} // optionnel, nombre de pages voisines
-                        />
-                    </div>}
-                </>;
-            }} />
+                    {onglets.map(onglet =>
+                        <TabsContent key={onglet.id} value={onglet.id}>
+                            <AsyncBuilder promise={async () => {
+                                const publishedParam = onglet.id === "published" ? "true" : "false";
+                                return HttpService.index<Article>({
+                                    url: `/articles?page=${page}&search=${search}&published=${publishedParam}&includeContent=true`,
+                                    fromJson: (json: any) => Article.fromJSON(json)
+                                });
+                            }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>} callDataListen={changeCount} hasData={data => {
+                                setPage(data.meta.page);
+                                return <>
+                                    {search && data.data.length === 0 && <div className="text-center text-slate-500 font-bold bg-white rounded-lg p-10">Aucun résultat !</div>}
+                                    {data.data.length !== 0 && <p className="text-slate-700 text-sm mt-2 mb-2 ml-2 font-semibold">{data.meta.total} résultats</p>}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+                                        {data.data.map(s =>
+                                            <ItemArticles key={s.id} article={s} onChange={state => {
+                                                if (state) {
+                                                    setchangeCount(c => c + 1);
+                                                }
+                                            }} />
+                                        )}
+                                    </div>
+                                    {(data.data.length !== 0 && data.meta.totalPages > 1) && <div className="flex justify-center w-full">
+                                        <Pagination className="my-5 mx-auto" currentPage={page} totalPages={data.meta.totalPages} onPageChange={newPage => {
+                                            setPage(newPage);
+                                            setchangeCount(c => c + 1);
+                                        }} siblingCount={1} // optionnel, nombre de pages voisines
+                                        />
+                                    </div>}
+                                </>;
+                            }} />
+                        </TabsContent>
+                    )}
+                </Tabs>
+            </div>
         </div>
     );
 }

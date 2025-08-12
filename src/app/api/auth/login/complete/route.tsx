@@ -16,12 +16,12 @@ export const POST = async (req: Request) => {
         // Vérifier le rate limiting pour les tentatives OTP
         const identifier = getRequestIdentifier(req);
         const rateLimitCheck = checkRateLimit(otpRateLimit, identifier);
-        
+
         if (!rateLimitCheck.success) {
             logRateLimitExceeded(req, identifier);
             return NextResponse.json(
                 { message: rateLimitCheck.error },
-                { 
+                {
                     status: 429,
                     headers: rateLimitCheck.resetTime ? {
                         'Retry-After': Math.ceil((rateLimitCheck.resetTime - Date.now()) / 1000).toString()
@@ -32,10 +32,24 @@ export const POST = async (req: Request) => {
 
         const { email, otp } = await req.json();
 
-    // Récupérer l'utilisateur correspondant à l'email
-    const user = await prisma.user.findUnique({
-        where: { email }
-    });
+        // Récupérer l'utilisateur correspondant à l'email avec ses rôles
+        const user = await prisma.user.findUnique({
+            where: { email },
+            include: {
+                userRoles: {
+                    where: {
+                        isActive: true
+                    },
+                    select: {
+                        role: true,
+                        isPrimary: true
+                    },
+                    orderBy: {
+                        isPrimary: 'desc'
+                    }
+                }
+            }
+        });
 
         if (!user || !user.otp || !user.otpExpiration) {
             otpRateLimit.recordAttempt(identifier, false);
@@ -77,15 +91,19 @@ export const POST = async (req: Request) => {
         // Réinitialiser l'OTP pour éviter sa réutilisation
         await prisma.user.update({
             where: { id: user.id },
-            data: { otp: null, otpExpiration: null }
+            data: { otp: null, otpExpiration: null, lastLogin: new Date() }
         });
+
+        // Récupérer le rôle primaire ou le premier rôle actif
+        const primaryRole = user.userRoles.find(ur => ur.isPrimary) || user.userRoles[0];
+        const userRole = primaryRole?.role || 'CONSULTANT';
 
         // Générer les tokens JWT avec refresh token
         const { accessToken, refreshToken } = await generateTokens({
             id: user.id,
             email: user.email,
             name: user.name || user.email,
-            role: user.role || 'user'
+            role: userRole
         });
 
         // Filtrer les données sensibles
@@ -97,7 +115,7 @@ export const POST = async (req: Request) => {
         );
 
         // Définir les cookies sécurisés
-        setCookie(res, "token", accessToken, 15 * 60); // 15 minutes
+        setCookie(res, "token", accessToken, 60 * 60); // 15 minutes
         setCookie(res, "refreshToken", refreshToken, 7 * 24 * 60 * 60); // 7 jours
 
         // Enregistrer le succès

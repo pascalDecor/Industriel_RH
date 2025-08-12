@@ -9,10 +9,10 @@ const prisma = new PrismaClient();
 // PATCH - Modifier une assignation de rôle
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string; roleId: string } }
+  { params }: { params: Promise<{ id: string; roleId: string }> }
 ) {
   try {
-    const { id, roleId } = params;
+    const { id, roleId } = await params;
 
     // Vérifier l'authentification et les permissions
     const authResult = await verifyAuth(request);
@@ -99,10 +99,10 @@ export async function PATCH(
 // DELETE - Supprimer une assignation de rôle
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; roleId: string } }
+  { params }: { params: Promise<{ id: string; roleId: string }> }
 ) {
   try {
-    const { id, roleId } = params;
+    const { id, roleId } = await params;
 
     // Vérifier l'authentification et les permissions
     const authResult = await verifyAuth(request);

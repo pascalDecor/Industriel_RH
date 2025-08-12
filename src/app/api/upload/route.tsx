@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     .upload(path, file, {
       contentType: file.type,
       cacheControl: '3600',
-      upsert: false,
+      upsert: true,
     });
 
   if (error) {

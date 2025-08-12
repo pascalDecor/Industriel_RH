@@ -23,6 +23,9 @@ import {
   CheckCircle,
   XCircle
 } from 'lucide-react';
+import RoleManager from './RoleManager';
+import EditUserModal from './EditUserModal';
+import DeleteUserModal from './DeleteUserModal';
 
 interface UserProfileProps {
   userId: string;
@@ -52,6 +55,9 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
   const [user, setUser] = useState<UserDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [showRoleManager, setShowRoleManager] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     if (isOpen && userId) {
@@ -108,9 +114,11 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
       });
 
       if (response.ok) {
-        await loadUserDetails(); // Recharger les données
         if (action === 'delete') {
+          setShowDeleteModal(false);
           onClose();
+        } else {
+          await loadUserDetails(); // Recharger les données
         }
       }
     } catch (error) {
@@ -326,7 +334,7 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
                       <Button 
                         variant="outline" 
                         className="w-full justify-start"
-                        onClick={() => {/* TODO: Implémenter */}}
+                        onClick={() => setShowEditModal(true)}
                       >
                         <Edit className="h-4 w-4 mr-2" />
                         Modifier le profil
@@ -337,7 +345,7 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
                       <Button 
                         variant="outline" 
                         className="w-full justify-start"
-                        onClick={() => {/* TODO: Implémenter */}}
+                        onClick={() => setShowRoleManager(true)}
                       >
                         <Shield className="h-4 w-4 mr-2" />
                         Gérer les rôles
@@ -403,11 +411,11 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
                     <Button 
                       variant="outline" 
                       className="w-full justify-start text-red-600 border-red-200 hover:bg-red-50"
-                      onClick={() => handleAction('delete')}
+                      onClick={() => setShowDeleteModal(true)}
                       disabled={actionLoading === 'delete'}
                     >
                       <Trash2 className="h-4 w-4 mr-2" />
-                      {actionLoading === 'delete' ? 'Suppression...' : 'Supprimer l\'utilisateur'}
+                      Supprimer l'utilisateur
                     </Button>
                   </Card>
                 </PermissionGuard>
@@ -420,6 +428,36 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
             <Button onClick={onClose} className="mt-4">Fermer</Button>
           </div>
         )}
+
+        {/* Gestionnaire de rôles */}
+        <RoleManager
+          userId={userId}
+          isOpen={showRoleManager}
+          onClose={() => setShowRoleManager(false)}
+          onRolesUpdated={loadUserDetails}
+        />
+
+        {/* Modal d'édition */}
+        <EditUserModal
+          userId={userId}
+          isOpen={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          onUserUpdated={loadUserDetails}
+        />
+
+        {/* Modal de suppression */}
+        <DeleteUserModal
+          user={user ? {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role ? ROLE_LABELS[user.role] : undefined
+          } : null}
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={() => handleAction('delete')}
+          loading={actionLoading === 'delete'}
+        />
       </div>
     </div>
   );

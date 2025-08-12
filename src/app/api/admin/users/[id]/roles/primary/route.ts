@@ -9,10 +9,10 @@ const prisma = new PrismaClient();
 // PATCH - Changer le rôle principal d'un utilisateur
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // Vérifier l'authentification et les permissions
     const authResult = await verifyAuth(request);

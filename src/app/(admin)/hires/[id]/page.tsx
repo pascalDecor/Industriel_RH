@@ -18,13 +18,10 @@ import EditorContent from "@/components/ui/editorContent";
 
 
 type PageProps = {
-    params: {
-        id: string
-    }
+    params: Promise<{ id: string }>
 }
-
-export default function DetailsHires({ params }: PageProps) {
-    const { id } = params;
+export default async function DetailsHires({ params }: PageProps) {
+     const { id } = await params;
 
     const [loadingDelete, setLoadingDelete] = useState(false);
     const [loadingValidate, setLoadingValidate] = useState(false);

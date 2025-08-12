@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { imagePathFinder } from "@/utils/imagePathFinder";
-import Button from "../ui/button";
 import { redirect } from "next/navigation";
 import { Sector } from "@/models/sector";
+
+const Button = dynamic(() => import("../ui/button"), {
+  loading: () => <div className="animate-pulse bg-gray-200 rounded-full h-10 w-32" />
+});
 
 
 export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] }) {
@@ -13,7 +17,17 @@ export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] 
     <div className="lg:flex grid grid-cols-12 gap-10 lg:px-10 mb-5 justify-between items-start w-7xl mx-auto">
       <div className="col-span-3 lg:w-3/12">
         <div className="bg-white shadow-lg rounded-2xl p-5 w-full">
-          <Image loading="lazy" src={imagePathFinder.discover_insights} alt="logo" className="w-1/2" />
+          <Image
+            priority={false}
+            loading="lazy"
+            src={imagePathFinder.discover_insights}
+            alt="logo"
+            className="w-1/2"
+            width={200}
+            height={100}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGBobHB0eH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJvBYxun9ubtlOIZhKhFa/buxtrMuZBOgKiDKUQKUGKxgLAaYYJqKQyFQQPL8RoXM8VQRlhYhYVCQUBGOFRDgJBGwwCAYLPJA="
+          />
           <p className="text-gray-500 text-sm mb-5">
             Make smarter decisions with the latest hiring trends and career insights.
           </p>
@@ -62,7 +76,7 @@ export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] 
             <Link href={"/salary-guide"} className="text-gray-500 text-sm">
               Salary guide
             </Link>
-            <Link href={"/find-jobs"} className="text-gray-500 text-sm">
+            {/* <Link href={"/find-jobs"} className="text-gray-500 text-sm">
               Resume Builder
             </Link>
             <Link href={"/valid-cnesst"} className="text-gray-500 text-sm">
@@ -70,7 +84,7 @@ export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] 
             </Link>
             <Link href={"/find-jobs"} className="text-gray-500 text-sm">
               VivreFrais
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

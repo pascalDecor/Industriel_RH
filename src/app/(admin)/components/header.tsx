@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search } from "lucide-react";
+import { Bell, Search, FileText } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,8 +15,11 @@ import { User } from "@/models/user";
 import { FaAngleDown } from "react-icons/fa";
 import { useLogout } from "@/hooks/useLogin";
 import { redirect } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import Link from "next/link";
 
 export default function Header({ user }: Readonly<{ user: User | null }>) {
+  const { hasInternalAccess } = useAuth();
 
   const handleLogout = async () => {
     const res = await useLogout();
@@ -36,6 +39,13 @@ export default function Header({ user }: Readonly<{ user: User | null }>) {
           <Button variant="dark" size="sm" className="bg-white !text-gray-800 !border-none !rounded-full aspect-ratio-1 hover:!text-gray-100 h-10 w-10 p-0 flex items-center justify-center">
             <Bell className="h-5 w-5" />
           </Button>
+          {hasInternalAccess && (
+            <Link href="/api-docs" target="_blank" rel="noopener noreferrer">
+              <Button variant="dark" size="sm" className="bg-purple-100 !text-purple-800 !border-none !rounded-full aspect-ratio-1 hover:!bg-purple-200 h-10 w-10 p-0 flex items-center justify-center">
+                <FileText className="h-5 w-5" />
+              </Button>
+            </Link>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center justify-center gap-2 cursor-pointer">

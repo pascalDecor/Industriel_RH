@@ -11,16 +11,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendMail = async (to: string, subject: string, text: string) => {
+export const sendMail = async (to: string, subject: string, text: string, html?: string) => {
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `${process.env.EMAIL_FROM_NAME || 'Industriel RH'} <${process.env.EMAIL_USER}>`,
       to,
       subject,
-      text
+      text,
+      html // Support HTML
     });
-    console.log("Email envoyé avec succès");
+    console.log(`✅ Email envoyé avec succès à ${to}`);
+    return true;
   } catch (error) {
-    console.error("Erreur lors de l'envoi de l'email", error);
+    console.error("❌ Erreur lors de l'envoi de l'email:", error);
+    return false;
   }
 };

@@ -1,5 +1,7 @@
 "use client";
 
+import { UserRole } from '@/types/auth';
+
 export interface TagProps {
   id: string;
   createdAt?: Date;
@@ -88,6 +90,7 @@ export interface ArticleProps {
   image?: string;
   views: number;
   authorId: string;
+  author?: UserProps;
   tags?: TagProps[];
   specialites?: SpecialiteProps[];
 }
@@ -155,5 +158,10 @@ export interface UserProps {
   id: string;
   name: string;
   email: string;
+  role: UserRole;
+  isActive: boolean;
+  lastLogin?: Date;
   avatarUrl?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

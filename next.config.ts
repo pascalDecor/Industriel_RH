@@ -26,15 +26,35 @@ const nextConfig: NextConfig = {
         pathname: "/**",
         search: ""
       }
-    ]
+    ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 31536000,
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   experimental: {
-    optimizeCss: true
+    optimizeCss: true,
+    optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons'],
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true
-  }
+  },
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: false,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  swcMinify: true,
 };
 
 export default nextConfig;

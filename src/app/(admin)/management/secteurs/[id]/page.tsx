@@ -18,15 +18,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FonctionsListe from "./functions/liste";
 import { SectorSections } from "./sections";
 
-interface Props {
-    params: {
-        id: string
-    }
+type PageProps = {
+    params: Promise<{ id: string }>
 }
 
 
-export default function Secteur({ params }: Props) {
-    const { id } = params;
+export default async function Secteur({ params }: PageProps) {
+    const { id } = await params;
 
     const [loadingDelete, setLoadingDelete] = useState(false);
     const [changeCount, setchangeCount] = useState(0);

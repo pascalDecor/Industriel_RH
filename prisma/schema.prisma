@@ -16,15 +16,58 @@ datasource db {
 
 // Models define your data and tell Prisma which data to store in the database.
 model User {
-  id            String    @id @default(cuid())
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  name          String
-  email         String    @unique
-  password      String
-  otp           String? // Code OTP temporaire, nullable
-  otpExpiration DateTime? // Date et heure d’expiration du OTP, nullable
-  articles      Article[]
+  id                    String    @id @default(cuid())
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  name                  String
+  email                 String    @unique
+  password              String
+  isActive              Boolean   @default(true)
+  lastLogin             DateTime?
+  avatarUrl             String?
+  otp                   String? // Code OTP temporaire, nullable
+  otpExpiration         DateTime? // Date et heure d'expiration du OTP, nullable
+  mustChangePassword    Boolean   @default(false) // Force le changement de mot de passe à la prochaine connexion
+  tempPasswordExpires   DateTime? // Date d'expiration du mot de passe temporaire
+  firstLoginToken       String?   // Token sécurisé pour la première connexion
+  firstLoginTokenExpires DateTime? // Expiration du token de première connexion
+  articles              Article[]
+  userRoles             UserRoleAssignment[]
+
+  @@index([email])
+  @@index([isActive])
+  @@index([mustChangePassword])
+  @@index([firstLoginToken])
+}
+
+model UserRoleAssignment {
+  id          String   @id @default(cuid())
+  userId      String
+  role        UserRole
+  isPrimary   Boolean  @default(false)
+  assignedAt  DateTime @default(now())
+  assignedBy  String?  // ID de l'utilisateur qui a assigné ce rôle
+  isActive    Boolean  @default(true)
+  expiresAt   DateTime? // Pour les rôles temporaires
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Contraintes
+  @@unique([userId, role]) // Un utilisateur ne peut avoir le même rôle qu'une fois
+  @@index([userId])
+  @@index([role])
+  @@index([isPrimary])
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  HR_DIRECTOR
+  HR_MANAGER
+  RECRUITER_SENIOR
+  RECRUITER
+  HR_ASSISTANT
+  CONSULTANT
 }
 
 model Article {

@@ -6,6 +6,7 @@ const createCities = require('./seeders/createCities.ts');
 const createCountries = require('./seeders/createCountries.ts');
 const createTags = require('./seeders/createTags.ts');
 const createNotices = require('./seeders/createNotices.ts');
+const createUsers = require('./seeders/createUsers.ts');
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,7 @@ async function main() {
   await createCities(prisma);
   await createTags(prisma);
   await createNotices(prisma);
+  await createUsers(prisma);
 }
 
 main()

@@ -1,7 +1,7 @@
 "use client";
 
 import { BaseModel } from "./baseModel";
-import { ArticleProps, TagProps, SpecialiteProps } from "./props";
+import { ArticleProps, TagProps, SpecialiteProps, UserProps } from "./props";
 
 export class Article extends BaseModel<ArticleProps> {
   constructor(props: ArticleProps) {
@@ -49,12 +49,16 @@ export class Article extends BaseModel<ArticleProps> {
     return this.props.authorId;
   }
 
+  get author(): UserProps | undefined {
+    return this.props.author;
+  }
+
   get tags(): TagProps[] {
-    return this.props.tags!;
+    return this.props.tags || [];
   }
 
   get specialites(): SpecialiteProps[] {
-    return this.props.specialites!;
+    return this.props.specialites || [];
   }
 
   addTag(tag: TagProps): void {

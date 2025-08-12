@@ -17,10 +17,12 @@ import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useRef, useState } from 'react'
 import { Specialite } from '@/models/specialite';
+import { useSession } from '@/hooks/useSession';
 
 export default function AddArticle() {
     const [state, action, pending] = useActionState(addArticle, undefined);
     const router = useRouter();
+    const { session, isLoading: sessionLoading } = useSession();
 
     const [article, setArticle] = useState(Article.fromJSON({} as any));
     const [selectedImage, setSelectedImage] = useState<string>('');
@@ -28,6 +30,8 @@ export default function AddArticle() {
     const inputRef = useRef<HTMLInputElement>(null);
     
     const { specialites, tags, isLoading: loading, error, mutateTags } = useBlogData();
+
+    console.log("Session utilisateur:", session);
 
     useEffect(() => {
         console.log(state);
@@ -72,6 +76,8 @@ export default function AddArticle() {
             </h2>
 
             <form action={action} encType="multipart/form-data" className='w-full grid grid-cols-2 gap-5'>
+                {/* Champ caché pour l'ID de l'auteur */}
+                <input type="hidden" name="authorId" value={session?.user?.id || ''} />
                 <div className='col-span-1'>
                     <div className="border border-gray-300 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full w-full">
                         <p className="text-sm font-regular text-gray-500 my-3 ml-2">

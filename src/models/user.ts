@@ -4,6 +4,7 @@
 import { userAvartarURL } from "@/constant/api";
 import { BaseModel } from "./baseModel";
 import { UserProps } from "./props";
+import { UserRole } from "@/types/auth";
 
 export class User extends BaseModel<UserProps> {
   constructor(props: UserProps) {
@@ -15,6 +16,7 @@ export class User extends BaseModel<UserProps> {
         userAvartarURL,
     });
   }
+  
   get name(): string {
     return this.props.name;
   }
@@ -23,7 +25,27 @@ export class User extends BaseModel<UserProps> {
     return this.props.email;
   }
 
+  get role(): UserRole {
+    return this.props.role;
+  }
+
+  get isActive(): boolean {
+    return this.props.isActive;
+  }
+
+  get lastLogin(): Date | undefined {
+    return this.props.lastLogin;
+  }
+
   get avatarUrl(): string {
     return this.props.avatarUrl!;
+  }
+
+  get createdAt(): Date | undefined {
+    return this.props.createdAt;
+  }
+
+  get updatedAt(): Date | undefined {
+    return this.props.updatedAt;
   }
 }

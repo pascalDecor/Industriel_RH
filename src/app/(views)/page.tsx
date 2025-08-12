@@ -1,17 +1,37 @@
 
 "use client";
 
-import Button from "@/components/ui/button";
+import dynamic from "next/dynamic";
 import { FiCheck, FiSearch } from "react-icons/fi";
-import Image from 'next/image'
+import LazyImage from "@/components/ui/LazyImage";
 import { imagePathFinder } from "@/utils/imagePathFinder";
-import AppYourWayToNewJob from "@/components/AppYourWayToNewJob";
-import PartnersAccreditation from "@/components/PartnersAccreditation";
-import ExploreSuccessStories from "@/components/ExploreSuccessStories";
-import AddSpecializedTalentAcrossYourOrganization from "@/components/AddSpecializedTalentAcrossYourOrganization";
-import HomeBannerCarroussel from "@/components/HomeBannerCarroussel";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { redirect } from "next/navigation";
+import Image from "next/image";
+
+const Button = dynamic(() => import("@/components/ui/button"), {
+  loading: () => <div className="animate-pulse bg-gray-200 rounded-full h-10 w-32" />
+});
+
+const AppYourWayToNewJob = dynamic(() => import("@/components/AppYourWayToNewJob"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-64 rounded-lg" />
+});
+
+const PartnersAccreditation = dynamic(() => import("@/components/PartnersAccreditation"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-32 rounded-lg" />
+});
+
+const ExploreSuccessStories = dynamic(() => import("@/components/ExploreSuccessStories"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
+});
+
+const AddSpecializedTalentAcrossYourOrganization = dynamic(() => import("@/components/AddSpecializedTalentAcrossYourOrganization"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-64 rounded-lg" />
+});
+
+const HomeBannerCarroussel = dynamic(() => import("@/components/HomeBannerCarroussel"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
+});
 
 export default function Home() {
   const { t } = useTranslation();
@@ -32,8 +52,8 @@ export default function Home() {
           <div className="bg-[url(/images/card_fond.png)] 
           bg-white bg-cover bg-center
             border border-gray-300 rounded-lg p-4">
-            <div className="flex">
-              <div>
+            <div className="flex space-x-4">
+              <div >
                 <h6 className="text-blue-800 text-sm mb-3 font-semibold">
                   {t('home.cards.salary_guide.title')}
                 </h6>
@@ -41,13 +61,13 @@ export default function Home() {
                   {t('home.cards.salary_guide.desc')}
                 </p>
               </div>
-              <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.salary_guide_1} alt="Salary Guide" />
+              <Image className="flex-1/3 rounded-lg" src={imagePathFinder.salary_guide_1} alt="Salary Guide" width={150} height={100} />
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] 
           bg-white bg-cover bg-center
             border border-gray-300 rounded-lg p-4">
-            <div className="flex">
+            <div className="flex space-x-4">
               <div>
                 <h6 className="text-blue-800 text-sm mb-3 font-semibold">
                   {t('home.cards.cv_builder.title')}
@@ -56,13 +76,13 @@ export default function Home() {
                   {t('home.cards.cv_builder.desc')}
                 </p>
               </div>
-              <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.cv_builder} alt="What jobs are in demand?" />
+              <Image className="w-1/3 h-full rounded-lg" src={imagePathFinder.cv_builder} alt="What jobs are in demand?" width={150} height={100} />
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] 
           bg-white bg-cover bg-center
             border border-gray-300 rounded-lg p-4">
-            <div className="flex">
+            <div className="flex space-x-4">
               <div>
                 <h6 className="text-blue-800 text-sm mb-3 font-semibold">
                   {t('home.cards.blog.title')}
@@ -71,13 +91,13 @@ export default function Home() {
                   {t('home.cards.blog.desc')}
                 </p>
               </div>
-              <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.ir_blog} alt="Robert Half blog" />
+              <Image className="w-1/3 rounded-lg" src={imagePathFinder.ir_blog} alt="Robert Half blog" width={150} height={100} />
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] 
           bg-white bg-cover bg-center
             border border-gray-300 rounded-lg p-4">
-            <div className="flex">
+            <div className="flex space-x-4">
               <div>
                 <h6 className="text-blue-800 text-sm mb-3 font-semibold">
                   {t('home.cards.tech_skills.title')}
@@ -86,7 +106,7 @@ export default function Home() {
                   {t('home.cards.tech_skills.desc')}
                 </p>
               </div>
-              <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.navigate_tech_skill} alt="Navigate tech skills gaps" />
+              <Image className="w-1/3 rounded-lg" src={imagePathFinder.navigate_tech_skill} alt="Navigate tech skills gaps" width={150} height={100} />
             </div>
           </div>
 
@@ -122,7 +142,7 @@ export default function Home() {
             </Button>
           </div>
           <div className="w-2/5">
-            <Image loading="lazy" src={imagePathFinder.preview_candidat} alt="Salary Guide" />
+            <LazyImage src={imagePathFinder.preview_candidat} alt="Salary Guide" width={400} height={300} />
           </div>
         </div>
       </section>
@@ -137,31 +157,31 @@ export default function Home() {
 
           <div className="grid grid-cols-5 gap-4 w-full mb-10 ">
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image loading="lazy" src={imagePathFinder.describe_your_need} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
+              <LazyImage src={imagePathFinder.describe_your_need} alt="Describe your Need" className="w-10 mb-4 mx-auto" width={40} height={40} />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 {t('home.how_it_works.step1')}
               </p>
             </div>
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image loading="lazy" src={imagePathFinder.we_source_the_talent} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
+              <LazyImage src={imagePathFinder.we_source_the_talent} alt="We Source the Talent" className="w-10 mb-4 mx-auto" width={40} height={40} />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 {t('home.how_it_works.step2')}
               </p>
             </div>
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image loading="lazy" src={imagePathFinder.select_and_approve} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
+              <LazyImage src={imagePathFinder.select_and_approve} alt="Select and Approve" className="w-10 mb-4 mx-auto" width={40} height={40} />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 {t('home.how_it_works.step3')}
               </p>
             </div>
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image loading="lazy" src={imagePathFinder.seamless_integration} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
+              <LazyImage src={imagePathFinder.seamless_integration} alt="Seamless Integration" className="w-10 mb-4 mx-auto" width={40} height={40} />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 {t('home.how_it_works.step4')}
               </p>
             </div>
             <div className="col-span-1 bg-white rounded-2xl p-7 text-center">
-              <Image loading="lazy" src={imagePathFinder.continuous_support} alt="Continuous Support" className="w-10 mb-4 mx-auto" />
+              <LazyImage src={imagePathFinder.continuous_support} alt="Continuous Support" className="w-10 mb-4 mx-auto" width={40} height={40} />
               <p className="text-sm font-semibold text  text-gray-800 text-center">
                 {t('home.how_it_works.step5')}
               </p>
@@ -213,7 +233,7 @@ export default function Home() {
             </div>
           </div>
           <div className="w-2/5">
-            <Image loading="lazy" src={imagePathFinder.find_your_next_hire} alt="Salary Guide" />
+            <LazyImage src={imagePathFinder.find_your_next_hire} alt="Find your next hire" width={400} height={300} />
           </div>
         </div>
       </section>
@@ -223,7 +243,7 @@ export default function Home() {
       <section className="mx-auto w-lvw mb-10 p-10 bg-gray-200">
         <div className="flex items-center gap-4 m-auto max-w-5xl p-10">
           <div className="w-3/5 mr-7">
-            <Image loading="lazy" src={imagePathFinder.we_are_experts_in_employee_recognition} alt="Salary Guide" />
+            <LazyImage src={imagePathFinder.we_are_experts_in_employee_recognition} alt="Employee recognition experts" width={400} height={300} />
           </div>
           <div className="w-3/5 pr-4">
             <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
@@ -324,7 +344,7 @@ export default function Home() {
             </div>
           </div>
           <div className="w-3/5">
-            <Image loading="lazy" src={imagePathFinder.shape_the_career_you_want} alt="Salary Guide" />
+            <LazyImage src={imagePathFinder.shape_the_career_you_want} alt="Shape your career" width={400} height={300} />
           </div>
         </div>
       </section>

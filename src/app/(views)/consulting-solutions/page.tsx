@@ -1,21 +1,42 @@
 
 "use client";
 
-import Button from "@/components/ui/button";
+import dynamic from "next/dynamic";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import Image from 'next/image';
 
 import { FiArrowRight } from "react-icons/fi";
-import ExploreSuccessStories from "@/components/ExploreSuccessStories";
 import { useEffect, useState } from "react";
-import MoveYourCareerForward from "./components/move-your-career-forward";
-import HiringRequest from "./components/hiring-request";
 import { Sector } from "@/models/sector";
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { Section } from "@/models/section";
 import { SectionProps } from "@/models/props";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
+
+const Button = dynamic(() => import("@/components/ui/button"), {
+  loading: () => <div className="animate-pulse bg-gray-200 rounded-full h-10 w-32" />
+});
+
+const ExploreSuccessStories = dynamic(() => import("@/components/ExploreSuccessStories"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-64 rounded-lg" />
+});
+
+const MoveYourCareerForward = dynamic(() => import("./components/move-your-career-forward"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
+});
+
+const HiringRequest = dynamic(() => import("./components/hiring-request"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
+});
+
+const DynamicArticlesGrid = dynamic(() => import("@/components/articles/DynamicArticlesGrid"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
+});
+
+const HiringTrendsArticles = dynamic(() => import("@/components/articles/HiringTrendsArticles"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-64 rounded-lg" />
+});
 
 
 
@@ -49,6 +70,28 @@ export default function ConsultingSolutions() {
     }
   }, [sector]);
 
+  useEffect(() => {
+    const fetchSectors = async () => {
+      try {
+        const response = await fetch('/api/sectors?limit=10');
+        const result = await response.json();
+        if (result.data) {
+          const sectorTabs = result.data.map((sector: any, index: number) => ({
+            id: index.toString(),
+            label: sector.libelle.toLowerCase(),
+            sectorId: sector.id,
+            sectorName: sector.libelle
+          }));
+          setTabsType(sectorTabs);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des secteurs:', error);
+      }
+    };
+
+    fetchSectors();
+  }, []);
+
   function handleClick() {
     console.log("Clic !");
   }
@@ -63,11 +106,11 @@ export default function ConsultingSolutions() {
     { id: "1", label: t('consulting.tabs.looking_for_job') },
   ];
 
-  const tabsType = [
+  const [tabsType, setTabsType] = useState([
     { id: "0", label: t('sectors.construction') },
     { id: "1", label: t('sectors.manufacturing') },
     { id: "2", label: t('sectors.healthcare') },
-  ];
+  ]);
 
   const [activeTab, setActiveTab] = useState("0");
   const [activeTabType, setActiveTabType] = useState("1");
@@ -283,124 +326,12 @@ export default function ConsultingSolutions() {
         ))}
       </div>
 
-      <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-4 text-left">
-        <div className="col-span-3">
-          <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image loading="lazy" src={imagePathFinder.card_image_1} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {"6 Tips to Ease Hiring in Canada's Tight Labour Market"}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                Having trouble navigating the tight labour market for hiring skilled talent in Canada? Here are six tips Canadian ...
-              </p>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image loading="lazy" src={imagePathFinder.card_image_2} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {"Starting a New Job? Don't Make These 5 Mistakes"}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {"Just starting a nen job? Don't relex yet. Read our tips on avoiding five of the most common mistakes that new ..."}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-span-3">
-          <div className=" bg-blue-900 text-white rounded-lg p-10 shadow-lg mb-4">
-            <p className="text-sm font-regular font-bold mb-3">
-              {t('find_jobs.featured')}
-            </p>
-            <p className="text-sm font-regular ">
-              {t('find_jobs.what_jobs_demand')}
-            </p>
-          </div>
-          <div className=" bg-black text-white rounded-lg p-10 shadow-lg mb-4">
-            <p className="text-sm font-regular font-bold mb-3">
-              {t('find_jobs.tag_results')}
-            </p>
-            <p className="text-sm font-regular mb-10">
-              {t('find_jobs.landing_job')}
-            </p>
-            <p className="text-sm font-regular">
-              {t('find_jobs.posts_count', { count: '64' })}
-            </p>
-          </div>
-          <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image loading="lazy" src={imagePathFinder.card_image_3} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                Benefits of Using a Recruitment Agency in Canada to Hire Talent in 2025
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                Wondering about the benefits of using employment agencies to recruit employees? This article walks Canadian businesses through the benefits of ...
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-span-3">
-          <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image loading="lazy" src={imagePathFinder.card_image_4} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                December 2024 Labour Force Survey: Canadian Employment Rises b...
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {"Canada's unemployment rate fell to 6.7 percent in December eccording to Statistics Canada's newest..."}
-              </p>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image loading="lazy" src={imagePathFinder.card_image_5} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {"Why More Canadians Should Be Setting Career New Year's Resolutions"}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {" Considering making career new year's resolutions? This guide features eight factors Canadians should consider ..."}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-span-3">
-          <div className=" bg-blue-900 text-white rounded-lg p-10 shadow-lg mb-4">
-            <p className="text-sm font-regular font-bold mb-3">
-              {t('find_jobs.featured')}
-            </p>
-            <p className="text-sm font-regular ">
-              {t('find_jobs.what_jobs_demand')}
-            </p>
-          </div>
-          <div className=" bg-black text-white rounded-lg p-10 shadow-lg mb-4">
-            <p className="text-sm font-regular font-bold mb-3">
-              {t('find_jobs.tag_results')}
-            </p>
-            <p className="text-sm font-regular mb-10">
-              {t('find_jobs.landing_job')}
-            </p>
-            <p className="text-sm font-regular">
-              {t('find_jobs.posts_count', { count: '72' })}
-            </p>
-          </div>
-          <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-            <Image loading="lazy" src={imagePathFinder.card_image_6} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                New Year, New Career: 7 Canada-Centric Job Search Tips for 2025
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                New year, new career! Professionals across Canada wondering how to find a job in 2025 should check out our 7 job search tips for 2025 to ensure they start the year off right.                            </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-span-12 flex justify-center items-center">
-          <Button variant="primary" size="md" onClick={() => router.push("/discover-insights#refine_your_focus")} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
-            {t('find_jobs.subscribe_updates')}
-          </Button>
-        </div>
-      </div>
+      <DynamicArticlesGrid 
+        category={tabsType.find(tab => tab.id === activeTabType)?.label.toLowerCase() || "all"}
+        sectorId={tabsType.find(tab => tab.id === activeTabType)?.sectorName}
+        limit={12}
+        showFeaturedBlocks={true}
+      />
     </section>
 
 
@@ -449,64 +380,7 @@ export default function ConsultingSolutions() {
       </h2>
 
 
-      <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-8 text-left">
-        <div className="col-span-3">
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.be_salary_smart} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {t('consulting.hiring_trends.be_salary_smart')}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {t('consulting.hiring_trends.be_salary_smart_desc')}
-              </p>
-            </div>
-          </div>
-
-        </div>
-        <div className="col-span-3">
-
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.career_development} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {t('consulting.hiring_trends.career_development')}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {t('consulting.hiring_trends.career_development_desc')}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-span-3">
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.What_jobs_are_in_demand} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {t('find_jobs.what_jobs_demand')}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {t('consulting.hiring_trends.what_jobs_demand_desc')}
-              </p>
-            </div>
-          </div>
-
-        </div>
-        <div className="col-span-3">
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.landing_a_job} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {t('find_jobs.landing_job')}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {t('consulting.hiring_trends.landing_job_desc')}
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </div>
+      <HiringTrendsArticles limit={4} />
     </section>
   </>
 }

@@ -1,6 +1,57 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Styles pour l'effet masonry (Pinterest-like) */
+.masonry-container {
+  columns: 5;
+  column-gap: 12px;
+  column-fill: balance;
+  width: 100%;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  display: inline-block;
+  width: calc(100% - 4px);
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+/* Responsive pour différentes tailles d'écran */
+/* XL screens (1280px+) : 4 colonnes */
+@media (min-width: 1280px) {
+  .masonry-container {
+    column-count: 4;
+    column-gap: 16px;
+    max-width: 100%;
+  }
+  
+  .masonry-item {
+    width: calc(100% - 2px);
+  }
+}
+
+/* Large screens (1024px-1279px) : 3 colonnes */
+@media (max-width: 1279px) and (min-width: 1024px) {
+  .masonry-container {
+    column-count: 3;
+  }
+}
+
+/* Medium screens (768px-1023px) : 2 colonnes */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .masonry-container {
+    column-count: 2;
+  }
+}
+
+/* Small screens (moins de 768px) : 1 colonne */
+@media (max-width: 767px) {
+  .masonry-container {
+    column-count: 1;
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -122,9 +173,79 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Hide scrollbar for webkit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    background: transparent;
+  }
+  
+  /* Hide scrollbar for Firefox */
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  /* Hide scrollbar for IE and Edge */
+  body::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .css-13cymwt-control{
   border : none !important;
+}
+
+/* Optimisations CSS */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  scroll-behavior: smooth;
+}
+
+/* Améliorer les performances des animations */
+.animate-pulse,
+[class*="animate-"],
+.transition-opacity,
+.transition-transform {
+  will-change: auto;
+}
+
+/* Optimisation des images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Préchargement des polices critiques */
+@font-face {
+  font-display: swap;
+}
+
+/* Classes utilitaires pour les articles */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Animation pour les cartes d'articles */
+.article-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.article-card:hover {
+  transform: translateY(-2px);
 }
 

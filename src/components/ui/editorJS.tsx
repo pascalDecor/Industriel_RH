@@ -15,7 +15,7 @@ const Paragraph = require('@editorjs/paragraph');
 const Embed = require('@editorjs/embed');
 const ImageTool = require('@editorjs/image');
 
-export default function EditorJSComponent({ onChange, placeholder = "Commence à écrire ton article ici...", className }: { onChange?: (data: any) => void, placeholder?: string, className?: string }) {
+export default function EditorJSComponent({ onChange, initialData, placeholder = "Commence à écrire ton article ici...", className }: { onChange?: (data: any) => void, initialData?: any, placeholder?: string, className?: string }) {
     const editorRef = useRef<EditorJS | null>(null);
 
     useEffect(() => {
@@ -24,6 +24,7 @@ export default function EditorJSComponent({ onChange, placeholder = "Commence à
                 holder: 'editorjs',
                 placeholder: placeholder,
 
+                data: initialData,
                 onReady: () => {
                     console.log('Editor.js is ready to work!');
                 },
@@ -92,7 +93,7 @@ export default function EditorJSComponent({ onChange, placeholder = "Commence à
                                 async uploadByFile(file: File) {
                                     try {
                                         console.log("Uploading file:", file.name);
-                                        
+
                                         const formData = new FormData();
                                         formData.append('image', file);
 

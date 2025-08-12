@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Vérifier l'authentification et les permissions
@@ -30,7 +30,7 @@ export async function POST(
       );
     }
 
-    const userId = params.id;
+    const { id: userId } = await params;
 
     // Vérifier que l'utilisateur existe
     const user = await prisma.user.findUnique({

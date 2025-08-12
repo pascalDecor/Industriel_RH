@@ -9,10 +9,10 @@ const prisma = new PrismaClient();
 // GET - Récupérer les rôles d'un utilisateur
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // Vérifier l'authentification et les permissions
     const authResult = await verifyAuth(request);
@@ -62,10 +62,10 @@ export async function GET(
 // POST - Ajouter un rôle à un utilisateur
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // Vérifier l'authentification et les permissions
     const authResult = await verifyAuth(request);
