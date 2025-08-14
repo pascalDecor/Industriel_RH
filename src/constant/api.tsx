@@ -1,7 +1,7 @@
 "use client";
 
 
-const isProd = false;
+const isProd = true;
 
 const PROD_API_BASE_URL = "https://industriel-rh.vercel.app/api"
 const PROD_API_BASE = "https://api.industriel-rh.com"
