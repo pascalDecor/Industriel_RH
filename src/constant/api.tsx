@@ -1,14 +1,12 @@
-"use client";
-
 
 const isProd = true;
 
 const PROD_API_BASE_URL = "https://industriel-rh.vercel.app/api"
-const PROD_API_BASE = "https://api.industriel-rh.com"
-const PROD_API_BASE_WITHOUT_PROTOCOL = "api.industriel-rh.com"
+const PROD_API_BASE = "https://industriel-rh.vercel.app"
+const PROD_API_BASE_WITHOUT_PROTOCOL = "industriel-rh.vercel.app"
 
 const DEV_API_BASE_URL = "http://localhost:3000/api"
-const DEV_API_BASE = "http://localhost:3000/api"
+const DEV_API_BASE = "http://localhost:3000"
 const DEV_API_BASE_WITHOUT_PROTOCOL = "localhost:3000/api";
 
 export const apiBaseURL = isProd ? PROD_API_BASE_URL : DEV_API_BASE_URL;

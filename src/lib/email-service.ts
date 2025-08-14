@@ -103,8 +103,7 @@ Si vous avez des questions, contactez votre administrateur.
  * Génère le contenu HTML de l'email de bienvenue
  */
 function generateWelcomeEmailHTML(data: WelcomeEmailData): string {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || apiBase;
-  const firstLoginUrl = `${baseUrl}/auth/first-login?token=${data.firstLoginToken}`;
+  const firstLoginUrl = `${apiBase}/auth/first-login?token=${data.firstLoginToken}`;
   const companyName = process.env.EMAIL_FROM_NAME || "Industriel RH";
 
   return `
@@ -242,7 +241,7 @@ function generateWelcomeEmailHTML(data: WelcomeEmailData): string {
         
         <h1 class="welcome-title">Bienvenue ${data.name} !</h1>
         <p class="subtitle">Votre compte a été créé avec le rôle : <span class="role-badge">${
-          ROLE_LABELS[data.role]
+          data.role
         }</span></p>
         
         <div class="credentials-box">
@@ -260,9 +259,15 @@ function generateWelcomeEmailHTML(data: WelcomeEmailData): string {
         </div>
         
         <div style="text-align: center;">
-            <a href="${firstLoginUrl}" class="cta-button" style="color: white; text-decoration: none;">
-               Se connecter maintenant
+            <a href="${firstLoginUrl}" class="cta-button" style="color: white; text-decoration: none;cursor: pointer;margin-bottom: 10px;">
+              Se connecter maintenant
             </a>
+            <p>
+            ou utilisez ce lien pour vous connecter :
+            <a href="${firstLoginUrl}" style="color: #2563eb; text-decoration: underline;">
+              ${firstLoginUrl}
+            </a>
+            </p>
         </div>
         
         <div class="security-notice">
