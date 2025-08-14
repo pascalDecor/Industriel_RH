@@ -33,7 +33,7 @@ export function AsyncBuilder<T>({
     const [loading, setLoading] = useState<boolean>(true);
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
-    const debounceRef = useRef<NodeJS.Timeout>();
+    const debounceRef = useRef<NodeJS.Timeout | null>(null);
     const mountedRef = useRef(true);
     const promiseRef = useRef(promise);
 

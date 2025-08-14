@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuth } from '@/lib/auth-middleware';
 import { hasPermission } from '@/lib/permissions/server-permissions';
 import { Permission, UserWithRole, UserRole } from '@/types/server-auth';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/connect_db';
 
 export async function GET(request: NextRequest) {
   try {
@@ -36,11 +34,12 @@ export async function GET(request: NextRequest) {
       where: { isActive: false }
     });
 
-    // Récupérer les statistiques par rôle
-    const roleStatsQuery = await prisma.user.groupBy({
-      by: ['role', 'isActive'],
+    // Récupérer les statistiques par rôle depuis UserRoleAssignment
+    const roleStatsQuery = await prisma.userRoleAssignment.groupBy({
+      by: ['role'],
+      where: { isActive: true },
       _count: {
-        id: true
+        userId: true
       }
     });
 
@@ -58,18 +57,15 @@ export async function GET(request: NextRequest) {
       });
     });
 
-    // Remplir avec les données réelles
+    // Remplir avec les données réelles (seulement les assignations actives)
     roleStatsQuery.forEach(stat => {
       const role = stat.role as UserRole;
       const existing = roleStatsMap.get(role);
       
       if (existing) {
-        existing.count += stat._count.id;
-        if (stat.isActive) {
-          existing.activeCount += stat._count.id;
-        } else {
-          existing.inactiveCount += stat._count.id;
-        }
+        existing.count += stat._count.userId;
+        existing.activeCount += stat._count.userId;
+        // Note: inactiveCount sera calculé différemment car nous ne groupons que les rôles actifs
       }
     });
 

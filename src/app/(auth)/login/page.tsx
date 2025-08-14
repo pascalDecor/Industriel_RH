@@ -6,9 +6,9 @@ import FloatingLabelInput from '@/components/ui/input';
 import InputError from '@/components/ui/inputError';
 import { LocalStorageHelper } from '@/utils/localStorage.helper';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useActionState, useEffect, useState } from 'react'
+import { useActionState, useEffect, useState, Suspense } from 'react'
 
-export default function Login() {
+function LoginForm() {
     let [state, action, pending] = useActionState(signUp, undefined);
     const [stateOTP, actionOTP, pendingOTP] = useActionState(signUpOTP, undefined);
 
@@ -17,7 +17,7 @@ export default function Login() {
 
     const router = useRouter();
     const searchParams = useSearchParams();
-    const redirectTo = searchParams.get('redirect') || '/dashboard';
+    const redirectTo = searchParams?.get('redirect') || '/dashboard';
 
 
     useEffect(() => {
@@ -85,4 +85,16 @@ export default function Login() {
                 </form>}
         </div>
     )
+}
+
+export default function Login() {
+    return (
+        <Suspense fallback={
+            <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div>
+            </div>
+        }>
+            <LoginForm />
+        </Suspense>
+    );
 }

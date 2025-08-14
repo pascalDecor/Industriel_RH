@@ -72,8 +72,7 @@ export const GET = async (request: NextRequest, context: { params: Promise<{ id:
                             createdAt: true,
                             _count: {
                                 select: {
-                                    candidats: true,
-                                    hires: true
+                                    candidats: true
                                 }
                             }
                         },

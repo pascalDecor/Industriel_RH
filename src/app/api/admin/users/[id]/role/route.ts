@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuth } from '@/lib/auth-middleware';
 import { hasPermission, isRoleHigherThan, getAssignableRoles } from '@/lib/permissions/server-permissions';
 import { Permission, UserWithRole, UserRole } from '@/types/server-auth';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/connect_db';
 
 export async function PATCH(
   request: NextRequest,
@@ -49,8 +47,14 @@ export async function PATCH(
         id: true,
         name: true,
         email: true,
-        role: true,
-        isActive: true
+        isActive: true,
+        userRoles: {
+          where: { isActive: true },
+          select: {
+            role: true,
+            isPrimary: true
+          }
+        }
       }
     });
 
@@ -62,7 +66,8 @@ export async function PATCH(
     }
 
     // Empêcher l'auto-modification de rôle pour certains cas
-    if (currentUser.id === id && role !== targetUser.role) {
+    const targetUserCurrentRoles = targetUser.userRoles.map(ur => ur.role);
+    if (currentUser.id === id && !targetUserCurrentRoles.includes(role)) {
       // Super admin peut modifier son propre rôle, mais pas les autres
       if (currentUser.role !== UserRole.SUPER_ADMIN) {
         return NextResponse.json(
@@ -76,7 +81,7 @@ export async function PATCH(
     const assignableRoles = getAssignableRoles(currentUser.role);
     
     // Cas particulier : si c'est le même rôle, autoriser (pour réactivation par exemple)
-    if (role !== targetUser.role && !assignableRoles.includes(role)) {
+    if (!targetUserCurrentRoles.includes(role) && !assignableRoles.includes(role)) {
       return NextResponse.json(
         { error: 'Vous ne pouvez pas assigner ce rôle' },
         { status: 403 }
@@ -91,36 +96,70 @@ export async function PATCH(
       );
     }
 
-    // Mettre à jour le rôle
-    const updatedUser = await prisma.user.update({
-      where: { id },
-      data: { 
-        role: role as UserRole,
-        updatedAt: new Date()
+    // Créer ou mettre à jour l'assignation de rôle
+    await prisma.userRoleAssignment.upsert({
+      where: {
+        userId_role: {
+          userId: id,
+          role: role as UserRole
+        }
       },
+      update: {
+        isActive: true,
+        assignedBy: currentUser.id,
+        assignedAt: new Date()
+      },
+      create: {
+        userId: id,
+        role: role as UserRole,
+        isActive: true,
+        isPrimary: targetUser.userRoles.length === 0, // Premier rôle = principal
+        assignedBy: currentUser.id
+      }
+    });
+
+    // Récupérer l'utilisateur mis à jour avec ses rôles
+    const updatedUser = await prisma.user.findUnique({
+      where: { id },
       select: {
         id: true,
         name: true,
         email: true,
-        role: true,
         isActive: true,
         lastLogin: true,
         avatarUrl: true,
         createdAt: true,
-        updatedAt: true
+        updatedAt: true,
+        userRoles: {
+          where: { isActive: true },
+          select: {
+            role: true,
+            isPrimary: true,
+            assignedAt: true
+          }
+        }
       }
     });
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { error: 'Erreur lors de la récupération de l\'utilisateur mis à jour' },
+        { status: 500 }
+      );
+    }
 
     // Log de l'action (optionnel, pour audit)
     console.log(`Role change: User ${currentUser.name} (${currentUser.email}) assigned role ${role} to user ${updatedUser.name} (${updatedUser.email})`);
 
+    const primaryRole = updatedUser.userRoles.find(ur => ur.isPrimary) || updatedUser.userRoles[0];
+    
     const transformedUser: UserWithRole = {
       id: updatedUser.id,
       name: updatedUser.name,
       email: updatedUser.email,
-      role: updatedUser.role as UserRole,
+      role: primaryRole?.role as UserRole,
       isActive: updatedUser.isActive,
-      lastLogin: updatedUser.lastLogin,
+      lastLogin: updatedUser.lastLogin || undefined,
       avatarUrl: updatedUser.avatarUrl || undefined,
       createdAt: updatedUser.createdAt,
       updatedAt: updatedUser.updatedAt

@@ -29,7 +29,7 @@ export default function AddFonctions({ fonction,sectorId, onChange }: { fonction
                 <input type="text" name="sectorId" value={sectorId} hidden />
                 <FloatingLabelInput
                     className="w-full"
-                    error={state?.errors && state?.errors.libelle && state.errors.libelle.join(', ')}
+                    error={state && typeof state === 'object' && state.errors && state.errors.libelle ? state.errors.libelle.join(', ') : undefined}
                     label='Libellé' name="libelle" placeholder="Libellé"
                     value={libelle ?? ''} onChange={(e) => setLibelle(e.target.value)} />
                 <DialogFooter>

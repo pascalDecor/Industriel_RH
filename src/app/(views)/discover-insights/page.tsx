@@ -3,14 +3,31 @@
 
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import Image from 'next/image';
-
- import Button from "@/components/ui/button";
+import Button from "@/components/ui/button";
+import LazyImage from "@/components/ui/LazyImage";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import FloatingLabelInput from "@/components/ui/input";
 import FloatingLabelSelect from "@/components/ui/select";
-import { redirect } from "next/navigation";
+import { useTranslation } from "@/contexts/LanguageContext";;
+import { useDateLanguage } from "@/hooks/useDateLanguage";
+import EditorContent from "@/components/ui/editorContent";
 
+
+interface ArticleData {
+  id: string;
+  titre: string;
+  image: string;
+  views: number;
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+  contenu?: any;
+  tags: Array<{ id: string; libelle: string }>;
+  specialites: Array<{ id: string; libelle: string }>;
+  author?: { id: string; name: string };
+}
 
 interface FilterElementsProps {
   id: number,
@@ -22,346 +39,514 @@ interface FilterElementsProps {
 
 
 export default function DiscoverInsights() {
+  const router = useRouter();
+  const { t, language } = useTranslation();
+  const [articles, setArticles] = useState<ArticleData[]>([]);
+  const [featuredArticles, setFeaturedArticles] = useState<ArticleData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [tags, setTags] = useState<Array<{ id: string; libelle: string }>>([]);
+  const [specialites, setSpecialites] = useState<Array<{ id: string; libelle: string }>>([]);
+  const [selectedFilters, setSelectedFilters] = useState<{
+    tags: string[];
+    specialites: string[];
+  }>({ tags: [], specialites: [] });
+
+  useDateLanguage();
+
+  useEffect(() => {
+    fetchArticles();
+    fetchFeaturedArticles();
+    fetchFiltersData();
+  }, []);
+
+  const fetchArticles = async () => {
+    try {
+      setLoading(true);
+      const queryParams = new URLSearchParams({
+        published: 'true',
+        limit: '12',
+        sortBy: 'createdAt',
+        sortOrder: 'desc'
+      });
+
+      if (selectedFilters.tags.length > 0) {
+        queryParams.append('tags', selectedFilters.tags.join(','));
+      }
+      if (selectedFilters.specialites.length > 0) {
+        queryParams.append('specialites', selectedFilters.specialites.join(','));
+      }
+
+      const url = `/api/articles?${queryParams.toString()}&includeContent=true`;
+      console.log('Fetching articles with URL:', url);
+      console.log('Selected filters:', selectedFilters);
+      
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Articles received:', data.data?.length, 'articles');
+        setArticles(data.data || []);
+      } else {
+        console.error('API response error:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des articles:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchFeaturedArticles = async () => {
+    try {
+      const response = await fetch('/api/articles?published=true&limit=3&sortBy=views&sortOrder=desc&includeContent=true');
+      if (response.ok) {
+        const data = await response.json();
+        setFeaturedArticles(data.data || []);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des articles mis en avant:', error);
+    }
+  };
+
+  const fetchFiltersData = async () => {
+    try {
+      const [tagsResponse, specialitesResponse] = await Promise.all([
+        fetch('/api/tags'),
+        fetch('/api/specialites')
+      ]);
+
+      if (tagsResponse.ok) {
+        const tagsData = await tagsResponse.json();
+        setTags(tagsData.data || []);
+      }
+
+      if (specialitesResponse.ok) {
+        const specialitesData = await specialitesResponse.json();
+        setSpecialites(specialitesData.data || []);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des filtres:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchArticles();
+  }, [selectedFilters]);
+
+  const handleFilterChange = (type: 'tags' | 'specialites', value: string, checked: boolean) => {
+    console.log('Filter change:', { type, value, checked });
+    setSelectedFilters(prev => {
+      const newFilters = {
+        ...prev,
+        [type]: checked
+          ? [...prev[type], value]
+          : prev[type].filter(item => item !== value)
+      };
+      console.log('New filters:', newFilters);
+      return newFilters;
+    });
+  };
+
+  const handleArticleClick = (articleId: string) => {
+    router.push(`/discover-insights/article/${articleId}`);
+  };
+
+  const formatDate = (dateString: string) => {
+    try {
+      return new Intl.DateTimeFormat(language === 'fr' ? 'fr-FR' : 'en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }).format(new Date(dateString));
+    } catch {
+      return dateString;
+    }
+  };
+
+  const getArticleDescription = (article: ArticleData): string => {
+    if (article.contenu) {
+      try {
+        const content = Array.isArray(article.contenu) ? article.contenu[0] : article.contenu;
+        if (content && content.blocks && Array.isArray(content.blocks)) {
+          const textBlock = content.blocks.find((block: any) =>
+            block.type === 'paragraph' && block.data && block.data.text
+          );
+
+          if (textBlock) {
+            const cleanText = textBlock.data.text.replace(/<[^>]*>/g, '').trim();
+            return cleanText.length > 150 ? cleanText.substring(0, 150) + '...' : cleanText;
+          }
+        }
+      } catch (error) {
+        console.warn('Erreur lors de l\'extraction de la description:', error);
+      }
+    }
+
+    const tags = article.tags.slice(0, 2).map(tag => tag.libelle).join(', ');
+    return `${tags} • ${article.views} vues`;
+  };
+
   function handleClick() {
     console.log("Clic !");
   }
 
-  const [filterTypes, setfilterTypes] = useState<FilterElementsProps[]>([
-    {
-      id: 0,
-      label: "Areas of Interest",
-      checked: true,
-      filters: ["Career development", "Hiring help", "Landing a job", "Management tips", "Research and insights"]
-    },
-    {
-      id: 1,
-      label: "Content Type",
-      checked: false,
-      filters: ["Career development", "Hiring help", "Landing a job", "Management tips", "Research and insights"]
-    },
-    {
-      id: 2,
-      label: "Specialization",
-      checked: false,
-      filters: ["Career development", "Hiring help", "Landing a job", "Management tips", "Research and insights"]
-    },
-    {
-      id: 3,
-      label: "Trending Topics",
-      checked: false,
-      filters: ["Career development", "Hiring help", "Landing a job", "Management tips", "Research and insights"]
-    },
-    {
-      id: 4,
-      label: "Tags",
-      checked: false,
-      filters: ["Career development", "Hiring help", "Landing a job", "Management tips", "Research and insights"]
-    },
-  ]);
-
-
-  const updateItemCheck = (id: number) => {
-    setfilterTypes((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, checked: !item.checked } : item
-      )
-    );
-  };
+  const [showTagsFilter, setShowTagsFilter] = useState(true);
+  const [showSpecialitesFilter, setShowSpecialitesFilter] = useState(false);
 
 
   return <>
-    {/* <HomeBannerCarroussel /> */}
-    {/*Own the future of your work */}
+    {/* Own the future of your work */}
     <section className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-5 items-center gap-4 mt-10">
-        <div className="lg:col-span-3 col-span-12  pr-4">
+        <div className="lg:col-span-3 col-span-12 pr-4">
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-            {"Own the future of your work"}
+            {t('discover_insights.hero.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
-            {"Explore our exclusive research and actionable insights from industry-leading specialists to help transform your business or guide your career."}
+            {t('discover_insights.hero.description')}
           </p>
         </div>
         <div className="lg:col-span-2 col-span-12">
-          <Image loading="lazy" src={imagePathFinder.own_the_future_of_your_work} alt="Own the future of your work" />
+          <Image loading="lazy" src={imagePathFinder.own_the_future_of_your_work} alt={t('discover_insights.hero.alt')} />
         </div>
       </div>
     </section>
-    {/* Explore exclusive insights */}
-    <section className="mx-auto w-lvw mb-10 p-10 ">
-
+    {/* Articles en vedette */}
+    <section className="mx-auto w-lvw mb-10 p-10">
       <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
-        Explore exclusive insights
+        {t('discover_insights.featured.title')}
       </h2>
 
-
       <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-8 text-left">
-
-        <div className="col-span-4">
-
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.salary_guide_five} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                2025 Salary Guide
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                Explore the latest data for hundreds of positions and know what you should earn or pay in local and national markets.
-              </p>
+        {featuredArticles.length > 0 ? (
+          featuredArticles.slice(0, 3).map((article, index) => (
+            <div key={article.id} className="col-span-4">
+              <div
+                className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full cursor-pointer hover:shadow-2xl transition-shadow"
+                onClick={() => handleArticleClick(article.id)}
+              >
+                <LazyImage
+                  src={article.image || '/images/default-article.jpg'}
+                  alt={article.titre}
+                  width={400}
+                  height={250}
+                  className="w-full  object-cover"
+                />
+                <div className="p-5">
+                  <p className="text-sm font-regular text-blue-900 font-bold mb-5 line-clamp-2">
+                    {article.titre}
+                  </p>
+                  <p className="text-sm font-regular text-gray-500 line-clamp-3">
+                    <EditorContent content={article.contenu} />
+                  </p>
+                  {/* <div className="mt-3 flex items-center justify-between">
+                    <div className="flex flex-wrap gap-1">
+                      {article.tags.slice(0, 2).map((tag) => (
+                        <span
+                          key={tag.id}
+                          className="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full"
+                        >
+                          {tag.libelle}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="text-xs text-gray-400">
+                      {article.views} {t('common.views')}
+                    </span>
+                  </div> */}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="col-span-4">
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.what_jobs_are_in_demand_3} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                What jobs are in demand?
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                Explore our Demand for Skilled Talent report to see what specializations employers need most.
-              </p>
-            </div>
-          </div>
-
-        </div>
-
-        <div className="col-span-4">
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.build_employee_engagement} alt="Build employee engagement" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                Build employee engagement
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                Attract and retain top talent and boost your bottom line-with our tips for creative employee recognition and rewards.
-              </p>
-            </div>
-          </div>
-
-        </div>
-
+          ))
+        ) : (
+          // Loading placeholder avec animate-pulse si pas d'articles dynamiques
+          <>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="col-span-4">
+                <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full animate-pulse">
+                  <div className="w-full h-48 bg-gray-200"></div>
+                  <div className="p-5">
+                    <div className="h-4 bg-gray-200 rounded mb-5 w-3/4"></div>
+                    <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </section>
 
 
-    {/* Refine your focus */}
+    {/* Articles avec filtres */}
     <div className="absolute -mt-400" id="refine_your_focus"></div>
     <section className="mx-auto w-lvw mb-10 p-10 bg-gray-200 text-center">
       <h2 className="text-3xl font-semibold text my-10 text-black text-center">
-        Refine your focus
+        {t('discover_insights.articles.title')}
       </h2>
 
       <div className="grid grid-cols-12 gap-4 max-w-5xl mx-auto">
+        {/* Filtres */}
         <div className="col-span-3 text-left">
-          <div className="bg-white p-8 rounded-xl  overflow-hidden mb-4">
+          <div className="bg-white p-6 rounded-xl overflow-hidden mb-4 sticky top-24">
             <p className="font-regular text-blue-900 font-bold mb-5 uppercase">
-              Filter content by
+              {t('discover_insights.filters.title')}
             </p>
 
-            {filterTypes.map((filterType, index) => (
-              <>
-                <div className="flex gap-4 items-center justify-between mb-5 cursor-pointer" key={index} onClick={() => updateItemCheck(filterType.id)}>
-                  <p className={`text-sm font-bold  ${filterType.checked ? "text-gray-900" : "text-gray-600"} `}>
-                    {filterType.label}
-                  </p>
-                  {filterType.checked ?
-                    <FaArrowUp className="text-gray-900 text-lg" /> :
-                    <FaArrowDown className="text-gray-600 text-lg" />
-                  }
-                </div>
-                {
-                  filterType.checked && filterType.filters.map((filter, index) => (
-                    <div className="flex gap-2 items-center mb-4" key={index}>
-                      <input type="checkbox" className="w-4 h-4 text-blue-900 bg-gray-100 rounded-md focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                      <p className="text-sm font-regular text-gray-500">
-                        {filter}
-                      </p>
+            {/* Filtres par Tags */}
+            <div className="mb-6">
+              <div
+                className="flex gap-4 items-center justify-between mb-3 cursor-pointer"
+                onClick={() => setShowTagsFilter(!showTagsFilter)}
+              >
+                <p className={`text-sm font-bold ${showTagsFilter ? "text-gray-900" : "text-gray-600"}`}>
+                  {t('discover_insights.filters.tags')}
+                </p>
+                {showTagsFilter ?
+                  <FaArrowUp className="text-gray-900 text-lg" /> :
+                  <FaArrowDown className="text-gray-600 text-lg" />
+                }
+              </div>
+              {showTagsFilter && (
+                <div className="space-y-2 mb-4">
+                  {tags.slice(0, 8).map((tag) => (
+                    <div className="flex gap-2 items-center" key={tag.id}>
+                      <input
+                        type="checkbox"
+                        id={`tag-${tag.id}`}
+                        checked={selectedFilters.tags.includes(tag.id)}
+                        onChange={(e) => handleFilterChange('tags', tag.id, e.target.checked)}
+                        className="w-4 h-4 text-blue-900 bg-gray-100 rounded focus:ring-blue-500"
+                      />
+                      <label htmlFor={`tag-${tag.id}`} className="text-sm text-gray-500 cursor-pointer">
+                        {tag.libelle}
+                      </label>
                     </div>
                   ))}
-                <hr className="my-5" />
-              </>
-            ))}
-
-            <div className="col-span-12 flex justify-center items-center">
-              <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full text-sm mx-auto w-fit whitespace-nowrap px-10 py-3">
-                Apply Filter
-              </Button>
+                </div>
+              )}
+              <hr className="my-4" />
             </div>
 
+            {/* Filtres par Spécialités */}
+            <div className="mb-6">
+              <div
+                className="flex gap-4 items-center justify-between mb-3 cursor-pointer"
+                onClick={() => setShowSpecialitesFilter(!showSpecialitesFilter)}
+              >
+                <p className={`text-sm font-bold ${showSpecialitesFilter ? "text-gray-900" : "text-gray-600"}`}>
+                  {t('discover_insights.filters.specialties')}
+                </p>
+                {showSpecialitesFilter ?
+                  <FaArrowUp className="text-gray-900 text-lg" /> :
+                  <FaArrowDown className="text-gray-600 text-lg" />
+                }
+              </div>
+              {showSpecialitesFilter && (
+                <div className="space-y-2 mb-4">
+                  {specialites.slice(0, 8).map((specialite) => (
+                    <div className="flex gap-2 items-center" key={specialite.id}>
+                      <input
+                        type="checkbox"
+                        id={`spec-${specialite.id}`}
+                        checked={selectedFilters.specialites.includes(specialite.id)}
+                        onChange={(e) => handleFilterChange('specialites', specialite.id, e.target.checked)}
+                        className="w-4 h-4 text-blue-900 bg-gray-100 rounded focus:ring-blue-500"
+                      />
+                      <label htmlFor={`spec-${specialite.id}`} className="text-sm text-gray-500 cursor-pointer">
+                        {specialite.libelle}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <hr className="my-4" />
+            </div>
+
+            {/* Bouton reset filtres */}
+            {(selectedFilters.tags.length > 0 || selectedFilters.specialites.length > 0) && (
+              <div className="flex justify-center">
+                <Button
+                  variant="dark"
+                  size="md"
+                  onClick={() => setSelectedFilters({ tags: [], specialites: [] })}
+                  className="text-sm !rounded-full px-6 py-3"
+                >
+                  {t('discover_insights.filters.clear')}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
-        <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-4 text-left col-span-9">
-          <div className="col-span-4">
-            <div className="bg-white rounded-lg p-0 overflow-hidden mb-4">
-              <Image loading="lazy" src={imagePathFinder.card_image_1} alt="  We Source the Talent" className="mx-auto" />
-              <div className="p-5">
-                <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                  {"6 Tips to Ease Hiring in Canada's Tight Labour Market"}
-                </p>
-                <p className="text-sm font-regular text-gray-500 ">
-                  Having trouble navigating the tight labour market for hiring skilled talent in Canada? Here are six tips Canadian ...
-                </p>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg p-0 overflow-hidden mb-4">
-              <Image loading="lazy" src={imagePathFinder.card_image_2} alt="  We Source the Talent" className="mx-auto" />
-              <div className="p-5">
-                <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                  {"Starting a New Job? Don't Make These 5 Mistakes"}
-                </p>
-                <p className="text-sm font-regular text-gray-500 ">
-                  {"Just starting a nen job? Don't relex yet. Read our tips on avoiding five of the most common mistakes that new ..."}
-                </p>
-              </div>
-            </div>
-          </div>
 
-          <div className="col-span-4">
-            <div className="bg-white rounded-lg p-0  overflow-hidden mb-4">
-              <Image loading="lazy" src={imagePathFinder.card_image_4} alt="  We Source the Talent" className="mx-auto" />
-              <div className="p-5">
-                <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                  December 2024 Labour Force Survey: Canadian Employment Rises b...
-                </p>
-                <p className="text-sm font-regular text-gray-500 ">
-                  {"Canada's unemployment rate fell to 6.7 percent in December eccording to Statistics Canada's newest..."}
-                </p>
-              </div>
+        {/* Articles dynamiques */}
+        <div className="col-span-9">
+          {loading ? (
+            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="bg-white rounded-lg p-4 animate-pulse break-inside-avoid mb-6">
+                  <div className={`bg-gray-200 rounded mb-4 ${index % 3 === 0 ? 'h-48' : index % 3 === 1 ? 'h-40' : 'h-52'}`}></div>
+                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+                </div>
+              ))}
             </div>
-            <div className="bg-white rounded-lg p-0 overflow-hidden mb-4">
-              <Image loading="lazy" src={imagePathFinder.card_image_5} alt="  We Source the Talent" className="mx-auto" />
-              <div className="p-5">
-                <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                  {"Why More Canadians Should Be Setting Career New Year's Resolutions"}
-                </p>
-                <p className="text-sm font-regular text-gray-500 ">
-                  {" Considering making career new year's resolutions? This guide features eight factors Canadians should consider ..."}
-                </p>
+          ) : articles.length > 0 ? (
+            <>
+              <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                {articles.slice(0, 9).map((article) => (
+                  <article
+                    key={article.id}
+                    className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow cursor-pointer break-inside-avoid mb-6"
+                    onClick={() => handleArticleClick(article.id)}
+                  >
+                    <LazyImage
+                      src={article.image || '/images/default-article.jpg'}
+                      alt={article.titre}
+                      width={300}
+                      height={200}
+                      className="w-full object-cover"
+                    />
+                    <div className="p-4">
+                      <h3 className="text-sm text-start font-bold text-blue-900 mb-3 line-clamp-2">
+                        {article.titre}
+                      </h3>
+                      <p className="text-sm text-start text-gray-500 line-clamp-3 mb-3">
+                        {getArticleDescription(article)}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-wrap gap-1">
+                          {article.tags.slice(0, 2).map((tag) => (
+                            <span
+                              key={tag.id}
+                              className="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full"
+                            >
+                              {tag.libelle}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          {article.views} {t('common.views')}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
-            </div>
-          </div>
-          <div className="col-span-4">
 
-            <div className="bg-white rounded-lg p-0  overflow-hidden mb-4">
-              <Image loading="lazy" src={imagePathFinder.card_image_6} alt="  We Source the Talent" className="mx-auto" />
-              <div className="p-5">
-                <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                  New Year, New Career: 7 Canada-Centric Job Search Tips for 2025
-                </p>
-                <p className="text-sm font-regular text-gray-500 ">
-                  New year, new career! Professionals across Canada wondering how to find a job in 2025 should check out our 7 job search tips for 2025 to ensure they start the year off right.                            </p>
-              </div>
+              {articles.length > 9 && (
+                <div className="flex justify-center">
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onClick={() => {/* Charger plus d'articles */ }}
+                    className="rounded-full"
+                  >
+                    {t('discover_insights.load_more')}
+                  </Button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500 mb-4">
+                {t('discover_insights.no_articles')}
+              </p>
+              <Button
+                variant="secondary"
+                onClick={() => setSelectedFilters({ tags: [], specialites: [] })}
+              >
+                {t('discover_insights.filters.clear')}
+              </Button>
             </div>
-            <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-              <Image loading="lazy" src={imagePathFinder.card_image_3} alt="  We Source the Talent" className="mx-auto" />
-              <div className="p-5">
-                <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                  Benefits of Using a Recruitment Agency in Canada to Hire Talent in 2025
-                </p>
-                <p className="text-sm font-regular text-gray-500 ">
-                  Wondering about the benefits of using employment agencies to recruit employees? This article walks Canadian businesses through the benefits of ...
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <div className="col-span-12 flex justify-center items-center">
-            <Button variant="primary" size="md" onClick={handleClick} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
-              Read more
-            </Button>
-          </div>
+          )}
         </div>
       </div>
     </section>
 
-    {/*   Add specialized talent across your organization */}
+    {/* Newsletter CTA */}
     <section className="mx-auto w-5xl mb-10 p-10">
-      <div className="w-full bg-blue-900  bg-[url(/images/bg_blue.png)] bg-cover bg-center py-15 px-20 rounded-4xl border">
+      <div className="w-full bg-blue-900 bg-[url(/images/bg_blue.png)] bg-cover bg-center py-15 px-20 rounded-4xl border">
         <p className="font-medium text-3xl text-center mb-4 text-white">
-          Get insights in your inbox
+          {t('discover_insights.newsletter.title')}
         </p>
 
         <div className="flex mt-5 align-center items-center mx-auto w-fit">
-          <Button variant="dark" size="md"  onClick={() => redirect("#refine_your_focus")}  className="!rounded-full px-10 py-3 text-sm mx-auto mt-10 w-fit whitespace-nowrap">
-            Subscribe to updates
+          <Button
+            variant="dark"
+            size="md"
+            onClick={() => {
+              const element = document.getElementById('newsletter-section');
+              element?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="!rounded-full px-10 py-3 text-sm mx-auto mt-10 w-fit whitespace-nowrap"
+          >
+            {t('discover_insights.newsletter.cta')}
           </Button>
         </div>
       </div>
     </section>
 
-    {/*Subscribe to the Industrielle RH Newsletter */}
-    <section className="mx-auto max-w-5xl mb-10 p-10">
+    {/* Newsletter Subscription */}
+    <section id="newsletter-section" className="mx-auto max-w-5xl mb-10 p-10">
       <div className="grid grid-cols-6 items-center gap-4 mt-10">
-
-        <div className="lg:col-span-3 col-span-6  pl-4">
+        <div className="lg:col-span-3 col-span-6 pl-4">
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-            {"Subscribe to the Industrielle RH Newsletter"}
+            {t('discover_insights.subscription.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
-            {`By subscribing to the Industrielle RH newsletter, you'll gain access to valuable articles,
-            resources, and updates to help you recruit top talent, enhance workforce integration, 
-            and stay informed about the latest in the recruitment 
-industry. Get insights directly in your inbox to support your company's growth and success.
-To receive updates from Industrielle RH, simply enter your name and email below. You can withdraw your
- consent at any time by contacting Industrielle RH Recrutement International Inc.`}
+            {t('discover_insights.subscription.description')}
           </p>
         </div>
 
         <div className="lg:col-span-3 col-span-6 px-5">
           <div className="bg-blue-900 px-10 py-5 rounded-3xl border max-w-3xl mx-auto">
-
             <h2 className="text-2xl font-semibold text mb-10 mt-5 text-white text-center">
-              Why wait? Sign up now
+              {t('discover_insights.subscription.form_title')}
             </h2>
-            <form action="" className="grid grid-cols-12 gap-4 w-full mb-10 ">
+            <form action="" className="grid grid-cols-12 gap-4 w-full mb-10">
               <div className="col-span-12">
                 <FloatingLabelInput
                   type="text"
-                  label="First Name"
-                  placeholder="First Name"/>
-              </div>
-              <div className="col-span-12">
-                <FloatingLabelInput
-                  type="text"
-                  label="Last Name"
-                  placeholder="Last Name"
+                  label={t('common.first_name')}
+                  placeholder={t('common.first_name')}
                 />
               </div>
-
+              <div className="col-span-12">
+                <FloatingLabelInput
+                  type="text"
+                  label={t('common.last_name')}
+                  placeholder={t('common.last_name')}
+                />
+              </div>
               <div className="col-span-12 text-left">
                 <FloatingLabelInput
                   type="email"
-                  label="Email"
-                  placeholder="Email"
+                  label={t('common.email')}
+                  placeholder={t('common.email')}
                 />
               </div>
-
-              <div className="col-span-12 text-left ">
-                <p className="text-white font-medium text-sm">Which topic are you interested in?</p>
+              <div className="col-span-12 text-left">
+                <p className="text-white font-medium text-sm">
+                  {t('discover_insights.subscription.interests')}
+                </p>
               </div>
-
               <div className="col-span-12 text-left mb-5">
-                <FloatingLabelSelect label="Areas of Interest" name="areas_of_nterest" options={[{
-                  label: "Option 1",
-                  value: "option1"
-                }, {
-                  label: "Option 2",
-                  value: "option2"
-                }, {
-                  label: "Option 3",
-                  value: "option3"
-                }]} />
+                <FloatingLabelSelect
+                  label={t('discover_insights.subscription.areas_label')}
+                  name="areas_of_interest"
+                  options={specialites.slice(0, 5).map(spec => ({
+                    label: spec.libelle,
+                    value: spec.id
+                  }))}
+                />
               </div>
-
               <div className="col-span-12 text-center">
                 <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full text-sm px-20 mx-auto">
-                  Submit
+                  {t('common.submit')}
                 </Button>
               </div>
-
             </form>
-
           </div>
         </div>
       </div>

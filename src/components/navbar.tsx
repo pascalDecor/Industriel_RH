@@ -83,8 +83,8 @@ const getNavItems = (t: (key: string) => string): NavItem[] => [
     expandedComponnent: ConsultingSolutionsExpandedNavbar,
   },
   {
-    label: t('nav.salary_guide'),
-    href: "/salary-guide",
+    label: t('nav.discover_insights'),
+    href: "/discover-insights",
     expandedComponnent: DiscoverInsightsExpandedNavbar,
   },
 ];

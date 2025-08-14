@@ -69,7 +69,8 @@ const createOptimizedAxiosInstance = (): AxiosInstance => {
     (response) => {
       // Stocker ETag pour cache intelligent
       if (response.headers.etag) {
-        response.config.metadata = { etag: response.headers.etag };
+        // Use a safer way to store metadata without extending the config type
+        (response.config as any).metadata = { etag: response.headers.etag };
       }
       return response;
     },
@@ -142,7 +143,7 @@ type Path = string | Array<string | number>;
 function getDeep(obj: unknown, path: Path): unknown {
   if (!path) return undefined;
   const parts = Array.isArray(path) ? path : [path];
-  return parts.reduce((acc, key) => (acc != null ? acc[key] : undefined), obj);
+  return parts.reduce((acc: any, key) => (acc != null ? acc[key] : undefined), obj);
 }
 
 export class HttpService {
@@ -186,7 +187,9 @@ export class HttpService {
     // Limiter la taille du cache (LRU simple)
     if (this.cache.size > 100) {
       const firstKey = this.cache.keys().next().value;
-      this.cache.delete(firstKey);
+      if (firstKey !== undefined) {
+        this.cache.delete(firstKey);
+      }
     }
   }
   

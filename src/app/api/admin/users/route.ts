@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuth } from '@/lib/auth-middleware';
 import { hasPermission } from '@/lib/permissions/server-permissions';
 import { Permission, UserWithRole, UserRole } from '@/types/server-auth';
@@ -11,8 +10,7 @@ import {
 } from '@/lib/password-utils';
 import { sendWelcomeEmail } from '@/lib/email-service';
 import { sendMail } from '@/lib/mail';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/connect_db';
 
 export async function GET(request: NextRequest) {
   try {
@@ -76,7 +74,7 @@ export async function GET(request: NextRequest) {
         email: dbUser.email,
         role: primaryRole?.role as UserRole || UserRole.CONSULTANT, // Fallback par défaut
         isActive: dbUser.isActive,
-        lastLogin: dbUser.lastLogin,
+        lastLogin: dbUser.lastLogin || undefined,
         avatarUrl: dbUser.avatarUrl || undefined,
         createdAt: dbUser.createdAt,
         updatedAt: dbUser.updatedAt
@@ -208,7 +206,7 @@ export async function POST(request: NextRequest) {
       email: newUser.email,
       role: role as UserRole,
       isActive: newUser.isActive,
-      lastLogin: newUser.lastLogin,
+      lastLogin: newUser.lastLogin || undefined,
       avatarUrl: newUser.avatarUrl || undefined,
       createdAt: newUser.createdAt,
       updatedAt: newUser.updatedAt

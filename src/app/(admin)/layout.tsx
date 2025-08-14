@@ -12,7 +12,7 @@ const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             staleTime: 30 * 60 * 1000, // 30 minutes - cache très long
-            cacheTime: 60 * 60 * 1000, // 1 heure - garde en mémoire
+            gcTime: 60 * 60 * 1000, // 1 heure - garde en mémoire
             refetchOnWindowFocus: false,
             refetchOnMount: false, // Ne pas refetch au mount si données fraîches
             refetchOnReconnect: false,

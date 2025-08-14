@@ -1,4 +1,4 @@
-module.exports = async function createSpecialites(prisma) {
+module.exports = async function createSpecialites(prisma: any) {
   console.log("🔹 seed specialites…");
   const noms = [
     "Career Development",

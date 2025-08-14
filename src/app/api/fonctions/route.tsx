@@ -30,7 +30,7 @@ export const GET = async (request: NextRequest) => {
         const where: any = {};
         
         if (search) {
-            where.libelle = { contains: search, mode: 'insensitive' };
+            where.libelle = { contains: search, mode: 'insensitive' as const };
         }
         
         if (sectorId) {

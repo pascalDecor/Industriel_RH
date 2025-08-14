@@ -8,10 +8,13 @@ import { z } from "zod";
 export type FormState =
     | {
         errors?: {
-            otp?: string[];
+            id?: string[];
+            sectorId?: string[];
+            libelle?: string[];
         };
         message?: string;
     }
+    | boolean
     | undefined;
 
 export const FormSchema = z.object({

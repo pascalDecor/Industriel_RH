@@ -213,7 +213,7 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
                     </div>
                   </div>
                 </div>
-                <Button variant="outline" onClick={onClose}>
+                <Button variant="secondary" onClick={onClose}>
                   Fermer
                 </Button>
               </div>
@@ -332,7 +332,7 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
                   <div className="space-y-2">
                     <PermissionGuard permissions={[Permission.USERS_UPDATE]}>
                       <Button 
-                        variant="outline" 
+                        variant="secondary" 
                         className="w-full justify-start"
                         onClick={() => setShowEditModal(true)}
                       >
@@ -343,7 +343,7 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
 
                     <PermissionGuard permissions={[Permission.ROLES_ASSIGN]}>
                       <Button 
-                        variant="outline" 
+                        variant="secondary" 
                         className="w-full justify-start"
                         onClick={() => setShowRoleManager(true)}
                       >
@@ -354,7 +354,7 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
 
                     <PermissionGuard permissions={[Permission.USERS_UPDATE]}>
                       <Button 
-                        variant="outline" 
+                        variant="secondary" 
                         className="w-full justify-start"
                         onClick={() => handleAction('reset-password')}
                         disabled={actionLoading === 'reset-password'}
@@ -366,7 +366,7 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
 
                     <PermissionGuard permissions={[Permission.USERS_UPDATE]}>
                       <Button 
-                        variant="outline" 
+                        variant="secondary" 
                         className="w-full justify-start"
                         onClick={() => handleAction('force-password-change')}
                         disabled={actionLoading === 'force-password-change'}
@@ -378,7 +378,7 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
 
                     <PermissionGuard permissions={[Permission.USERS_UPDATE]}>
                       <Button 
-                        variant="outline" 
+                        variant="secondary" 
                         className={`w-full justify-start ${
                           user.isActive ? 'text-orange-600 hover:text-orange-700' : 'text-green-600 hover:text-green-700'
                         }`}
@@ -409,7 +409,7 @@ export default function UserProfile({ userId, isOpen, onClose }: UserProfileProp
                       Zone de danger
                     </h3>
                     <Button 
-                      variant="outline" 
+                      variant="secondary" 
                       className="w-full justify-start text-red-600 border-red-200 hover:bg-red-50"
                       onClick={() => setShowDeleteModal(true)}
                       disabled={actionLoading === 'delete'}

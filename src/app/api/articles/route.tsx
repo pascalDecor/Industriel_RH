@@ -29,7 +29,7 @@ export const GET = withQuery<Article, typeof prisma.article>(
             if (specialityname) {
                 where.specialites = {
                     some: {
-                        libelle: { contains: specialityname, mode: 'insensitive' }
+                        libelle: { contains: specialityname, mode: 'insensitive' as const }
                     }
                 }
             }

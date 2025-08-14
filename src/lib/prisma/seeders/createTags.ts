@@ -1,4 +1,4 @@
-module.exports = async function createTags(prisma) {
+module.exports = async function createTags(prisma: any) {
   console.log("🔹 seed tags");
   const noms = [
     "News",

@@ -2,13 +2,16 @@
 
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { User } from "../user";
+import { UserRole } from "@/types/auth";
 
 export class UserProvider {
 
     user: User = User.fromJSON({
         id: "",
         name: "",
-        email: ""
+        email: "",
+        role: UserRole.HR_ASSISTANT,
+        isActive: false
     });
 
     key: string = 'userLocal';
@@ -28,7 +31,9 @@ export class UserProvider {
         this.user = User.fromJSON({
             id: "",
             name: "",
-            email: ""
+            email: "",
+            role: UserRole.HR_ASSISTANT,
+            isActive: false
         });
         LocalStorageHelper.removeKey(this.key);
     }

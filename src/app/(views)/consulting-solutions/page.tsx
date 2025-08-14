@@ -328,7 +328,7 @@ export default function ConsultingSolutions() {
 
       <DynamicArticlesGrid 
         category={tabsType.find(tab => tab.id === activeTabType)?.label.toLowerCase() || "all"}
-        sectorId={tabsType.find(tab => tab.id === activeTabType)?.sectorName}
+        sectorId={tabsType.find(tab => tab.id === activeTabType)?.id}
         limit={12}
         showFeaturedBlocks={true}
       />

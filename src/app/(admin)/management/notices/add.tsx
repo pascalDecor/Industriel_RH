@@ -38,12 +38,12 @@ export default function AddNotices({ notice, onChange }: { notice: Notice, onCha
                 <input type="text" name="id" value={notice.id} hidden />
                 <FloatingLabelTextarea
                     className="w-full mb-10"
-                    error={state?.errors && state?.errors.content && state.errors.content.join(', ')}
+                    error={state && typeof state === 'object' && state.errors && state.errors.content ? state.errors.content.join(', ') : undefined}
                     label='Contenu' name="content" placeholder="Contenu"
                     value={content ?? ''} onChange={(e) => setContent(e.target.value)} />
                 <FloatingLabelInput
                     className="w-full"
-                    error={state?.errors && state?.errors.author && state.errors.author.join(', ')}
+                    error={state && typeof state === 'object' && state.errors && state.errors.author ? state.errors.author.join(', ') : undefined}
                     label='Auteur' name="author" placeholder="Auteur"
                     value={author ?? ''} onChange={(e) => setAuthor(e.target.value)} />
 
@@ -57,7 +57,7 @@ export default function AddNotices({ notice, onChange }: { notice: Notice, onCha
                     )}
                 </div>
 
-                <InputError messages={state?.errors?.stars} inputName="stars" />
+                <InputError messages={state && typeof state === 'object' && state.errors && state.errors.stars ? state.errors.stars : []} inputName="stars" />
 
                 <DialogFooter>
                     <Button type="submit" variant={notice.id ? "success" : "primary"} className="mt-5" isLoading={pending} disabled={pending || !author}>{notice.id ? "Modifier" : "Ajouter"}</Button>

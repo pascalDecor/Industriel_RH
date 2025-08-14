@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
         }
 
         const where = search ? {
-            libelle: { contains: search, mode: 'insensitive' }
+            libelle: { contains: search, mode: 'insensitive' as const }
         } : {};
 
         // Sélection optimisée

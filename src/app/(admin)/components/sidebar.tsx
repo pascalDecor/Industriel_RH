@@ -247,9 +247,9 @@ const isRouteVisible = (route: Onglet, userRole: UserRole | null, hasPermission:
 
 export default function SideBar() {
   const { userRole, hasPermission } = usePermissions();
-  const routes = getRoutes(userRole);
+  const routes = getRoutes(userRole ?? null);
 
-  const visibleRoutes = routes.filter(route => isRouteVisible(route, userRole, hasPermission));
+  const visibleRoutes = routes.filter(route => isRouteVisible(route, userRole ?? null, hasPermission));
 
   return (
     <div className="space-y-4 py-4 flex flex-col h-lvh bg-white w-64 !rounded-br-3xl !rounded-tl-3xl">
@@ -259,7 +259,7 @@ export default function SideBar() {
         </Link>
         <div className="space-y-1">
           {visibleRoutes.map((route) => (
-            <SideBarItem key={route.href} route={route} userRole={userRole} hasPermission={hasPermission} />
+            <SideBarItem key={route.href} route={route} userRole={userRole ?? null} hasPermission={hasPermission} />
           ))}
         </div>
       </div>

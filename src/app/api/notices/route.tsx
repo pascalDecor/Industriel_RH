@@ -30,8 +30,8 @@ export const GET = async (request: NextRequest) => {
         
         if (search) {
             where.OR = [
-                { content: { contains: search, mode: 'insensitive' } },
-                { author: { contains: search, mode: 'insensitive' } }
+                { content: { contains: search, mode: 'insensitive' as const } },
+                { author: { contains: search, mode: 'insensitive' as const } }
             ];
         }
         

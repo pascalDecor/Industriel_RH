@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuth } from '@/lib/auth-middleware';
 import { hasPermission } from '@/lib/permissions/server-permissions';
 import { Permission, UserWithRole, UserRole } from '@/types/server-auth';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/connect_db';
 
 export async function GET(
   request: NextRequest,
@@ -174,22 +172,30 @@ export async function PATCH(
         id: true,
         name: true,
         email: true,
-        role: true,
         isActive: true,
         lastLogin: true,
         avatarUrl: true,
         createdAt: true,
-        updatedAt: true
+        updatedAt: true,
+        userRoles: {
+          where: { isActive: true },
+          select: {
+            role: true,
+            isPrimary: true
+          }
+        }
       }
     });
+
+    const primaryRole = updatedUser.userRoles.find(ur => ur.isPrimary) || updatedUser.userRoles[0];
 
     const transformedUser: UserWithRole = {
       id: updatedUser.id,
       name: updatedUser.name,
       email: updatedUser.email,
-      role: updatedUser.role as UserRole,
+      role: primaryRole?.role as UserRole,
       isActive: updatedUser.isActive,
-      lastLogin: updatedUser.lastLogin,
+      lastLogin: updatedUser.lastLogin || undefined,
       avatarUrl: updatedUser.avatarUrl || undefined,
       createdAt: updatedUser.createdAt,
       updatedAt: updatedUser.updatedAt

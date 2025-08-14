@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuth } from '@/lib/auth-middleware';
 import { hasPermission } from '@/lib/permissions/server-permissions';
 import { Permission, UserWithRole, UserRole } from '@/types/server-auth';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/connect_db';
 
 export async function PATCH(
   request: NextRequest,
@@ -49,8 +47,14 @@ export async function PATCH(
         id: true,
         name: true,
         email: true,
-        role: true,
-        isActive: true
+        isActive: true,
+        userRoles: {
+          where: { isActive: true },
+          select: {
+            role: true,
+            isPrimary: true
+          }
+        }
       }
     });
 
@@ -69,14 +73,21 @@ export async function PATCH(
       );
     }
 
+    // Récupérer le rôle primaire de l'utilisateur cible
+    const targetUserPrimaryRole = targetUser.userRoles.find(ur => ur.isPrimary) || targetUser.userRoles[0];
+    const targetUserRole = targetUserPrimaryRole?.role as UserRole;
+
     // Vérifications spéciales pour les super admins
-    if (targetUser.role === UserRole.SUPER_ADMIN && !isActive) {
-      // Compter le nombre de super admins actifs
-      const activeSuperAdmins = await prisma.user.count({
+    if (targetUserRole === UserRole.SUPER_ADMIN && !isActive) {
+      // Compter le nombre de super admins actifs via UserRoleAssignment
+      const activeSuperAdmins = await prisma.userRoleAssignment.count({
         where: {
           role: UserRole.SUPER_ADMIN,
           isActive: true,
-          id: { not: id } // Exclure l'utilisateur qu'on veut désactiver
+          user: {
+            isActive: true,
+            id: { not: id } // Exclure l'utilisateur qu'on veut désactiver
+          }
         }
       });
 
@@ -108,25 +119,35 @@ export async function PATCH(
         id: true,
         name: true,
         email: true,
-        role: true,
         isActive: true,
         lastLogin: true,
         avatarUrl: true,
         createdAt: true,
-        updatedAt: true
+        updatedAt: true,
+        userRoles: {
+          where: { isActive: true },
+          select: {
+            role: true,
+            isPrimary: true
+          }
+        }
       }
     });
 
     // Log de l'action
     console.log(`Status change: User ${currentUser.name} (${currentUser.email}) ${isActive ? 'activated' : 'deactivated'} user ${updatedUser.name} (${updatedUser.email})`);
 
+    // Récupérer le rôle primaire pour la réponse
+    const updatedUserPrimaryRole = updatedUser.userRoles.find(ur => ur.isPrimary) || updatedUser.userRoles[0];
+    const updatedUserRole = updatedUserPrimaryRole?.role as UserRole;
+
     const transformedUser: UserWithRole = {
       id: updatedUser.id,
       name: updatedUser.name,
       email: updatedUser.email,
-      role: updatedUser.role as UserRole,
+      role: updatedUserRole,
       isActive: updatedUser.isActive,
-      lastLogin: updatedUser.lastLogin,
+      lastLogin: updatedUser.lastLogin || undefined,
       avatarUrl: updatedUser.avatarUrl || undefined,
       createdAt: updatedUser.createdAt,
       updatedAt: updatedUser.updatedAt

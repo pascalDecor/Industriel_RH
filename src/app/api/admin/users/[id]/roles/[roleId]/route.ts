@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuth } from '@/lib/auth-middleware';
 import { hasPermissionMultiRole } from '@/lib/permissions/multi-role-helpers';
-import { Permission, UserWithRoles } from '@/types/server-auth';
-
-const prisma = new PrismaClient();
+import { Permission, UserWithRoles } from '@/types/auth';
+import prisma from '@/lib/connect_db';
 
 // PATCH - Modifier une assignation de rôle
 export async function PATCH(
@@ -23,7 +21,7 @@ export async function PATCH(
       );
     }
 
-    const currentUser = authResult.user as UserWithRoles;
+    const currentUser = authResult.user as unknown as UserWithRoles;
 
     // Vérifier les permissions d'assignation de rôles
     if (!hasPermissionMultiRole(currentUser, Permission.ROLES_ASSIGN)) {
@@ -113,7 +111,7 @@ export async function DELETE(
       );
     }
 
-    const currentUser = authResult.user as UserWithRoles;
+    const currentUser = authResult.user as unknown as UserWithRoles;
 
     // Vérifier les permissions d'assignation de rôles
     if (!hasPermissionMultiRole(currentUser, Permission.ROLES_ASSIGN)) {

@@ -1,4 +1,4 @@
-module.exports = async function createSectors(prisma) {
+module.exports = async function createSectors(prisma: any) {
   console.log("🔹 seed sectors…");
   const noms = [
     {

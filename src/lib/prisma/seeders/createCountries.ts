@@ -1,4 +1,4 @@
-module.exports = async function createCountries(prisma) {
+module.exports = async function createCountries(prisma: any) {
   console.log("🔹 seed countries…");
   const noms = ["Canada"];
 

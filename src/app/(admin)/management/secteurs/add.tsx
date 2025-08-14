@@ -29,7 +29,7 @@ export default function AddSectors({ sector, onChange }: { sector: Sector, onCha
                 <input type="text" name="id" value={sector.id} hidden />
                 <FloatingLabelInput
                     className="w-full"
-                    error={state?.errors && state?.errors.libelle && state.errors.libelle.join(', ')}
+                    error={state && typeof state === 'object' && state.errors && state.errors.libelle ? state.errors.libelle.join(', ') : undefined}
                     label='Libellé' name="libelle" placeholder="Libellé"
                     value={libelle ?? ''} onChange={(e) => setLibelle(e.target.value)} />
                 <DialogFooter>

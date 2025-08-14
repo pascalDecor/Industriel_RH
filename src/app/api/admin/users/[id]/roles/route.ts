@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuth } from '@/lib/auth-middleware';
 import { hasPermissionMultiRole, canAssignRole } from '@/lib/permissions/multi-role-helpers';
-import { Permission, UserWithRoles, UserRole } from '@/types/server-auth';
-
-const prisma = new PrismaClient();
+import { Permission, UserRole } from '@/types/server-auth';
+import { UserWithRoles } from '@/types/auth';
+import prisma from '@/lib/connect_db';
 
 // GET - Récupérer les rôles d'un utilisateur
 export async function GET(
@@ -23,7 +22,7 @@ export async function GET(
       );
     }
 
-    const currentUser = authResult.user as UserWithRoles;
+    const currentUser = authResult.user as unknown as UserWithRoles;
 
     // Vérifier les permissions de lecture des utilisateurs
     if (!hasPermissionMultiRole(currentUser, Permission.USERS_READ)) {
@@ -76,7 +75,7 @@ export async function POST(
       );
     }
 
-    const currentUser = authResult.user as UserWithRoles;
+    const currentUser = authResult.user as unknown as UserWithRoles;
 
     // Vérifier les permissions d'assignation de rôles
     if (!hasPermissionMultiRole(currentUser, Permission.ROLES_ASSIGN)) {

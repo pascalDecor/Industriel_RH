@@ -28,8 +28,8 @@ export const GET = async (request: NextRequest) => {
 
         const where = search ? {
             OR: [
-                { libelle: { contains: search, mode: 'insensitive' } },
-                { description: { contains: search, mode: 'insensitive' } }
+                { libelle: { contains: search, mode: 'insensitive' as const } },
+                { description: { contains: search, mode: 'insensitive' as const } }
             ]
         } : {};
 

@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuth } from '@/lib/auth-middleware';
 import { hasPermissionMultiRole } from '@/lib/permissions/multi-role-helpers';
-import { Permission, UserWithRoles, UserRole } from '@/types/server-auth';
-
-const prisma = new PrismaClient();
+import { Permission, UserWithRoles, UserRole } from '@/types/auth';
+import prisma from '@/lib/connect_db';
 
 // PATCH - Changer le rôle principal d'un utilisateur
 export async function PATCH(
@@ -23,7 +21,7 @@ export async function PATCH(
       );
     }
 
-    const currentUser = authResult.user as UserWithRoles;
+    const currentUser = authResult.user as unknown as UserWithRoles;
 
     // Vérifier les permissions d'assignation de rôles
     if (!hasPermissionMultiRole(currentUser, Permission.ROLES_ASSIGN)) {

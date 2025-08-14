@@ -21,7 +21,7 @@ export default function ItemArticles({ article, onChange, className = "col-span-
         
         setIsUpdating(true);
         try {
-            await HttpService.put({
+            await HttpService.update({
                 url: `/articles/${article.id}`,
                 data: { published: !article.published }
             });
