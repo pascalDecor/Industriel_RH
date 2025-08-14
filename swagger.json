@@ -1,0 +1,1643 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Industrielle RH API",
+    "description": "API pour la plateforme de recrutement Industrielle RH - Gestion des candidatures, recrutements, calculs salariaux et plus",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Industrielle RH",
+      "email": "info@industriellerh.ca",
+      "url": "https://industriellerh.ca"
+    },
+    "license": {
+      "name": "Propriétaire",
+      "url": "https://industriellerh.ca/terms"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Serveur de développement"
+    },
+    {
+      "url": "https://industriellerh.ca/api",
+      "description": "Serveur de production"
+    }
+  ],
+  "paths": {
+    "/contacts": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Récupérer tous les contacts",
+        "description": "Récupère la liste paginée des contacts avec possibilité de recherche et filtrage",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Numéro de page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Nombre d'éléments par page",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Terme de recherche",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filtrer par statut",
+            "schema": {
+              "type": "string",
+              "enum": ["nouveau", "en_cours", "traite", "ferme"]
+            }
+          },
+          {
+            "name": "priority",
+            "in": "query",
+            "description": "Filtrer par priorité",
+            "schema": {
+              "type": "string",
+              "enum": ["basse", "moyenne", "haute", "urgente"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des contacts récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Contact"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Contacts"],
+        "summary": "Créer un nouveau contact",
+        "description": "Crée un nouveau contact dans le système",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Contact créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contacts/{id}": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Récupérer un contact par ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact non trouvé"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Contacts"],
+        "summary": "Mettre à jour un contact",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contact mis à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Contacts"],
+        "summary": "Supprimer un contact",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Contact supprimé avec succès"
+          },
+          "404": {
+            "description": "Contact non trouvé"
+          }
+        }
+      }
+    },
+    "/applications": {
+      "get": {
+        "tags": ["Applications"],
+        "summary": "Récupérer toutes les candidatures",
+        "description": "Récupère la liste paginée des candidatures avec relations",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sectorId",
+            "in": "query",
+            "description": "Filtrer par secteur",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "functionId",
+            "in": "query",
+            "description": "Filtrer par fonction",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "Filtrer par état",
+            "schema": {
+              "type": "string",
+              "enum": ["nouveau", "en_cours", "accepte", "refuse"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des candidatures",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Application"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Applications"],
+        "summary": "Créer une nouvelle candidature",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Candidature créée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Application"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}": {
+      "get": {
+        "tags": ["Applications"],
+        "summary": "Récupérer une candidature par ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Candidature trouvée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Application"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hires": {
+      "get": {
+        "tags": ["Recrutements"],
+        "summary": "Récupérer toutes les demandes de recrutement",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des demandes de recrutement",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Hire"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Recrutements"],
+        "summary": "Créer une nouvelle demande de recrutement",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HireCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Demande de recrutement créée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hire"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/salary-calculations": {
+      "get": {
+        "tags": ["Calculs Salariaux"],
+        "summary": "Récupérer tous les calculs salariaux",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "industry",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des calculs salariaux",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SalaryCalculation"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginationMeta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Calculs Salariaux"],
+        "summary": "Créer un nouveau calcul salarial",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalaryCalculationCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Calcul salarial créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/SalaryCalculation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tax-calculations": {
+      "get": {
+        "tags": ["Calculs d'Impôts"],
+        "summary": "Récupérer tous les calculs d'impôts",
+        "responses": {
+          "200": {
+            "description": "Liste des calculs d'impôts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TaxCalculation"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Calculs d'Impôts"],
+        "summary": "Créer un nouveau calcul d'impôt",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaxCalculationCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Calcul d'impôt créé avec succès"
+          }
+        }
+      }
+    },
+    "/mortgage-calculations": {
+      "get": {
+        "tags": ["Calculs Hypothécaires"],
+        "summary": "Récupérer tous les calculs hypothécaires",
+        "responses": {
+          "200": {
+            "description": "Liste des calculs hypothécaires"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Calculs Hypothécaires"],
+        "summary": "Créer un nouveau calcul hypothécaire",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MortgageCalculationCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Calcul hypothécaire créé avec succès"
+          }
+        }
+      }
+    },
+    "/cnesst-validations": {
+      "get": {
+        "tags": ["Validations CNESST"],
+        "summary": "Récupérer toutes les validations CNESST",
+        "responses": {
+          "200": {
+            "description": "Liste des validations CNESST"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Validations CNESST"],
+        "summary": "Créer une nouvelle validation CNESST",
+        "responses": {
+          "201": {
+            "description": "Validation CNESST créée avec succès"
+          }
+        }
+      }
+    },
+    "/sectors": {
+      "get": {
+        "tags": ["Référentiels"],
+        "summary": "Récupérer tous les secteurs d'activité",
+        "responses": {
+          "200": {
+            "description": "Liste des secteurs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sector"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fonctions": {
+      "get": {
+        "tags": ["Référentiels"],
+        "summary": "Récupérer toutes les fonctions",
+        "responses": {
+          "200": {
+            "description": "Liste des fonctions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Function"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cities": {
+      "get": {
+        "tags": ["Référentiels"],
+        "summary": "Récupérer toutes les villes",
+        "responses": {
+          "200": {
+            "description": "Liste des villes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/City"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/civilities": {
+      "get": {
+        "tags": ["Référentiels"],
+        "summary": "Récupérer toutes les civilités",
+        "responses": {
+          "200": {
+            "description": "Liste des civilités",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Civility"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload": {
+      "post": {
+        "tags": ["Upload"],
+        "summary": "Uploader un fichier",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Fichier à uploader"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fichier uploadé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "description": "URL du fichier uploadé"
+                    },
+                    "filename": {
+                      "type": "string",
+                      "description": "Nom du fichier"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identifiant unique du contact"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date de création"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date de dernière modification"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Prénom",
+            "example": "Jean"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Nom de famille",
+            "example": "Dupont"
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Nom de l'entreprise",
+            "example": "Acme Corp"
+          },
+          "jobTitle": {
+            "type": "string",
+            "nullable": true,
+            "description": "Titre du poste",
+            "example": "Directeur RH"
+          },
+          "workEmail": {
+            "type": "string",
+            "format": "email",
+            "description": "Adresse email professionnelle",
+            "example": "jean.dupont@acme.com"
+          },
+          "workPhone": {
+            "type": "string",
+            "description": "Téléphone professionnel",
+            "example": "819-123-4567"
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "Code postal",
+            "example": "J1A 1A1"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message du contact",
+            "example": "Nous recherchons un ingénieur en mécanique..."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["nouveau", "en_cours", "traite", "ferme"],
+            "description": "Statut du contact",
+            "example": "nouveau"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["basse", "moyenne", "haute", "urgente"],
+            "description": "Priorité du contact",
+            "example": "moyenne"
+          }
+        },
+        "required": ["id", "firstName", "lastName", "workEmail", "workPhone", "message", "status", "priority"]
+      },
+      "ContactCreate": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "example": "Jean"
+          },
+          "lastName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "example": "Dupont"
+          },
+          "companyName": {
+            "type": "string",
+            "maxLength": 200,
+            "example": "Acme Corp"
+          },
+          "jobTitle": {
+            "type": "string",
+            "maxLength": 150,
+            "example": "Directeur RH"
+          },
+          "workEmail": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 320,
+            "example": "jean.dupont@acme.com"
+          },
+          "workPhone": {
+            "type": "string",
+            "maxLength": 20,
+            "example": "819-123-4567"
+          },
+          "postalCode": {
+            "type": "string",
+            "maxLength": 10,
+            "example": "J1A 1A1"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "example": "Nous recherchons un ingénieur en mécanique..."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["nouveau", "en_cours", "traite", "ferme"],
+            "default": "nouveau"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["basse", "moyenne", "haute", "urgente"],
+            "default": "moyenne"
+          }
+        },
+        "required": ["firstName", "lastName", "workEmail", "workPhone", "message"]
+      },
+      "ContactUpdate": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "lastName": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "companyName": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "jobTitle": {
+            "type": "string",
+            "maxLength": 150
+          },
+          "workEmail": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 320
+          },
+          "workPhone": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "postalCode": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "status": {
+            "type": "string",
+            "enum": ["nouveau", "en_cours", "traite", "ferme"]
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["basse", "moyenne", "haute", "urgente"]
+          }
+        }
+      },
+      "Application": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Marie"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Martin"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "marie.martin@email.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "514-123-4567"
+          },
+          "adresse": {
+            "type": "string",
+            "example": "123 Rue Example, Montréal, QC"
+          },
+          "year_of_experience": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 5
+          },
+          "cv": {
+            "type": "string",
+            "description": "URL vers le CV",
+            "example": "/uploads/cv_marie_martin.pdf"
+          },
+          "coverLetter": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL vers la lettre de motivation",
+            "example": "/uploads/lettre_marie_martin.pdf"
+          },
+          "state": {
+            "type": "string",
+            "enum": ["nouveau", "en_cours", "accepte", "refuse"],
+            "example": "nouveau"
+          },
+          "sectorId": {
+            "type": "string",
+            "description": "ID du secteur d'activité"
+          },
+          "functionId": {
+            "type": "string",
+            "description": "ID de la fonction"
+          },
+          "civilityId": {
+            "type": "string",
+            "description": "ID de la civilité"
+          },
+          "cityId": {
+            "type": "string",
+            "description": "ID de la ville"
+          },
+          "sector": {
+            "$ref": "#/components/schemas/Sector"
+          },
+          "function": {
+            "$ref": "#/components/schemas/Function"
+          },
+          "civility": {
+            "$ref": "#/components/schemas/Civility"
+          },
+          "city": {
+            "$ref": "#/components/schemas/City"
+          }
+        },
+        "required": ["firstName", "lastName", "email", "phone", "adresse", "year_of_experience", "cv", "state", "sectorId", "functionId", "civilityId", "cityId"]
+      },
+      "ApplicationCreate": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "lastName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 320
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "adresse": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "year_of_experience": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 50
+          },
+          "cv": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "coverLetter": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "state": {
+            "type": "string",
+            "enum": ["nouveau", "en_cours", "accepte", "refuse"],
+            "default": "nouveau"
+          },
+          "sectorId": {
+            "type": "string"
+          },
+          "functionId": {
+            "type": "string"
+          },
+          "civilityId": {
+            "type": "string"
+          },
+          "cityId": {
+            "type": "string"
+          }
+        },
+        "required": ["firstName", "lastName", "email", "phone", "adresse", "year_of_experience", "cv", "sectorId", "functionId", "civilityId", "cityId"]
+      },
+      "Hire": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Pierre"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Tremblay"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "pierre.tremblay@entreprise.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "418-123-4567"
+          },
+          "number_of_positions": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 3
+          },
+          "document_support": {
+            "type": "string",
+            "nullable": true,
+            "description": "Document de support",
+            "example": "/uploads/document_support.pdf"
+          },
+          "details_of_positions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Détails des postes à pourvoir"
+          },
+          "company_name": {
+            "type": "string",
+            "example": "Entreprise ABC"
+          },
+          "company_website": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://www.entrepriseabc.com"
+          },
+          "state": {
+            "type": "string",
+            "enum": ["nouveau", "en_cours", "traite", "ferme"],
+            "example": "nouveau"
+          },
+          "civilityId": {
+            "type": "string"
+          },
+          "civility": {
+            "$ref": "#/components/schemas/Civility"
+          },
+          "sectors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sector"
+            }
+          }
+        },
+        "required": ["firstName", "lastName", "email", "phone", "number_of_positions", "details_of_positions", "company_name", "state", "civilityId"]
+      },
+      "HireCreate": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "lastName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 320
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "number_of_positions": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "document_support": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "details_of_positions": {
+            "type": "object",
+            "description": "Détails du poste à pourvoir"
+          },
+          "company_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "company_website": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "state": {
+            "type": "string",
+            "enum": ["nouveau", "en_cours", "traite", "ferme"],
+            "default": "nouveau"
+          },
+          "civilityId": {
+            "type": "string"
+          }
+        },
+        "required": ["firstName", "lastName", "email", "phone", "number_of_positions", "details_of_positions", "company_name", "civilityId"]
+      },
+      "SalaryCalculation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jobTitle": {
+            "type": "string",
+            "example": "Ingénieur Logiciel"
+          },
+          "industry": {
+            "type": "string",
+            "example": "Technologie"
+          },
+          "location": {
+            "type": "string",
+            "example": "Montréal, QC"
+          },
+          "experience": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 5
+          },
+          "education": {
+            "type": "string",
+            "nullable": true,
+            "example": "Baccalauréat"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["JavaScript", "React", "Node.js"]
+          },
+          "company": {
+            "type": "string",
+            "nullable": true,
+            "example": "Tech Corp"
+          },
+          "salaryRange": {
+            "type": "string",
+            "example": "70000-85000"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "nullable": true,
+            "example": "user@example.com"
+          }
+        },
+        "required": ["jobTitle", "industry", "location", "experience", "salaryRange"]
+      },
+      "SalaryCalculationCreate": {
+        "type": "object",
+        "properties": {
+          "jobTitle": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Titre du poste"
+          },
+          "industry": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Secteur d'activité"
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Localisation"
+          },
+          "experience": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 50,
+            "description": "Années d'expérience"
+          },
+          "education": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Niveau d'éducation"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Compétences"
+          },
+          "company": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Entreprise"
+          },
+          "salaryRange": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "Fourchette salariale"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 320,
+            "description": "Email"
+          }
+        },
+        "required": ["jobTitle", "industry", "location", "experience", "salaryRange"]
+      },
+      "TaxCalculation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TaxCalculationCreate": {
+        "type": "object",
+        "properties": {
+          "annualSalary": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Salaire annuel"
+          },
+          "province": {
+            "type": "string",
+            "description": "Province"
+          },
+          "deductions": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Déductions"
+          }
+        },
+        "required": ["annualSalary", "province"]
+      },
+      "MortgageCalculationCreate": {
+        "type": "object",
+        "properties": {
+          "propertyValue": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Valeur de la propriété"
+          },
+          "downPayment": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Mise de fonds"
+          },
+          "interestRate": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Taux d'intérêt"
+          },
+          "amortizationPeriod": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Période d'amortissement en années"
+          }
+        },
+        "required": ["propertyValue", "downPayment", "interestRate", "amortizationPeriod"]
+      },
+      "Sector": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "libelle": {
+            "type": "string",
+            "example": "Fabrication"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Secteur de la fabrication industrielle"
+          },
+          "alternativeDescriptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "functions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Function"
+            }
+          },
+          "_count": {
+            "type": "object",
+            "properties": {
+              "functions": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "required": ["id", "libelle"]
+      },
+      "Function": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "libelle": {
+            "type": "string",
+            "example": "Ingénieur"
+          },
+          "sectorId": {
+            "type": "string",
+            "description": "ID du secteur parent"
+          }
+        },
+        "required": ["id", "libelle", "sectorId"]
+      },
+      "City": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "libelle": {
+            "type": "string",
+            "example": "Montréal"
+          }
+        },
+        "required": ["id", "libelle"]
+      },
+      "Civility": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "libelle": {
+            "type": "string",
+            "example": "Monsieur"
+          }
+        },
+        "required": ["id", "libelle"]
+      },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "Nombre total d'éléments"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Page actuelle"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Nombre d'éléments par page"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Nombre total de pages"
+          }
+        },
+        "required": ["total", "page", "limit", "totalPages"]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Message d'erreur"
+          },
+          "message": {
+            "type": "string",
+            "description": "Description détaillée de l'erreur"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "Code de statut HTTP"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Contacts",
+      "description": "Gestion des contacts et demandes d'information"
+    },
+    {
+      "name": "Applications",
+      "description": "Gestion des candidatures d'emploi"
+    },
+    {
+      "name": "Recrutements",
+      "description": "Gestion des demandes de recrutement des entreprises"
+    },
+    {
+      "name": "Calculs Salariaux",
+      "description": "Calculs et estimations salariales"
+    },
+    {
+      "name": "Calculs d'Impôts",
+      "description": "Calculs d'impôts et taxes"
+    },
+    {
+      "name": "Calculs Hypothécaires",
+      "description": "Calculs de prêts hypothécaires"
+    },
+    {
+      "name": "Validations CNESST",
+      "description": "Validations et conformité CNESST"
+    },
+    {
+      "name": "Référentiels",
+      "description": "Données de référence (secteurs, fonctions, villes, etc.)"
+    },
+    {
+      "name": "Upload",
+      "description": "Gestion des fichiers et uploads"
+    }
+  ]
+}

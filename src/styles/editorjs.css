@@ -1,0 +1,64 @@
+/* Styles personnalisés pour EditorJS */
+
+.codex-editor__redactor {
+  padding-bottom: 20px !important;
+}
+
+/* Améliorer l'apparence de l'outil d'image */
+.image-tool {
+  margin: 20px 0;
+}
+
+.image-tool__image {
+  border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+}
+
+.image-tool__caption {
+  margin-top: 8px;
+  font-style: italic;
+  color: #666;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Style pour le bouton d'upload */
+.image-tool__upload-button {
+  background: #f3f4f6;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.image-tool__upload-button:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+/* Style pour la zone de drop */
+.image-tool__upload-button--dragging {
+  background: #dbeafe;
+  border-color: #3b82f6;
+}
+
+/* Améliorer l'apparence générale */
+.ce-block__content {
+  max-width: none;
+}
+
+/* Style pour les outils inline */
+.ce-inline-toolbar {
+  background: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+
+/* Style pour le placeholder */
+.codex-editor--empty .ce-block:first-child .ce-paragraph[data-placeholder]:empty::before {
+  color: #9ca3af;
+  font-style: italic;
+}
