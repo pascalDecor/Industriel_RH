@@ -49,7 +49,6 @@
     "editorjs-html": "^4.0.5",
     "formidable": "^3.5.3",
     "framer-motion": "^12.4.10",
-    "industriel-rh-site-1": "file:",
     "jose": "^6.0.12",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
@@ -70,7 +69,7 @@
     "react-spinners": "^0.15.0",
     "recharts": "^2.15.2",
     "sonner": "^2.0.5",
-    "swagger-ui-react": "^5.27.0",
+    "swagger-ui-react": "^5.27.1",
     "swiper": "^11.2.4",
     "swr": "^2.3.3",
     "tailwind-merge": "^3.1.0",
@@ -93,5 +92,20 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "react-copy-to-clipboard": {
+      "react": "$react"
+    },
+    "react-debounce-input": {
+      "react": "$react"
+    },
+    "react-inspector": {
+      "react": "$react"
+    },
+    "swagger-ui-react": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   }
 }
