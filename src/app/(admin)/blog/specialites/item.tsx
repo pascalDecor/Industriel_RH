@@ -13,7 +13,7 @@ import AddSpecialites from "./add";
 import { HttpService } from "@/utils/http.services";
 import { useState } from "react";
 
-export default function ItemSpecialites({ specialite, onChange }: { specialite: Specialite, onChange: (state: any) => void }) {
+export default function ItemSpecialites({ specialite, isEnglishView, onChange }: { specialite: Specialite, isEnglishView: boolean, onChange: (state: any) => void }) {
 
     const [loadingDelete, setLoadingDelete] = useState(false);
     const handleDelete = (id: string) => () => {
@@ -35,7 +35,7 @@ export default function ItemSpecialites({ specialite, onChange }: { specialite: 
         <Card className="p-5 border-none mb-3 shadow-none flex flex-row justify-between items-center" key={specialite.id}>
             <div>
                 <p className="my-0 text-slate-700 font-semibold py-0">
-                    {specialite.libelle}
+                    {isEnglishView ? specialite.libelle_en : specialite.libelle} 
                 </p>
                 <p className="my-0 text-slate-700 text-sm py-0">
                     {specialite.articleCount} article(s) . crée le {formatDateFr(specialite.createdAt ?? new Date())}

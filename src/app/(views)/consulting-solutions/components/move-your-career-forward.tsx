@@ -22,11 +22,12 @@ import { useTranslation } from "@/contexts/LanguageContext";
 
 
 export default function MoveYourCareerForward() {
-    const { t } = useTranslation();
+    const { t, language} = useTranslation();
     const [state, action, pending] = useActionState(addCandidature, undefined);
-    const [sectorId, setSectorId] = useState<string | undefined>(undefined);
-
     const [candidature, setCandidature] = useState(Application.fromJSON({} as any));
+    const [sectorId, setSectorId] = useState<string | undefined>(candidature.sectorId);
+
+    const getLocalizedLabel = (item: any) => language === 'en' ? (item.libelle_en || item.libelle) : item.libelle;
 
     const inputCvRef = useRef<HTMLInputElement>(null);
     const inputLetterRef = useRef<HTMLInputElement>(null);
@@ -74,8 +75,12 @@ export default function MoveYourCareerForward() {
                                     error={state?.errors && state?.errors.civilityId && state.errors.civilityId.join(', ')}
                                     label={t('form.civility')}
                                     name="civility"
+                                    value={candidature.civilityId ? {
+                                        value: candidature.civilityId,
+                                        label: getLocalizedLabel(data.data.find(s => s.id === candidature.civilityId)) || ''
+                                    } : undefined}
                                     onChange={(e) => { setCandidature(candidature.update({ civilityId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
+                                    options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
                             }
                         />
 
@@ -120,9 +125,13 @@ export default function MoveYourCareerForward() {
                                     label={t('form.city')}
                                     required
                                     name="city"
+                                    value={candidature.cityId ? {
+                                        value: candidature.cityId,
+                                        label: getLocalizedLabel(data.data.find(s => s.id === candidature.cityId)) || ''
+                                    } : undefined}
                                     error={state?.errors && state?.errors.cityId && state.errors.cityId.join(', ')}
                                     onChange={(e) => { setCandidature(candidature.update({ cityId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
+                                    options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
                             }
                         />
                     </div>
@@ -158,26 +167,51 @@ export default function MoveYourCareerForward() {
                                     label={t('form.sector')}
                                     required
                                     name="sector"
-                                    onChange={(e) => { setSectorId(e.target.value); setCandidature(candidature.update({ sectorId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
+                                    value={candidature.sectorId ? {
+                                        value: candidature.sectorId,
+                                        label: getLocalizedLabel(data.data.find(s => s.id === candidature.sectorId)) || ''
+                                    } : undefined}
+                                    onChange={(e) => {
+                                        setSectorId(e.target.value);
+                                        setCandidature(candidature.update({
+                                            sectorId: e.target.value,
+                                            functionId: undefined // Reset function when sector changes
+                                        }));
+                                    }}
+                                    options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
                             }
                         />
                     </div>
                     <div className="col-span-6 text-left">
-                        <AsyncBuilder
-                            promise={async () => { return HttpService.index<Fonction>({ url: '/fonctions?sectorId=' + sectorId, fromJson: (json: any) => Fonction.fromJSON(json), }) }}
-                            loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
-                            callDataListen={sectorId}
-                            hasData={(data) =>
-                                <FloatingLabelSelect
-                                    label={t('form.function')}
-                                    required
-                                    name="function"
-                                    error={state?.errors && state?.errors.functionId && state.errors.functionId.join(', ')}
-                                    onChange={(e) => { setCandidature(candidature.update({ functionId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
-                            }
-                        />
+                        {sectorId ? (
+                            <AsyncBuilder
+                                promise={async () => { return HttpService.index<Fonction>({ url: '/fonctions?sectorId=' + sectorId, fromJson: (json: any) => Fonction.fromJSON(json), }) }}
+                                loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                                callDataListen={sectorId}
+                                hasData={(data) =>
+                                    <FloatingLabelSelect
+                                        label={t('form.function')}
+                                        required
+                                        name="function"
+                                        value={candidature.functionId ? {
+                                            value: candidature.functionId,
+                                            label: getLocalizedLabel(data.data.find(s => s.id === candidature.functionId)) || ''
+                                        } : undefined}
+                                        error={state?.errors && state?.errors.functionId && state.errors.functionId.join(', ')}
+                                        onChange={(e) => { setCandidature(candidature.update({ functionId: e.target.value })) }}
+                                        options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
+                                }
+                            />
+                        ) : (
+                            <FloatingLabelSelect
+                                label={t('form.function')}
+                                required
+                                name="function"
+                                disabled
+                                error={state?.errors && state?.errors.functionId && state.errors.functionId.join(', ')}
+                                onChange={(e) => { setCandidature(candidature.update({ functionId: e.target.value })) }}
+                                options={[]} />
+                        )}
                     </div>
 
                     <div className="col-span-12 text-left">

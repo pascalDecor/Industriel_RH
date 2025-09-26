@@ -15,7 +15,7 @@ export const GET = withQuery<Article, typeof prisma.article>(
                 ]
             }
         },
-        sortFields: ['titre', 'views', 'published', 'createdAt', 'updatedAt', 'authorId'],
+        sortFields: ['titre', 'titre_en', 'views', 'published', 'createdAt', 'updatedAt', 'authorId'],
         defaultSortBy: 'createdAt',
         defaultSortOrder: 'desc',
         maxLimit: 50,
@@ -33,15 +33,73 @@ export const GET = withQuery<Article, typeof prisma.article>(
                     }
                 }
             }
+
+            // Support pour filtrer par IDs de spécialités (priorité sur specialityname)
+            const specialites = params.get('specialites');
+            if (specialites) {
+                const specialiteIds = specialites.split(',').filter(Boolean);
+                if (specialiteIds.length > 0) {
+                    where.specialites = {
+                        some: {
+                            id: { in: specialiteIds }
+                        }
+                    };
+                }
+            }
+
+            // Support pour filtrer par IDs de tags
+            const tags = params.get('tags');
+            if (tags) {
+                const tagIds = tags.split(',').filter(Boolean);
+                if (tagIds.length > 0) {
+                    where.tags = {
+                        some: {
+                            id: { in: tagIds }
+                        }
+                    };
+                }
+            }
+
+            // Filtrer par articles publiés
             const published = params.get('published');
             if (published) {
                 where.published = published === 'true';
+            }
+
+            // Si les deux types de filtres sont appliqués, utiliser AND
+            const bothFilters = params.get('specialites') && params.get('tags');
+            if (bothFilters) {
+                const specialiteIds = params.get('specialites')?.split(',').filter(Boolean) || [];
+                const tagIds = params.get('tags')?.split(',').filter(Boolean) || [];
+
+                if (specialiteIds.length > 0 && tagIds.length > 0) {
+                    where.AND = [
+                        {
+                            specialites: {
+                                some: {
+                                    id: { in: specialiteIds }
+                                }
+                            }
+                        },
+                        {
+                            tags: {
+                                some: {
+                                    id: { in: tagIds }
+                                }
+                            }
+                        }
+                    ];
+                    // Supprimer les filtres individuels pour éviter les conflits
+                    delete where.specialites;
+                    delete where.tags;
+                }
             }
         },
         includeFields: ['tags', 'specialites', 'author'],
         baseSelect: {
             id: true,
             titre: true,
+            titre_en: true,
             image: true,
             views: true,
             published: true,
@@ -52,7 +110,11 @@ export const GET = withQuery<Article, typeof prisma.article>(
             contenu: {
                 param: 'includeContent',
                 value: 'true'
-            }
+            },
+            contenu_en: {
+                param: 'includeContent',
+                value: 'true'
+            },
         },
         cache: {
             enabled: true,
@@ -67,18 +129,18 @@ export const GET = withQuery<Article, typeof prisma.article>(
 // export const POST = async (req: Request) => {
 //     try {
 //         const data = await req.json();
-        
+
 //         // Validation des données requises
 //         if (!data.titre || data.titre.trim() === '') {
 //             return NextResponse.json({ 
 //                 error: 'Le titre est requis' 
 //             }, { status: 400 });
 //         }
-        
+
 //         // Vérifier si l'auteur existe ou utiliser un auteur par défaut
 //         let finalAuthorId = null;
 //         console.log("AuthorId reçu:", data.authorId);
-        
+
 //         if (data.authorId) {
 //             const author = await prisma.user.findUnique({
 //                 where: { id: data.authorId },
@@ -89,7 +151,7 @@ export const GET = withQuery<Article, typeof prisma.article>(
 //                 finalAuthorId = data.authorId;
 //             }
 //         }
-        
+
 //         // Si aucun auteur valide n'est fourni, essayer de trouver un utilisateur système ou admin
 //         if (!finalAuthorId) {
 //             console.log("Recherche d'un utilisateur système...");
@@ -116,7 +178,7 @@ export const GET = withQuery<Article, typeof prisma.article>(
 //         }
 
 //         console.log("Auteur final utilisé:", finalAuthorId);
-        
+
 //         // Validation et transformation des données
 //         const articleData = {
 //             titre: data.titre,
@@ -140,7 +202,7 @@ export const GET = withQuery<Article, typeof prisma.article>(
 //         };
 
 //         console.log("Création article avec données:", articleData);
-        
+
 //         const articleCreated = await prisma.article.create({
 //             data: articleData,
 //             // Inclure les relations dans la réponse
@@ -170,7 +232,7 @@ export const GET = withQuery<Article, typeof prisma.article>(
 //         // Invalider le cache des articles
 //         const keysToDelete = Array.from(cache.keys()).filter(key => key.startsWith('articles:'));
 //         keysToDelete.forEach(key => cache.delete(key));
-        
+
 //         return NextResponse.json(articleCreated, { status: 201 });
 //     } catch (error) {
 //         console.error("Erreur création article:", error);
@@ -189,17 +251,17 @@ export const POST = async (req: Request) => {
         data.contenu = [data.contenu];
 
 
-         // Validation des données requises
+        // Validation des données requises
         if (!data.titre || data.titre.trim() === '') {
-            return NextResponse.json({ 
-                error: 'Le titre est requis' 
+            return NextResponse.json({
+                error: 'Le titre est requis'
             }, { status: 400 });
         }
 
-          // Vérifier si l'auteur existe ou utiliser un auteur par défaut
+        // Vérifier si l'auteur existe ou utiliser un auteur par défaut
         let finalAuthorId = null;
         console.log("AuthorId reçu:", data.authorId);
-        
+
         if (data.authorId) {
             const author = await prisma.user.findUnique({
                 where: { id: data.authorId },
@@ -210,7 +272,7 @@ export const POST = async (req: Request) => {
                 finalAuthorId = data.authorId;
             }
         }
-        
+
         // Si aucun auteur valide n'est fourni, essayer de trouver un utilisateur système ou admin
         if (!finalAuthorId) {
             console.log("Recherche d'un utilisateur système...");
@@ -231,14 +293,55 @@ export const POST = async (req: Request) => {
 
         // Vérification finale que nous avons un auteur
         if (!finalAuthorId) {
-            return NextResponse.json({ 
-                error: 'Aucun auteur valide trouvé. Veuillez vous reconnecter.' 
+            return NextResponse.json({
+                error: 'Aucun auteur valide trouvé. Veuillez vous reconnecter.'
             }, { status: 400 });
         }
 
-        console.log("data", data);
+        const articleData = {
+            titre: data.titre,
+            contenu: Array.isArray(data.contenu) ? data.contenu : [data.contenu],
+            image: data.image || null,
+            published: data.published || false,
+            // N'inclure authorId que s'il existe
+            ...(finalAuthorId && { authorId: finalAuthorId }),
+            // Connecter les tags existants
+            ...(data.tags && data.tags.length > 0 && {
+                tags: {
+                    connect: data.tags.map((tagId: string) => ({ id: tagId }))
+                }
+            }),
+            // Connecter les spécialités existantes
+            ...(data.specialites && data.specialites.connect && Array.isArray(data.specialites.connect) && data.specialites.connect.length > 0 && {
+                specialites: data.specialites
+            })
+        };
         const articleCreated = await prisma.article.create({
-            data: data
+            data: articleData,
+            // Inclure les relations dans la réponse
+            include: {
+                tags: {
+                    select: {
+                        id: true,
+                        libelle: true,
+                        libelle_en: true
+                    }
+                },
+                specialites: {
+                    select: {
+                        id: true,
+                        libelle: true,
+                        libelle_en: true
+                    }
+                },
+                // Relation author optionnelle
+                author: finalAuthorId ? {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                } : false
+            }
         });
         return NextResponse.json(articleCreated, { status: 201 });
     } catch (error) {

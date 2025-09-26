@@ -21,6 +21,8 @@ export default function Specialites() {
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
+    const [isEnglishView, setIsEnglishView] = useState(false);
+
     return (
         <div className="space-y-4">
 
@@ -30,6 +32,31 @@ export default function Specialites() {
                     <p className="text-slate-700 text-sm">Page de gestion des spécialités</p>
                 </div>
                 <div className="flex items-center justify-end space-x-2">
+
+                    <div className="flex items-center justify-end">
+                        <div className="flex items-center space-x-3 bg-gray-50 rounded-lg p-2">
+                            <span className="text-sm text-gray-600">Version:</span>
+                            <button
+                                onClick={() => setIsEnglishView(false)}
+                                className={`px-3 py-1 text-sm rounded-md transition-colors ${!isEnglishView
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-gray-600 hover:text-gray-800'
+                                    }`}
+                            >
+                                Français
+                            </button>
+                            <button
+                                onClick={() => setIsEnglishView(true)}
+                                className={`px-3 py-1 text-sm rounded-md transition-colors ${isEnglishView
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-gray-600 hover:text-gray-800'
+                                    }`}
+                            >
+                                English
+                            </button>
+                        </div>
+                    </div>
+
                     <FloatingLabelInput
                         className="!w-[200px]"
                         label='Rechercher une spécialité' name="search" placeholder="Rechercher une spécialité"
@@ -58,13 +85,14 @@ export default function Specialites() {
                     });
                 }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                     callDataListen={changeCount}
+                    enableRefresh={true}
                     hasData={(data) => {
                         setPage(data.meta.page);
                         return <>
                             {search && data.data.length === 0 && <div className="text-center text-slate-500 font-bold bg-white rounded-lg p-10">Aucun résultat !</div>}
                             {data.data.length !== 0 && <p className="text-slate-700 text-sm mb-4 font-semibold">{data.meta.total} résultats</p>}
                             {data.data.map(s =>
-                                <ItemSpecialites key={s.id} specialite={s} onChange={(state) => {
+                                <ItemSpecialites key={s.id} specialite={s} isEnglishView={isEnglishView} onChange={(state) => {
                                     if (state) {
                                         setchangeCount(c => c + 1);
                                         setOpen(false);

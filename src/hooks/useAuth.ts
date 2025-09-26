@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { UserWithRole, UserRole } from '@/types/auth';
-import { 
-  hasPermission, 
-  hasAllPermissions, 
-  hasAnyPermission, 
-  hasAdminAccess, 
+import {
+  hasPermission,
+  hasAllPermissions,
+  hasAnyPermission,
+  hasAdminAccess,
   hasInternalAccess as checkInternalAccess,
+  hasSwaggerAccess as checkSwaggerAccess,
   canManageUsers,
   canApproveHires,
   canAccessAdvancedReports,
@@ -144,6 +145,7 @@ export function useAuth() {
     // Accès spécialisés
     hasAdminAccess: hasAdminAccess(authState.user),
     hasInternalAccess: checkInternalAccess(authState.user),
+    hasSwaggerAccess: checkSwaggerAccess(authState.user),
     canManageUsers: canManageUsers(authState.user),
     canApproveHires: canApproveHires(authState.user),
     canAccessAdvancedReports: canAccessAdvancedReports(authState.user),

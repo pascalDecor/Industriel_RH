@@ -10,6 +10,7 @@ export default function AddSpecialites({ specialite, onChange }: { specialite: S
 
     const [state, action, pending] = useActionState(addSpecialite, undefined);
     const [libelle, setLibelle] = useState(specialite.libelle);
+    const [libelle_en, setLibelle_en] = useState(specialite.libelle_en);
 
     useEffect(() => {
         if (state === true) {
@@ -25,13 +26,19 @@ export default function AddSpecialites({ specialite, onChange }: { specialite: S
                     {specialite.id && specialite.libelle}
                 </DialogDescription>
             </DialogHeader>
-            <form action={action} className='w-full'>
+            <form action={action} className='w-full space-y-3 mt-5'>
                 <input type="text" name="id" value={specialite.id} hidden />
                 <FloatingLabelInput
                     className="w-full"
                     error={state && typeof state === 'object' && state.errors && state.errors.libelle ? state.errors.libelle.join(', ') : undefined}
                     label='Libellé' name="libelle" placeholder="Libellé"
                     value={libelle ?? ''} onChange={(e) => setLibelle(e.target.value)} />
+
+                <FloatingLabelInput
+                    className="w-full"
+                    error={state && typeof state === 'object' && state.errors && state.errors.libelle_en ? state.errors.libelle_en.join(', ') : undefined}
+                    label='Libellé en anglais' name="libelle_en" placeholder="Libellé en anglais"
+                    value={libelle_en ?? ''} onChange={(e) => setLibelle_en(e.target.value)} />
                 <DialogFooter>
                     <Button type="submit" variant={specialite.id ? "success" : "primary"} className="mt-5" isLoading={pending} disabled={pending || !libelle}>{specialite.id ? "Modifier" : "Ajouter"}</Button>
                 </DialogFooter>

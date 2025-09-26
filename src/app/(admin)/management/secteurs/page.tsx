@@ -74,14 +74,14 @@ export default function Sectors() {
                     <div className="relative group">
                         <FloatingLabelInput
                             className="!w-[500px] transition-all duration-300 group-hover:!w-[220px] focus:!w-[220px]"
-                            label='Rechercher un secteur' 
-                            name="search" 
+                            label='Rechercher un secteur'
+                            name="search"
                             placeholder="Rechercher un secteur"
-                            value={search ?? ''} 
-                            onChange={(e) => { 
-                                setSearch(e.target.value); 
-                                setchangeCount(c => c + 1); 
-                            }} 
+                            value={search ?? ''}
+                            onChange={(e) => {
+                                setSearch(e.target.value);
+                                setchangeCount(c => c + 1);
+                            }}
                         />
                         <div className="absolute inset-0 rounded-md bg-gradient-to-r from-teal-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                     </div>
@@ -185,8 +185,8 @@ export default function Sectors() {
                                             }}
                                         >
                                             <div className="group relative overflow-hidden rounded-lg border-none border-slate-200 bg-white shadow-none hover:shadow-md transition-all duration-300 hover:bg-gradient-to-r hover:from-teal-500/5 hover:to-blue-500/5">
-                                                <ItemSectors 
-                                                    sector={s} 
+                                                <ItemSectors
+                                                    sector={s}
                                                     onChange={(state) => {
                                                         if (state) {
                                                             setchangeCount(c => c + 1);

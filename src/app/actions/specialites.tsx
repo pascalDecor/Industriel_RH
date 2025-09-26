@@ -20,14 +20,18 @@ export type FormState =
 export const FormSchema = z.object({
     libelle: z
         .string()
-        .min(2, { message: "Libelle must be at least 2 characters long" })
+        .min(2, { message: "Le libellé de la spécialité doit être au moins 2 caractères" })
         .trim(),
+    libelle_en: z
+        .string()
+        .min(2, { message: "Libelle en must be at least 2 characters long" }),
     id: z.string()
 });
 
 export async function addSpecialite(state: FormState, formData: FormData) {
     const validatedFields = FormSchema.safeParse({
         libelle: formData.get('libelle'),
+        libelle_en: formData.get('libelle_en'),
         id: formData.get('id')
     })
     if (!validatedFields.success) {

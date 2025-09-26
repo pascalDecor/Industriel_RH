@@ -114,7 +114,7 @@ export default function Home() {
       </section>
 
       {/*  Worry-free recruitment for today's and tomorrow's Quebec!  */}
-      <section className="mx-auto max-w-5xl mb-10 p-10">
+      {/* <section className="mx-auto max-w-5xl mb-10 p-10">
         <div className="flex items-center gap-4">
           <div className="w-3/5 pr-4">
             <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
@@ -145,7 +145,7 @@ export default function Home() {
             <LazyImage src={imagePathFinder.preview_candidat} alt="Salary Guide" width={400} height={300} />
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/*   How it works */}
       <section className="mx-auto w-5xl mb-10 p-10">

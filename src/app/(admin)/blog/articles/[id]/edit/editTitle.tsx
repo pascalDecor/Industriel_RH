@@ -16,6 +16,7 @@ export default function EditTitle({ article, onChange }: EditTitleProps) {
     const { isLoading: dataLoading } = useBlogData();
     const [editingTitle, setEditingTitle] = useState(false);
     const [tempTitle, setTempTitle] = useState('');
+    const [tempTitleEn, setTempTitleEn] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSaveTitle = async (article: any) => {
@@ -23,7 +24,7 @@ export default function EditTitle({ article, onChange }: EditTitleProps) {
         try {
             await HttpService.update({
                 url: `/articles/${article.id}`,
-                data: { titre: tempTitle }
+                data: { titre: tempTitle, titre_en: tempTitleEn }
             });
             setIsLoading(false);
             onChange(true); // Rafraîchir la liste
@@ -44,6 +45,7 @@ export default function EditTitle({ article, onChange }: EditTitleProps) {
                     className="opacity-0 group-hover:opacity-100 transition-opacity p-0 h-8 w-8"
                     onClick={() => {
                         setTempTitle(article.titre);
+                        setTempTitleEn(article.titre_en);
                         setEditingTitle(true);
                     }}
                 >
@@ -60,6 +62,13 @@ export default function EditTitle({ article, onChange }: EditTitleProps) {
                         value={tempTitle}
                         onChange={(e) => setTempTitle(e.target.value)}
                         placeholder="Entrez le nouveau titre" />
+
+                    <FloatingLabelInput
+                        label="Nouveau titre en anglais"
+                        value={tempTitleEn}
+                        onChange={(e) => setTempTitleEn(e.target.value)}
+                        placeholder="Entrez le nouveau titre anglais" />
+
                     <div className="flex justify-end space-x-2">
                         <Button variant="light" onClick={() => setEditingTitle(false)}>
                             Annuler

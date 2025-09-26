@@ -5,18 +5,21 @@ import LazyImage from "@/components/ui/LazyImage";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { useDateLanguage } from "@/hooks/useDateLanguage";
+import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 
 interface ArticleData {
   id: string;
   titre: string;
+  titre_en?: string;
   image: string;
   views: number;
   published: boolean;
   createdAt: string;
   updatedAt: string;
   contenu?: any; // Contenu EditorJS
-  tags: Array<{ id: string; libelle: string }>;
-  specialites: Array<{ id: string; libelle: string }>;
+  contenu_en?: any;
+  tags: Array<{ id: string; libelle: string; libelle_en?: string }>;
+  specialites: Array<{ id: string; libelle: string; libelle_en?: string }>;
   author?: { id: string; name: string };
 }
 
@@ -29,7 +32,8 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { t, language } = useTranslation();
-  
+  const { translateArticleTitle, translateSpecialty, translateTag } = useDynamicTranslation();
+
   // Synchronise automatiquement la langue pour le formatage des dates
   useDateLanguage();
 
@@ -88,8 +92,8 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
     }
     
     // Fallback avec les tags si pas de contenu
-    const tags = article.tags.slice(0, 2).map(tag => tag.libelle).join(', ');
-    return `${tags} • ${article.views} vues`;
+    const tags = article.tags.slice(0, 2).map(tag => translateTag(tag)).join(', ');
+    return `${tags} • ${article.views} ${t('common.views')}`;
   };
 
   const staticArticles = [
@@ -128,7 +132,7 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
   }
 
   // Utiliser les articles dynamiques s'ils sont disponibles, sinon utiliser les statiques
-  const displayArticles = articles.length >= 4 ? articles.slice(0, 4) : staticArticles;
+  const displayArticles = articles.length >= 4 ? articles.slice(0, 4) : articles;
 
   return (
     <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-8 text-left">
@@ -144,14 +148,14 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
               >
                 <LazyImage 
                   src={article.image || '/images/default-article.jpg'} 
-                  alt={article.titre}
+                  alt={translateArticleTitle(article)}
                   width={300}
                   height={180}
                   className="w-full object-cover"
                 />
                 <div className="p-5">
                   <p className="text-sm font-regular text-blue-900 font-bold mb-5 line-clamp-2">
-                    {article.titre}
+                    {translateArticleTitle(article)}
                   </p>
                   <p className="text-sm font-regular text-gray-500 line-clamp-3">
                     {getArticleDescription(article)}
@@ -160,9 +164,19 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
                     {article.tags.slice(0, 2).map((tag) => (
                       <span 
                         key={tag.id}
-                        className="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full"
+                        className="px-1 py-1  text-blue-800 text-xs rounded-full"
                       >
-                        {tag.libelle}
+                        #{translateTag(tag)}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-1">
+                    {article.specialites.slice(0, 2).map((specialite) => (
+                      <span 
+                        key={specialite.id}
+                        className="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full"
+                      >
+                        {translateTag(specialite)}
                       </span>
                     ))}
                   </div>

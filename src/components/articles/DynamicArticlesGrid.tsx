@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { formatDateFr } from "@/lib/formatDate";
 import { useDateLanguage } from "@/hooks/useDateLanguage";
+import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 
 interface DynamicArticlesGridProps {
   category?: string;
@@ -19,14 +20,16 @@ interface DynamicArticlesGridProps {
 interface ArticleData {
   id: string;
   titre: string;
+  titre_en?: string; // Nouveau champ
   image: string;
   views: number;
   published: boolean;
   createdAt: string;
   updatedAt: string;
   contenu?: any; // Contenu EditorJS
+  contenu_en?: any; // Nouveau champ
   tags: Array<{ id: string; libelle: string }>;
-  specialites: Array<{ id: string; libelle: string }>;
+  specialites: Array<{ id: string; libelle: string; libelle_en?: string }>;
   author?: { id: string; name: string };
 }
 
@@ -41,6 +44,10 @@ export default function DynamicArticlesGrid({
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { t, language } = useTranslation();
+  const [isFrench, setIsFrench] = useState(language === 'fr');
+  const { translateArticleTitle, translateArticleContent, translateSpecialty, translateTag } = useDynamicTranslation();
+
+  const getLocalizedLabel = (item: any) => language === 'en' ? (item.libelle_en || item.libelle) : item.libelle;
 
   // Synchronise automatiquement la langue pour le formatage des dates
   useDateLanguage();
@@ -71,7 +78,7 @@ export default function DynamicArticlesGrid({
       setArticles(data.data || []);
     } catch (error) {
       console.error('Erreur lors de la récupération des articles:', error);
-      setError('Impossible de charger les articles');
+      setError(t('common.error_loading_articles'));
     } finally {
       setLoading(false);
     }
@@ -82,13 +89,16 @@ export default function DynamicArticlesGrid({
   };
 
   const getArticleDescription = (article: ArticleData): string => {
+    // Utiliser le contenu traduit selon la langue
+    const content = translateArticleContent(article);
+    
     // Extraction de la description depuis le contenu EditorJS si disponible
-    if (article.contenu) {
+    if (content && content.length > 0) {
       try {
-        const content = Array.isArray(article.contenu) ? article.contenu[0] : article.contenu;
-        if (content && content.blocks && Array.isArray(content.blocks)) {
+        const contentData = Array.isArray(content) ? content[0] : content;
+        if (contentData && contentData.blocks && Array.isArray(contentData.blocks)) {
           // Chercher le premier paragraphe ou bloc avec du texte
-          const textBlock = content.blocks.find((block: any) =>
+          const textBlock = contentData.blocks.find((block: any) =>
             block.type === 'paragraph' && block.data && block.data.text
           );
 
@@ -104,7 +114,10 @@ export default function DynamicArticlesGrid({
     }
 
     // Fallback si pas de contenu
-    return `Découvrez cet article publié le ${new Date(article.createdAt).toLocaleDateString('fr-FR')} - ${article.views} vues`;
+    const dateFormat = language === 'en' ? 'en-US' : 'fr-FR';
+    const viewsText = language === 'en' ? 'views' : 'vues';
+    const discoveryText = language === 'en' ? 'Discover this article published on' : 'Découvrez cet article publié le';
+    return `${discoveryText} ${new Date(article.createdAt).toLocaleDateString(dateFormat)} - ${article.views} ${viewsText}`;
   };
 
   if (loading) {
@@ -129,7 +142,7 @@ export default function DynamicArticlesGrid({
           onClick={fetchArticles}
           className="!rounded-full mx-auto"
         >
-          Réessayer
+          {t('common.retry')}
         </Button>
       </div>
     );
@@ -184,25 +197,35 @@ export default function DynamicArticlesGrid({
           >
             <LazyImage
               src={article.image || '/images/default-article.jpg'}
-              alt={article.titre}
+              alt={translateArticleTitle(article)}
               width={300}
               height={200}
               className="w-full"
             />
             <div className="p-5">
               <p className="text-sm font-regular text-blue-900 font-bold mb-5 line-clamp-2">
-                {article.titre}
+                {isFrench ? article.titre : (article.titre_en || article.titre)}
               </p>
               <p className="text-sm font-regular text-gray-500 line-clamp-3">
                 {getArticleDescription(article)}
               </p>
+                <div className="mt-3 flex flex-wrap gap-1">
+                    {article.tags.slice(0, 2).map((tag) => (
+                      <span 
+                        key={tag.id}
+                        className="px-1 py-1  text-blue-800 text-xs rounded-full"
+                      >
+                        #{translateTag(tag)}
+                      </span>
+                    ))}
+                  </div>
               <div className="mt-3 flex flex-wrap gap-1">
                 {article.specialites.slice(0, 2).map((spec) => (
                   <span
                     key={spec.id}
                     className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
                   >
-                    {spec.libelle}
+                    {translateSpecialty(spec)}
                   </span>
                 ))}
               </div>
@@ -229,7 +252,7 @@ export default function DynamicArticlesGrid({
         <Button
           variant="primary"
           size="md"
-          onClick={() => router.push("/discover-insights")}
+          onClick={() => router.push("/discover-insights#newsletter-section")}
           className="!rounded-full text-sm mx-auto w-fit whitespace-nowrap"
         >
           {t('find_jobs.subscribe_updates')}

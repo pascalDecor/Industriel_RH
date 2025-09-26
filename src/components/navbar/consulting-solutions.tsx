@@ -9,10 +9,12 @@ import { LoadingSpinner } from "@/lib/load.helper";
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
+import { useState } from "react";
 
 
 export function ConsultingSolutionsExpandedNavbar({sectors}: {sectors: Sector[]}) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const [isFrench, setIsFrench] = useState(language === 'fr');
   const { translateSector } = useDynamicTranslation();
  
   return (
@@ -38,10 +40,10 @@ export function ConsultingSolutionsExpandedNavbar({sectors}: {sectors: Sector[]}
             {sectors.length > 0 ? sectors.map((sector) => (
               <a onClick={() => LocalStorageHelper.setValue("activeSector", JSON.stringify(sector.toJSON()))} key={sector.id} href={`/consulting-solutions`} className="text-gray-500 text-sm">
                 <p className="text-gray-500 text-sm font-bold mb-2">
-                  {translateSector(sector)}
+                  {isFrench ? sector.libelle : sector.libelle_en}
                 </p>
                 <p className="text-gray-500 text-sm">
-                  {sector.description}
+                  { isFrench ? sector.description : sector.description_en }
                 </p>
               </a>
             )) : <LoadingSpinner color="#0F766E"></LoadingSpinner>}

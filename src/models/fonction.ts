@@ -22,6 +22,10 @@ export class Fonction extends BaseModel<FonctionProps> {
     return this.props.libelle;
   }
 
+  get libelle_en(): string | undefined {
+    return this.props.libelle_en;
+  }
+
   get sectorId(): string {
     return this.props.sectorId;
   }

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 interface FloatingLabelSelectProps {
     label: string;
     name?: string;
-    value?: { label: string; value: string };
+    value?: { label: string; value: string } | string;
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     options: { label: string; value: string }[];
     error?: string;
@@ -27,10 +27,14 @@ export default function FloatingLabelSelect({
     required = false,
 }: Readonly<FloatingLabelSelectProps>) {
     const [isFocused, setIsFocused] = useState(false);
-    const [hasValue, setHasValue] = useState(!!value);
+
+    // Support both string and object values
+    const currentValue = typeof value === 'string' ? value : value?.value || '';
+    const [hasValue, setHasValue] = useState(!!currentValue);
 
     useEffect(() => {
-        setHasValue(!!value);
+        const newValue = typeof value === 'string' ? value : value?.value || '';
+        setHasValue(!!newValue);
     }, [value]);
 
 
@@ -40,7 +44,7 @@ export default function FloatingLabelSelect({
             <select
                 id={name}
                 name={name}
-                value={value && ""}
+                value={currentValue}
                 onChange={(e) => {
                     setHasValue(!!e.target.value);
                     if (onChange) onChange(e);
@@ -61,7 +65,7 @@ export default function FloatingLabelSelect({
                     }
                 )}
             >
-                <option value="" disabled selected>
+                <option value="" disabled>
                     {label}
                 </option>
                 {options.map((opt) => (

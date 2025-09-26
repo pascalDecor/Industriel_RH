@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useId } from 'react';
 import EditorJS from '@editorjs/editorjs';
 import '@/styles/editorjs.css';
 
@@ -17,11 +17,12 @@ const ImageTool = require('@editorjs/image');
 
 export default function EditorJSComponent({ onChange, initialData, placeholder = "Commence à écrire ton article ici...", className }: { onChange?: (data: any) => void, initialData?: any, placeholder?: string, className?: string }) {
     const editorRef = useRef<EditorJS | null>(null);
+    const editorId = useId();
 
     useEffect(() => {
         if (!editorRef.current) {
             const editor = new EditorJS({
-                holder: 'editorjs',
+                holder: editorId,
                 placeholder: placeholder,
 
                 data: initialData,
@@ -176,7 +177,7 @@ export default function EditorJSComponent({ onChange, initialData, placeholder =
     return (
         <div className="w-full">
             <div
-                id="editorjs"
+                id={editorId}
                 className={className + " border border-gray-300 rounded-xl p-4 min-h-[300px] w-full overflow-y-auto"}
             />
             <p className="text-xs text-gray-500 mt-2">

@@ -25,7 +25,7 @@ export const PUT = async (req: Request, context: { params: Promise<{ id: string 
         const data = await req.json();
         const updated = await prisma.notice.update({
             where: { id: id },
-            data: { content: data.content, author: data.author, stars: data.stars  },
+            data: { content: data.content, author: data.author, stars: data.stars, content_en: data.content_en, author_en: data.author_en },
         });
         return NextResponse.json(updated, { status: 200 });
     } catch (error) {

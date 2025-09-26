@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
         const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
         const limit = Math.min(100, parseInt(searchParams.get('limit') || '50', 10));
         const search = searchParams.get('search')?.trim() || '';
-        const includeCount = searchParams.get('includeCount') === 'true';
+        const includeCount = searchParams.get('includeCount') === 'true' || true;
         
         const skip = (page - 1) * limit;
         const cacheKey = `specialites:${page}:${limit}:${search}:${includeCount}`;
@@ -26,20 +26,24 @@ export async function GET(request: NextRequest) {
         }
 
         const where = search ? {
-            libelle: { contains: search, mode: 'insensitive' as const }
+            OR: [
+                { libelle: { contains: search, mode: 'insensitive' as const } },
+                { libelle_en: { contains: search, mode: 'insensitive' as const } }
+            ]
         } : {};
 
         // Sélection optimisée
         const select: any = {
             id: true,
             libelle: true,
+            libelle_en: true,
             createdAt: true,
         };
 
         if (includeCount) {
             select._count = {
                 select: {
-                    articles: true
+                    articles : true
                 }
             };
         }
@@ -94,6 +98,10 @@ export const POST = async (req: Request) => {
                 libelle: {
                     equals: data.libelle.trim(),
                     mode: 'insensitive'
+                },
+                libelle_en: {
+                    equals: data.libelle_en.trim(),
+                    mode: 'insensitive'
                 }
             }
         });
@@ -107,11 +115,13 @@ export const POST = async (req: Request) => {
 
         const specialiteCreated = await prisma.specialite.create({
             data: { 
-                libelle: data.libelle.trim() 
+                libelle: data.libelle.trim(),
+                libelle_en: data.libelle_en.trim()
             },
             select: {
                 id: true,
                 libelle: true,
+                libelle_en: true,
                 createdAt: true,
             }
         });

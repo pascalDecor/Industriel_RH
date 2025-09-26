@@ -38,7 +38,9 @@ export const GET = async (request: NextRequest, context: { params: Promise<{ id:
                 select: {
                     id: true,
                     libelle: true,
+                    libelle_en: true,
                     description: true,
+                    description_en: true,
                     alternativeDescriptions: true,
                     createdAt: true,
                     updatedAt: true,
@@ -56,8 +58,10 @@ export const GET = async (request: NextRequest, context: { params: Promise<{ id:
                         select: {
                             id: true,
                             libelle: true,
+                            libelle_en: true,
                             slug: true,
                             description: true,
+                            description_en: true,
                             image: true,
                             page: true,
                             createdAt: true
@@ -69,6 +73,7 @@ export const GET = async (request: NextRequest, context: { params: Promise<{ id:
                         select: {
                             id: true,
                             libelle: true,
+                            libelle_en: true,
                             createdAt: true,
                             _count: {
                                 select: {
@@ -178,6 +183,8 @@ export const PUT = async (req: Request, context: { params: Promise<{ id: string 
             data: { 
                 libelle: data.libelle.trim(),
                 description: data.description || null,
+                libelle_en: data.libelle_en || null,
+                description_en: data.description_en || null,
                 alternativeDescriptions: Array.isArray(data.alternativeDescriptions) ? data.alternativeDescriptions : []
             }
         });

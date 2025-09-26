@@ -11,6 +11,7 @@ import { HttpService } from "@/utils/http.services"
 import { Slash } from "lucide-react";
 import { LuTrash2 } from "react-icons/lu";
 import { MdOutlineModeEditOutline } from "react-icons/md";
+import { HiOutlineLanguage } from "react-icons/hi2";
 import AddSectors from "../add";
 import { useState } from "react";
 import { redirect } from "next/navigation";
@@ -26,6 +27,7 @@ export function SecteurClient({ sectorId }: SecteurClientProps) {
     const [loadingDelete, setLoadingDelete] = useState(false);
     const [changeCount, setchangeCount] = useState(0);
     const [open, setOpen] = useState(false);
+    const [showEnglish, setShowEnglish] = useState(false);
 
     const handleDelete = (id: string) => () => {
         console.log("id", id);
@@ -54,7 +56,7 @@ export function SecteurClient({ sectorId }: SecteurClientProps) {
             hasData={(data) => {
                 const { data: sector } = data;
                 return (
-                    <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
                         <div className="col-span-6">
                             <Breadcrumb>
                                 <BreadcrumbList>
@@ -72,8 +74,44 @@ export function SecteurClient({ sectorId }: SecteurClientProps) {
                         </div>
                         <div className="col-span-6">
                             <div className="flex flex-row justify-between items-center w-full">
-                                <div>
-                                    <h2 className="text-3xl font-bold tracking-tight">{sector?.libelle}</h2>
+                                <div className="flex-1">
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <h2 className="text-3xl font-bold tracking-tight mb-0">
+                                            {showEnglish ? (sector?.libelle_en || sector?.libelle) : sector?.libelle}
+                                        </h2>
+                                        {(sector?.libelle_en || sector?.description_en) && (
+                                            <Button
+                                                onClick={() => setShowEnglish(!showEnglish)}
+                                                variant={showEnglish ? "primary" : "secondary"}
+                                                size="sm"
+                                                className="!h-7 !px-3 !text-[11px] flex items-center gap-2"
+                                                title={showEnglish ? "Voir en français" : "Voir en anglais"}
+                                            >
+                                                {showEnglish ? (
+                                                    <>
+                                                        <span className="text-sm">🇫🇷</span>
+                                                        <span>FR</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <span className="text-sm">🇬🇧</span>
+                                                        <span>EN</span>
+                                                    </>
+                                                )}
+                                            </Button>
+                                        )}
+                                    </div>
+
+                                    {sector?.description && (
+                                        <p className="my-0 text-slate-600 text-base py-0 mb-2 italic">
+                                            {showEnglish ? (sector?.description_en || sector?.description) : sector?.description}
+                                        </p>
+                                    )}
+
+                                    {showEnglish && !sector?.libelle_en && (
+                                        <p className="text-orange-600 text-sm italic mb-2">Version anglaise non disponible</p>
+                                    )}
+
                                     <p className="my-0 text-slate-700 text-sm py-0">
                                         {sector?.functionsCount} fonction(s) . crée le {formatDateFr(sector?.createdAt ?? new Date())}
                                     </p>

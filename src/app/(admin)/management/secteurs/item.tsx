@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { LuTrash2 } from "react-icons/lu";
 import { MdOutlineModeEditOutline } from "react-icons/md";
+import { HiOutlineLanguage } from "react-icons/hi2";
 import AddSectors from "./add";
 import { HttpService } from "@/utils/http.services";
 import { useState } from "react";
@@ -21,9 +22,9 @@ type ItemSectorsProps = {
 
 export default function ItemSectors({ sector, onChange, onActive }: ItemSectorsProps) {
 
-
     const [changeCount, setchangeCount] = useState(0);
     const [open, setOpen] = useState(false);
+    const [showEnglish, setShowEnglish] = useState(false);
 
     const [loadingDelete, setLoadingDelete] = useState(false);
     const handleDelete = (id: string) => () => {
@@ -44,12 +45,40 @@ export default function ItemSectors({ sector, onChange, onActive }: ItemSectorsP
 
 
     return (
-        <div className="p-5 !border-none !shadow-none flex flex-row justify-between items-center cursor-pointer hover:shadow-md"
+        <div className="p-5 !border-none !shadow-none flex flex-row justify-between items-start cursor-pointer hover:shadow-md"
             key={sector.id} onClick={() => onActive && onActive(sector)}>
-            <div>
-                <p className="my-0 text-slate-700 font-semibold py-0">
-                    {sector.libelle}
-                </p>
+            <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                    <p className="my-0 text-slate-700 font-semibold py-0 mb-0">
+                        {showEnglish ? (sector.libelle_en || sector.libelle) : sector.libelle}
+                    </p>
+                    {(sector.libelle_en || sector.description_en) && (
+                        <Button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowEnglish(!showEnglish);
+                            }}
+                            variant={showEnglish ? "primary" : "secondary"}
+                            size="sm"
+                            className="!h-6 !px-2 !text-[10px] flex items-center gap-1"
+                            title={showEnglish ? "Voir en français" : "Voir en anglais"}
+                        >
+                            <HiOutlineLanguage className="h-3 w-3" />
+                            {showEnglish ? 'FR' : 'EN'}
+                        </Button>
+                    )}
+                </div>
+
+                {sector.description && (
+                    <p className="my-0 text-slate-600 text-sm py-0 mb-1 italic">
+                        {showEnglish ? (sector.description_en || sector.description) : sector.description}
+                    </p>
+                )}
+
+                {showEnglish && !sector.libelle_en && (
+                    <p className="text-orange-600 text-xs italic mb-1">Version anglaise non disponible</p>
+                )}
+
                 <p className="my-0 text-slate-700 text-sm py-0">
                     {sector.functionsCount} fonction(s) . crée le {formatDateFr(sector.createdAt ?? new Date())}
                 </p>

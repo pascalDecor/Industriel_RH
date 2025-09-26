@@ -6,7 +6,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import { useState } from "react";
 import Link from "next/link";
-import { EyeIcon, EditIcon, ToggleLeftIcon, ToggleRightIcon, PencilIcon } from "lucide-react";
+import { EyeIcon, EditIcon, ToggleLeftIcon, ToggleRightIcon, PencilIcon, LanguagesIcon } from "lucide-react";
 import Button from "@/components/ui/button";
 import { HttpService } from "@/utils/http.services";
 
@@ -14,6 +14,7 @@ export default function ItemArticles({ article, onChange, className = "col-span-
     const [imageError, setImageError] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
     const hasImage = article.image && article.image.trim() !== '' && !imageError;
+    const hasEnglishContent = article.titre_en || article.contenu_en;
 
     const handleTogglePublished = async (e: React.MouseEvent) => {
         e.preventDefault(); // Empêcher la navigation
@@ -39,6 +40,12 @@ export default function ItemArticles({ article, onChange, className = "col-span-
             <Card key={article.id} className={clsx("group relative p-3 h-full lg:p-5 shadow-none hover:shadow-xl cursor-pointer border-none mb-5 transition-all duration-200", className)}>
                 {/* Actions rapides */}
                 <div className="absolute top-2 right-2 z-10 flex items-center space-x-2">
+                    {hasEnglishContent && (
+                        <div className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                            <LanguagesIcon className="w-3 h-3 mr-1" />
+                            <span>EN</span>
+                        </div>
+                    )}
                     <span className={clsx(
                         "px-2 py-1 rounded-full text-xs font-medium",
                         article.published 
@@ -115,9 +122,9 @@ export default function ItemArticles({ article, onChange, className = "col-span-
                     )}
                 </div>
                 <h3 className="font-bold my-0 hover:text-blue-600 transition-colors">{article.titre}</h3>
-            <p className="text-slate-700 text-sm -mt-3 line-clamp-3 my-2">
+            <p className="text-slate-700 text-[12px] -mt-3 line-clamp-3 mb-1">
                 {article.specialites.map((specialite) => (
-                    <span key={specialite.id} className="px-3 py-1 bg-slate-200 text-slate-700 rounded-xl mx-0.5">
+                    <span key={specialite.id} className="px-2 py-0.2 bg-slate-200 text-slate-700 rounded-xl mx-0.5 inline-block !my-0.5">
                         {specialite.libelle}
                     </span>
                 ))}
@@ -125,9 +132,9 @@ export default function ItemArticles({ article, onChange, className = "col-span-
             <p className="text-slate-700 text-sm -mt-5 line-clamp-3">
                 <EditorContent content={article.contenu} />
             </p>
-            <p className="text-slate-700 text-sm -mt-3 line-clamp-3 mb-10 ">
+            <p className="text-slate-700 text-[12px] -mt-3 line-clamp-3 mb-10 ">
                 {article.tags.map((tag) => (
-                    <span key={tag.id} className="px-2 text-blue-800">
+                    <span key={tag.id} className="px-1 text-blue-800">
                         #{tag.libelle}
                     </span>
                 ))}

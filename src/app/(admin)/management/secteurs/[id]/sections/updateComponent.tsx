@@ -11,12 +11,14 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { baseApiURL } from "@/constant/api";
 
-export function UpdateDescriptionSectorComponent({ section, onChange, libelle, value }: { section: Section, onChange: (state: any) => void, libelle: string, value: string }) {
+export function UpdateDescriptionSectorComponent({ section, onChange, libelle,libelle_en, value, value_en }: { section: Section, onChange: (state: any) => void, libelle: string, libelle_en: string, value: string, value_en: string | undefined }) {
 
     const [loading, setLoading] = useState(false);
     const [temp, setTemp] = useState(value);
+    const [temp_en, setTemp_en] = useState(value_en);
     useEffect(() => {
         setTemp(value);
+        setTemp_en(value_en);
     }, []);
 
 
@@ -24,7 +26,7 @@ export function UpdateDescriptionSectorComponent({ section, onChange, libelle, v
         setLoading(true);
         HttpService.update<Section>({
             url: `/sections/${section.id}`,
-            data: { [libelle]: temp },
+            data: { [libelle]: temp, [libelle_en]: temp_en },
             fromJson: (json: any) => Section.fromJSON(json)
         }).then((res) => {
             console.log(res);
@@ -44,6 +46,7 @@ export function UpdateDescriptionSectorComponent({ section, onChange, libelle, v
             <form action={handleUpdate}>
                 <div className="w-full items-center">
                     <FloatingLabelTextarea value={temp} name={libelle} onChange={(e) => { console.log(e.target.value); setTemp(e.target.value); }} label={libelle} className="w-full" />
+                    <FloatingLabelTextarea value={temp_en} name={libelle_en} onChange={(e) => { console.log(e.target.value); setTemp_en(e.target.value); }} label={libelle_en} className="w-full" />
                 </div>
                 <Button isLoading={loading} className="w-full">Mettre à jour</Button>
             </form>

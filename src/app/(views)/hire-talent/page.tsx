@@ -15,20 +15,107 @@ import FloatingLabelTextarea from "@/components/ui/textarea";
 import PartnersAccreditation from "@/components/PartnersAccreditation";
 import { redirect } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+
+const DynamicArticlesGrid = dynamic(() => import("@/components/articles/DynamicArticlesGrid"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
+});
+
+interface ContactFormData {
+    firstName: string;
+    lastName: string;
+    companyName: string;
+    jobTitle: string;
+    workEmail: string;
+    workPhone: string;
+    postalCode: string;
+    position: string;
+    message: string;
+}
 
 export default function FindJobs() {
     const { t } = useTranslation();
+    const [formData, setFormData] = useState<ContactFormData>({
+        firstName: '',
+        lastName: '',
+        companyName: '',
+        jobTitle: '',
+        workEmail: '',
+        workPhone: '',
+        postalCode: '',
+        position: '',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
     function handleClick() {
         console.log("Clic !");
     }
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        try {
+            // TODO: Replace with actual API endpoint
+            const response = await fetch('/api/contacts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                setSubmitStatus('success');
+                // Reset form
+                setFormData({
+                    firstName: '',
+                    lastName: '',
+                    companyName: '',
+                    jobTitle: '',
+                    workEmail: '',
+                    workPhone: '',
+                    postalCode: '',
+                    position: '',
+                    message: ''
+                });
+            } else {
+                setSubmitStatus('error');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setSubmitStatus('error');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
 
     return <>
         {/* <HomeBannerCarroussel /> */}
         {/*Find your next hire */}
 
-        <section className="mx-auto mb-10 p-10 pt-20 text-center max-w-3xl">
+        {/* <section className="mx-auto mb-10 p-10 pt-20 text-center max-w-3xl">
             <h2 className="text-3xl font-semibold text mb-5 text-gray-800">
                 {t('hire_talent.hero.title')}
             </h2>
@@ -47,11 +134,11 @@ export default function FindJobs() {
                 {t('hire_talent.hero.contact_us')}
                 <Link href="tel:819-919-7699" className="font-bold text-blue-800 ml-2 underline">819-919-7699</Link>
             </p>
-        </section>
+        </section> */}
 
         {/* Explore our talent solutions  */}
         <div className="absolute -mt-60" id="recruitment_by_outsourcing"></div>
-        <section className="mx-auto w-full mb-10 px-10 py-2">
+        <section className="mx-auto w-full mt-20 mb-10 px-10 py-2">
             <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
                 {t('hire_talent.solutions.title')}
             </h2>
@@ -141,130 +228,23 @@ export default function FindJobs() {
                 {t('hire_talent.blog.title')}
             </h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-4 text-left">
-                <div className="col-span-3">
-                    <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image loading="lazy" src={imagePathFinder.card_image_1} alt="  We Source the Talent" className="mx-auto" />
-                        <div className="p-5">
-                            <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                                {"6 Tips to Ease Hiring in Canada's Tight Labour Market"}
-                            </p>
-                            <p className="text-sm font-regular text-gray-500 ">
-                                Having trouble navigating the tight labour market for hiring skilled talent in Canada? Here are six tips Canadian ...
-                            </p>
-                        </div>
-                    </div>
-                    <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image loading="lazy" src={imagePathFinder.card_image_2} alt="  We Source the Talent" className="mx-auto" />
-                        <div className="p-5">
-                            <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                                {"Starting a New Job? Don't Make These 5 Mistakes"}
-                            </p>
-                            <p className="text-sm font-regular text-gray-500 ">
-                                {"Just starting a nen job? Don't relex yet. Read our tips on avoiding five of the most common mistakes that new ..."}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-span-3">
-                    <div className=" bg-blue-900 text-white rounded-lg p-10 shadow-lg mb-4">
-                        <p className="text-sm font-regular font-bold mb-3">
-                            {t('hire_talent.blog.featured')}
-                        </p>
-                        <p className="text-sm font-regular ">
-                            {t('hire_talent.blog.what_jobs_demand')}
-                        </p>
-                    </div>
-                    <div className=" bg-black text-white rounded-lg p-10 shadow-lg mb-4">
-                        <p className="text-sm font-regular font-bold mb-3">
-                            {t('hire_talent.blog.tag_results')}
-                        </p>
-                        <p className="text-sm font-regular mb-10">
-                            {t('hire_talent.blog.landing_job')}
-                        </p>
-                        <p className="text-sm font-regular">
-                            {t('hire_talent.blog.posts_count', { count: '64' })}
-                        </p>
-                    </div>
-                    <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image loading="lazy" src={imagePathFinder.card_image_3} alt="  We Source the Talent" className="mx-auto" />
-                        <div className="p-5">
-                            <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                                Benefits of Using a Recruitment Agency in Canada to Hire Talent in 2025
-                            </p>
-                            <p className="text-sm font-regular text-gray-500 ">
-                                Wondering about the benefits of using employment agencies to recruit employees? This article walks Canadian businesses through the benefits of ...
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-span-3">
-                    <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image loading="lazy" src={imagePathFinder.card_image_4} alt="  We Source the Talent" className="mx-auto" />
-                        <div className="p-5">
-                            <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                                December 2024 Labour Force Survey: Canadian Employment Rises b...
-                            </p>
-                            <p className="text-sm font-regular text-gray-500 ">
-                                {"Canada's unemployment rate fell to 6.7 percent in December eccording to Statistics Canada's newest..."}
-                            </p>
-                        </div>
-                    </div>
-                    <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image loading="lazy" src={imagePathFinder.card_image_5} alt="  We Source the Talent" className="mx-auto" />
-                        <div className="p-5">
-                            <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                                {"Why More Canadians Should Be Setting Career New Year's Resolutions"}
-                            </p>
-                            <p className="text-sm font-regular text-gray-500 ">
-                                {" Considering making career new year's resolutions? This guide features eight factors Canadians should consider ..."}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-span-3">
-                    <div className=" bg-blue-900 text-white rounded-lg p-10 shadow-lg mb-4">
-                        <p className="text-sm font-regular font-bold mb-3">
-                            {t('hire_talent.blog.featured')}
-                        </p>
-                        <p className="text-sm font-regular ">
-                            {t('hire_talent.blog.what_jobs_demand')}
-                        </p>
-                    </div>
-                    <div className=" bg-black text-white rounded-lg p-10 shadow-lg mb-4">
-                        <p className="text-sm font-regular font-bold mb-3">
-                            {t('hire_talent.blog.tag_results')}
-                        </p>
-                        <p className="text-sm font-regular mb-10">
-                            {t('hire_talent.blog.landing_job')}
-                        </p>
-                        <p className="text-sm font-regular">
-                            {t('hire_talent.blog.posts_count', { count: '72' })}
-                        </p>
-                    </div>
-                    <div className="bg-white rounded-lg p-0 shadow-2xl overflow-hidden mb-4">
-                        <Image loading="lazy" src={imagePathFinder.card_image_6} alt="  We Source the Talent" className="mx-auto" />
-                        <div className="p-5">
-                            <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                                New Year, New Career: 7 Canada-Centric Job Search Tips for 2025
-                            </p>
-                            <p className="text-sm font-regular text-gray-500 ">
-                                New year, new career! Professionals across Canada wondering how to find a job in 2025 should check out our 7 job search tips for 2025 to ensure they start the year off right.                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-span-12 flex justify-center items-center">
-                    <Button variant="primary" size="md" onClick={() => redirect("/discover-insights#refine_your_focus")} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
-                        {t('hire_talent.blog.subscribe_updates')}
-                    </Button>
-                </div>
-            </div>
+            <DynamicArticlesGrid
+                category="all"
+                limit={12}
+                showFeaturedBlocks={true}
+            />
+
+            {/* <div className="flex justify-center items-center mt-10">
+                <Button variant="primary" size="md" onClick={() => redirect("/discover-insights#refine_your_focus")} className="!rounded-full text-sm mx-auto mt-10 w-fit whitespace-nowrap">
+                    {t('hire_talent.blog.subscribe_updates')}
+                </Button>
+            </div> */}
         </section>
 
 
         <div className="absolute -mt-800" id="candidates"></div>
         {/*  Search  */}
-        <section className="mx-auto w-full py-20 text-center">
+        {/* <section className="mx-auto w-full py-20 text-center">
             <h2 className="text-3xl font-semibold text-center mb-10 text-gray-800">
                 {t('hire_talent.candidates.title')}
             </h2>
@@ -297,14 +277,14 @@ export default function FindJobs() {
                 {t('hire_talent.candidates.need_help')}
                 <Link href="tel:819-919-7699" className="font-bold text-blue-800 ml-2 underline">819-919-7699</Link>
             </p>
-        </section>
+        </section> */}
 
         <div className="absolute -mt-20" id="contact_us"></div>
         {/* How we help you find a job  */}
-        <section className="mx-auto w-full mb-10 px-10 py-24 bg-gray-200">
+        {/* <section className="mx-auto w-full mb-10 px-10 py-24 bg-gray-200"> */}
 
             {/*Your search summary */}
-            <div className="mx-auto max-w-5xl mb-10 p-10">
+            {/* <div className="mx-auto max-w-5xl mb-10 p-10">
                 <div className="grid grid-cols-12 items-center justify-center gap-10 w-full">
 
                     <div className="lg:col-span-5 col-span-12">
@@ -408,9 +388,9 @@ export default function FindJobs() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-        </section>
+        {/* </section> */}
 
 
         {/* Recruitment by outsourcing  */}
@@ -491,12 +471,26 @@ export default function FindJobs() {
                             </h2>
 
 
-                            <form action="" className="grid grid-cols-12 gap-4 w-full">
+                            {submitStatus === 'success' && (
+                                <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                                    <p className="text-sm font-medium">{t('hire_talent.form.success_message')}</p>
+                                </div>
+                            )}
+                            {submitStatus === 'error' && (
+                                <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                                    <p className="text-sm font-medium">{t('hire_talent.form.error_message')}</p>
+                                </div>
+                            )}
+
+                            <form onSubmit={handleSubmit} className="grid grid-cols-12 gap-4 w-full">
                                 <div className="col-span-6 text-left">
                                     <FloatingLabelInput
                                         type="text"
                                         label={t('hire_talent.form.first_name')}
                                         name="firstName"
+                                        value={formData.firstName}
+                                        onChange={handleInputChange}
+                                        required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
                                 <div className="col-span-6 text-left">
@@ -504,6 +498,9 @@ export default function FindJobs() {
                                         type="text"
                                         label={t('hire_talent.form.last_name')}
                                         name="lastName"
+                                        value={formData.lastName}
+                                        onChange={handleInputChange}
+                                        required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
                                 <div className="col-span-6 text-left">
@@ -511,6 +508,9 @@ export default function FindJobs() {
                                         type="text"
                                         label={t('hire_talent.form.company_name')}
                                         name="companyName"
+                                        value={formData.companyName}
+                                        onChange={handleInputChange}
+                                        required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
                                 <div className="col-span-6 text-left">
@@ -518,20 +518,29 @@ export default function FindJobs() {
                                         type="text"
                                         label={t('hire_talent.form.job_title')}
                                         name="jobTitle"
+                                        value={formData.jobTitle}
+                                        onChange={handleInputChange}
+                                        required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
                                 <div className="col-span-6 text-left">
                                     <FloatingLabelInput
-                                        type="text"
+                                        type="email"
                                         label={t('hire_talent.form.work_email')}
                                         name="workEmail"
+                                        value={formData.workEmail}
+                                        onChange={handleInputChange}
+                                        required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
                                 <div className="col-span-6 text-left">
                                     <FloatingLabelInput
-                                        type="text"
+                                        type="tel"
                                         label={t('hire_talent.form.work_phone')}
                                         name="workPhone"
+                                        value={formData.workPhone}
+                                        onChange={handleInputChange}
+                                        required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
 
@@ -544,29 +553,49 @@ export default function FindJobs() {
                                         label={t('hire_talent.form.postal_code')}
                                         type="text"
                                         name="postalCode"
+                                        value={formData.postalCode}
+                                        onChange={handleInputChange}
+                                        required
                                     />
                                 </div>
                                 <div className="col-span-6 text-left mb-10">
-                                    <FloatingLabelSelect label={t('hire_talent.form.position_type')} name="position" options={[
-                                        { label: t('hire_talent.form.local_recruitment'), value: "1" },
-                                        { label: t('hire_talent.form.international_recruitment'), value: "2" }
-                                    ]} />
+                                    <FloatingLabelSelect
+                                        label={t('hire_talent.form.position_type')}
+                                        name="position"
+                                        value={{ label: formData.position === '1' ? t('hire_talent.form.local_recruitment') : formData.position === '2' ? t('hire_talent.form.international_recruitment') : '', value: formData.position }}
+                                        onChange={handleSelectChange}
+                                        options={[
+                                            { label: t('hire_talent.form.local_recruitment'), value: "1" },
+                                            { label: t('hire_talent.form.international_recruitment'), value: "2" }
+                                        ]}
+                                        required
+                                    />
                                 </div>
 
                                 <div className="col-span-12 text-left ">
                                     <p className="text-white font-semibold">{t('hire_talent.form.tell_us_position')}</p>
                                 </div>
 
-
-
                                 <div className="col-span-12 text-left mb-4">
-                                    <FloatingLabelTextarea label={t('hire_talent.form.position_description')} name="positionDescription" rows={3} />
+                                    <FloatingLabelTextarea
+                                        label={t('hire_talent.form.position_description')}
+                                        name="position"
+                                        value={formData.position}
+                                        onChange={handleInputChange}
+                                        rows={3}
+                                        required
+                                    />
                                 </div>
 
-
                                 <div className="col-span-12 text-center">
-                                    <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full text-sm px-20 mx-auto">
-                                        {t('hire_talent.form.submit')}
+                                    <Button
+                                        type="submit"
+                                        variant="dark"
+                                        size="md"
+                                        disabled={isSubmitting}
+                                        className="!rounded-full text-sm px-20 mx-auto"
+                                    >
+                                        {isSubmitting ? t('hire_talent.form.submitting') : t('hire_talent.form.submit')}
                                     </Button>
                                 </div>
 

@@ -7,7 +7,11 @@ export interface TagProps {
   createdAt?: Date;
   updatedAt?: Date;
   libelle: string;
+  libelle_en?: string;
   articles?: ArticleProps[];
+  _count?: {
+    articles: number;
+  };
 }
 
 export interface NoticeProps {
@@ -15,7 +19,9 @@ export interface NoticeProps {
   createdAt?: Date;
   updatedAt?: Date;
   content: string;
+  content_en?: string;
   author: string;
+  author_en?: string;
   stars: number;
 }
 
@@ -24,6 +30,7 @@ export interface CivilityProps {
   createdAt?: Date;
   updatedAt?: Date;
   libelle: string;
+  libelle_en?: string;
 }
 
 export interface CityProps {
@@ -38,6 +45,7 @@ export interface FonctionProps {
   createdAt?: Date;
   updatedAt?: Date;
   libelle: string;
+  libelle_en?: string;
   sectorId: string;
 }
 
@@ -46,12 +54,14 @@ export interface SectorProps {
   createdAt?: Date;
   updatedAt?: Date;
   libelle: string;
+  libelle_en?: string;
   functions?: FonctionProps[];
   _count?: {
     functions: number;
   };
   Sections?: SectionProps[];
   description?: string;
+  description_en?: string;
   alternativeDescriptions?: string[];
   articles?: ArticleProps[];
 }
@@ -61,7 +71,9 @@ export interface SectionProps {
   createdAt?: Date;
   updatedAt?: Date;
   libelle: string;
+  libelle_en?: string;
   description?: string;
+  description_en?: string;
   page?: string;
   image?: string;
   sectorId?: string;
@@ -74,6 +86,7 @@ export interface SpecialiteProps {
   createdAt?: Date;
   updatedAt?: Date;
   libelle: string;
+  libelle_en?: string;
   articles?: ArticleProps[];
   _count?: {
     articles: number;
@@ -85,7 +98,9 @@ export interface ArticleProps {
   createdAt: Date;
   updatedAt: Date;
   titre: string;
+  titre_en?: string;
   contenu: JSON[];
+  contenu_en?: JSON[];
   published: boolean;
   image?: string;
   views: number;

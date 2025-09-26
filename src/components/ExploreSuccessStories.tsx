@@ -14,8 +14,10 @@ interface ExploreSuccessStoriesInputProps {
   className?: string;
 }
 export default function ExploreSuccessStories({ className }: Readonly<ExploreSuccessStoriesInputProps>) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [notices, setNotices] = useState<Notice[]>([]);
+
+  const [showEnglish, setShowEnglish] = useState(language === 'en');
 
   useEffect(() => {
     HttpService.index<Notice>({ url: '/notices', fromJson: (json: any) => Notice.fromJSON(json), })
@@ -24,6 +26,10 @@ export default function ExploreSuccessStories({ className }: Readonly<ExploreSuc
       });
 
   }, []);
+
+  useEffect(() => {
+    setShowEnglish(language === 'en');
+  }, [language]);
 
   return (
     <>
@@ -43,10 +49,10 @@ export default function ExploreSuccessStories({ className }: Readonly<ExploreSuc
                   <ShowStars star={n.stars} />
                 </div>
                 <p className="text-sm font-regular text  text-gray-500 text-start mb-5">
-                  "{n.content}"
+                  "{showEnglish ? n.content_en : n.content}"
                 </p>
                 <p className="text-sm font-bold text  text-gray-800 text-end absolute bottom-5 right-4">
-                  - {n.author}
+                  - {showEnglish ? n.author_en : n.author}
                 </p>
               </div>
             )}

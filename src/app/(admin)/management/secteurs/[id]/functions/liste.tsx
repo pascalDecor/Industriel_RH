@@ -38,6 +38,7 @@ export default function FonctionsListe({ sectorId }: Readonly<{ sectorId: string
                         </DialogTrigger>
                         <DialogContent>
                             <AddFonctions sectorId={sectorId} fonction={Fonction.fromJSON(({} as any))} onChange={state => {
+                                console.log("state", state);
                                 if (state) {
                                     setchangeCount(c => c + 1);
                                     setOpen(false);
@@ -56,6 +57,7 @@ export default function FonctionsListe({ sectorId }: Readonly<{ sectorId: string
                     });
                 }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                     callDataListen={changeCount}
+                    // enableRefresh={true}
                     hasData={(data) => {
                         setPage(data.meta.page);
                         return <>

@@ -184,12 +184,12 @@ export default function AddArticle() {
                                     const processedTags = selectedItems.map((item) => {
                                         const existingTag = tags.find(t => t.id === item.value);
                                         if (existingTag) {
-                                            return existingTag;
+                                            return existingTag.toJSON();
                                         }
-                                        return Tag.fromJSON({ id: item.value, libelle: item.label });
+                                        return { id: item.value, libelle: item.label };
                                     });
-                                    
-                                    setArticle(article.update({ 
+
+                                    setArticle(article.update({
                                         tags: processedTags.filter(Boolean),
                                         image: selectedImage || article.image
                                     }));

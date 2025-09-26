@@ -1,6 +1,6 @@
 "use client";
 import clsx from "clsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface FloatingLabelTextareaProps {
     label: string;
@@ -28,6 +28,10 @@ export default function FloatingLabelTextarea({
 }: Readonly<FloatingLabelTextareaProps>) {
     const [isFocused, setIsFocused] = useState(false);
     const [hasValue, setHasValue] = useState(!!value);
+
+    useEffect(() => {
+        setHasValue(!!value);
+    }, [value]);
 
     return (
         <div className="relative w-full">

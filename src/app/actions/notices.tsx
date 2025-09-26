@@ -11,7 +11,9 @@ export type FormState =
         errors?: {
             id?: string[];
             author?: string[];
+            author_en?: string[];
             content?: string[];
+            content_en?: string[];
             stars?: string[];
         };
         message?: string;
@@ -24,16 +26,20 @@ export const FormSchema = z.object({
         .string()
         .min(2, { message: "Content must be at least 2 characters long" })
         .trim(),
+    content_en: z.string().optional(),
     id: z.string(),
     stars: z.number().min(1, { message: "Be at least 1 character long" }),
-    author: z.string().min(2, { message: "Auhtor must be at least 2 characters long" }).trim()
+    author: z.string().min(2, { message: "Author must be at least 2 characters long" }).trim(),
+    author_en: z.string().optional()
 });
 
 export async function addNotice(state: FormState, formData: FormData) {
     const validatedFields = FormSchema.safeParse({
         content: formData.get('content'),
+        content_en: formData.get('content_en') || undefined,
         id: formData.get('id'),
         author: formData.get('author'),
+        author_en: formData.get('author_en') || undefined,
         stars: parseInt((formData.get('stars') as string) ?? "0"),
     })
     if (!validatedFields.success) {

@@ -1,21 +1,30 @@
 module.exports = async function createCivilities(prisma: any) {
   console.log("🔹 seed civilities…");
-  const noms = [
-    "Monsieur",
-    "Madame",
-    "Mx.",
-    "Autre",
-    "Préfère ne pas indiquer"
+  const civilities = [
+    { fr: "Monsieur", en: "Mr." },
+    { fr: "Madame", en: "Mrs./Ms." },
+    { fr: "Mx.", en: "Mx." },
+    { fr: "Autre", en: "Other" },
+    { fr: "Préfère ne pas indiquer", en: "Prefer not to say" }
   ];
 
-  for (const libelle of noms) {
+  for (const civility of civilities) {
     const sp = await prisma.civility.findFirst({
-      where: { libelle: libelle }
+      where: { libelle: civility.fr }
     });
     if (!sp) {
       await prisma.civility.create({
         data: {
-          libelle: libelle
+          libelle: civility.fr,
+          libelle_en: civility.en
+        }
+      });
+    } else if (!sp.libelle_en) {
+      // Mettre à jour les civilités existantes sans version anglaise
+      await prisma.civility.update({
+        where: { id: sp.id },
+        data: {
+          libelle_en: civility.en
         }
       });
     }

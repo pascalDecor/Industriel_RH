@@ -97,10 +97,30 @@ export function hasAdminAccess(user: UserWithRole | null): boolean {
 export function hasInternalAccess(user: UserWithRole | null): boolean {
   if (!user || !user.isActive) return false;
 
+  // SUPER_ADMIN a toujours accès à la documentation API
+  if (user.role === UserRole.SUPER_ADMIN) {
+    return true;
+  }
+
   return (
     hasPermission(user, Permission.API_ACCESS) ||
     isRoleHigherOrEqual(user.role, UserRole.HR_DIRECTOR)
   );
+}
+
+/**
+ * Vérifie spécifiquement l'accès à la documentation Swagger
+ */
+export function hasSwaggerAccess(user: UserWithRole | null): boolean {
+  if (!user || !user.isActive) return false;
+
+  // SUPER_ADMIN a toujours accès complet au Swagger
+  if (user.role === UserRole.SUPER_ADMIN) {
+    return true;
+  }
+
+  // Déléguer à hasInternalAccess pour les autres rôles
+  return hasInternalAccess(user);
 }
 
 /**

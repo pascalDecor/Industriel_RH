@@ -56,11 +56,13 @@ export default function Notices() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <AsyncBuilder promise={async () => {
                     return HttpService.index<Notice>({
-                        url: '/notices?page=' + page + '&search=' + search,
+                        url: '/notices?page=' + page + '&search=' + search + '&_t=' + changeCount,
                         fromJson: (json: any) => Notice.fromJSON(json)
                     });
                 }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                     callDataListen={changeCount}
+                    enableRefresh={false}
+
                     hasData={(data) => {
                         setPage(data.meta.page);
                         return <div className={active ? "col-span-2" : "col-span-2"}>

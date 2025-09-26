@@ -22,8 +22,16 @@ export class Section extends BaseModel<SectionProps> {
     return this.props.libelle;
   }
 
+  get libelle_en(): string | undefined {
+    return this.props.libelle_en;
+  }
+
   get description(): string {
     return this.props.description ?? "";
+  }
+
+  get description_en(): string | undefined {
+    return this.props.description_en;
   }
 
   get page(): string {

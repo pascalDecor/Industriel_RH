@@ -46,7 +46,9 @@ export const GET = async (request: NextRequest) => {
                 select: {
                     id: true,
                     content: true,
+                    content_en: true,
                     author: true,
+                    author_en: true,
                     stars: true,
                     createdAt: true,
                 },

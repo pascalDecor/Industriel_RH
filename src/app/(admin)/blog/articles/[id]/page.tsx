@@ -29,6 +29,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
     const [imageError, setImageError] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [publishing, setSaving] = useState(false);
+    const [isEnglishView, setIsEnglishView] = useState(false);
 
 
     // Résoudre les paramètres au chargement
@@ -106,10 +107,57 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                     callDataListen={refreshCount}
                     hasData={(data) => {
                         const article = data.data ?? Article.fromJSON({} as any);
+                        
+                        // Fonctions pour gérer l'affichage selon la langue
+                        const getDisplayTitle = () => {
+                            if (isEnglishView) {
+                                return article.titre_en || article.titre;
+                            }
+                            return article.titre;
+                        };
+
+                        const getDisplayContent = () => {
+                            if (isEnglishView) {
+                                return article.contenu_en || article.contenu || [];
+                            }
+                            return article.contenu || [];
+                        };
+
+                        const hasEnglishContent = article.titre_en || article.contenu_en;
+                        
                         return (
                             <div className="bg-white rounded-lg shadow-sm">
                                 {/* Header de l'article */}
                                 <div className="p-6 border-b border-gray-200">
+                                    {/* Sélecteur de langue */}
+                                    {hasEnglishContent && (
+                                        <div className="flex items-center justify-end mb-4">
+                                            <div className="flex items-center space-x-3 bg-gray-50 rounded-lg p-2">
+                                                <span className="text-sm text-gray-600">Version:</span>
+                                                <button
+                                                    onClick={() => setIsEnglishView(false)}
+                                                    className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                                                        !isEnglishView
+                                                            ? 'bg-blue-600 text-white'
+                                                            : 'text-gray-600 hover:text-gray-800'
+                                                    }`}
+                                                >
+                                                    Français
+                                                </button>
+                                                <button
+                                                    onClick={() => setIsEnglishView(true)}
+                                                    className={`px-3 py-1 text-sm rounded-md transition-colors ${
+                                                        isEnglishView
+                                                            ? 'bg-blue-600 text-white'
+                                                            : 'text-gray-600 hover:text-gray-800'
+                                                    }`}
+                                                >
+                                                    English
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center space-x-3">
                                             <span className={clsx(
@@ -190,7 +238,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                                     {/* Spécialités et Tags */}
                                     <div className="p-6">
                                         <div className="flex items-center group mb-4">
-                                            <h1 className="text-3xl font-bold text-gray-900 mr-3">{article.titre}</h1>
+                                            <h1 className="text-3xl font-bold text-gray-900 mr-3">{getDisplayTitle()}</h1>
                                             <EditTitle article={article} onChange={setRefreshCount} />
                                         </div>
 
@@ -252,7 +300,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                                 {/* Contenu de l'article */}
                                 <div className="p-6">
                                     <div className="prose prose-lg max-w-none">
-                                        <EditorContent content={article.contenu} />
+                                        <EditorContent content={getDisplayContent()} />
                                     </div>
                                 </div>
                             </div>

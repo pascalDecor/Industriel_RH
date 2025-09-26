@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { Sector } from '@/models/sector';
 import { Notice } from '@/models/notice';
+import { CacheInvalidator } from '@/utils/cache-invalidator';
 
 interface AdminDataResponse<T> {
   data: T[];
@@ -209,12 +210,17 @@ export const createSector = async (data: { libelle: string; description: string 
     },
     body: JSON.stringify(data),
   });
-  
+
   if (!response.ok) {
     throw new Error('Erreur lors de la création du secteur');
   }
-  
-  return response.json();
+
+  const result = await response.json();
+
+  // Invalider automatiquement les caches après création
+  await CacheInvalidator.invalidateSectors();
+
+  return result;
 };
 
 export const createNotice = async (data: { content: string; author: string; stars: number }) => {
@@ -227,12 +233,17 @@ export const createNotice = async (data: { content: string; author: string; star
     },
     body: JSON.stringify(data),
   });
-  
+
   if (!response.ok) {
     throw new Error('Erreur lors de la création de l\'avis');
   }
-  
-  return response.json();
+
+  const result = await response.json();
+
+  // Invalider automatiquement les caches après création
+  await CacheInvalidator.invalidateNotices();
+
+  return result;
 };
 
 export const createFunction = async (data: { libelle: string; sectorId: string }) => {
@@ -245,10 +256,17 @@ export const createFunction = async (data: { libelle: string; sectorId: string }
     },
     body: JSON.stringify(data),
   });
-  
+
   if (!response.ok) {
     throw new Error('Erreur lors de la création de la fonction');
   }
-  
-  return response.json();
+
+  const result = await response.json();
+
+  // Invalider automatiquement les caches après création
+  await CacheInvalidator.invalidateFunctions();
+  // Aussi invalider les secteurs car ils contiennent les fonctions
+  await CacheInvalidator.invalidateSectors();
+
+  return result;
 };

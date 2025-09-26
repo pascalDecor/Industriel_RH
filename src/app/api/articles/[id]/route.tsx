@@ -35,7 +35,9 @@ export async function GET(
             select: {
                 id: true,
                 titre: true,
+                titre_en: true,
                 contenu: true,
+                contenu_en: true,
                 image: true,
                 views: true,
                 published: true,
@@ -45,16 +47,18 @@ export async function GET(
                 tags: {
                     select: {
                         id: true,
-                        libelle: true
+                        libelle: true,
+                        libelle_en: true
                     },
                     orderBy: {
                         libelle: 'asc'
-                    }
+                        }
                 },
                 specialites: {
                     select: {
                         id: true,
-                        libelle: true
+                        libelle: true,
+                        libelle_en: true
                     },
                     orderBy: {
                         libelle: 'asc'
@@ -124,8 +128,12 @@ export async function PUT(
         // Préparer les données de mise à jour
         const updateData: any = {
             ...(data.titre && { titre: data.titre }),
+            ...(data.titre_en && { titre_en: data.titre_en }),
             ...(data.contenu && {
                 contenu: Array.isArray(data.contenu) ? data.contenu : [data.contenu]
+            }),
+            ...(data.contenu_en && {
+                contenu_en: Array.isArray(data.contenu_en) ? data.contenu_en : [data.contenu_en]
             }),
             ...(data.image !== undefined && { image: data.image }),
             ...(data.published !== undefined && { published: data.published }),

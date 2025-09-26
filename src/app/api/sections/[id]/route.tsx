@@ -3,7 +3,6 @@ import prisma from '@/lib/connect_db';
 
 export const GET = async (_req: Request, context: { params: Promise<{ id: string }> }) => {
     try {
-
         const { id } = await context.params;
         const sectionUI = await prisma.sectionUI.findUnique({
             where: { id: id },

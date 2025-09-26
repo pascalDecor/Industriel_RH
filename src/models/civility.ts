@@ -26,4 +26,8 @@ export class Civility extends BaseModel<CivilityProps> {
     return this.props.libelle;
   }
 
+  get libelle_en(): string | undefined {
+    return this.props.libelle_en;
+  }
+
 }

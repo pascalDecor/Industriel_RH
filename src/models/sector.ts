@@ -23,6 +23,10 @@ export class Sector extends BaseModel<SectorProps> {
     return this.props.libelle;
   }
 
+  get libelle_en(): string | undefined {
+    return this.props.libelle_en;
+  }
+
   get sections(): Section[] {
     return this.props.Sections?.map((a) => new Section(a)) ?? [];
   }
@@ -37,6 +41,10 @@ export class Sector extends BaseModel<SectorProps> {
 
   get description(): string | undefined {
     return this.props.description;
+  }
+
+  get description_en(): string | undefined {
+    return this.props.description_en;
   }
 
   get alternativeDescriptions(): string[] | undefined {

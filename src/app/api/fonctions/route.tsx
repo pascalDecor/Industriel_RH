@@ -41,6 +41,7 @@ export const GET = async (request: NextRequest) => {
         const select: any = {
             id: true,
             libelle: true,
+            libelle_en: true,
             sectorId: true,
             createdAt: true,
             updatedAt: true,

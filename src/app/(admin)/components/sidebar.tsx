@@ -20,6 +20,7 @@ import {
   FileText,
   Code,
   Shield,
+  Mail,
 } from "lucide-react";
 import Image from "next/image";
 import { imagePathFinder } from "@/utils/imagePathFinder";
@@ -64,21 +65,21 @@ const getRoutes = (userRole: UserRole | null): Onglet[] => [
       {
         label: "Analytics",
         leading: LayoutDashboard,
-        href: "/analytics",
+        href: "#",
         color: "text-sky-500",
         roles: [UserRole.SUPER_ADMIN, UserRole.HR_DIRECTOR, UserRole.HR_MANAGER],
       },
       {
         label: "Ecommerce",
         leading: LayoutDashboard,
-        href: "/ecommerce",
+        href: "#",
         color: "text-sky-500",
         excludeRoles: [UserRole.CONSULTANT],
       },
       {
         label: "Marketing",
         leading: LayoutDashboard,
-        href: "/marketing",
+        href: "#",
         color: "text-sky-500",
         excludeRoles: [UserRole.CONSULTANT, UserRole.HR_ASSISTANT],
       },
@@ -101,6 +102,12 @@ const getRoutes = (userRole: UserRole | null): Onglet[] => [
         label: "Spécialités",
         leading: LayoutDashboard,
         href: "/specialites",
+        color: "text-sky-500",
+      },
+      {
+        label: "Tags",
+        leading: LayoutDashboard,
+        href: "/tags",
         color: "text-sky-500",
       },
     ]
@@ -143,6 +150,12 @@ const getRoutes = (userRole: UserRole | null): Onglet[] => [
         leading: LayoutDashboard,
         href: "/notices",
         color: "text-sky-500",
+      },
+      {
+        label: "Newsletters",
+        leading: Mail,
+        href: "/newsletters",
+        color: "text-blue-500",
       },
     ]
   },
@@ -218,7 +231,7 @@ const getRoutes = (userRole: UserRole | null): Onglet[] => [
   {
     label: "Settings",
     leading: Settings,
-    href: "/settings",
+    href: "#",
     color: "text-gray-500",
   },
 ];

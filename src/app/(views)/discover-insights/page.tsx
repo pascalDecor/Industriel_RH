@@ -12,20 +12,24 @@ import FloatingLabelInput from "@/components/ui/input";
 import FloatingLabelSelect from "@/components/ui/select";
 import { useTranslation } from "@/contexts/LanguageContext";;
 import { useDateLanguage } from "@/hooks/useDateLanguage";
+import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 import EditorContent from "@/components/ui/editorContent";
+import MultiSelect from "@/components/ui/multiSelect";
 
 
 interface ArticleData {
   id: string;
   titre: string;
+  titre_en?: string;
   image: string;
   views: number;
   published: boolean;
   createdAt: string;
   updatedAt: string;
   contenu?: any;
-  tags: Array<{ id: string; libelle: string }>;
-  specialites: Array<{ id: string; libelle: string }>;
+  contenu_en?: any;
+  tags: Array<{ id: string; libelle: string; libelle_en?: string }>;
+  specialites: Array<{ id: string; libelle: string; libelle_en?: string }>;
   author?: { id: string; name: string };
 }
 
@@ -41,11 +45,12 @@ interface FilterElementsProps {
 export default function DiscoverInsights() {
   const router = useRouter();
   const { t, language } = useTranslation();
+  const { translateArticleTitle, translateSpecialty, translateTag, translateArticleContent } = useDynamicTranslation();
   const [articles, setArticles] = useState<ArticleData[]>([]);
   const [featuredArticles, setFeaturedArticles] = useState<ArticleData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [tags, setTags] = useState<Array<{ id: string; libelle: string }>>([]);
-  const [specialites, setSpecialites] = useState<Array<{ id: string; libelle: string }>>([]);
+  const [tags, setTags] = useState<Array<{ id: string; libelle: string; libelle_en?: string }>>([]);
+  const [specialites, setSpecialites] = useState<Array<{ id: string; libelle: string; libelle_en?: string }>>([]);
   const [selectedFilters, setSelectedFilters] = useState<{
     tags: string[];
     specialites: string[];
@@ -59,34 +64,39 @@ export default function DiscoverInsights() {
     fetchFiltersData();
   }, []);
 
-  const fetchArticles = async () => {
+  const fetchArticles = async (filters?: { tags: string[]; specialites: string[] }) => {
     try {
       setLoading(true);
+      const currentFilters = filters || selectedFilters;
+
       const queryParams = new URLSearchParams({
         published: 'true',
         limit: '12',
         sortBy: 'createdAt',
-        sortOrder: 'desc'
+        sortOrder: 'desc',
+        includeContent: 'true'
       });
 
-      if (selectedFilters.tags.length > 0) {
-        queryParams.append('tags', selectedFilters.tags.join(','));
+      if (currentFilters.tags.length > 0) {
+        queryParams.append('tags', currentFilters.tags.join(','));
       }
-      if (selectedFilters.specialites.length > 0) {
-        queryParams.append('specialites', selectedFilters.specialites.join(','));
+      if (currentFilters.specialites.length > 0) {
+        queryParams.append('specialites', currentFilters.specialites.join(','));
       }
 
-      const url = `/api/articles?${queryParams.toString()}&includeContent=true`;
+      const url = `/api/articles?${queryParams.toString()}`;
       console.log('Fetching articles with URL:', url);
-      console.log('Selected filters:', selectedFilters);
-      
+      console.log('Applied filters:', currentFilters);
+
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        console.log('Articles received:', data.data?.length, 'articles');
+        console.log('Articles received:', data.data?.length || 0, 'articles');
+        console.log('API Response success:', data);
         setArticles(data.data || []);
       } else {
-        console.error('API response error:', response.status, response.statusText);
+        const errorText = await response.text();
+        console.error('API response error:', response.status, response.statusText, errorText);
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des articles:', error);
@@ -129,11 +139,13 @@ export default function DiscoverInsights() {
   };
 
   useEffect(() => {
+    console.log('Filters changed, fetching articles...', selectedFilters);
     fetchArticles();
   }, [selectedFilters]);
 
   const handleFilterChange = (type: 'tags' | 'specialites', value: string, checked: boolean) => {
     console.log('Filter change:', { type, value, checked });
+
     setSelectedFilters(prev => {
       const newFilters = {
         ...prev,
@@ -141,7 +153,14 @@ export default function DiscoverInsights() {
           ? [...prev[type], value]
           : prev[type].filter(item => item !== value)
       };
-      console.log('New filters:', newFilters);
+      console.log('New filters state:', newFilters);
+
+      // Appeler fetchArticles directement avec les nouveaux filtres
+      // pour éviter les délais de setState
+      setTimeout(() => {
+        fetchArticles(newFilters);
+      }, 0);
+
       return newFilters;
     });
   };
@@ -181,8 +200,8 @@ export default function DiscoverInsights() {
       }
     }
 
-    const tags = article.tags.slice(0, 2).map(tag => tag.libelle).join(', ');
-    return `${tags} • ${article.views} vues`;
+    const tags = article.tags.slice(0, 2).map(tag => translateTag(tag)).join(', ');
+    return `${tags} • ${article.views} ${t('common.views')}`;
   };
 
   function handleClick() {
@@ -191,6 +210,86 @@ export default function DiscoverInsights() {
 
   const [showTagsFilter, setShowTagsFilter] = useState(true);
   const [showSpecialitesFilter, setShowSpecialitesFilter] = useState(false);
+
+  // Newsletter subscription form state
+  const [newsletterForm, setNewsletterForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    areasOfInterest: [] as string[]
+  });
+  const [isSubmittingNewsletter, setIsSubmittingNewsletter] = useState(false);
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Newsletter form handlers
+  const handleNewsletterInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewsletterForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleNewsletterSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setNewsletterForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleNewsletterMultiSelectChange = (selectedOptions: Array<{ label: string; value: string }>) => {
+    setNewsletterForm(prev => ({
+      ...prev,
+      areasOfInterest: selectedOptions.map(option => option.value)
+    }));
+  };
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (!newsletterForm.firstName || !newsletterForm.lastName || !newsletterForm.email) {
+      setNewsletterStatus('error');
+      return;
+    }
+
+    setIsSubmittingNewsletter(true);
+    setNewsletterStatus('idle');
+
+    try {
+      const response = await fetch('/api/newsletters/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: newsletterForm.firstName,
+          lastName: newsletterForm.lastName,
+          email: newsletterForm.email,
+          areasOfInterest: newsletterForm.areasOfInterest
+        })
+      });
+
+      if (response.ok) {
+        setNewsletterStatus('success');
+        // Reset form
+        setNewsletterForm({
+          firstName: '',
+          lastName: '',
+          email: '',
+          areasOfInterest: []
+        });
+      } else {
+        setNewsletterStatus('error');
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'inscription à la newsletter:', error);
+      setNewsletterStatus('error');
+    } finally {
+      setIsSubmittingNewsletter(false);
+    }
+  };
 
 
   return <>
@@ -233,11 +332,11 @@ export default function DiscoverInsights() {
                 />
                 <div className="p-5">
                   <p className="text-sm font-regular text-blue-900 font-bold mb-5 line-clamp-2">
-                    {article.titre}
+                    {translateArticleTitle(article)}
                   </p>
-                  <p className="text-sm font-regular text-gray-500 line-clamp-3">
-                    <EditorContent content={article.contenu} />
-                  </p>
+                  <div className="text-sm font-regular text-gray-500 line-clamp-3">
+                    <EditorContent content={translateArticleContent(article)} />
+                  </div>
                   {/* <div className="mt-3 flex items-center justify-between">
                     <div className="flex flex-wrap gap-1">
                       {article.tags.slice(0, 2).map((tag) => (
@@ -245,7 +344,7 @@ export default function DiscoverInsights() {
                           key={tag.id}
                           className="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full"
                         >
-                          {tag.libelle}
+                          {translateTag(tag)}
                         </span>
                       ))}
                     </div>
@@ -319,7 +418,7 @@ export default function DiscoverInsights() {
                         className="w-4 h-4 text-blue-900 bg-gray-100 rounded focus:ring-blue-500"
                       />
                       <label htmlFor={`tag-${tag.id}`} className="text-sm text-gray-500 cursor-pointer">
-                        {tag.libelle}
+                        {translateTag(tag)}
                       </label>
                     </div>
                   ))}
@@ -354,7 +453,7 @@ export default function DiscoverInsights() {
                         className="w-4 h-4 text-blue-900 bg-gray-100 rounded focus:ring-blue-500"
                       />
                       <label htmlFor={`spec-${specialite.id}`} className="text-sm text-gray-500 cursor-pointer">
-                        {specialite.libelle}
+                        {translateSpecialty(specialite)}
                       </label>
                     </div>
                   ))}
@@ -369,10 +468,15 @@ export default function DiscoverInsights() {
                 <Button
                   variant="dark"
                   size="md"
-                  onClick={() => setSelectedFilters({ tags: [], specialites: [] })}
+                  onClick={() => {
+                    console.log('Clearing all filters');
+                    const clearedFilters = { tags: [], specialites: [] };
+                    setSelectedFilters(clearedFilters);
+                    fetchArticles(clearedFilters);
+                  }}
                   className="text-sm !rounded-full px-6 py-3"
                 >
-                  {t('discover_insights.filters.clear')}
+                  {t('discover_insights.filters.clear')} ({selectedFilters.tags.length + selectedFilters.specialites.length})
                 </Button>
               </div>
             )}
@@ -409,7 +513,7 @@ export default function DiscoverInsights() {
                     />
                     <div className="p-4">
                       <h3 className="text-sm text-start font-bold text-blue-900 mb-3 line-clamp-2">
-                        {article.titre}
+                        {translateArticleTitle(article)}
                       </h3>
                       <p className="text-sm text-start text-gray-500 line-clamp-3 mb-3">
                         {getArticleDescription(article)}
@@ -421,7 +525,7 @@ export default function DiscoverInsights() {
                               key={tag.id}
                               className="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full"
                             >
-                              {tag.libelle}
+                              {translateTag(tag)}
                             </span>
                           ))}
                         </div>
@@ -454,7 +558,11 @@ export default function DiscoverInsights() {
               </p>
               <Button
                 variant="secondary"
-                onClick={() => setSelectedFilters({ tags: [], specialites: [] })}
+                onClick={() => {
+                  const clearedFilters = { tags: [], specialites: [] };
+                  setSelectedFilters(clearedFilters);
+                  fetchArticles(clearedFilters);
+                }}
               >
                 {t('discover_insights.filters.clear')}
               </Button>
@@ -504,26 +612,57 @@ export default function DiscoverInsights() {
             <h2 className="text-2xl font-semibold text mb-10 mt-5 text-white text-center">
               {t('discover_insights.subscription.form_title')}
             </h2>
-            <form action="" className="grid grid-cols-12 gap-4 w-full mb-10">
+
+            {/* Success Message */}
+            {newsletterStatus === 'success' && (
+              <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                <p className="text-sm font-medium text-center">
+                  {t('discover_insights.subscription.success_message')}
+                </p>
+              </div>
+            )}
+
+            {/* Error Message */}
+            {newsletterStatus === 'error' && (
+              <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                <p className="text-sm font-medium text-center">
+                  {t('discover_insights.subscription.error_message')}
+                </p>
+              </div>
+            )}
+
+            <form onSubmit={handleNewsletterSubmit} className="grid grid-cols-12 gap-4 w-full mb-10">
               <div className="col-span-12">
                 <FloatingLabelInput
                   type="text"
+                  name="firstName"
                   label={t('common.first_name')}
                   placeholder={t('common.first_name')}
+                  value={newsletterForm.firstName}
+                  onChange={handleNewsletterInputChange}
+                  required
                 />
               </div>
               <div className="col-span-12">
                 <FloatingLabelInput
                   type="text"
+                  name="lastName"
                   label={t('common.last_name')}
                   placeholder={t('common.last_name')}
+                  value={newsletterForm.lastName}
+                  onChange={handleNewsletterInputChange}
+                  required
                 />
               </div>
               <div className="col-span-12 text-left">
                 <FloatingLabelInput
                   type="email"
+                  name="email"
                   label={t('common.email')}
                   placeholder={t('common.email')}
+                  value={newsletterForm.email}
+                  onChange={handleNewsletterInputChange}
+                  required
                 />
               </div>
               <div className="col-span-12 text-left">
@@ -531,19 +670,34 @@ export default function DiscoverInsights() {
                   {t('discover_insights.subscription.interests')}
                 </p>
               </div>
-              <div className="col-span-12 text-left mb-5">
-                <FloatingLabelSelect
-                  label={t('discover_insights.subscription.areas_label')}
-                  name="areas_of_interest"
-                  options={specialites.slice(0, 5).map(spec => ({
-                    label: spec.libelle,
+              <div className="col-span-12 text-left mb-5 bg-white  rounded-2xl">
+                <MultiSelect
+
+                  items={specialites.map(spec => ({
+                    label: translateSpecialty(spec),
                     value: spec.id
                   }))}
+                  defaultValue={newsletterForm.areasOfInterest.map(id => {
+                    const spec = specialites.find(spec => spec.id === id);
+                    return spec ? {
+                      label: translateSpecialty(spec),
+                      value: id
+                    } : { label: '', value: id };
+                  })}
+                  onChange={handleNewsletterMultiSelectChange}
+                  placeholder={t('discover_insights.subscription.areas_label')}
+                  className="text-black"
                 />
               </div>
               <div className="col-span-12 text-center">
-                <Button variant="dark" size="md" onClick={handleClick} className="!rounded-full text-sm px-20 mx-auto">
-                  {t('common.submit')}
+                <Button
+                  type="submit"
+                  variant="dark"
+                  size="md"
+                  disabled={isSubmittingNewsletter}
+                  className="!rounded-full text-sm px-20 mx-auto"
+                >
+                  {isSubmittingNewsletter ? t('common.submitting') : t('common.submit')}
                 </Button>
               </div>
             </form>

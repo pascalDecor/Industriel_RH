@@ -72,6 +72,8 @@ const translations: Record<Language, Record<string, string>> = {
     'common.filter': 'Filtrer',
     'common.view_more': 'Voir plus',
     'common.view_less': 'Voir moins',
+    'common.retry': 'Réessayer',
+    'common.error_loading_articles': 'Impossible de charger les articles',
     
     // Formulaires
     'form.name': 'Nom',
@@ -94,6 +96,12 @@ const translations: Record<Language, Record<string, string>> = {
     'form.years_experience': 'Années d\'expérience',
     'form.cv_format': 'CV (Word uniquement, format doc ou docx)*',
     'form.cover_letter_format': 'Lettre de motivation (PDF ou DOC)*',
+    'form.company_website': 'Site web de l\'entreprise',
+    'form.number_positions': 'Nombre de postes à pourvoir',
+    'form.select_sectors': 'Sélectionner les secteurs',
+    'form.position_details': 'Détails des postes',
+    'form.support_document': 'Document à l\'appui de la demande (PDF ou DOC)',
+    'form.start': 'COMMENCER',
     
     // Page d'accueil
     'home.hero.title': 'Trouvez le talent industriel qu\'il vous faut',
@@ -490,6 +498,9 @@ const translations: Record<Language, Record<string, string>> = {
     'hire_talent.form.international_recruitment': 'Recrutement international',
     'hire_talent.form.position_description': 'Description du poste',
     'hire_talent.form.submit': 'Soumettre',
+    'hire_talent.form.submitting': 'Envoi en cours...',
+    'hire_talent.form.success_message': 'Votre demande a été envoyée avec succès ! Nous vous contacterons bientôt.',
+    'hire_talent.form.error_message': 'Une erreur s\'est produite lors de l\'envoi. Veuillez réessayer.',
 
     // Section Recrutement par impartition
     'hire_talent.outsourcing.title': 'Recrutement par impartition',
@@ -648,6 +659,8 @@ const translations: Record<Language, Record<string, string>> = {
     'discover_insights.subscription.form_title': 'Pourquoi attendre ? Inscrivez-vous maintenant',
     'discover_insights.subscription.interests': 'Quel sujet vous intéresse ?',
     'discover_insights.subscription.areas_label': 'Domaines d\'intérêt',
+    'discover_insights.subscription.success_message': 'Votre inscription à la newsletter a été confirmée ! Vous recevrez bientôt nos dernières actualités.',
+    'discover_insights.subscription.error_message': 'Une erreur s\'est produite lors de l\'inscription. Veuillez réessayer.',
     'discover_insights.static.salary_guide': 'Guide salarial 2025',
     'discover_insights.static.salary_guide_desc': 'Explorez les dernières données pour des centaines de postes et sachez ce que vous devriez gagner ou payer sur les marchés locaux et nationaux.',
     'discover_insights.static.jobs_demand': 'Quels emplois sont en demande ?',
@@ -661,6 +674,25 @@ const translations: Record<Language, Record<string, string>> = {
     'common.last_name': 'Nom de famille',
     'common.email': 'Courriel',
     'common.submit': 'Soumettre',
+    'common.submitting': 'Envoi en cours...',
+    'common.published_on': 'Publié le',
+    'common.updated_on': 'Mis à jour le',
+    'common.share_email': 'Partager par email',
+    'common.copy_link': 'Copier le lien',
+    'common.link_copied': 'Lien copié !',
+    'common.by_author': 'Par',
+    'common.share': 'Partager',
+    'common.copy': 'Copier',
+    'common.share_facebook': 'Partager sur Facebook',
+    'common.share_linkedin': 'Partager sur LinkedIn',
+    'common.share_twitter': 'Partager sur X (Twitter)',
+    'common.share_whatsapp': 'Partager sur WhatsApp',
+    'common.similar_articles': 'Articles similaires',
+    'common.view_all_articles': 'Voir tous les articles',
+    'common.no_similar_articles': 'Aucun article similaire trouvé',
+    'common.did_you_like_article': 'Vous avez aimé cet article ?',
+    'common.discover_more_articles': 'Découvrir plus d\'articles',
+    'common.contact_us': 'Nous contacter',
   },
   en: {
     // Footer
@@ -719,6 +751,8 @@ const translations: Record<Language, Record<string, string>> = {
     'common.filter': 'Filter',
     'common.view_more': 'View More',
     'common.view_less': 'View Less',
+    'common.retry': 'Retry',
+    'common.error_loading_articles': 'Unable to load articles',
     
     // Formulaires
     'form.name': 'Name',
@@ -741,6 +775,12 @@ const translations: Record<Language, Record<string, string>> = {
     'form.years_experience': 'Year(s) of experience',
     'form.cv_format': 'CV (Word only, doc or docx format)*',
     'form.cover_letter_format': 'Cover letter (PDF or DOC)*',
+    'form.company_website': 'Company website',
+    'form.number_positions': 'Number of positions to be filled',
+    'form.select_sectors': 'Select sectors',
+    'form.position_details': 'Position details',
+    'form.support_document': 'Document in support of the request (PDF or DOC)',
+    'form.start': 'TO START',
     
     // Page d'accueil
     'home.hero.title': 'Find the industrial talent you need',
@@ -1137,6 +1177,9 @@ const translations: Record<Language, Record<string, string>> = {
     'hire_talent.form.international_recruitment': 'International recruitment',
     'hire_talent.form.position_description': 'Tell us about the position',
     'hire_talent.form.submit': 'Submit',
+    'hire_talent.form.submitting': 'Submitting...',
+    'hire_talent.form.success_message': 'Your request has been sent successfully! We will contact you soon.',
+    'hire_talent.form.error_message': 'An error occurred while sending. Please try again.',
 
     // Outsourcing section
     'hire_talent.outsourcing.title': 'Recruitment by outsourcing',
@@ -1295,6 +1338,8 @@ const translations: Record<Language, Record<string, string>> = {
     'discover_insights.subscription.form_title': 'Why wait? Sign up now',
     'discover_insights.subscription.interests': 'Which topic are you interested in?',
     'discover_insights.subscription.areas_label': 'Areas of Interest',
+    'discover_insights.subscription.success_message': 'Your newsletter subscription has been confirmed! You will receive our latest updates soon.',
+    'discover_insights.subscription.error_message': 'An error occurred during subscription. Please try again.',
     'discover_insights.static.salary_guide': '2025 Salary Guide',
     'discover_insights.static.salary_guide_desc': 'Explore the latest data for hundreds of positions and know what you should earn or pay in local and national markets.',
     'discover_insights.static.jobs_demand': 'What jobs are in demand?',
@@ -1308,6 +1353,25 @@ const translations: Record<Language, Record<string, string>> = {
     'common.last_name': 'Last Name',
     'common.email': 'Email',
     'common.submit': 'Submit',
+    'common.submitting': 'Submitting...',
+    'common.published_on': 'Published on',
+    'common.updated_on': 'Updated on',
+    'common.share_email': 'Share by email',
+    'common.copy_link': 'Copy link',
+    'common.link_copied': 'Link copied!',
+    'common.by_author': 'By',
+    'common.share': 'Share',
+    'common.copy': 'Copy',
+    'common.share_facebook': 'Share on Facebook',
+    'common.share_linkedin': 'Share on LinkedIn',
+    'common.share_twitter': 'Share on X (Twitter)',
+    'common.share_whatsapp': 'Share on WhatsApp',
+    'common.similar_articles': 'Similar Articles',
+    'common.view_all_articles': 'View All Articles',
+    'common.no_similar_articles': 'No similar articles found',
+    'common.did_you_like_article': 'Did you like this article?',
+    'common.discover_more_articles': 'Discover More Articles',
+    'common.contact_us': 'Contact Us',
   }
 };
 

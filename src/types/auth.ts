@@ -45,6 +45,14 @@ export enum Permission {
   SECTORS_MANAGE = 'sectors.manage',
   SPECIALITIES_MANAGE = 'specialities.manage',
 
+  // Newsletters
+  NEWSLETTERS_CREATE = 'newsletters.create',
+  NEWSLETTERS_READ = 'newsletters.read',
+  NEWSLETTERS_UPDATE = 'newsletters.update',
+  NEWSLETTERS_DELETE = 'newsletters.delete',
+  NEWSLETTERS_EXPORT = 'newsletters.export',
+  NEWSLETTERS_SEND = 'newsletters.send',
+
   // Utilisateurs et rôles
   USERS_CREATE = 'users.create',
   USERS_READ = 'users.read',
@@ -170,6 +178,14 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   [Permission.CONTACTS_ASSIGN]: 'Assigner les contacts',
   [Permission.CONTACTS_EXPORT]: 'Exporter les contacts',
   [Permission.CONTACTS_DELETE]: 'Supprimer les contacts',
+
+  // Newsletters
+  [Permission.NEWSLETTERS_CREATE]: 'Créer des newsletters',
+  [Permission.NEWSLETTERS_READ]: 'Consulter les newsletters',
+  [Permission.NEWSLETTERS_UPDATE]: 'Modifier les newsletters',
+  [Permission.NEWSLETTERS_DELETE]: 'Supprimer les newsletters',
+  [Permission.NEWSLETTERS_EXPORT]: 'Exporter les newsletters',
+  [Permission.NEWSLETTERS_SEND]: 'Envoyer les newsletters',
 
   // Articles
   [Permission.ARTICLES_CREATE]: 'Créer des articles',

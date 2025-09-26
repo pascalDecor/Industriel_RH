@@ -8,11 +8,14 @@ import { redirect } from "next/navigation";
 import { Sector } from "@/models/sector";
 import { LoadingSpinner } from "@/lib/load.helper";
 import { useTranslation } from "@/contexts/LanguageContext";
+import { useState } from "react";
 
 
 export function HireTalentExpandedNavbar({ sectors }: { sectors: Sector[] }) {
-  const { t } = useTranslation();
-  
+  const { t, language } = useTranslation();
+
+  const [isFrench, setIsFrench] = useState(language === 'fr');
+
   return (
     <div className="lg:flex grid grid-cols-12 gap-10 lg:px-10 mb-5 justify-between items-start w-7xl mx-auto">
       <div className="col-span-3 lg:w-3/12">
@@ -44,7 +47,7 @@ export function HireTalentExpandedNavbar({ sectors }: { sectors: Sector[] }) {
         <div className="p-5 w-fit bg-blue-50 shadow-lg rounded-2xl grid grid-rows-5 gap-5 float-right">
           {sectors.length > 0 ? sectors.map((sector) => (
             <Link key={sector.id} href={"/find-jobs"} className="text-gray-500 text-sm">
-              {sector.libelle}
+              {isFrench ? sector.libelle : sector.libelle_en}
             </Link>
           )) : <LoadingSpinner color="#0F766E"></LoadingSpinner>}
         </div>

@@ -14,6 +14,10 @@ import { SectionProps } from "@/models/props";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
 
+const EditorContent = dynamic(() => import("@/components/ui/editorContent"), {
+  loading: () => <div className="animate-pulse bg-gray-200 h-4 rounded" />
+});
+
 const Button = dynamic(() => import("@/components/ui/button"), {
   loading: () => <div className="animate-pulse bg-gray-200 rounded-full h-10 w-32" />
 });
@@ -42,12 +46,13 @@ const HiringTrendsArticles = dynamic(() => import("@/components/articles/HiringT
 
 
 export default function ConsultingSolutions() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const [isFrench, setIsFrench] = useState(language === 'fr');
   const [sector, setSector] = useState<Sector | undefined>(undefined);
   const [section1, setSection1] = useState<Section | undefined>(undefined);
   const [section2, setSection2] = useState<Section | undefined>(undefined);
   const [section3, setSection3] = useState<Section | undefined>(undefined);
-  
+
   const router = useRouter();
 
 
@@ -71,6 +76,10 @@ export default function ConsultingSolutions() {
   }, [sector]);
 
   useEffect(() => {
+    setIsFrench(language === 'fr');
+  }, [language]);
+
+  useEffect(() => {
     const fetchSectors = async () => {
       try {
         const response = await fetch('/api/sectors?limit=10');
@@ -79,6 +88,7 @@ export default function ConsultingSolutions() {
           const sectorTabs = result.data.map((sector: any, index: number) => ({
             id: index.toString(),
             label: sector.libelle.toLowerCase(),
+            label_en: sector.libelle_en.toLowerCase(),
             sectorId: sector.id,
             sectorName: sector.libelle
           }));
@@ -107,9 +117,9 @@ export default function ConsultingSolutions() {
   ];
 
   const [tabsType, setTabsType] = useState([
-    { id: "0", label: t('sectors.construction') },
-    { id: "1", label: t('sectors.manufacturing') },
-    { id: "2", label: t('sectors.healthcare') },
+    { id: "0", label: t('sectors.construction'), label_en: t('sectors.construction') },
+    { id: "1", label: t('sectors.manufacturing'), label_en: t('sectors.manufacturing') },
+    { id: "2", label: t('sectors.healthcare'), label_en: t('sectors.healthcare') },
   ]);
 
   const [activeTab, setActiveTab] = useState("0");
@@ -122,11 +132,11 @@ export default function ConsultingSolutions() {
       <div className="grid grid-cols-5 items-center gap-4 mt-10">
         <div className="lg:col-span-3 col-span-12  pr-4">
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-            {section1?.libelle}
+            {isFrench ? section1?.libelle : section1?.libelle_en}
           </h2>
-          <p className="text-gray-500 text-sm mb-5">
-            {section1?.description}
-          </p>
+          <div className="text-gray-500 text-sm mb-5">
+            <EditorContent content={isFrench ? section1?.description : section1?.description_en} />
+          </div>
         </div>
         <div className="lg:col-span-2 col-span-12">
           <Image loading="lazy" src={section1?.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt="Your Partner for Manufacturing Workforce Solutions" />
@@ -234,7 +244,7 @@ export default function ConsultingSolutions() {
                   {sector && sector?.functions.map((f) =>
                     <div key={f.id} className="col-span-2">
                       <p className="text-sm font-light text text-start mb-4 underline">
-                        {f.libelle}
+                        {isFrench ? f.libelle : f.libelle_en}
                       </p>
                     </div>
                   )}
@@ -321,12 +331,12 @@ export default function ConsultingSolutions() {
             className={`flex flex-col items-center gap-1 py-3 px-3 cursor-pointer  transition-all ${activeTabType === tab.id ? "text-xl font-bold text-black uppercase" : "text-gray-500 bg-gray-100 text-sm"
               }`}
           >
-            <span>{tab.label}</span>
+            <span>{isFrench ? tab.label : tab.label_en}</span>
           </button>
         ))}
       </div>
 
-      <DynamicArticlesGrid 
+      <DynamicArticlesGrid
         category={tabsType.find(tab => tab.id === activeTabType)?.label.toLowerCase() || "all"}
         sectorId={tabsType.find(tab => tab.id === activeTabType)?.id}
         limit={12}
@@ -344,11 +354,11 @@ export default function ConsultingSolutions() {
         </div>
         <div className="lg:col-span-3 col-span-6  pl-4">
           <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
-            {section3?.libelle}
+            {isFrench ? section3?.libelle : section3?.libelle_en}
           </h2>
-          <p className="text-gray-500 text-sm mb-5">
-            {section3?.description}
-          </p>
+          <div className="text-gray-500 text-sm mb-5">
+            <EditorContent content={isFrench ? section3?.description : section3?.description_en} />
+          </div>
         </div>
       </div>
     </section>

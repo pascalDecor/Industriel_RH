@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { Specialite } from '@/models/specialite';
 import { Tag } from '@/models/tag';
+import { CacheInvalidator } from '@/utils/cache-invalidator';
 
 interface BlogDataResponse<T> {
   data: T[];
@@ -129,7 +130,12 @@ export const createTag = async (libelle: string): Promise<Tag | null> => {
 
     if (response.ok) {
       const newTagData = await response.json();
-      return Tag.fromJSON(newTagData);
+      const result = Tag.fromJSON(newTagData);
+
+      // Invalider automatiquement les caches après création
+      await CacheInvalidator.invalidateTags();
+
+      return result;
     } else {
       const errorData = await response.json();
       throw new Error(errorData.error || 'Erreur lors de la création du tag');

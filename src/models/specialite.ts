@@ -23,6 +23,10 @@ export class Specialite extends BaseModel<SpecialiteProps> {
     return this.props.libelle;
   }
 
+  get libelle_en(): string | undefined {
+    return this.props.libelle_en;
+  }
+
   get articles(): Article[] {
     return this.props.articles?.map((a) => new Article(a)) ?? [];
   }

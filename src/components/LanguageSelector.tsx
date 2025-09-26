@@ -36,6 +36,7 @@ export default function LanguageSelector({
   const handleLanguageChange = (newLanguage: Language) => {
     setLanguage(newLanguage);
     setIsOpen(false);
+    window.location.reload();
   };
 
   return (

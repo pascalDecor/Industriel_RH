@@ -380,7 +380,8 @@ export function withQuery<T, M extends {
           include[fieldStr] = {
             select: {
               id: true,
-              libelle: true
+              libelle: true,
+              libelle_en: true
             }
           }
         } else if (fieldStr === 'author') {

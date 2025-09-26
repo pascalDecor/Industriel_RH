@@ -32,7 +32,7 @@ export const PUT = async (req: Request, context: { params: Promise<{ id: string 
         const data = await req.json();
         const updated = await prisma.function.update({
             where: { id: id },
-            data: { libelle: data.libelle }
+            data: { libelle: data.libelle, libelle_en: data.libelle_en},
         });
         return NextResponse.json(updated, { status: 200 });
     } catch (error) {

@@ -12,7 +12,8 @@ import { motion } from "framer-motion";
 import { useTranslation } from "@/contexts/LanguageContext";
 
 export default function AddSpecializedTalentAcrossYourOrganization() {
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
+    const [isFrench, setIsFrench] = useState(language === 'fr');
 
     function handleClickSector(sector: Sector) {
         setSectorActive(sector);
@@ -55,7 +56,7 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                             sectorActive &&
                             sectors.map((s) =>
                                 <Button key={s.id} variant={sectorActive.id === s.id ? "dark" : "light"} size="md" onClick={() => handleClickSector(s)} className="!rounded-full text-sm">
-                                    {s.libelle}
+                                    {isFrench ? s.libelle : s.libelle_en}
                                 </Button>
                             )}
                     </div>
@@ -63,7 +64,8 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                     <div className="grid grid-cols-6 w-full text-white">
                         <div className="col-span-3 relative">
                             <p className="text-sm font-light text text-start mb-4">
-                                {sectorActive && sectorActive?.sections.filter((s) => s.page === "home")[0]?.description} :
+                                {sectorActive && (isFrench ? sectorActive?.sections.filter((s) => s.page === "home")[0]?.description :
+                                    sectorActive?.sections.filter((s) => s.page === "home")[0]?.description_en)} :
                             </p>
                             <p className="text-sm font-bold text text-start mb-4">
                                 {t('specialized_talent.trending_jobs')}
@@ -72,7 +74,7 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                 {sectorActive && sectorActive?.functions.map((f) =>
                                     <div className="col-span-2" key={f.id}>
                                         <p className="text-sm font-light text text-start mb-4 underline">
-                                            {f.libelle}
+                                            {isFrench ? f.libelle : f.libelle_en}
                                         </p>
                                     </div>)}
                             </div>
@@ -87,7 +89,7 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                     x: -100,
                                     opacity: 0
                                 }} width={500} height={500} alt="We Source the Talent" className="-mb-4 mt-30 mx-auto bottom-0 w-5/6 absolute z-20  -right-75" />
-                                
+
                                 <Button variant="light" size="md" onClick={() => handleClickFunction(sectorActive?.id ?? "")} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-10 absolute !whitespace-nowrap z-30">
                                     {t('specialized_talent.learn_more', { sector: sectorActive?.libelle || 'Manufacturing' })}
                                     <div className="bg-blue-700 p-1 rounded-full ml-3">

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { CacheInvalidator } from '@/utils/cache-invalidator';
 
 // Conditional import for devtools to avoid build errors if package is missing
 let ReactQueryDevtools: any = null;
@@ -142,7 +143,12 @@ const useOnlineStatus = () => {
 
 // Provider principal
 export const AppOptimizationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [queryClient] = useState(() => createOptimizedQueryClient());
+  const [queryClient] = useState(() => {
+    const client = createOptimizedQueryClient();
+    // Configurer le CacheInvalidator avec le client React Query
+    CacheInvalidator.setQueryClient(client);
+    return client;
+  });
   const [prefetchEnabled, setPrefetchEnabled] = useState(true);
   const [queryStats, setQueryStats] = useState({
     totalQueries: 0,

@@ -15,7 +15,7 @@ import { LoadingSpinner } from "@/lib/load.helper";
 import { HttpService } from "@/utils/http.services";
 import { Section } from "@/models/section";
 
-export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn }: { sectorIn: Sector }) {
+export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn, showEnglish }: { sectorIn: Sector, showEnglish?: boolean }) {
     const [sector, setSector] = useState(sectorIn);
     const [section, setSection] = useState(sectorIn.sections.filter((s) => s.page === "home")[0]);
     const [count, setCount] = useState(0);
@@ -24,7 +24,7 @@ export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn }
         <section className="mb-10 w-5xl text-white mx-auto">
             <div className="w-full bg-cover bg-center bg-blue-900 p-10 rounded-4xl border">
                 <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
-                    Add specialized talent across your organization
+                    {showEnglish ? "Add specialized talent across your organization" : "Ajoutez des talents spécialisés dans votre organisation"}
                 </h2>
                 <AsyncBuilder promise={async () => {
                     return HttpService.show<Section>({
@@ -39,11 +39,11 @@ export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn }
                                 <Popover>
                                     <PopoverTrigger>
                                         <p className="text-sm font-light text text-start mb-4 cursor-pointer">
-                                            {section?.description} :
+                                            {showEnglish ? section.description_en : section.description}
                                         </p>
                                     </PopoverTrigger>
                                     <PopoverContent className="z-50">
-                                        <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="description" value={section.description} />
+                                        <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="description" value={section.description} libelle_en="description_en" value_en={section.description_en} />
                                     </PopoverContent>
                                 </Popover>
                                 <p className="text-sm font-bold text text-start mb-4">
@@ -53,7 +53,7 @@ export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn }
                                     {sector && sector?.functions.map((f) =>
                                         <div className="col-span-2" key={f.id}>
                                             <p className="text-sm font-light text text-start mb-4 underline">
-                                                {f.libelle}
+                                                {showEnglish ? f.libelle_en : f.libelle}
                                             </p>
                                         </div>)}
                                 </div>

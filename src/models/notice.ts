@@ -26,8 +26,16 @@ export class Notice extends BaseModel<NoticeProps> {
     return this.props.content;
   }
 
+  get content_en(): string | undefined {
+    return this.props.content_en;
+  }
+
   get author(): string {
     return this.props.author;
+  }
+
+  get author_en(): string | undefined {
+    return this.props.author_en;
   }
 
   get stars(): number {

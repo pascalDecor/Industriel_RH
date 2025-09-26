@@ -6,7 +6,7 @@ import { SectionUI } from "@prisma/client";
 export const GET = withQuery<SectionUI, typeof prisma.sectionUI>(
     prisma.sectionUI,
     {
-        searchFields: ['libelle', 'description'],
+        searchFields: ['libelle', 'description', 'libelle_en', 'description_en'],
         defaultSortBy: 'createdAt',
         defaultSortOrder: 'desc',
     }

@@ -13,7 +13,7 @@ import { HttpService } from "@/utils/http.services";
 import Button from "@/components/ui/button";
 import { FiArrowRight } from "react-icons/fi";
 
-export function SectionUIConsultingSolutionsSection1({ sectorIn }: { sectorIn: Sector }) {
+export function SectionUIConsultingSolutionsSection1({ sectorIn, showEnglish }: { sectorIn: Sector, showEnglish?: boolean }) {
     const [sector, setSector] = useState(sectorIn);
     const [section, setSection] = useState(sectorIn.sections.filter((s) => s.slug === "consulting_solutions_section_1")[0]);
     const [count, setCount] = useState(0);
@@ -34,21 +34,21 @@ export function SectionUIConsultingSolutionsSection1({ sectorIn }: { sectorIn: S
                             <Popover>
                                 <PopoverTrigger>
                                     <h2 className="text-3xl font-semibold text mb-14 text-gray-800 text-start">
-                                        {section.libelle}
+                                        { showEnglish ? section.libelle_en : section.libelle }
                                     </h2>
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="libelle" value={section.libelle} />
+                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="libelle" value={section.libelle} libelle_en="libelle_en" value_en={section.libelle_en} />
                                 </PopoverContent>
                             </Popover>
                             <Popover>
                                 <PopoverTrigger>
                                     <p className="text-gray-500 text-sm mb-5 text-start">
-                                        {section.description}
+                                        { showEnglish ? section.description_en : section.description }
                                     </p>
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="description" value={section.description} />
+                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="description" value={section.description} libelle_en="description_en" value_en={section.description_en} />
                                 </PopoverContent>
                             </Popover>
                         </div>
@@ -71,7 +71,7 @@ export function SectionUIConsultingSolutionsSection1({ sectorIn }: { sectorIn: S
         </section>
     )
 }
-export function SectionUIConsultingSolutionsSection2({ sectorIn }: { sectorIn: Sector }) {
+export function SectionUIConsultingSolutionsSection2({ sectorIn, showEnglish }: { sectorIn: Sector, showEnglish?: boolean }) {
     const [sector, setSector] = useState(sectorIn);
     const [section, setSection] = useState(sectorIn.sections.filter((s) => s.slug === "consulting_solutions_section_2")[0]);
     const [count, setCount] = useState(0);
@@ -97,7 +97,7 @@ export function SectionUIConsultingSolutionsSection2({ sectorIn }: { sectorIn: S
                                     {sector && sector?.functions.map((f) =>
                                         <div className="col-span-2" key={f.id}>
                                             <p className="text-sm font-light text text-start mb-4 underline">
-                                                {f.libelle}
+                                                { showEnglish ? f.libelle_en : f.libelle }
                                             </p>
                                         </div>)}
                                 </div>
@@ -129,7 +129,7 @@ export function SectionUIConsultingSolutionsSection2({ sectorIn }: { sectorIn: S
         </section>
     )
 }
-export function SectionUIConsultingSolutionsSection3({ sectorIn }: { sectorIn: Sector }) {
+export function SectionUIConsultingSolutionsSection3({ sectorIn, showEnglish }: { sectorIn: Sector, showEnglish?: boolean }) {
     const [sector, setSector] = useState(sectorIn);
     const [section, setSection] = useState(sectorIn.sections.filter((s) => s.slug === "consulting_solutions_section_3")[0]);
     const [count, setCount] = useState(0);
@@ -161,21 +161,21 @@ export function SectionUIConsultingSolutionsSection3({ sectorIn }: { sectorIn: S
                             <Popover>
                                 <PopoverTrigger>
                                     <h2 className="text-3xl font-semibold text mb-14 text-gray-800 text-start">
-                                        {section.libelle}
+                                        { showEnglish ? section.libelle_en : section.libelle }
                                     </h2>
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="libelle" value={section.libelle} />
+                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="libelle" value={section.libelle} libelle_en="libelle_en" value_en={section.libelle_en} />
                                 </PopoverContent>
                             </Popover>
                             <Popover>
                                 <PopoverTrigger>
                                     <p className="text-gray-500 text-sm mb-5 text-start">
-                                        {section.description}
+                                        {  showEnglish ? section.description_en : section.description }
                                     </p>
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="description" value={section.description} />
+                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="description" value={section.description} libelle_en="description_en" value_en={section.description_en} />
                                 </PopoverContent>
                             </Popover>
                         </div>

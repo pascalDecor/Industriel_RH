@@ -10,26 +10,38 @@ export default function ApiDocsPage() {
   const [spec, setSpec] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { authenticated, loading: authLoading, hasInternalAccess, user, logout } = useAuth();
+  const { authenticated, loading: authLoading, hasInternalAccess, hasSwaggerAccess, user, logout } = useAuth();
   const router = useRouter();
 
   // Redirection si non authentifié ou sans accès interne
   useEffect(() => {
     if (!authLoading) {
+      console.log('API Docs Access Check:', {
+        authenticated,
+        hasInternalAccess,
+        hasSwaggerAccess,
+        userRole: user?.role,
+        userIsActive: user?.isActive
+      });
+
       if (!authenticated) {
+        console.log('Redirecting to login - not authenticated');
         router.push('/auth/login?redirect=/api-docs');
         return;
       }
-      if (!hasInternalAccess) {
+      if (!hasSwaggerAccess) {
+        console.log('Redirecting to access denied - no swagger access for role:', user?.role);
         router.push('/auth/access-denied');
         return;
       }
+
+      console.log('API Docs access granted for user:', user?.role);
     }
-  }, [authenticated, authLoading, hasInternalAccess, router]);
+  }, [authenticated, authLoading, hasSwaggerAccess, user, router]);
 
   useEffect(() => {
-    // Ne charger la spec que si l'utilisateur est authentifié et a l'accès
-    if (authenticated && hasInternalAccess) {
+    // Ne charger la spec que si l'utilisateur est authentifié et a l'accès swagger
+    if (authenticated && hasSwaggerAccess) {
       const loadSwaggerSpec = async () => {
         try {
           const response = await fetch('/api/swagger');
@@ -48,7 +60,7 @@ export default function ApiDocsPage() {
 
       loadSwaggerSpec();
     }
-  }, [authenticated, hasInternalAccess]);
+  }, [authenticated, hasSwaggerAccess]);
 
   // Affichage pendant le chargement de l'auth
   if (authLoading) {
@@ -62,8 +74,8 @@ export default function ApiDocsPage() {
     );
   }
 
-  // Ne pas afficher la page si pas d'accès (la redirection se fera via useEffect)
-  if (!authenticated || !hasInternalAccess) {
+  // Ne pas afficher la page si pas d'accès swagger (la redirection se fera via useEffect)
+  if (!authenticated || !hasSwaggerAccess) {
     return null;
   }
 

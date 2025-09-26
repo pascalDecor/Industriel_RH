@@ -12,6 +12,7 @@ import { MdOutlineModeEditOutline } from "react-icons/md";
 import AddNotices from "./add";
 import { HttpService } from "@/utils/http.services";
 import { useState } from "react";
+import { HiOutlineLanguage } from "react-icons/hi2";
 import ShowStars from "./showStars";
 
 type ItemNoticesProps = {
@@ -24,6 +25,7 @@ export default function ItemNotices({ notice, onChange }: ItemNoticesProps) {
 
     const [changeCount, setchangeCount] = useState(0);
     const [open, setOpen] = useState(false);
+    const [showEnglish, setShowEnglish] = useState(false);
 
     const [loadingDelete, setLoadingDelete] = useState(false);
 
@@ -45,15 +47,44 @@ export default function ItemNotices({ notice, onChange }: ItemNoticesProps) {
 
 
     return (
-        <Card className="p-5 border-none mb-3 shadow-none flex flex-row justify-between items-center cursor-pointer hover:shadow-md"
+        <Card className="p-5 border-none mb-3 shadow-none flex flex-row justify-between items-start cursor-pointer hover:shadow-md"
             key={notice.id}>
-            <div>
-                <p className="my-0 text-slate-700 font-bold py-0 mb-1">
-                    {notice.author}
-                </p>
+            <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                    <p className="my-0 text-slate-700 font-bold py-0 mb-0">
+                        {showEnglish ? (notice.author_en || notice.author) : notice.author}
+                    </p>
+                    {(notice.content_en || notice.author_en) && (
+                        <Button
+                            onClick={() => setShowEnglish(!showEnglish)}
+                            variant={showEnglish ? "primary" : "secondary"}
+                            size="sm"
+                            className="!h-6 !px-2 !text-[10px] flex items-center gap-1"
+                            title={showEnglish ? "Voir en français" : "Voir en anglais"}
+                        >
+                            {showEnglish ? (
+                                <>
+                                    <span className="text-xs">🇫🇷</span>
+                                    <span>FR</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span className="text-xs">🇬🇧</span>
+                                    <span>EN</span>
+                                </>
+                            )}
+                        </Button>
+                    )}
+                </div>
+
                 <p className="my-0 text-slate-700 text-sm py-0 mb-2">
-                    "{notice.content}"
+                    "{showEnglish ? (notice.content_en || notice.content) : notice.content}"
                 </p>
+
+                {showEnglish && !notice.content_en && (
+                    <p className="text-orange-600 text-xs italic mb-2">Version anglaise non disponible</p>
+                )}
+
                 <ShowStars star={notice.stars} />
             </div>
             <div>

@@ -11,15 +11,15 @@ export const GET = async (request: NextRequest) => {
     try {
         const url = new URL(request.url);
         const searchParams = url.searchParams;
-        
+
         const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
         const limit = Math.min(100, parseInt(searchParams.get('limit') || '50', 10));
         const search = searchParams.get('search')?.trim() || '';
         const includeCount = searchParams.get('includeCount') === 'true';
-        
+
         const skip = (page - 1) * limit;
         const cacheKey = `sectors:${page}:${limit}:${search}:${includeCount}`;
-        
+
         // Vérifier le cache
         const cached = sectorsCache.get(cacheKey);
         if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
@@ -37,7 +37,9 @@ export const GET = async (request: NextRequest) => {
         const select: any = {
             id: true,
             libelle: true,
+            libelle_en: true,
             description: true,
+            description_en: true,   
             alternativeDescriptions: true,
             createdAt: true,
             updatedAt: true,
@@ -45,7 +47,8 @@ export const GET = async (request: NextRequest) => {
             functions: {
                 select: {
                     id: true,
-                    libelle: true
+                    libelle: true,
+                    libelle_en: true,
                 }
             },
             // Inclure les sections avec images pour l'affichage
@@ -53,8 +56,10 @@ export const GET = async (request: NextRequest) => {
                 select: {
                     id: true,
                     libelle: true,
+                    libelle_en: true,
                     slug: true,
                     description: true,
+                    description_en: true,
                     image: true,
                     page: true
                 }
@@ -92,12 +97,9 @@ export const GET = async (request: NextRequest) => {
                 totalPages: Math.ceil(total / limit),
             }
         };
-
         // Mettre en cache
         sectorsCache.set(cacheKey, { data: result, timestamp: Date.now() });
-
         return NextResponse.json(result);
-
     } catch (error) {
         console.error('Error fetching sectors:', error);
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -108,7 +110,7 @@ export const POST = async (req: Request) => {
     try {
         const data = await req.json();
         const sectorCreated = await prisma.sector.create({
-            data: { libelle: data.libelle, description: data.description }
+            data: { libelle: data.libelle, libelle_en: data.libelle_en, description: data.description, description_en: data.description_en },
         });
 
         // Invalider le cache

@@ -33,6 +33,7 @@ model User {
   firstLoginTokenExpires DateTime? // Expiration du token de première connexion
   articles              Article[]
   userRoles             UserRoleAssignment[]
+  campaigns             Campaign[] @relation("CampaignCreatedBy")
 
   @@index([email])
   @@index([isActive])
@@ -75,7 +76,9 @@ model Article {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   titre     String
+  titre_en  String?  // Titre en anglais
   contenu   Json[]   @default([])
+  contenu_en Json[]  @default([]) // Contenu en anglais
   published Boolean  @default(false)
   image     String?
   views     Int      @default(0)
@@ -91,6 +94,7 @@ model Article {
   @@index([createdAt])
   @@index([published])
   @@index([titre])
+  @@index([titre_en])
   @@index([views])
   @@index([published, createdAt])
   @@index([authorId, published])
@@ -101,10 +105,12 @@ model Tag {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   libelle   String
+  libelle_en String?  // Libellé en anglais
   // Relations
   articles  Article[]
 
   @@index([libelle])
+  @@index([libelle_en])
   @@index([createdAt])
 }
 
@@ -113,10 +119,14 @@ model Specialite {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   libelle   String
+  libelle_en String?  // Libellé en anglais
   // Relations
   articles  Article[]
+  newsletters Newsletter[]
+  newsletterSubscribers NewsletterSubscriber[]
 
   @@index([libelle])
+  @@index([libelle_en])
   @@index([createdAt])
 }
 
@@ -125,6 +135,7 @@ model Function {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   libelle   String
+  libelle_en String?  // Libellé en anglais
   // Relations
   sector    Sector   @relation(fields: [sectorId], references: [id])
   sectorId  String
@@ -132,6 +143,7 @@ model Function {
   candidats Application[]
 
   @@index([sectorId])
+  @@index([libelle_en])
 }
 
 model Sector {
@@ -139,7 +151,9 @@ model Sector {
   createdAt               DateTime      @default(now())
   updatedAt               DateTime      @updatedAt
   libelle                 String
+  libelle_en              String?       // Libellé en anglais
   description             String?
+  description_en          String?       // Description en anglais
   alternativeDescriptions String[]      @default([])
   // Relations
   functions               Function[]
@@ -147,6 +161,8 @@ model Sector {
   Sections                SectionUI[]
 
   hires Hire[]
+
+  @@index([libelle_en])
 }
 
 model SectionUI {
@@ -154,8 +170,10 @@ model SectionUI {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   libelle     String
+  libelle_en  String?  // Libellé en anglais
   slug        String
   description String?
+  description_en String?  // Description en anglais
   image       String
   page        String
   // Relations
@@ -163,6 +181,7 @@ model SectionUI {
   sectorId    String
 
   @@index([sectorId])
+  @@index([libelle_en])
 }
 
 model Civility {
@@ -170,9 +189,12 @@ model Civility {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   libelle   String
+  libelle_en String?      // Libellé en anglais
   // Relations
   candidats Application[]
   hires     Hire[]
+
+  @@index([libelle_en])
 }
 
 model Notice {
@@ -180,8 +202,12 @@ model Notice {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   content   String
+  content_en String?  // Contenu en anglais
   author    String
+  author_en String?   // Nom de l'auteur en anglais
   stars     Int      @default(4)
+
+  @@index([content_en])
 }
 
 model Country {
@@ -372,8 +398,79 @@ model CNESSTValidation {
   validationResult Json?  @default("{}")
   status        String   @default("pending") // pending, validated, rejected
   notes         String?  @db.Text
-  
+
   @@index([companyName])
   @@index([status])
+  @@index([createdAt])
+}
+
+model Newsletter {
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  firstName       String    @db.VarChar(100)
+  lastName        String    @db.VarChar(100)
+  email           String    @unique @db.VarChar(320)
+  status          String    @default("active") // active, unsubscribed
+  subscribedAt    DateTime? @default(now())
+  unsubscribedAt  DateTime?
+
+  // Relations
+  specialites     Specialite[]
+
+  @@index([email])
+  @@index([status])
+  @@index([subscribedAt])
+  @@index([createdAt])
+}
+
+model NewsletterSubscriber {
+  id              String     @id @default(cuid())
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  firstName       String     @db.VarChar(100)
+  lastName        String     @db.VarChar(100)
+  email           String     @unique @db.VarChar(320)
+  isActive        Boolean    @default(true)
+  subscribedAt    DateTime   @default(now())
+  unsubscribedAt  DateTime?
+  source          String?    @db.VarChar(100) // website, manual, import
+
+  // Relations
+  speciality      Specialite? @relation(fields: [specialityId], references: [id])
+  specialityId    String?
+
+  @@index([email])
+  @@index([isActive])
+  @@index([specialityId])
+  @@index([subscribedAt])
+  @@index([createdAt])
+}
+
+model Campaign {
+  id                        String    @id @default(cuid())
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+  title                     String    @db.VarChar(200)
+  subject                   String    @db.VarChar(200)
+  content                   String    @db.Text
+  templateId                String?   @db.VarChar(50)
+  status                    String    @default("draft") // draft, scheduled, sending, sent, paused, cancelled
+  scheduledAt               DateTime?
+  sentAt                    DateTime?
+  audienceType              String    @default("all") // all, specialities, custom
+  audienceSpecialityIds     String?   @db.Text // JSON array of speciality IDs
+  subscriberCount           Int       @default(0)
+  testEmails                String?   @db.Text // JSON array of test emails
+  stats                     String?   @db.Text // JSON object with campaign statistics
+
+  // Relations
+  createdBy                 User      @relation("CampaignCreatedBy", fields: [createdById], references: [id])
+  createdById               String
+
+  @@index([status])
+  @@index([createdById])
+  @@index([scheduledAt])
+  @@index([sentAt])
   @@index([createdAt])
 }

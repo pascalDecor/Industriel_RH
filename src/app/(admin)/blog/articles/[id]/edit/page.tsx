@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeftIcon, SaveIcon } from "lucide-react";
+import { se } from 'date-fns/locale';
 
 interface ArticleEditPageProps {
     params: Promise<{
@@ -36,6 +37,7 @@ export default function ArticleEditPage({ params }: ArticleEditPageProps) {
     const [saving, setSaving] = useState(false);
     const [errors, setErrors] = useState<any>({});
     const inputRef = useRef<HTMLInputElement>(null);
+    const [isEnglishEnabled, setIsEnglishEnabled] = useState(false);
 
     const { specialites, tags, isLoading: dataLoading, error: dataError, mutateTags } = useBlogData();
 
@@ -109,19 +111,13 @@ export default function ArticleEditPage({ params }: ArticleEditPageProps) {
             setSaving(true);
             setErrors({});
 
-            // Préparer les données pour l'API
-            const formData = new FormData();
-            formData.append('titre', article.titre);
-            formData.append('contenu', JSON.stringify(article.contenu));
-            formData.append('published', article.published.toString());
-            formData.append('specialites', article.specialites.map(s => s.id).join(','));
-            formData.append('tags', article.tags.map(t => t.id).join(','));
-
             await HttpService.update({
                 url: `/articles/${articleId}`,
                 data: {
                     titre: article.titre,
+                    titre_en: article.titre_en,
                     contenu: [article.contenu],
+                    contenu_en: [article.contenu_en],
                     published: article.published,
                     specialites: article.specialites.map(s => s.id),
                     tags: article.tags.map(t => t.id)
@@ -218,25 +214,76 @@ export default function ArticleEditPage({ params }: ArticleEditPageProps) {
                             />
                             <InputError messages={errors?.titre} inputName="titre" />
                         </div>
+                        {/* Titre en anglais */}
+                        <div className='mb-5'>
+                            <label htmlFor="titre" className='mb-2 block text-sm text-gray-500'>Titre (en anglais)</label>
+                            <FloatingLabelInput
+                                error={errors?.titre && errors.titre.join(', ')}
+                                label='titre (en anglais)'
+                                name="titre_en"
+                                type="text"
+                                placeholder="Titre de l'article (en anglais)"
+                                value={article?.titre_en || ''}
+                                onChange={(e) => {
+                                    if (article) {
+                                        setArticle(Article.fromJSON({
+                                            ...article.toJSON(),
+                                            titre_en: e.target.value,
+                                        }));
+                                    }
+                                }}
+                            />
+                            <InputError messages={errors?.titre} inputName="titre_en" />
+                        </div>
 
                         {/* Contenu */}
                         <div className='mb-5'>
-                            <label htmlFor="contenu" className='mb-2 block text-sm text-gray-500'>Contenu</label>
-                            <EditorJSComponent
+                            <div className='flex justify-between items-center mb-2'>
+                                <label htmlFor={isEnglishEnabled ? 'contenu_en' : 'contenu'} className='mb-2 block text-sm text-gray-500'>Contenu {isEnglishEnabled ? 'en anglais' : 'en français'}</label>
+
+                                {/* Statut de publication */}
+                                <div className='mb-5'>
+                                    <label className="flex items-center space-x-2">
+                                        <input
+                                            type="checkbox"
+                                            checked={isEnglishEnabled}
+                                            onChange={(e) => {
+                                                setIsEnglishEnabled(e.target.checked);
+                                            }}
+                                            className="rounded border-gray-300"
+                                        />
+                                        <span className="text-sm text-gray-700">Contenu en anglais</span>
+                                    </label>
+                                </div>
+                            </div>
+                            {isEnglishEnabled ? <EditorJSComponent
                                 className="h-110"
+                                key={1}
+                                initialData={article?.contenu_en}
+                                onChange={(data) => {
+                                    if (article) {
+                                        setArticle(Article.fromJSON({
+                                            ...article.toJSON(),
+                                            contenu_en: [data],
+                                        }));
+                                    }
+                                }}
+                            /> : <EditorJSComponent
+                                className="h-110"
+                                key={2}
                                 initialData={article?.contenu}
                                 onChange={(data) => {
                                     if (article) {
                                         setArticle(Article.fromJSON({
                                             ...article.toJSON(),
                                             contenu: [data],
-                                            image: selectedImage || article.image
                                         }));
                                     }
                                 }}
-                            />
-                            <InputError messages={errors?.contenu} inputName="contenu" />
+                            />}
+                            {isEnglishEnabled ? <InputError messages={errors?.contenu_en} inputName="contenu_en" /> : <InputError messages={errors?.contenu} inputName="contenu" />}
                         </div>
+
 
                         {/* Spécialités */}
                         <div className='mb-5'>
@@ -295,7 +342,7 @@ export default function ArticleEditPage({ params }: ArticleEditPageProps) {
                                         if (article) {
                                             const processedTags = selectedItems.map((item) => {
                                                 const existingTag = tags.find(t => t.id === item.value);
-                                                return existingTag || Tag.fromJSON({ id: item.value, libelle: item.label });
+                                                return existingTag ? existingTag.toJSON() : { id: item.value, libelle: item.label };
                                             });
 
                                             setArticle(Article.fromJSON({

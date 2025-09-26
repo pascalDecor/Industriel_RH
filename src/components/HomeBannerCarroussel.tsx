@@ -37,7 +37,7 @@ export default function HomeBannerCarroussel() {
             >
                 <div className="max-w-4xl mx-auto my-auto 
                 flex flex-col items-start justify-start">
-                    <div className="max-w-xl mt-20">
+                    <div className="max-w-xl mt-30">
                         <h2 className="text-6xl/18 font-semibold text mb-14 text-white">{t('carousel.slide1.title')}
                             <strong className="bg-white text-blue-800 rounded-2xl px-4 py-0 font-bold uppercase ml-3 mt-3">{t('carousel.slide1.title_highlight')}</strong>
                         </h2>
@@ -75,7 +75,7 @@ export default function HomeBannerCarroussel() {
                 viewport={{ once: true }}
             >
                 <div className="max-w-4xl mx-auto my-auto flex flex-col items-start justify-start">
-                    <div className="max-w-xl mt-20">
+                    <div className="max-w-xl mt-30">
                         <h2 className="text-4xl text-white text mb-14">{t('carousel.slide2.title')} <strong className="text-7xl font-semibold"> {t('carousel.slide2.title_highlight')}</strong>  </h2>
                         <p className="text-gray-300 mb-14 text-xl">
                             {t('carousel.slide2.description')}</p>
@@ -111,7 +111,7 @@ export default function HomeBannerCarroussel() {
             >
                 <div className="max-w-4xl mx-auto my-auto 
             flex flex-col items-start justify-start">
-                    <div className="max-w-xl mt-20">
+                    <div className="max-w-xl mt-30">
                         <h2 className="text-6xl/13 text-gray-800 font-semibold mb-14">
                             {t('carousel.slide3.title')}
                             <span className="text-5xl/18">{t('carousel.slide3.subtitle')}</span> <br /><strong className="text-6xl/18 bg-blue-900 text-white rounded-2xl px-4 font-bold uppercase mt-3 whitespace-nowrap">{t('carousel.slide3.title_highlight')}</strong>
@@ -150,7 +150,7 @@ export default function HomeBannerCarroussel() {
             >
                 <div className="max-w-4xl mx-auto my-auto 
          flex flex-col items-start justify-start">
-                    <div className="max-w-xl mt-20">
+                    <div className="max-w-xl mt-30">
                         <h2 className="text-6xl/13 text-gray-800 font-semibold mb-14">
                             {t('carousel.slide3.title')}
                             <span className="text-5xl/18">{t('carousel.slide3.subtitle')}</span> <br /><strong className="text-6xl/18 bg-blue-900 text-white rounded-2xl px-4 font-bold uppercase mt-3 whitespace-nowrap">{t('carousel.slide3.title_highlight')}</strong>
@@ -190,7 +190,7 @@ export default function HomeBannerCarroussel() {
             <section className="w-full">
                 <Carousel slides={slides} classname="w-dvw z-0" />
                 {/* Search bar */}
-                <div className="bg-blue-800 rounded-full 
+                {/* <div className="bg-blue-800 rounded-full 
                       p-5 flex gap-4 w-1/2 -mt-24
                       absolute mx-auto z-10"
                     style={{
@@ -222,7 +222,7 @@ export default function HomeBannerCarroussel() {
                         size="md" onClick={handleClicSearchJobs} className="!rounded-full text-sm whitespace-nowrap">
 {t('carousel.search.button')}
                     </Button>
-                </div>
+                </div> */}
                 {/* Carousel */}
             </section>
 

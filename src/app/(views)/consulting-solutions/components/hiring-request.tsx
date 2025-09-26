@@ -22,10 +22,12 @@ import { useTranslation } from "@/contexts/LanguageContext";
 
 
 export default function HiringRequest() {
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
     const [state, action, pending] = useActionState(addHire, undefined);
 
     const [hire, setHire] = useState(Hire.fromJSON({} as any));
+
+    const getLocalizedLabel = (item: any) => language === 'en' ? (item.libelle_en || item.libelle) : item.libelle;
 
     const inputDocumentSupportRef = useRef<HTMLInputElement>(null);
 
@@ -61,8 +63,12 @@ export default function HiringRequest() {
                                     error={state?.errors && state?.errors.civilityId && state.errors.civilityId.join(', ')}
                                     label={t('form.civility')}
                                     name="civility"
+                                    value={hire.civilityId ? {
+                                        value: hire.civilityId,
+                                        label: getLocalizedLabel(data.data.find(s => s.id === hire.civilityId)) || ''
+                                    } : undefined}
                                     onChange={(e) => { setHire(hire.update({ civilityId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
+                                    options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
                             }
                         />
                     </div>
@@ -99,7 +105,7 @@ export default function HiringRequest() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="email"
-                            label="Email*"
+                            label={t('form.email') + '*'}
                             name="email"
                             value={hire.email}
                             error={state?.errors && state?.errors.email && state.errors.email.join(', ')}
@@ -115,8 +121,8 @@ export default function HiringRequest() {
                             loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                             hasData={(data) => <MultiSelect
                                 className="!bg-white !p-0"
-                                placeholder='Sélectionner les Secteurs'
-                                items={data.data.map((s) => ({ value: s.id, label: s.libelle }))}
+                                placeholder={t('form.select_sectors')}
+                                items={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))}
                                 onChange={(e) => setHire(hire.update({ sectors: e.map((e) => Sector.fromJSON({ id: e.value, libelle: e.label })) }))
                                 }
                             />
@@ -127,7 +133,7 @@ export default function HiringRequest() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="number"
-                            label="Number of positions to be filled*"
+                            label={t('form.number_positions') + '*'}
                             required
                             name="number_of_positions"
                             value={JSON.stringify(hire.number_of_positions)}
@@ -141,7 +147,7 @@ export default function HiringRequest() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="text"
-                            label="Company name*"
+                            label={t('hire_talent.form.company_name') + '*'}
                             name="company_name"
                             value={hire.company_name}
                             error={state?.errors && state?.errors.company_name && state.errors.company_name.join(', ')}
@@ -152,7 +158,7 @@ export default function HiringRequest() {
                     <div className="col-span-6 text-left">
                         <FloatingLabelInput
                             type="url"
-                            label="Company website"
+                            label={t('form.company_website')}
                             name="company_website"
                             value={hire.company_website}
                             error={state?.errors && state?.errors.company_website && state.errors.company_website.join(', ')}
@@ -164,13 +170,13 @@ export default function HiringRequest() {
                         <input type="text" hidden value={JSON.stringify(hire.details_of_positions)} name="details_of_positions" onChange={(e) => {
                             setHire(hire.update({ details_of_positions: [hire.details_of_positions] }))
                         }} />
-                        <EditorJSComponent className="bg-white !h-60 !min-h-60 text-slate-800" placeholder="Details of positions*" onChange={(e) => { setHire(hire.update({ details_of_positions: [e] })) }} />
+                        <EditorJSComponent className="bg-white !h-60 !min-h-60 text-slate-800" placeholder={t('form.position_details') + '*'} onChange={(e) => { setHire(hire.update({ details_of_positions: [e] })) }} />
                         <InputError messages={state?.errors?.details_of_positions} inputName="details_of_positions" />
                     </div>
 
                     <div className="col-span-12 text-left">
                         <p className="text-sm font-regular text-gray-500 my-3 ml-2">
-                            Document in support of the request (PDF or DOC)*
+                            {t('form.support_document')}*
                         </p>
                         <input type="file" hidden name="document_support" ref={inputDocumentSupportRef} onChange={(e) => handleUploadDocumentSupport(e.target.files![0])} />
                         <FileUpload onFileSelect={(file) => {
@@ -186,7 +192,7 @@ export default function HiringRequest() {
 
                     <div className="col-span-12 text-center">
                         <Button className="!rounded-full text-sm px-20 mx-auto mt-10" isLoading={pending} disabled={pending}>
-                            TO START
+                            {t('form.start')}
                         </Button>
                     </div>
                 </form>

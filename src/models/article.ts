@@ -25,11 +25,21 @@ export class Article extends BaseModel<ArticleProps> {
     return this.props.titre;
   }
 
+  get titre_en(): string | undefined {
+    return this.props.titre_en;
+  }
+
   get contenu(): JSON {
     return this.props.contenu
       ? this.props.contenu.length > 0
         ? this.props.contenu[0]
         : JSON.parse("{}")
+      : JSON.parse("{}");
+  }
+
+  get contenu_en(): JSON {
+    return this.props.contenu_en && this.props.contenu_en.length > 0
+      ? this.props.contenu_en[0]
       : JSON.parse("{}");
   }
 

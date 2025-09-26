@@ -43,6 +43,14 @@ export enum Permission {
   SECTORS_MANAGE = 'sectors.manage',
   SPECIALITIES_MANAGE = 'specialities.manage',
 
+  // Newsletters
+  NEWSLETTERS_CREATE = 'newsletters.create',
+  NEWSLETTERS_READ = 'newsletters.read',
+  NEWSLETTERS_UPDATE = 'newsletters.update',
+  NEWSLETTERS_DELETE = 'newsletters.delete',
+  NEWSLETTERS_EXPORT = 'newsletters.export',
+  NEWSLETTERS_SEND = 'newsletters.send',
+
   // Utilisateurs et rôles
   USERS_CREATE = 'users.create',
   USERS_READ = 'users.read',
