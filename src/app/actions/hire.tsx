@@ -48,7 +48,7 @@ const AddHireFormSchema = z.object({
     number_of_positions: z
         .number().min(1, { message: "Be at least 1 character long" }),
     company_website: z.string().url({ message: "Please enter a valid url." }).trim(),
-    document_support: z.string().min(2, { message: "Please chose a document at least 5 MO." }).trim(),
+    document_support: z.string().min(2, { message: "Please choose a document (max 5 MB)." }).trim(),
     state: z.string().trim(),
     sectors: z
         .object({

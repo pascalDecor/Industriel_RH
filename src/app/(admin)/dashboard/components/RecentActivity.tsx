@@ -12,6 +12,10 @@ interface Activity {
   description: string;
   time: string;
   createdAt: Date;
+  author: {
+    name: string;
+    type: string;
+  };
 }
 
 export default function RecentActivity() {
@@ -90,12 +94,14 @@ export default function RecentActivity() {
     <Card className="p-6 shadow-none border-none">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-medium">Activité récente</h3>
-        <span className="text-sm text-gray-500">Dernières 24h</span>
+        <Link href="/activites" className="text-sm text-blue-600 hover:text-blue-800">
+          Voir plus →
+        </Link>
       </div>
 
       <div className="space-y-4">
         {activities.length > 0 ? (
-          activities.map((activity) => (
+          activities.slice(0, 5).map((activity) => (
             <Link key={activity.id} href={getActivityLink(activity)} className="block hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors">
               <div className="flex items-start">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${getTypeColor(activity.type)}`}>

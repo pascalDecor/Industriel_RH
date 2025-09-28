@@ -60,7 +60,7 @@ export default function HiringRequest() {
                                     label="Civility"
                                     name="civility"
                                     onChange={(e) => { setHire(hire.update({ civilityId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
+                                    options={data.data.map((s: any) => ({ value: s.id, label: s.libelle }))} />
                             }
                         />
                     </div>
@@ -114,7 +114,7 @@ export default function HiringRequest() {
                             hasData={(data) => <MultiSelect
                                 className="!bg-white !p-0"
                                 placeholder='Sélectionner les Secteurs'
-                                items={data.data.map((s) => ({ value: s.id, label: s.libelle }))}
+                                items={data.data.map((s: any) => ({ value: s.id, label: s.libelle }))}
                                 onChange={(e) => setHire(hire.update({ sectors: e.map((e) => Sector.fromJSON({ id: e.value, libelle: e.label })) }))
                                 }
                             />

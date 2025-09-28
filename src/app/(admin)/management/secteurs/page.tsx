@@ -151,6 +151,7 @@ export default function Sectors() {
                         </div>
                     )}
                     callDataListen={changeCount}
+                    autoRefreshOnListen={true}
                     onDataChange={(data) => {
                         if (data) {
                             setPage(data.meta.page);
@@ -174,7 +175,7 @@ export default function Sectors() {
                                 </div>
 
                                 <div className="grid gap-3">
-                                    {data.data.map((s, index) => (
+                                    {data.data.map((s: any, index: number) => (
                                         <div 
                                             key={s.id} 
                                             className="transition-all duration-500 ease-out transform hover:scale-[1.02] opacity-0"

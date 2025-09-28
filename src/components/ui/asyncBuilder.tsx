@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, ReactNode, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, ReactNode, useCallback, useRef, useMemo, useImperativeHandle, forwardRef } from "react";
 
 interface AsyncBuilderProps<T> {
   promise: () => Promise<T>;
@@ -16,9 +16,26 @@ interface AsyncBuilderProps<T> {
   onLoadingChange?: (loading: boolean) => void;
   /** Nouveau : si true, on exécute hasData après le commit (dans un effet) */
   deferHasDataRender?: boolean;
+  /** Si false, n'effectue pas l'appel automatique au montage */
+  autoLoad?: boolean;
+  /** Si false, n'effectue pas l'appel automatique quand callDataListen change */
+  autoRefreshOnListen?: boolean;
+  /** Si false, ne recharge pas quand la promise change (pour éviter les recharges intempestives) */
+  autoRefreshOnPromiseChange?: boolean;
 }
 
-export function AsyncBuilder<T>({
+export interface AsyncBuilderRef {
+  /** Déclenche manuellement un appel API */
+  load: () => void;
+  /** Déclenche manuellement un refresh */
+  refresh: () => void;
+  /** Accède aux données actuelles */
+  getData: () => unknown;
+  /** Accède au statut de chargement */
+  isLoading: () => boolean;
+}
+
+export const AsyncBuilder = forwardRef<AsyncBuilderRef, AsyncBuilderProps<any>>(function AsyncBuilder<T>({
   promise,
   hasData,
   loadingComponent = (
@@ -36,7 +53,10 @@ export function AsyncBuilder<T>({
   onError,
   onLoadingChange,
   deferHasDataRender = true, // 👈 par défaut ON
-}: AsyncBuilderProps<T>) {
+  autoLoad = true, // 👈 par défaut ON pour la rétrocompatibilité
+  autoRefreshOnListen = false, // 👈 DÉSACTIVÉ par défaut pour éviter les appels intempestifs
+  autoRefreshOnPromiseChange = true, // 👈 par défaut ON pour la rétrocompatibilité
+}: AsyncBuilderProps<T>, ref: any) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -97,16 +117,24 @@ export function AsyncBuilder<T>({
 
   const retry = useCallback(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
-  // Garder la dernière promise et refetch si elle change
+  // Expose des méthodes via ref
+  useImperativeHandle(ref, () => ({
+    load: () => fetchData(),
+    refresh: () => fetchData(true),
+    getData: () => data,
+    isLoading: () => loading || isRefreshing,
+  }), [fetchData, data, loading, isRefreshing]);
+
+  // Garder la dernière promise et refetch si elle change (si autoRefreshOnPromiseChange est activé)
   useEffect(() => {
     promiseRef.current = promise;
-    // Si ce n'est pas le chargement initial, refetch quand la promise change
-    if (initialLoadRef.current) {
+    // Si ce n'est pas le chargement initial et que autoRefreshOnPromiseChange est activé, refetch quand la promise change
+    if (autoRefreshOnPromiseChange && initialLoadRef.current) {
       debouncedFetchData();
     }
-  }, [promise, debouncedFetchData]);
+  }, [promise, debouncedFetchData, autoRefreshOnPromiseChange]);
 
   // Mount / cleanup
   useEffect(() => {
@@ -118,20 +146,22 @@ export function AsyncBuilder<T>({
     };
   }, []);
 
-  // Chargement initial
+  // Chargement initial (seulement si autoLoad est activé)
   useEffect(() => {
     initialLoadRef.current = true;
-    fetchData();
+    if (autoLoad) {
+      fetchData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [autoLoad]);
 
-  // Refresh sur callDataListen - TOUJOURS actif quand callDataListen change
+  // Refresh sur callDataListen - actif seulement si autoRefreshOnListen est activé
   useEffect(() => {
-    // Si callDataListen est défini et que ce n'est pas le chargement initial
-    if (callDataListen !== undefined && callDataListen !== null && initialLoadRef.current) {
+    // Si callDataListen est défini, que ce n'est pas le chargement initial et que autoRefreshOnListen est activé
+    if (autoRefreshOnListen && callDataListen !== undefined && callDataListen !== null && initialLoadRef.current) {
       debouncedFetchData();
     }
-  }, [callDataListen]);
+  }, [callDataListen, autoRefreshOnListen, debouncedFetchData]);
 
   // Refresh périodique - DÉSACTIVÉ TEMPORAIREMENT
   // useEffect(() => {
@@ -193,4 +223,4 @@ export function AsyncBuilder<T>({
   }
   // Mode strict (Option A) : on appelle hasData pendant render → doit être PUR
   return <>{hasData(data, isRefreshing)}</>;
-}
+});

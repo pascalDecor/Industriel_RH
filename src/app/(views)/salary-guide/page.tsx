@@ -13,6 +13,7 @@ import { FiArrowRight } from "react-icons/fi";
 import SalaryGuide from "./components/SalaryGuide";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
+import HiringTrendsArticles from "@/components/articles/HiringTrendsArticles";
 
 export default function QuebecTaxCalculator() {
   const { t } = useTranslation();
@@ -142,66 +143,8 @@ export default function QuebecTaxCalculator() {
       <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
         {t('salary_guide.hiring_trends.title')}
       </h2>
-
-
-      <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-8 text-left">
-        <div className="col-span-3">
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.be_salary_smart} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {t('salary_guide.hiring_trends.be_salary_smart')}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {t('salary_guide.hiring_trends.be_salary_smart_desc')}
-              </p>
-            </div>
-          </div>
-
-        </div>
-        <div className="col-span-3">
-
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.career_development} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {t('salary_guide.hiring_trends.career_development')}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {t('salary_guide.hiring_trends.career_development_desc')}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-span-3">
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.What_jobs_are_in_demand} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {t('salary_guide.hiring_trends.what_jobs_demand')}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {t('salary_guide.hiring_trends.what_jobs_demand_desc')}
-              </p>
-            </div>
-          </div>
-
-        </div>
-        <div className="col-span-3">
-          <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-            <Image loading="lazy" src={imagePathFinder.landing_a_job} alt="  We Source the Talent" className="mx-auto" />
-            <div className="p-5">
-              <p className="text-sm font-regular text-blue-900 font-bold mb-5">
-                {t('salary_guide.hiring_trends.landing_job')}
-              </p>
-              <p className="text-sm font-regular text-gray-500 ">
-                {t('salary_guide.hiring_trends.landing_job_desc')}
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </div>
+      {/* Articles sur les tendances de l'embauche */}
+      <HiringTrendsArticles limit={4} />
     </section>
   </>
 }

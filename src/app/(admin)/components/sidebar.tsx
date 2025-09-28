@@ -21,6 +21,7 @@ import {
   Code,
   Shield,
   Mail,
+  Activity,
 } from "lucide-react";
 import Image from "next/image";
 import { imagePathFinder } from "@/utils/imagePathFinder";
@@ -229,9 +230,9 @@ const getRoutes = (userRole: UserRole | null): Onglet[] => [
     ]
   },
   {
-    label: "Settings",
-    leading: Settings,
-    href: "#",
+    label: "Activités",
+    leading: Activity,
+    href: "/activites",
     color: "text-gray-500",
   },
 ];

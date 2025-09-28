@@ -66,13 +66,16 @@ export default function Blog() {
                                     url: `/articles?page=${page}&search=${search}&published=${publishedParam}&includeContent=true`,
                                     fromJson: (json: any) => Article.fromJSON(json)
                                 });
-                            }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>} callDataListen={changeCount} hasData={data => {
-                                setPage(data.meta.page);
+                            }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>} callDataListen={changeCount} autoRefreshOnListen={true} onDataChange={(data) => {
+                                if (data) {
+                                    setPage(data.meta.page);
+                                }
+                            }} hasData={data => {
                                 return <>
                                     {search && data.data.length === 0 && <div className="text-center text-slate-500 font-bold bg-white rounded-lg p-10">Aucun résultat !</div>}
                                     {data.data.length !== 0 && <p className="text-slate-700 text-sm mt-2 mb-2 ml-2 font-semibold">{data.meta.total} résultats</p>}
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
-                                        {data.data.map(s =>
+                                        {data.data.map((s: any) =>
                                             <ItemArticles key={s.id} article={s} onChange={state => {
                                                 if (state) {
                                                     setchangeCount(c => c + 1);

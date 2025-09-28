@@ -29,7 +29,7 @@ export default function ListeHires({ state, search }: Readonly<{ state: string, 
                     return <>
                         {search && data.data.length === 0 && <div className="text-center text-slate-500 font-bold bg-white rounded-lg p-10">Aucun résultat !</div>}
                         {(data.data.length !== 0 && search) && <p className="text-slate-700 text-sm mb-4 font-semibold">{data.meta.total} résultats</p>}
-                        {data.data.map(s =>
+                        {data.data.map((s: any) =>
                             <ItemHires key={s.id} hire={s} onChange={(state) => {
                                 if (state) {
                                     setchangeCount(c => c + 1);

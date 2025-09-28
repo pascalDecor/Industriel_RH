@@ -73,7 +73,7 @@ export default function MoveYourCareerForward() {
                                     label="Civility"
                                     name="civility"
                                     onChange={(e) => { setCandidature(candidature.update({ civilityId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
+                                    options={data.data.map((s: any) => ({ value: s.id, label: s.libelle }))} />
                             }
                         />
 
@@ -120,7 +120,7 @@ export default function MoveYourCareerForward() {
                                     name="city"
                                     error={state?.errors && state?.errors.cityId && state.errors.cityId.join(', ')}
                                     onChange={(e) => { setCandidature(candidature.update({ cityId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
+                                    options={data.data.map((s: any) => ({ value: s.id, label: s.libelle }))} />
                             }
                         />
                     </div>
@@ -157,7 +157,7 @@ export default function MoveYourCareerForward() {
                                     required
                                     name="sector"
                                     onChange={(e) => { setSectorId(e.target.value); setCandidature(candidature.update({ sectorId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
+                                    options={data.data.map((s: any) => ({ value: s.id, label: s.libelle }))} />
                             }
                         />
                     </div>
@@ -173,7 +173,7 @@ export default function MoveYourCareerForward() {
                                     name="function"
                                     error={state?.errors && state?.errors.functionId && state.errors.functionId.join(', ')}
                                     onChange={(e) => { setCandidature(candidature.update({ functionId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: s.libelle }))} />
+                                    options={data.data.map((s: any) => ({ value: s.id, label: s.libelle }))} />
                             }
                         />
                     </div>

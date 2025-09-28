@@ -89,11 +89,11 @@ export const AddApplicationFormSchema = z.object({
   year_of_experience: z.number(),
   cv: z
     .string()
-    .min(2, { message: "Please chose a document at least 5 MO." })
+    .min(2, { message: "Please choose a CV document (max 5 MB)." })
     .trim(),
   coverLetter: z
     .string()
-    .min(2, { message: "Please chose a document at least 5 MO." })
+    .min(2, { message: "Please choose a cover letter document (max 5 MB)." })
     .trim(),
   state: z.string().trim(),
   sectorId: z.string(),

@@ -12,10 +12,15 @@ import { useTranslation } from "@/contexts/LanguageContext";
 import LanguageSelector from "./LanguageSelector";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { AsyncBuilder } from "./ui/asyncBuilder";
+import { HttpService } from "@/utils/http.services";
+import { Sector } from "@/models/sector";
+import { LoadingSpinner } from "@/lib/load.helper";
+import { LocalStorageHelper } from "@/utils/localStorage.helper";
 
 
 export function Footer() {
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
 
 
     return (
@@ -24,32 +29,61 @@ export function Footer() {
 
                 <hr className="border-gray-700 border-1" />
                 <div className="grid grid-cols-12 gap-4 align-middle justify-between mt-10">
-                    <div className="col-span-3">
+                    <div className="col-span-2">
                         <h4 className=" font-bold mb-4">{t('footer.services')}</h4>
                         <ul className="list-none">
                             <li><Link href="/find-jobs" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.browse_jobs')}</Link></li>
                             <li><Link href="/hire-talent" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.international_recruitment')}</Link></li>
-                            <li><Link href="/hire-talent" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.recruitment_outsourcing')}</Link></li>
+                            <li><Link href="/consulting-solutions" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.recruitment_outsourcing')}</Link></li>
                         </ul>
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-2">
                         <h4 className=" font-bold mb-4">{t('footer.areas_expertise')}</h4>
+                        <AsyncBuilder
+                            promise={async () => {
+                                return HttpService.index<Sector>({
+                                    url: '/sectors?limit=5',
+                                    fromJson: (json: any) => Sector.fromJSON(json)
+                                });
+                            }}
+                            autoRefreshOnListen={false}
+                            autoRefreshOnPromiseChange={false}
+                            loadingComponent={<LoadingSpinner color="#0F766E" />}
+                            hasData={(data) => (
+                                <ul className="list-none">
+                                    {data.data.map((sector: any) => (
+                                        <li key={sector.id}>
+                                            <Link
+                                                href="/consulting-solutions"
+                                                onClick={() => LocalStorageHelper.setValue("activeSector", JSON.stringify(sector.toJSON()))}
+                                                className="hover:text-gray-600 text-gray-400 text-sm"
+                                            >
+                                                {language === 'fr' ? sector.libelle : sector.libelle_en}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        />
+                    </div>
+                    <div className="col-span-2">
+                        <h4 className=" font-bold mb-4">Ressources</h4>
                         <ul className="list-none">
-                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.manufacturing')}</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.construction')}</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.healthcare')}</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.transport')}</Link></li>
-                            <li><Link href="#" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.agriculture')}</Link></li>
+                            <li><Link href="/salary-guide" className="hover:text-gray-600 text-gray-400 text-sm">Guide Salarial</Link></li>
+                            <li><Link href="/quebec-tax-calculator" className="hover:text-gray-600 text-gray-400 text-sm">Calculateur Impôt QC</Link></li>
+                            <li><Link href="/morgage-calculator" className="hover:text-gray-600 text-gray-400 text-sm">Calculateur Hypothèque</Link></li>
+                            {/* <li><Link href="/valid-cnesst" className="hover:text-gray-600 text-gray-400 text-sm">Validation CNESST</Link></li> */}
                         </ul>
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-2">
                         <h4 className=" font-bold mb-4">{t('footer.about_us')}</h4>
                         <ul className="list-none">
                             <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.about_industrielle')}</Link></li>
-                            <li><Link href="/about" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.careers')}</Link></li>
+                            <li><Link href="/find-jobs" className="hover:text-gray-600 text-gray-400 text-sm">{t('footer.careers')}</Link></li>
+                            <li><Link href="/contact" className="hover:text-gray-600 text-gray-400 text-sm">Contact</Link></li>
                         </ul>
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-4">
                         <h4 className=" font-bold mb-4">{t('footer.location')}</h4>
                         <ul className="list-none flex flex-col gap-3">
                             <li>

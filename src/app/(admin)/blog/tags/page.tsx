@@ -91,7 +91,7 @@ export default function Tags() {
                         return <>
                             {search && data.data.length === 0 && <div className="text-center text-slate-500 font-bold bg-white rounded-lg p-10">Aucun résultat !</div>}
                             {data.data.length !== 0 && <p className="text-slate-700 text-sm mb-4 font-semibold">{data.meta.total} résultats</p>}
-                            {data.data.map(t =>
+                            {data.data.map((t: any) =>
                                 <ItemTags key={t.id} tag={t} isEnglishView={isEnglishView} onChange={(state) => {
                                     if (state) {
                                         setchangeCount(c => c + 1);

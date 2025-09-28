@@ -70,6 +70,8 @@ export default function MoveYourCareerForward() {
                         <AsyncBuilder
                             promise={async () => { return HttpService.index<Civility>({ url: '/civilities', fromJson: (json: any) => Civility.fromJSON(json), }) }}
                             loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                            autoRefreshOnListen={false}
+                            autoRefreshOnPromiseChange={false}
                             hasData={(data) =>
                                 <FloatingLabelSelect
                                     error={state?.errors && state?.errors.civilityId && state.errors.civilityId.join(', ')}
@@ -77,10 +79,10 @@ export default function MoveYourCareerForward() {
                                     name="civility"
                                     value={candidature.civilityId ? {
                                         value: candidature.civilityId,
-                                        label: getLocalizedLabel(data.data.find(s => s.id === candidature.civilityId)) || ''
+                                        label: getLocalizedLabel(data.data.find((s: any) => s.id === candidature.civilityId)) || ''
                                     } : undefined}
                                     onChange={(e) => { setCandidature(candidature.update({ civilityId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
+                                    options={data.data.map((s: any) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
                             }
                         />
 
@@ -120,6 +122,8 @@ export default function MoveYourCareerForward() {
                         <AsyncBuilder
                             promise={async () => { return HttpService.index<City>({ url: '/cities', fromJson: (json: any) => City.fromJSON(json), }) }}
                             loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                            autoRefreshOnListen={false}
+                            autoRefreshOnPromiseChange={false}
                             hasData={(data) =>
                                 <FloatingLabelSelect
                                     label={t('form.city')}
@@ -127,11 +131,11 @@ export default function MoveYourCareerForward() {
                                     name="city"
                                     value={candidature.cityId ? {
                                         value: candidature.cityId,
-                                        label: getLocalizedLabel(data.data.find(s => s.id === candidature.cityId)) || ''
+                                        label: getLocalizedLabel(data.data.find((s: any) => s.id === candidature.cityId)) || ''
                                     } : undefined}
                                     error={state?.errors && state?.errors.cityId && state.errors.cityId.join(', ')}
                                     onChange={(e) => { setCandidature(candidature.update({ cityId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
+                                    options={data.data.map((s: any) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
                             }
                         />
                     </div>
@@ -161,6 +165,8 @@ export default function MoveYourCareerForward() {
                         <AsyncBuilder
                             promise={async () => { return HttpService.index<Sector>({ url: '/sectors', fromJson: (json: any) => Sector.fromJSON(json), }) }}
                             loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                            autoRefreshOnListen={false}
+                            autoRefreshOnPromiseChange={false}
                             hasData={(data) =>
                                 <FloatingLabelSelect
                                     error={state?.errors && state?.errors.titre && state.errors.titre.join(', ')}
@@ -169,7 +175,7 @@ export default function MoveYourCareerForward() {
                                     name="sector"
                                     value={candidature.sectorId ? {
                                         value: candidature.sectorId,
-                                        label: getLocalizedLabel(data.data.find(s => s.id === candidature.sectorId)) || ''
+                                        label: getLocalizedLabel(data.data.find((s: any) => s.id === candidature.sectorId)) || ''
                                     } : undefined}
                                     onChange={(e) => {
                                         setSectorId(e.target.value);
@@ -178,7 +184,7 @@ export default function MoveYourCareerForward() {
                                             functionId: undefined // Reset function when sector changes
                                         }));
                                     }}
-                                    options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
+                                    options={data.data.map((s: any) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
                             }
                         />
                     </div>
@@ -188,6 +194,7 @@ export default function MoveYourCareerForward() {
                                 promise={async () => { return HttpService.index<Fonction>({ url: '/fonctions?sectorId=' + sectorId, fromJson: (json: any) => Fonction.fromJSON(json), }) }}
                                 loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                                 callDataListen={sectorId}
+                                autoRefreshOnListen={true}
                                 hasData={(data) =>
                                     <FloatingLabelSelect
                                         label={t('form.function')}
@@ -195,11 +202,11 @@ export default function MoveYourCareerForward() {
                                         name="function"
                                         value={candidature.functionId ? {
                                             value: candidature.functionId,
-                                            label: getLocalizedLabel(data.data.find(s => s.id === candidature.functionId)) || ''
+                                            label: getLocalizedLabel(data.data.find((s: any) => s.id === candidature.functionId)) || ''
                                         } : undefined}
                                         error={state?.errors && state?.errors.functionId && state.errors.functionId.join(', ')}
                                         onChange={(e) => { setCandidature(candidature.update({ functionId: e.target.value })) }}
-                                        options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
+                                        options={data.data.map((s: any) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
                                 }
                             />
                         ) : (

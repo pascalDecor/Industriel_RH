@@ -34,6 +34,9 @@ export default function MainChart({
   conversionRate
 }: MainChartProps) {
 
+  // Debug des données secteurs
+  console.log('sectorsData:', sectorsData);
+
   // Combiner les données pour le graphique principal
   const combinedData = applicationsData.map(app => {
     const hire = hiresData.find(h => h.name === app.name);

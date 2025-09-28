@@ -3,7 +3,7 @@ import prisma from '@/lib/connect_db';
 
 export async function GET() {
   try {
-    const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const last30Days = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
     const [
       recentApplications,
@@ -14,7 +14,7 @@ export async function GET() {
     ] = await Promise.all([
       // Applications récentes
       prisma.application.findMany({
-        where: { createdAt: { gte: last24Hours } },
+        where: { createdAt: { gte: last30Days } },
         select: {
           id: true,
           firstName: true,
@@ -28,12 +28,12 @@ export async function GET() {
           }
         },
         orderBy: { createdAt: 'desc' },
-        take: 5
+        take: 20
       }),
 
       // Demandes d'embauche récentes
       prisma.hire.findMany({
-        where: { createdAt: { gte: last24Hours } },
+        where: { createdAt: { gte: last30Days } },
         select: {
           id: true,
           firstName: true,
@@ -43,12 +43,12 @@ export async function GET() {
           number_of_positions: true
         },
         orderBy: { createdAt: 'desc' },
-        take: 5
+        take: 20
       }),
 
       // Contacts récents
       prisma.contact.findMany({
-        where: { createdAt: { gte: last24Hours } },
+        where: { createdAt: { gte: last30Days } },
         select: {
           id: true,
           firstName: true,
@@ -58,14 +58,14 @@ export async function GET() {
           createdAt: true
         },
         orderBy: { createdAt: 'desc' },
-        take: 5
+        take: 20
       }),
 
       // Articles récemment publiés
       prisma.article.findMany({
         where: {
           published: true,
-          createdAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }
+          createdAt: { gte: last30Days }
         },
         select: {
           id: true,
@@ -73,17 +73,20 @@ export async function GET() {
           views: true,
           createdAt: true,
           author: {
-            select: { name: true }
+            select: {
+              name: true,
+              email: true
+            }
           }
         },
         orderBy: { createdAt: 'desc' },
-        take: 5
+        take: 20
       }),
 
       // Nouvelles inscriptions newsletter
       prisma.newsletter.findMany({
         where: {
-          subscribedAt: { gte: last24Hours },
+          subscribedAt: { gte: last30Days },
           status: 'active'
         },
         select: {
@@ -94,7 +97,7 @@ export async function GET() {
           subscribedAt: true
         },
         orderBy: { subscribedAt: 'desc' },
-        take: 5
+        take: 20
       })
     ]);
 
@@ -121,16 +124,24 @@ export async function GET() {
         title: 'Nouvelle candidature',
         description: `${app.firstName} ${app.lastName} - ${app.function?.libelle || 'Non spécifié'}`,
         time: formatTimeAgo(app.createdAt),
-        createdAt: app.createdAt
+        createdAt: app.createdAt,
+        author: {
+          name: `${app.firstName} ${app.lastName}`,
+          type: 'candidate'
+        }
       })),
       ...recentHires.map(hire => ({
         id: `hire-${hire.id}`,
         type: 'hire',
         icon: '🏢',
-        title: 'Demande d\'embauche',
+        title: "Demande d'embauche",
         description: `${hire.company_name} recherche ${hire.number_of_positions} poste(s)`,
         time: formatTimeAgo(hire.createdAt),
-        createdAt: hire.createdAt
+        createdAt: hire.createdAt,
+        author: {
+          name: `${hire.firstName} ${hire.lastName}`,
+          type: 'client'
+        }
       })),
       ...recentContacts.map(contact => ({
         id: `contact-${contact.id}`,
@@ -139,7 +150,11 @@ export async function GET() {
         title: 'Nouveau contact',
         description: `${contact.firstName} ${contact.lastName} - ${contact.companyName || 'Contact'}`,
         time: formatTimeAgo(contact.createdAt),
-        createdAt: contact.createdAt
+        createdAt: contact.createdAt,
+        author: {
+          name: `${contact.firstName} ${contact.lastName}`,
+          type: 'contact'
+        }
       })),
       ...recentArticles.map(article => ({
         id: `article-${article.id}`,
@@ -148,7 +163,11 @@ export async function GET() {
         title: 'Article publié',
         description: `${article.titre} (${article.views} vues)`,
         time: formatTimeAgo(article.createdAt),
-        createdAt: article.createdAt
+        createdAt: article.createdAt,
+        author: {
+          name: article.author?.name || 'Auteur inconnu',
+          type: 'admin'
+        }
       })),
       ...recentNewsletterSubscriptions.map(sub => ({
         id: `newsletter-${sub.id}`,
@@ -157,7 +176,11 @@ export async function GET() {
         title: 'Inscription newsletter',
         description: `${sub.firstName} ${sub.lastName}`,
         time: formatTimeAgo(sub.subscribedAt || new Date()),
-        createdAt: sub.subscribedAt
+        createdAt: sub.subscribedAt || new Date(),
+        author: {
+          name: `${sub.firstName} ${sub.lastName}`,
+          type: 'subscriber'
+        }
       }))
     ];
 

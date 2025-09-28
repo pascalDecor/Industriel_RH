@@ -264,7 +264,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                                                     <EditSpecialities article={article} onChange={setRefreshCount} />
                                                 </div>
                                                 <div className="flex flex-wrap gap-2">
-                                                    {article.specialites.filter(s => s.id).map((specialite) => (
+                                                    {article.specialites.filter((s: any) => s.id).map((specialite: any) => (
                                                         <span
                                                             key={`specialite-${specialite.id}`}
                                                             className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
@@ -283,7 +283,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                                                     <EditTags article={article} onChange={setRefreshCount} />
                                                 </div>
                                                 <div className="flex flex-wrap gap-2">
-                                                    {article.tags.filter(t => t.id).map((tag) => (
+                                                    {article.tags.filter((t: any) => t.id).map((tag: any) => (
                                                         <span
                                                             key={`tag-${tag.id}`}
                                                             className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-sm"

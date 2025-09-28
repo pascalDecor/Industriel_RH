@@ -625,7 +625,35 @@ const translations: Record<Language, Record<string, string>> = {
     'salary_guide.industries.healthcare': 'Soins de santé',
     'salary_guide.industries.education': 'Éducation',
     'salary_guide.industries.retail': 'Commerce de détail',
-    
+
+    // Page Quebec Tax Calculator
+    'quebec_tax_calculator.title': 'Calculez vos impôts avec notre outil',
+    'quebec_tax_calculator.description': 'Au Canada, chaque province et territoire a ses propres taux d\'impôt provinciaux en plus des taux d\'impôt fédéraux. Ci-dessous se trouve un calculateur d\'impôt simple pour chaque province et territoire canadien. Ou vous pouvez choisir le calculateur d\'impôt pour une province ou un territoire particulier selon votre résidence.',
+    'quebec_tax_calculator.help_section.title': 'Comment nous vous aidons à trouver un emploi',
+    'quebec_tax_calculator.help_section.upload_resume.title': 'Téléversez votre CV',
+    'quebec_tax_calculator.help_section.upload_resume.description': 'Ajoutez votre CV le plus récent pour correspondre aux postes ouverts.',
+    'quebec_tax_calculator.help_section.upload_resume.button': 'Téléverser le CV',
+    'quebec_tax_calculator.help_section.search_jobs.title': 'Rechercher les emplois disponibles',
+    'quebec_tax_calculator.help_section.search_jobs.description': 'Choisissez parmi des centaines d\'emplois (avec de nouveaux publiés quotidiennement)',
+    'quebec_tax_calculator.help_section.search_jobs.button': 'Rechercher',
+    'quebec_tax_calculator.help_section.contact_button': 'Nous contacter',
+    'quebec_tax_calculator.trending_jobs.title': 'Titres d\'emploi en tendance',
+    'quebec_tax_calculator.trending_jobs.more_button': 'Et bien d\'autres !',
+
+    // Page Mortgage Calculator
+    'mortgage_calculator.title': 'Calculez vos paiements hypothécaires',
+    'mortgage_calculator.description': 'Estimez rapidement vos paiements hypothécaires mensuels basés sur le prix d\'achat, la mise de fonds, le taux d\'intérêt et la durée du prêt. Utilisez notre outil simple et efficace pour planifier votre budget immobilier en toute confiance.',
+    'mortgage_calculator.help_section.title': 'Comment nous vous aidons à trouver un emploi',
+    'mortgage_calculator.help_section.upload_resume.title': 'Téléversez votre CV',
+    'mortgage_calculator.help_section.upload_resume.description': 'Ajoutez votre CV le plus récent pour correspondre aux postes ouverts.',
+    'mortgage_calculator.help_section.upload_resume.button': 'Téléverser le CV',
+    'mortgage_calculator.help_section.search_jobs.title': 'Rechercher les emplois disponibles',
+    'mortgage_calculator.help_section.search_jobs.description': 'Choisissez parmi des centaines d\'emplois (avec de nouveaux publiés quotidiennement)',
+    'mortgage_calculator.help_section.search_jobs.button': 'Rechercher',
+    'mortgage_calculator.help_section.contact_button': 'Nous contacter',
+    'mortgage_calculator.trending_jobs.title': 'Titres d\'emploi en tendance',
+    'mortgage_calculator.trending_jobs.more_button': 'Et bien d\'autres !',
+
     // Page Discover Insights
     'discover_insights.hero.title': 'Maîtrisez l\'avenir de votre travail',
     'discover_insights.hero.description': 'Explorez nos recherches exclusives et nos insights pratiques d\'experts de l\'industrie pour transformer votre entreprise ou guider votre carrière.',
@@ -1304,7 +1332,35 @@ const translations: Record<Language, Record<string, string>> = {
     'salary_guide.industries.healthcare': 'Healthcare',
     'salary_guide.industries.education': 'Education',
     'salary_guide.industries.retail': 'Retail',
-    
+
+    // Quebec Tax Calculator Page
+    'quebec_tax_calculator.title': 'Calculate your taxes with our tool',
+    'quebec_tax_calculator.description': 'In Canada each province and territory has its own provincial income tax rates besides federal tax rates. Below there is simple income tax calculator for every Canadian province and territory. Or you can choose income tax calculator for particular province or territory depending on your residence.',
+    'quebec_tax_calculator.help_section.title': 'How we help you find a job',
+    'quebec_tax_calculator.help_section.upload_resume.title': 'Upload your resume',
+    'quebec_tax_calculator.help_section.upload_resume.description': 'Add your latest resume to match with open positions.',
+    'quebec_tax_calculator.help_section.upload_resume.button': 'Upload resume',
+    'quebec_tax_calculator.help_section.search_jobs.title': 'Search available jobs',
+    'quebec_tax_calculator.help_section.search_jobs.description': 'Choose from hundreds of jobs (with new ones posted daily)',
+    'quebec_tax_calculator.help_section.search_jobs.button': 'Search',
+    'quebec_tax_calculator.help_section.contact_button': 'Contact US',
+    'quebec_tax_calculator.trending_jobs.title': 'Trending job titles',
+    'quebec_tax_calculator.trending_jobs.more_button': 'And many more!',
+
+    // Mortgage Calculator Page
+    'mortgage_calculator.title': 'Calculate your Mortgage Payment',
+    'mortgage_calculator.description': 'Quickly estimate your monthly mortgage payments based on the purchase price, down payment, interest rate, and loan term. Use our simple and effective tool to plan your real estate budget with confidence.',
+    'mortgage_calculator.help_section.title': 'How we help you find a job',
+    'mortgage_calculator.help_section.upload_resume.title': 'Upload your resume',
+    'mortgage_calculator.help_section.upload_resume.description': 'Add your latest resume to match with open positions.',
+    'mortgage_calculator.help_section.upload_resume.button': 'Upload resume',
+    'mortgage_calculator.help_section.search_jobs.title': 'Search available jobs',
+    'mortgage_calculator.help_section.search_jobs.description': 'Choose from hundreds of jobs (with new ones posted daily)',
+    'mortgage_calculator.help_section.search_jobs.button': 'Search',
+    'mortgage_calculator.help_section.contact_button': 'Contact US',
+    'mortgage_calculator.trending_jobs.title': 'Trending job titles',
+    'mortgage_calculator.trending_jobs.more_button': 'And many more!',
+
     // Discover Insights Page
     'discover_insights.hero.title': 'Own the future of your work',
     'discover_insights.hero.description': 'Explore our exclusive research and actionable insights from industry-leading specialists to help transform your business or guide your career.',

@@ -58,6 +58,8 @@ export default function HiringRequest() {
                         <AsyncBuilder
                             promise={async () => { return HttpService.index<Civility>({ url: '/civilities', fromJson: (json: any) => Civility.fromJSON(json), }) }}
                             loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                            autoRefreshOnListen={false}
+                            autoRefreshOnPromiseChange={false}
                             hasData={(data) =>
                                 <FloatingLabelSelect
                                     error={state?.errors && state?.errors.civilityId && state.errors.civilityId.join(', ')}
@@ -65,10 +67,10 @@ export default function HiringRequest() {
                                     name="civility"
                                     value={hire.civilityId ? {
                                         value: hire.civilityId,
-                                        label: getLocalizedLabel(data.data.find(s => s.id === hire.civilityId)) || ''
+                                        label: getLocalizedLabel(data.data.find((s: any) => s.id === hire.civilityId)) || ''
                                     } : undefined}
                                     onChange={(e) => { setHire(hire.update({ civilityId: e.target.value })) }}
-                                    options={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
+                                    options={data.data.map((s: any) => ({ value: s.id, label: getLocalizedLabel(s) }))} />
                             }
                         />
                     </div>
@@ -119,10 +121,12 @@ export default function HiringRequest() {
                         <AsyncBuilder
                             promise={async () => { return HttpService.index<Sector>({ url: '/sectors?limit=50', fromJson: (json: any) => Sector.fromJSON(json), }) }}
                             loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                            autoRefreshOnListen={false}
+                            autoRefreshOnPromiseChange={false}
                             hasData={(data) => <MultiSelect
                                 className="!bg-white !p-0"
                                 placeholder={t('form.select_sectors')}
-                                items={data.data.map((s) => ({ value: s.id, label: getLocalizedLabel(s) }))}
+                                items={data.data.map((s: any) => ({ value: s.id, label: getLocalizedLabel(s) }))}
                                 onChange={(e) => setHire(hire.update({ sectors: e.map((e) => Sector.fromJSON({ id: e.value, libelle: e.label })) }))
                                 }
                             />
