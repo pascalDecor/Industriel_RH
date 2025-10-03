@@ -750,6 +750,12 @@ const translations: Record<Language, Record<string, string>> = {
     'quebec_tax_calculator.footer.title': 'Calculateur de salaire net canadien',
     'quebec_tax_calculator.footer.disclaimer': '*Avertissement: Ce calculateur fournit des estimations seulement. Pour des conseils fiscaux précis, veuillez consulter un professionnel fiscal.',
 
+    // Quebec Tax Calculator - Success Send
+    'quebec_tax_calculator.success_send.title': 'Demande envoyée avec succès !',
+    'quebec_tax_calculator.success_send.description': 'Nous vous contacterons dans les plus brefs délais.',
+    'quebec_tax_calculator.success_send.back_home': 'Retour à l\'accueil',
+    'quebec_tax_calculator.success_send.alt_image': 'Demande envoyée avec succès',
+
     // Page Mortgage Calculator
     'mortgage_calculator.title': 'Calculez vos paiements hypothécaires',
     'mortgage_calculator.description': 'Estimez rapidement vos paiements hypothécaires mensuels basés sur le prix d\'achat, la mise de fonds, le taux d\'intérêt et la durée du prêt. Utilisez notre outil simple et efficace pour planifier votre budget immobilier en toute confiance.',
@@ -1699,6 +1705,12 @@ const translations: Record<Language, Record<string, string>> = {
     // Quebec Tax Calculator - Footer
     'quebec_tax_calculator.footer.title': 'Canadian Net Salary Calculator',
     'quebec_tax_calculator.footer.disclaimer': '*Disclaimer: This calculator provides estimates only. For accurate tax advice, please consult a tax professional.',
+
+    // Quebec Tax Calculator - Success Send
+    'quebec_tax_calculator.success_send.title': 'Successfully sent your request!',
+    'quebec_tax_calculator.success_send.description': 'We\'ll get back to you as soon as possible.',
+    'quebec_tax_calculator.success_send.back_home': 'Back to Home page',
+    'quebec_tax_calculator.success_send.alt_image': 'Successfully sent your request',
 
     // Mortgage Calculator Page
     'mortgage_calculator.title': 'Calculate your Mortgage Payment',

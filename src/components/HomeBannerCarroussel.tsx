@@ -40,7 +40,7 @@ export default function HomeBannerCarroussel() {
                     <div className="max-w-xl  ml-0 lg:ml-16">
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl/18 font-semibold mb-6 sm:mb-8 lg:mb-14 text-white leading-tight">
                             {t('carousel.slide1.title')}
-                            <strong className="bg-white text-blue-800 rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-0 font-bold uppercase ml-2 sm:ml-3 mt-2 sm:mt-3 text-sm sm:text-base lg:text-lg xl:text-xl inline-block">
+                            <strong className="bg-white text-blue-800 rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-0 font-bold uppercase ml-2 sm:ml-3 mt-2 sm:mt-3 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl inline-block">
                                 {t('carousel.slide1.title_highlight')}
                             </strong>
                         </h2>
@@ -49,13 +49,13 @@ export default function HomeBannerCarroussel() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 lg:gap-4">
                             <div className="">
-                                <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.job_seekers')}</p>
+                                <p className="text-gray-400 sm:h-10 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.job_seekers')}</p>
                                 <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full border text-xs sm:text-sm w-full sm:w-auto">
                                     {t('carousel.slide1.find_job')}
                                 </Button>
                             </div>
                             <div className="sm:border-l border-gray-500 sm:pl-4 pt-4 sm:pt-0 border-t sm:border-t-0">
-                                <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.businesses')}</p>
+                                <p className="text-gray-400 sm:h-10 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.businesses')}</p>
                                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                                     <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm">
                                         {t('carousel.slide1.preview_candidates')}
@@ -92,13 +92,13 @@ export default function HomeBannerCarroussel() {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 lg:gap-4">
                             <div className="">
-                                <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.job_seekers')}</p>
+                                <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10 sm:h-10">{t('carousel.slide1.job_seekers')}</p>
                                 <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full text-xs sm:text-sm w-full sm:w-auto">
                                     {t('carousel.slide1.find_job')}
                                 </Button>
                             </div>
                             <div className="flex-1 sm:border-l border-gray-500 sm:pl-4 pt-4 sm:pt-0 border-t sm:border-t-0">
-                                <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.businesses')}</p>
+                                <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10 sm:h-10">{t('carousel.slide1.businesses')}</p>
                                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                                     <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm">
                                         {t('carousel.slide1.preview_candidates')}
@@ -207,7 +207,7 @@ export default function HomeBannerCarroussel() {
         <>
             {/*    Carroussel */}
             <section className="w-full">
-                <Carousel slides={slides} classname="w-dvw z-0" />
+                <Carousel slides={slides}  classname="w-dvw z-0" />
                 {/* Search bar */}
                 {/* <div className="bg-blue-800 rounded-full 
                       p-5 flex gap-4 w-1/2 -mt-24

@@ -3,6 +3,7 @@
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import { useTranslation } from "@/contexts/LanguageContext";
 import Image from 'next/image';
+import { motion } from "framer-motion";
 
 export default function About() {
   const { t } = useTranslation();
@@ -11,23 +12,54 @@ export default function About() {
     {/* Catalyst of prosperity for Quebec businesses */}
     <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mt-10">
-        <div className="lg:col-span-3 lg:pr-4">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-3 lg:pr-4"
+        >
           <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
             {t('about.catalyst.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
             {t('about.catalyst.description')}
           </p>
-        </div>
-        <div className="lg:col-span-2">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-2"
+        >
           <Image loading="lazy" src={imagePathFinder.about_catalyst_of_prosperity} alt="Salary Guide" />
-        </div>
+        </motion.div>
       </div>
     </section>
     {/* Features grid */}
     <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-center gap-4">
-        <div className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.15
+            }
+          }
+        }}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-center gap-4"
+      >
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 30, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+          }}
+          className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg"
+        >
           <Image loading="lazy" src={imagePathFinder.expertise} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.expertise.title')}
@@ -35,8 +67,14 @@ export default function About() {
           <p className="text-sm font-regular text  text-gray-500 text-center">
             {t('about.expertise.description')}
           </p>
-        </div>
-        <div className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
+        </motion.div>
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 30, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+          }}
+          className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg"
+        >
           <Image loading="lazy" src={imagePathFinder.technology} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.technology.title')}
@@ -44,8 +82,14 @@ export default function About() {
           <p className="text-sm font-regular text  text-gray-500 text-center ">
             {t('about.technology.description')}
           </p>
-        </div>
-        <div className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
+        </motion.div>
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 30, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+          }}
+          className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg"
+        >
           <Image loading="lazy" src={imagePathFinder.innovative_approach} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.innovative_approach.title')}
@@ -53,8 +97,14 @@ export default function About() {
           <p className="text-sm font-regular text  text-gray-500 text-center ">
             {t('about.innovative_approach.description')}
           </p>
-        </div>
-        <div className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg" >
+        </motion.div>
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 30, scale: 0.95 },
+            visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+          }}
+          className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg"
+        >
           <Image loading="lazy" src={imagePathFinder.reliability} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.reliability.title')}
@@ -62,17 +112,23 @@ export default function About() {
           <p className="text-sm font-regular text  text-gray-500 text-center">
             {t('about.reliability.description')}
           </p>
-        </div>
+        </motion.div>
 
-      </div>
+      </motion.div>
     </section>
 
     {/*  Mission, Vision and Values */}
     <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10 py-10 flex items-center justify-center">
       <div className="bg-blue-900 p-6 sm:p-10 rounded-2xl sm:rounded-3xl border max-w-5xl w-full mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-semibold text mb-6 sm:mb-10 mt-3 sm:mt-5 text-white text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-2xl sm:text-3xl font-semibold text mb-6 sm:mb-10 mt-3 sm:mt-5 text-white text-center"
+        >
           {t('about.mission_vision_values.title')}
-        </h2>
+        </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 md:gap-10 lg:gap-14 mt-10">
           <div className="text-left bg-white rounded-2xl p-6 sm:p-7 h-full hover:bg-blue-100 hover:shadow-lg">
             <p className="font-bold text mb-5  text-blue-800 text-start">
@@ -171,29 +227,53 @@ export default function About() {
     <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-10 mt-10">
 
-        <div className="lg:col-span-2 order-2 lg:order-1">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-2 order-2 lg:order-1"
+        >
           <Image loading="lazy" src={imagePathFinder.hire_the_best_francophone_talent_worldwide} alt="Salary Guide" />
-        </div>
-        <div className="lg:col-span-3 lg:pr-4 order-1 lg:order-2">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-3 lg:pr-4 order-1 lg:order-2"
+        >
           <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
             {t('about.francophone_talent.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
             {t('about.francophone_talent.description')}
           </p>
-        </div>
+        </motion.div>
 
       </div>
     </section>
 
     {/*  Leadership team  */}
     <section className="mx-auto w-full mb-0 px-4 sm:px-6 lg:px-10 py-16 sm:py-24 bg-gray-200">
-      <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-10 text-black text-center">
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-10 text-black text-center"
+      >
         {t('about.leadership_team.title')}
-      </h2>
+      </motion.h2>
 
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10 py-10 grid grid-cols-1 lg:grid-cols-3 items-end gap-6 lg:gap-4">
-        <div className="lg:col-span-1">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="lg:col-span-1"
+        >
           <div className="w-full border border-gray-200 p-6 sm:p-7 rounded-2xl text-center bg-gradient-to-t hover:from-blue-300 hover:to-blue-100 hover:shadow-lg from-gray-300 to-gray-200 pb-12 sm:pb-20">
             <Image loading="lazy" src={imagePathFinder.jamel_hein} alt="Describe your Need" className="w-32 sm:w-40 mb-4 mx-auto -mt-16 sm:-mt-20" />
             <p className="text uppercase font-semibold mb-5 text-blue-900 text-center">
@@ -204,8 +284,14 @@ export default function About() {
           </p>
           </div>
 
-        </div>
-        <div className="lg:col-span-2 border bg-blue-900 p-6 sm:p-7 rounded-2xl sm:rounded-4xl text-center h-full hover:bg-blue-800">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="lg:col-span-2 border bg-blue-900 p-6 sm:p-7 rounded-2xl sm:rounded-4xl text-center h-full hover:bg-blue-800"
+        >
           <p className="text-sm font-light text-white text-start mb-3">
             {t('about.ceo_message.paragraph1')}
           </p>
@@ -215,7 +301,7 @@ export default function About() {
           <p className="text-sm font-light text-white text-start mb-3">
             {t('about.ceo_message.paragraph3')}
           </p>
-        </div>
+        </motion.div>
 
       </div>
 

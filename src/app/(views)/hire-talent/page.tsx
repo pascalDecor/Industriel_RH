@@ -17,9 +17,10 @@ import { redirect } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
 
 const DynamicArticlesGrid = dynamic(() => import("@/components/articles/DynamicArticlesGrid"), {
-  loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
+    loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
 });
 
 interface ContactFormData {
@@ -139,12 +140,37 @@ export default function FindJobs() {
         {/* Explore our talent solutions  */}
         <div className="absolute -mt-60" id="recruitment_by_outsourcing"></div>
         <section className="mx-auto w-full mt-12 sm:mt-20 mb-10 px-4 sm:px-6 lg:px-10 py-2">
-            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
+            <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center"
+            >
                 {t('hire_talent.solutions.title')}
-            </h2>
+            </motion.h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
-                <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={{
+                    hidden: {},
+                    visible: {
+                        transition: {
+                            staggerChildren: 0.2
+                        }
+                    }
+                }}
+                className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left"
+            >
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="bg-white rounded-lg p-6 sm:p-10 shadow-lg"
+                >
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                         {t('hire_talent.solutions.outsourced.title')}
                     </p>
@@ -154,8 +180,14 @@ export default function FindJobs() {
                     <Button variant="primary" size="md" onClick={() => redirect("#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.solutions.learn_more')}
                     </Button>
-                </div>
-                <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
+                </motion.div>
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="bg-white rounded-lg p-6 sm:p-10 shadow-lg"
+                >
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                         {t('hire_talent.solutions.international.title')}
                     </p>
@@ -165,8 +197,8 @@ export default function FindJobs() {
                     <Button variant="primary" size="md" onClick={() => redirect("#international_recruitment")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.solutions.learn_more')}
                     </Button>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
         </section>
 
 
@@ -176,46 +208,97 @@ export default function FindJobs() {
             {/*How it works */}
             <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
                 <div className="grid grid-cols-1 lg:grid-cols-4 items-center justify-center gap-6 lg:gap-10 w-full">
-                    <div className="lg:col-span-2">
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="lg:col-span-2"
+                    >
                         <Image loading="lazy" src={imagePathFinder.hire_talent_how_it_work} alt="Salary Guide" />
-                    </div>
-                    <div className="lg:col-span-2">
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="lg:col-span-2"
+                    >
                         <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
                             {t('hire_talent.how_it_works.title')}
                         </h2>
-                        <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                                <FiCheck className="text-white" />
-                            </div>
-                            <p className="text-gray-500 text-sm mb-5">
-                                {t('hire_talent.how_it_works.step1')}
-                            </p>
-                        </div>
-                        <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                                <FiCheck className="text-white" />
-                            </div>
-                            <p className="text-gray-500 text-sm mb-5">
-                                {t('hire_talent.how_it_works.step2')}
-                            </p>
-                        </div>
-                        <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                                <FiCheck className="text-white" />
-                            </div>
-                            <p className="text-gray-500 text-sm mb-5">
-                                {t('hire_talent.how_it_works.step3')}
-                            </p>
-                        </div>
-                        <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                                <FiCheck className="text-white" />
-                            </div>
-                            <p className="text-gray-500 text-sm mb-5">
-                                {t('hire_talent.how_it_works.step4')}
-                            </p>
-                        </div>
-                    </div>
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={{
+                                hidden: {},
+                                visible: {
+                                    transition: {
+                                        staggerChildren: 0.15,
+                                        delayChildren: 0.3
+                                    }
+                                }
+                            }}
+                        >
+                            <motion.div
+                                variants={{
+                                    hidden: { opacity: 0, x: 20 },
+                                    visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
+                                }}
+                                className="flex gap-4 align-start items-start mb-2"
+                            >
+                                <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
+                                    <FiCheck className="text-white" />
+                                </div>
+                                <p className="text-gray-500 text-sm mb-5">
+                                    {t('hire_talent.how_it_works.step1')}
+                                </p>
+                            </motion.div>
+                            <motion.div
+                                variants={{
+                                    hidden: { opacity: 0, x: 20 },
+                                    visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
+                                }}
+                                className="flex gap-4 align-start items-start mb-2"
+                            >
+                                <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
+                                    <FiCheck className="text-white" />
+                                </div>
+                                <p className="text-gray-500 text-sm mb-5">
+                                    {t('hire_talent.how_it_works.step2')}
+                                </p>
+                            </motion.div>
+                            <motion.div
+                                variants={{
+                                    hidden: { opacity: 0, x: 20 },
+                                    visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
+                                }}
+                                className="flex gap-4 align-start items-start mb-2"
+                            >
+                                <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
+                                    <FiCheck className="text-white" />
+                                </div>
+                                <p className="text-gray-500 text-sm mb-5">
+                                    {t('hire_talent.how_it_works.step3')}
+                                </p>
+                            </motion.div>
+                            <motion.div
+                                variants={{
+                                    hidden: { opacity: 0, x: 20 },
+                                    visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
+                                }}
+                                className="flex gap-4 align-start items-start mb-2"
+                            >
+                                <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
+                                    <FiCheck className="text-white" />
+                                </div>
+                                <p className="text-gray-500 text-sm mb-5">
+                                    {t('hire_talent.how_it_works.step4')}
+                                </p>
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
                 </div>
             </section>
 
@@ -224,9 +307,15 @@ export default function FindJobs() {
             <AddSpecializedTalentAcrossYourOrganization />
 
 
-            <h2 className="text-3xl font-semibold text mb-10 mt-10 text-black text-center">
+            <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-3xl font-semibold text mb-10 mt-10 text-black text-center"
+            >
                 {t('hire_talent.blog.title')}
-            </h2>
+            </motion.h2>
 
             <DynamicArticlesGrid
                 category="all"
@@ -283,8 +372,8 @@ export default function FindJobs() {
         {/* How we help you find a job  */}
         {/* <section className="mx-auto w-full mb-10 px-10 py-24 bg-gray-200"> */}
 
-            {/*Your search summary */}
-            {/* <div className="mx-auto max-w-5xl mb-10 p-10">
+        {/*Your search summary */}
+        {/* <div className="mx-auto max-w-5xl mb-10 p-10">
                 <div className="grid grid-cols-12 items-center justify-center gap-10 w-full">
 
                     <div className="lg:col-span-5 col-span-12">
@@ -395,13 +484,25 @@ export default function FindJobs() {
 
         {/* Recruitment by outsourcing  */}
         <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
-            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
+            <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center"
+            >
                 {t('hire_talent.outsourcing.title')}
-            </h2>
+            </motion.h2>
 
 
             <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mb-10">
-                <div className="lg:col-span-3 lg:pr-4">
+                <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="lg:col-span-3 lg:pr-4"
+                >
                     <h2 className="text-2xl sm:text-3xl font-semibold text mb-6 sm:mb-10 text-gray-800">
                         {t('hire_talent.outsourcing.hero.title')}
                     </h2>
@@ -411,14 +512,39 @@ export default function FindJobs() {
                     <Button variant="primary" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.outsourcing.hire_talents')}
                     </Button>
-                </div>
-                <div className="lg:col-span-2">
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="lg:col-span-2"
+                >
                     <Image loading="lazy" src={imagePathFinder.recruitment_by_outsourcing} alt="Salary Guide" />
-                </div>
+                </motion.div>
             </div>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left">
-                <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white">
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={{
+                    hidden: {},
+                    visible: {
+                        transition: {
+                            staggerChildren: 0.15
+                        }
+                    }
+                }}
+                className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left"
+            >
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white"
+                >
                     <Image loading="lazy" src={imagePathFinder.find_top_talent_faster} className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.outsourcing.find_talent.title')}
@@ -426,8 +552,14 @@ export default function FindJobs() {
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('hire_talent.outsourcing.find_talent.description')}
                     </p>
-                </div>
-                <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white">
+                </motion.div>
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white"
+                >
                     <Image loading="lazy" src={imagePathFinder.hire_with_precision_confidence} className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.outsourcing.hire_precision.title')}
@@ -435,8 +567,14 @@ export default function FindJobs() {
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('hire_talent.outsourcing.hire_precision.description')}
                     </p>
-                </div>
-                <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white">
+                </motion.div>
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white"
+                >
                     <Image loading="lazy" src={imagePathFinder.secure_the_right_fit_for_your_team} className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.outsourcing.secure_fit.title')}
@@ -444,8 +582,8 @@ export default function FindJobs() {
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('hire_talent.outsourcing.secure_fit.description')}
                     </p>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
             <div className="absolute -mt-20" id="contact-infos"></div>
             <div className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
@@ -612,13 +750,25 @@ export default function FindJobs() {
         <div className="absolute mt-1000" id="international_recruitment"></div>
         {/* International recruitment  */}
         <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
-            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
+            <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center"
+            >
                 {t('hire_talent.international.title')}
-            </h2>
+            </motion.h2>
 
 
             <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mb-10">
-                <div className="lg:col-span-3 lg:pr-4">
+                <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="lg:col-span-3 lg:pr-4"
+                >
                     <h2 className="text-2xl sm:text-3xl font-semibold text mb-6 sm:mb-10 text-gray-800">
                         {t('hire_talent.international.hero.title')}
                     </h2>
@@ -628,10 +778,16 @@ export default function FindJobs() {
                     <Button variant="primary" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.outsourcing.hire_talents')}
                     </Button>
-                </div>
-                <div className="lg:col-span-2">
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="lg:col-span-2"
+                >
                     <Image loading="lazy" src={imagePathFinder.international_recruitment} alt="Salary Guide" />
-                </div>
+                </motion.div>
             </div>
 
             <h2 className="text-lg sm:text-xl font-medium text-center capitalize mb-10 text-gray-800">
@@ -674,10 +830,22 @@ export default function FindJobs() {
         <section className="mx-auto w-full px-4 sm:px-6 lg:px-10 py-10 bg-gray-200 mb-20">
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10 py-10">
                 <div className="grid grid-cols-1 lg:grid-cols-4 items-start justify-center gap-10 lg:gap-20 w-full">
-                    <div className="lg:col-span-2">
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="lg:col-span-2"
+                    >
                         <Image loading="lazy" src={imagePathFinder.structured_approach} className="!w-full" alt="Salary Guide" />
-                    </div>
-                    <div className="lg:col-span-2">
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="lg:col-span-2"
+                    >
                         <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
                             {t('hire_talent.structured.title')}
                         </h2>
@@ -724,25 +892,50 @@ export default function FindJobs() {
                         <Button variant="primary" size="md" onClick={() => redirect("#contact-infos")} className="!rounded-full text-sm mt-6 sm:mt-10 w-full sm:w-auto whitespace-nowrap">
                             {t('hire_talent.structured.contact_us')}
                         </Button>
-
-                    </div>
+                    </motion.div>
                 </div>
             </div>
-        </section>
 
-        {/*   Partners & Accreditation */}
-        <PartnersAccreditation />
+    </section >
 
-        {/* Why choose international recruitment? */}
-        <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text mb-10 sm:mb-14 text-gray-800 text-center">
+        {/*   Partners & Accreditation */ }
+        < PartnersAccreditation />
+
+        {/* Why choose international recruitment? */ }
+        <section className = "mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10" >
+            <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-2xl sm:text-3xl lg:text-4xl font-semibold text mb-10 sm:mb-14 text-gray-800 text-center"
+            >
                 {t('hire_talent.why_international.title')}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-items-center">
+            </motion.h2>
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={{
+                    hidden: {},
+                    visible: {
+                        transition: {
+                            staggerChildren: 0.15
+                        }
+                    }
+                }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4 place-items-center"
+            >
 
-                <div className="bg-[url(/images/card_fond.png)] 
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="bg-[url(/images/card_fond.png)] w-full
                   bg-white bg-cover bg-center
-                    border border-gray-300 rounded-lg p-4">
+                    border border-gray-300 rounded-lg p-4"
+                >
                     <div className="flex">
                         <div>
                             <h6 className="text-blue-800 text-sm mb-3 font-semibold">
@@ -754,11 +947,17 @@ export default function FindJobs() {
                         </div>
                         <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.access_to_diverse_talent} alt="Navigate tech skills gaps" />
                     </div>
-                </div>
+                </motion.div>
 
-                <div className="bg-[url(/images/card_fond.png)] 
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="bg-[url(/images/card_fond.png)] w-full
                   bg-white bg-cover bg-center
-                    border border-gray-300 rounded-lg p-4">
+                    border border-gray-300 rounded-lg p-4"
+                >
                     <div className="flex">
                         <div>
                             <h6 className="text-blue-800 text-sm mb-3 font-semibold">
@@ -770,11 +969,17 @@ export default function FindJobs() {
                         </div>
                         <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.fill_critical_skill_gaps} alt="Robert Half blog" />
                     </div>
-                </div>
+                </motion.div>
 
-                <div className="bg-[url(/images/card_fond.png)] 
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="bg-[url(/images/card_fond.png)] w-full
                   bg-white bg-cover bg-center
-                    border border-gray-300 rounded-lg p-4">
+                    border border-gray-300 rounded-lg p-4"
+                >
                     <div className="flex">
                         <div>
                             <h6 className="text-blue-800 text-sm mb-3 font-semibold">
@@ -786,10 +991,16 @@ export default function FindJobs() {
                         </div>
                         <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.boost_competitiveness} alt="Salary Guide" />
                     </div>
-                </div>
-                <div className="bg-[url(/images/card_fond.png)] 
+                </motion.div>
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="bg-[url(/images/card_fond.png)] w-full
                   bg-white bg-cover bg-center
-                    border border-gray-300 rounded-lg p-4">
+                    border border-gray-300 rounded-lg p-4"
+                >
                     <div className="flex">
                         <div>
                             <h6 className="text-blue-800 text-sm mb-3 font-semibold">
@@ -801,8 +1012,8 @@ export default function FindJobs() {
                         </div>
                         <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.streamlined_processes} alt="What jobs are in demand?" />
                     </div>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
         </section>
-    </>
+    </> 
 }

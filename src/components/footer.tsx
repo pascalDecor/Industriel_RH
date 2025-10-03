@@ -185,6 +185,7 @@ export function Footer() {
                             >
                                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                                 <Marker position={[45.507044, -73.622968]} icon={customIcon}>
+                                    
                                     <Popup>
                                         <div className="text-center">
                                             <strong>Industrielle RH</strong><br />

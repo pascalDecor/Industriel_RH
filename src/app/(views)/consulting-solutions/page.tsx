@@ -13,6 +13,7 @@ import { Section } from "@/models/section";
 import { SectionProps } from "@/models/props";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
+import { motion } from "framer-motion";
 
 const EditorContent = dynamic(() => import("@/components/ui/editorContent"), {
   loading: () => <div className="animate-pulse bg-gray-200 h-4 rounded" />
@@ -130,17 +131,29 @@ export default function ConsultingSolutions() {
     {/*Your Partner for Manufacturing Workforce Solutions */}
     <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mt-10">
-        <div className="lg:col-span-3 lg:pr-4">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-3 lg:pr-4"
+        >
           <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
             {isFrench ? section1?.libelle : section1?.libelle_en}
           </h2>
           <div className="text-gray-500 text-sm mb-5">
             <EditorContent content={isFrench ? section1?.description : section1?.description_en} />
           </div>
-        </div>
-        <div className="lg:col-span-2">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-2"
+        >
           <Image loading="lazy" src={section1?.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt="Your Partner for Manufacturing Workforce Solutions" />
-        </div>
+        </motion.div>
       </div>
     </section>
 
@@ -162,12 +175,37 @@ export default function ConsultingSolutions() {
 
         {activeTab === "0" ?
           <div>
-            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center"
+            >
               {t('consulting.ready_to_hire.title')}
-            </h2>
+            </motion.h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
-              <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.2
+                  }
+                }
+              }}
+              className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left"
+            >
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.95 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                }}
+                className="bg-white rounded-lg p-6 sm:p-10 shadow-lg"
+              >
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                   {t('hire_talent.solutions.outsourced.title')}
                 </p>
@@ -177,8 +215,14 @@ export default function ConsultingSolutions() {
                 <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('button.learn_more')}
                 </Button>
-              </div>
-              <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
+              </motion.div>
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.95 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                }}
+                className="bg-white rounded-lg p-6 sm:p-10 shadow-lg"
+              >
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                   {t('hire_talent.solutions.international.title')}
                 </p>
@@ -188,21 +232,52 @@ export default function ConsultingSolutions() {
                 <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#international_recruitment")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('button.learn_more')}
                 </Button>
-              </div>
-              <div className="md:col-span-2 text-center">
+              </motion.div>
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.95 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                }}
+                className="md:col-span-2 text-center"
+              >
                 <Button variant="dark" size="md" onClick={() => router.push("/contact")} className="mt-5 mx-auto text-center !rounded-full text-sm w-full sm:w-auto">
                   {t('nav.contact')}
                 </Button>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div> :
           <div>
-            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center"
+            >
               {t('find_jobs.how_help.title')}
-            </h2>
+            </motion.h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
-              <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.2
+                  }
+                }
+              }}
+              className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left"
+            >
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.95 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                }}
+                className="bg-white rounded-lg p-6 sm:p-10 shadow-lg"
+              >
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                   {t('find_jobs.upload_resume.title')}
                 </p>
@@ -212,8 +287,14 @@ export default function ConsultingSolutions() {
                 <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('find_jobs.upload_resume.button')}
                 </Button>
-              </div>
-              <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
+              </motion.div>
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.95 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                }}
+                className="bg-white rounded-lg p-6 sm:p-10 shadow-lg"
+              >
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                   {t('find_jobs.search_jobs.title')}
                 </p>
@@ -223,13 +304,19 @@ export default function ConsultingSolutions() {
                 <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('find_jobs.search_jobs.button')}
                 </Button>
-              </div>
-              <div className="md:col-span-2 text-center">
+              </motion.div>
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.95 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                }}
+                className="md:col-span-2 text-center"
+              >
                 <Button variant="dark" size="md" onClick={handleClick} className="mt-5 mx-auto text-center !rounded-full text-sm w-full sm:w-auto">
                   {t('nav.contact')}
                 </Button>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>}
 
 
@@ -349,17 +436,29 @@ export default function ConsultingSolutions() {
     {/*Leading agency for manufacturing workforce solutions */}
     <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-6 items-center gap-6 lg:gap-4 mt-10">
-        <div className="lg:col-span-3 order-2 lg:order-1">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-3 order-2 lg:order-1"
+        >
           <Image loading="lazy" src={section3?.image || imagePathFinder.leading_agency_for_manufacturing_workforce_solutions} width={500} height={500} alt={section3?.libelle ?? "Leading agency for manufacturing workforce solutions"} />
-        </div>
-        <div className="lg:col-span-3 lg:pl-4 order-1 lg:order-2">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-3 lg:pl-4 order-1 lg:order-2"
+        >
           <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
             {isFrench ? section3?.libelle : section3?.libelle_en}
           </h2>
           <div className="text-gray-500 text-sm mb-5">
             <EditorContent content={isFrench ? section3?.description : section3?.description_en} />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
     <div className="absolute mt-100" id="move_your_career_forward"></div>
@@ -385,9 +484,15 @@ export default function ConsultingSolutions() {
 
     <section className="mx-auto w-lvw mb-10 p-10 ">
 
-      <h2 className="text-2xl sm:text-3xl font-semibold text mb-20 text-black text-center">
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-2xl sm:text-3xl font-semibold text mb-20 text-black text-center"
+      >
         {t('consulting.hiring_trends.title')}
-      </h2>
+      </motion.h2>
 
 
       <HiringTrendsArticles limit={4} />

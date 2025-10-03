@@ -80,7 +80,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex-shrink-0 self-center sm:self-start">
-                <Image className="w-full sm:w-32 lg:w-36 rounded-lg" src={imagePathFinder.quebec_tax_calculator} alt="Quebec Tax Calculator" width={150} height={100} />
+                <Image className="w-full sm:w-32 lg:w-36 rounded-lg" src={imagePathFinder.cv_builder} alt="Quebec Tax Calculator" width={150} height={100} />
               </div>
             </div>
           </Link>
@@ -157,44 +157,44 @@ export default function Home() {
       </section> */}
 
       {/*   How it works */}
-      <section className="mx-auto max-w-7xl mb-10 p-4 sm:p-6 lg:p-10">
+      <section className="mx-auto  max-w-5xl mb-10 p-4 sm:p-6 lg:p-10">
         <div className="w-full bg-[url(/images/how_it_work.png)] bg-cover bg-center bg-blue-900 p-6 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl lg:rounded-4xl border">
 
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text mb-6 sm:mb-8 lg:mb-10 mt-3 sm:mt-4 lg:mt-5 text-white text-center">
             {t('home.how_it_works.title')}
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 w-full mb-6 sm:mb-8 lg:mb-10">
-            <Link href="/hire-talent" className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer group">
-              <LazyImage src={imagePathFinder.describe_your_need} alt="Describe your Need" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto group-hover:scale-110 transition-transform duration-300" width={40} height={40} />
-              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center group-hover:text-blue-600 transition-colors duration-300">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 align-middle w-full mb-6 sm:mb-8 lg:mb-10">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+              <LazyImage src={imagePathFinder.describe_your_need} alt="Describe your Need" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step1')}
               </p>
-            </Link>
-            <Link href="/consulting-solutions" className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer group">
-              <LazyImage src={imagePathFinder.we_source_the_talent} alt="We Source the Talent" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto group-hover:scale-110 transition-transform duration-300" width={40} height={40} />
-              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center group-hover:text-blue-600 transition-colors duration-300">
+            </div>
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+              <LazyImage src={imagePathFinder.we_source_the_talent} alt="We Source the Talent" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step2')}
               </p>
-            </Link>
-            <Link href="/hire-talent" className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer group">
-              <LazyImage src={imagePathFinder.select_and_approve} alt="Select and Approve" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto group-hover:scale-110 transition-transform duration-300" width={40} height={40} />
-              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center group-hover:text-blue-600 transition-colors duration-300">
+            </div>
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+              <LazyImage src={imagePathFinder.select_and_approve} alt="Select and Approve" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step3')}
               </p>
-            </Link>
-            <Link href="/consulting-solutions" className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer group">
-              <LazyImage src={imagePathFinder.seamless_integration} alt="Seamless Integration" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto group-hover:scale-110 transition-transform duration-300" width={40} height={40} />
-              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center group-hover:text-blue-600 transition-colors duration-300">
+            </div>
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+              <LazyImage src={imagePathFinder.seamless_integration} alt="Seamless Integration" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step4')}
               </p>
-            </Link>
-            <Link href="/consulting-solutions" className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer group">
-              <LazyImage src={imagePathFinder.continuous_support} alt="Continuous Support" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto group-hover:scale-110 transition-transform duration-300" width={40} height={40} />
-              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center group-hover:text-blue-600 transition-colors duration-300">
+            </div>
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+              <LazyImage src={imagePathFinder.continuous_support} alt="Continuous Support" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step5')}
               </p>
-            </Link>
+            </div>
 
           </div>
 
@@ -311,49 +311,49 @@ export default function Home() {
             <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-10 lg:mb-14 text-gray-800">
               {t('home.shape_career.title')}
             </h2>
-            <div className="flex gap-3 sm:gap-4 align-start items-start mb-4 sm:mb-5">
-              <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                <FiCheck className="text-white text-sm" />
+            <div className="flex gap-4 align-start items-start">
+              <div className="bg-blue-700 p-1 rounded-full">
+                <FiCheck className="text-white" />
               </div>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-sm mb-5">
                 {t('home.shape_career.point1')}
               </p>
             </div>
-            <div className="flex gap-3 sm:gap-4 align-start items-start mb-4 sm:mb-5">
-              <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                <FiCheck className="text-white text-sm" />
+            <div className="flex gap-4 align-start items-start">
+              <div className="bg-blue-700 p-1 rounded-full">
+                <FiCheck className="text-white" />
               </div>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-sm mb-5">
                 {t('home.shape_career.point2')}
               </p>
             </div>
-            <div className="flex gap-3 sm:gap-4 align-start items-start mb-4 sm:mb-5">
-              <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                <FiCheck className="text-white text-sm" />
+            <div className="flex gap-4 align-start items-start">
+              <div className="bg-blue-700 p-1 rounded-full">
+                <FiCheck className="text-white" />
               </div>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-sm mb-5">
                 {t('home.shape_career.point3')}
               </p>
             </div>
-            <div className="flex gap-3 sm:gap-4 align-start items-start mb-6 sm:mb-8">
-              <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                <FiCheck className="text-white text-sm" />
+            <div className="flex gap-4 align-start items-start">
+              <div className="bg-blue-700 p-1 rounded-full">
+                <FiCheck className="text-white" />
               </div>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-sm mb-5">
                 {t('home.shape_career.point4')}
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="primary" size="md" onClick={() => redirect("/find-jobs#")} className="!rounded-full text-sm">
+            <div className="flex gap-4">
+              <Button variant="primary" size="md" onClick={() => redirect("/find-jobs#")} className="mt-10 !rounded-full text-sm">
               {t('home.shape_career.job_matches_btn')}
               </Button>
-              <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300">
+              <Button variant="light" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm border border-gray-300">
                 {t('button.learn_more')}
               </Button>
             </div>
           </div>
-          <div className="w-full lg:w-3/5 mt-6 lg:mt-0">
-            <LazyImage src={imagePathFinder.shape_the_career_you_want} alt="Shape your career" width={400} height={300} className="w-full h-auto" />
+          <div className="w-3/5">
+            <LazyImage src={imagePathFinder.shape_the_career_you_want} alt="Shape your career" width={400} height={300} />
           </div>
         </div>
       </section>

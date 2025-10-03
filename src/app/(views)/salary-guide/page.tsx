@@ -14,6 +14,7 @@ import SalaryGuide from "./components/SalaryGuide";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 import HiringTrendsArticles from "@/components/articles/HiringTrendsArticles";
+import { motion } from "framer-motion";
 
 export default function QuebecTaxCalculator() {
   const { t } = useTranslation();
@@ -46,7 +47,13 @@ export default function QuebecTaxCalculator() {
     {/* Discover Your Value */}
     <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 mt-10">
-        <div className="lg:col-span-3 lg:pr-4">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-3 lg:pr-4"
+        >
           <Image loading="lazy" src={imagePathFinder.salaryIQ} className="h-8 w-auto" alt="Salary Net" />
           <h2 className="text-2xl md:text-3xl font-semibold text mb-5 text-gray-800">
             {t('salary_guide.hero.title')}
@@ -54,10 +61,16 @@ export default function QuebecTaxCalculator() {
           <p className="text-gray-500 text-sm mb-5">
             {t('salary_guide.hero.description')}
           </p>
-        </div>
-        <div className="lg:col-span-2">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-2"
+        >
           <Image loading="lazy" src={imagePathFinder.salary_guide_page} alt="Salary Guide" />
-        </div>
+        </motion.div>
       </div>
     </section>
 
@@ -70,12 +83,37 @@ export default function QuebecTaxCalculator() {
 
     <section className="px-4 md:px-6 lg:px-10 py-10">
       <div>
-        <h2 className="text-2xl md:text-3xl font-semibold text mb-10 md:mb-20 text-black text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-2xl md:text-3xl font-semibold text mb-10 md:mb-20 text-black text-center"
+        >
           {t('find_jobs.how_help.title')}
-        </h2>
+        </motion.h2>
 
-        <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
-          <div className="w-full bg-white rounded-lg p-6 md:p-10 shadow-lg">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.2
+              }
+            }
+          }}
+          className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left"
+        >
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 30, scale: 0.95 },
+              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+            }}
+            className="w-full bg-white rounded-lg p-6 md:p-10 shadow-lg"
+          >
             <p className="text-sm font-regular text-gray-500 font-bold mb-3">
               {t('find_jobs.upload_resume.title')}
             </p>
@@ -85,8 +123,14 @@ export default function QuebecTaxCalculator() {
             <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
               {t('find_jobs.upload_resume.button')}
             </Button>
-          </div>
-          <div className="w-full bg-white rounded-lg p-6 md:p-10 shadow-lg">
+          </motion.div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 30, scale: 0.95 },
+              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+            }}
+            className="w-full bg-white rounded-lg p-6 md:p-10 shadow-lg"
+          >
             <p className="text-sm font-regular text-gray-500 font-bold mb-3">
               {t('find_jobs.search_jobs.title')}
             </p>
@@ -96,13 +140,19 @@ export default function QuebecTaxCalculator() {
             <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
               {t('find_jobs.search_jobs.button')}
             </Button>
-          </div>
-          <div className="md:col-span-2 text-center">
+          </motion.div>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 30, scale: 0.95 },
+              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+            }}
+            className="md:col-span-2 text-center"
+          >
             <Button variant="dark" size="md" onClick={() => redirect("/contact")} className="mt-5 mx-auto text-center !rounded-full text-sm">
               {t('nav.contact')}
             </Button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
 
@@ -140,9 +190,15 @@ export default function QuebecTaxCalculator() {
 
     <section className="mx-auto w-full mb-10 px-4 md:px-6 lg:px-10 py-10">
 
-      <h2 className="text-2xl md:text-3xl font-semibold text mb-10 md:mb-20 text-black text-center">
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-2xl md:text-3xl font-semibold text mb-10 md:mb-20 text-black text-center"
+      >
         {t('salary_guide.hiring_trends.title')}
-      </h2>
+      </motion.h2>
       {/* Articles sur les tendances de l'embauche */}
       <HiringTrendsArticles limit={4} />
     </section>

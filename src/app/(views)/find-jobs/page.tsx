@@ -13,6 +13,7 @@ import AddSpecializedTalentAcrossYourOrganization from "@/components/AddSpeciali
 import { redirect } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
 import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
 
 const DynamicArticlesGrid = dynamic(() => import("@/components/articles/DynamicArticlesGrid"), {
   loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
@@ -31,52 +32,129 @@ export default function FindJobs() {
         {/*Find a job that works for you */}
         <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
             <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mt-10">
-                <div className="lg:col-span-3 lg:pr-4">
+                <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="lg:col-span-3 lg:pr-4"
+                >
                     <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
                         {t('find_jobs.hero.title')}
                     </h2>
-                    <div className="flex gap-4 align-start items-start">
-                        <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                            <FiCheck className="text-white" />
-                        </div>
-                        <p className="text-gray-500 text-sm mb-5">
-                            {t('find_jobs.hero.feature1')}
-                        </p>
-                    </div>
-                    <div className="flex gap-4 align-start items-start">
-                        <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                            <FiCheck className="text-white" />
-                        </div>
-                        <p className="text-gray-500 text-sm mb-5">
-                            {t('find_jobs.hero.feature2')}
-                        </p>
-                    </div>
-                    <div className="flex gap-4 align-start items-start">
-                        <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
-                            <FiCheck className="text-white" />
-                        </div>
-                        <p className="text-gray-500 text-sm mb-5">
-                            {t('find_jobs.hero.feature3')}
-                        </p>
-                    </div>
-                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-6 sm:mt-10 !rounded-full text-sm w-full sm:w-auto">
-                        {t('find_jobs.hero.submit_cv')}
-                    </Button>
-                </div>
-                <div className="lg:col-span-2">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={{
+                            hidden: {},
+                            visible: {
+                                transition: {
+                                    staggerChildren: 0.15,
+                                    delayChildren: 0.3
+                                }
+                            }
+                        }}
+                    >
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, x: -20 },
+                                visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
+                            }}
+                            className="flex gap-4 align-start items-start"
+                        >
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
+                                <FiCheck className="text-white" />
+                            </div>
+                            <p className="text-gray-500 text-sm mb-5">
+                                {t('find_jobs.hero.feature1')}
+                            </p>
+                        </motion.div>
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, x: -20 },
+                                visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
+                            }}
+                            className="flex gap-4 align-start items-start"
+                        >
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
+                                <FiCheck className="text-white" />
+                            </div>
+                            <p className="text-gray-500 text-sm mb-5">
+                                {t('find_jobs.hero.feature2')}
+                            </p>
+                        </motion.div>
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, x: -20 },
+                                visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
+                            }}
+                            className="flex gap-4 align-start items-start"
+                        >
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
+                                <FiCheck className="text-white" />
+                            </div>
+                            <p className="text-gray-500 text-sm mb-5">
+                                {t('find_jobs.hero.feature3')}
+                            </p>
+                        </motion.div>
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.6 }}
+                        viewport={{ once: true }}
+                    >
+                        <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-6 sm:mt-10 !rounded-full text-sm w-full sm:w-auto">
+                            {t('find_jobs.hero.submit_cv')}
+                        </Button>
+                    </motion.div>
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="lg:col-span-2"
+                >
                     <Image loading="lazy" src={imagePathFinder.find_a_job_that_works_for_you} alt="Salary Guide" />
-                </div>
+                </motion.div>
             </div>
         </section>
 
         {/* How we help you find a job  */}
         <section className="mx-auto w-full mb-0 px-4 sm:px-6 lg:px-10 py-16 sm:py-24 bg-gray-200">
-            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
+            <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center"
+            >
                 {t('find_jobs.how_help.title')}
-            </h2>
+            </motion.h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
-                <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={{
+                    hidden: {},
+                    visible: {
+                        transition: {
+                            staggerChildren: 0.2
+                        }
+                    }
+                }}
+                className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left"
+            >
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="bg-white rounded-lg p-6 sm:p-10 shadow-lg"
+                >
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                         {t('find_jobs.upload_resume.title')}
                     </p>
@@ -86,8 +164,14 @@ export default function FindJobs() {
                     <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('find_jobs.upload_resume.button')}
                     </Button>
-                </div>
-                <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
+                </motion.div>
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 30, scale: 0.95 },
+                        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                    }}
+                    className="bg-white rounded-lg p-6 sm:p-10 shadow-lg"
+                >
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                         {t('find_jobs.search_jobs.title')}
                     </p>
@@ -97,16 +181,22 @@ export default function FindJobs() {
                     <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('find_jobs.search_jobs.button')}
                     </Button>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
             {/*   Add specialized talent across your organization */}
             <AddSpecializedTalentAcrossYourOrganization />
 
 
-            <h2 className="text-3xl font-semibold text mb-10 mt-10 text-black text-center">
+            <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-3xl font-semibold text mb-10 mt-10 text-black text-center"
+            >
                 {t('find_jobs.grow_learn.title')}
-            </h2>
+            </motion.h2>
 
             <DynamicArticlesGrid
                 category="all"
@@ -157,13 +247,39 @@ export default function FindJobs() {
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 my-12 sm:my-20">
             <div className="w-full bg-cover bg-center bg-blue-900 p-6 sm:p-10 rounded-2xl sm:rounded-4xl border">
 
-                <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-10 mt-3 sm:mt-5 text-white text-center">
+                <motion.h2
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-10 mt-3 sm:mt-5 text-white text-center"
+                >
                     {t('find_jobs.help_seekers.title')}
-                </h2>
+                </motion.h2>
 
 
-                <div className="grid grid-cols-1 lg:grid-cols-6 w-full gap-6 sm:gap-10 text-white">
-                    <div className="lg:col-span-3">
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={{
+                        hidden: {},
+                        visible: {
+                            transition: {
+                                staggerChildren: 0.15,
+                                delayChildren: 0.3
+                            }
+                        }
+                    }}
+                    className="grid grid-cols-1 lg:grid-cols-6 w-full gap-6 sm:gap-10 text-white"
+                >
+                    <motion.div
+                        variants={{
+                            hidden: { opacity: 0, x: -50 },
+                            visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+                        }}
+                        className="lg:col-span-3"
+                    >
                         <div className="flex gap-4 mb-8 sm:mb-10">
                             <div>
                                 <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap flex-shrink-0">
@@ -222,8 +338,14 @@ export default function FindJobs() {
                         </div>
 
                         <Image loading="lazy" src={imagePathFinder.explore_how_we_help_job_seekers} alt="  We Source the Talent" className="w-full mb-4 mx-auto" />
-                    </div>
-                    <div className="lg:col-span-3">
+                    </motion.div>
+                    <motion.div
+                        variants={{
+                            hidden: { opacity: 0, x: 50 },
+                            visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+                        }}
+                        className="lg:col-span-3"
+                    >
                         <div className="flex gap-4 mb-8 sm:mb-10">
                             <div>
                                 <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap flex-shrink-0">
@@ -324,8 +446,8 @@ export default function FindJobs() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             </div>
         </section>
         {/*  Explore success stories   */}

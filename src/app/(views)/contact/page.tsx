@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useActionState, useState } from "react";
 import SuccessSend from "../consulting-solutions/components/successSend";
 import { useTranslation } from "@/contexts/LanguageContext";
+import { motion } from "framer-motion";
 
 export default function ContactPage() {
     const { t } = useTranslation();
@@ -27,39 +28,88 @@ export default function ContactPage() {
             {/* We accept recruitment mandates across Quebec! */}
             <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
                 <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 mt-10">
-                    <div className="lg:col-span-3 lg:pr-4">
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="lg:col-span-3 lg:pr-4"
+                    >
                         <h2 className="text-2xl md:text-3xl font-semibold text mb-6 md:mb-14 text-gray-800">
                             {t('contact.we_accept_mandates')}
                         </h2>
                         <p className="text-gray-500 text-sm mb-5">
                             {t('contact.based_in_quebec')}
                         </p>
-                    </div>
-                    <div className="lg:col-span-2">
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="lg:col-span-2"
+                    >
                         <Image loading="lazy" src={imagePathFinder.we_accept_recruitment} alt="Salary Guide" />
-                    </div>
+                    </motion.div>
                 </div>
             </section>
             {/*   Contact Us */}
             <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
                 <div className="w-full">
 
-                    <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-black text-center">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="text-2xl md:text-3xl font-semibold mb-4 text-black text-center"
+                    >
                         {t('contact.contact_us')}
-                    </h2>
+                    </motion.h2>
 
-                    <p className="text-gray-500 font-semibold text-sm text-center mb-10">
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        viewport={{ once: true }}
+                        className="text-gray-500 font-semibold text-sm text-center mb-10"
+                    >
                         {t('contact.feel_free_reach')}
-                    </p>
+                    </motion.p>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6 w-full mb-10">
-                        <div className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={{
+                            hidden: {},
+                            visible: {
+                                transition: {
+                                    staggerChildren: 0.15
+                                }
+                            }
+                        }}
+                        className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6 w-full mb-10"
+                    >
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                            }}
+                            className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow"
+                        >
                             <Image loading="lazy" src={imagePathFinder.contact_telephone} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
                             <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base text-sm sm:text-base">
                                 {t('contact.telephone_label')}: <br /> 819-919-8693
                             </p>
-                        </div>
-                        <div className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow">
+                        </motion.div>
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                            }}
+                            className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow"
+                        >
                             <Image loading="lazy" src={imagePathFinder.contact_couriel} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
                             <p className="font-semibold text mb-3 text-gray-600 text-left text-sm sm:text-base" >
                                 {t('contact.email')}
@@ -67,8 +117,14 @@ export default function ContactPage() {
                             <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base break-words">
                                 <Link href="mailto:info@industriellerh.ca">info@industriellerh.ca</Link>
                             </p>
-                        </div>
-                        <div className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow">
+                        </motion.div>
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                            }}
+                            className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow"
+                        >
                             <Image loading="lazy" src={imagePathFinder.contact_adresse} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
                             <p className="font-semibold text mb-3 text-gray-600 text-left text-sm sm:text-base" >
                                 {t('contact.address')}
@@ -76,8 +132,14 @@ export default function ContactPage() {
                             <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base">
                                 5805 Av. de Darlington Montréal, QC H3S 2H6
                             </p>
-                        </div>
-                        <div className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow">
+                        </motion.div>
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+                            }}
+                            className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow"
+                        >
                             <Image loading="lazy" src={imagePathFinder.contact_langue} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
                             <p className="font-semibold text mb-3 text-gray-600 text-left text-sm sm:text-base" >
                                 {t('contact.languages_spoken')}
@@ -85,17 +147,23 @@ export default function ContactPage() {
                             <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base">
                                 {t('contact.french_english')}
                             </p>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
                 </div>
             </section>
             {/*  Your contact information   */}
             <section className="mx-auto w-full mb-0 px-4 md:px-6 lg:px-10 py-16 md:py-24 bg-gray-200">
                 <div className="bg-blue-900 p-6 md:p-10 rounded-3xl border max-w-3xl mx-auto">
 
-                    <h2 className="text-2xl md:text-3xl font-semibold text mb-6 md:mb-10 mt-5 text-white text-center">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="text-2xl md:text-3xl font-semibold text mb-6 md:mb-10 mt-5 text-white text-center"
+                    >
                         {t('contact.your_contact_info')}
-                    </h2>
+                    </motion.h2>
 
                     {state === true ?
                         <SuccessSend />

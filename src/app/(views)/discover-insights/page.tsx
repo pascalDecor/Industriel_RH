@@ -15,6 +15,7 @@ import { useDateLanguage } from "@/hooks/useDateLanguage";
 import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 import EditorContent from "@/components/ui/editorContent";
 import MultiSelect from "@/components/ui/multiSelect";
+import { motion } from "framer-motion";
 
 
 interface ArticleData {
@@ -300,29 +301,67 @@ export default function DiscoverInsights() {
     {/* Own the future of your work */}
     <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 mt-10">
-        <div className="lg:col-span-3 lg:pr-4">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-3 lg:pr-4"
+        >
           <h2 className="text-2xl sm:text-3xl font-semibold text mb-5 sm:mb-14 text-gray-800">
             {t('discover_insights.hero.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
             {t('discover_insights.hero.description')}
           </p>
-        </div>
-        <div className="lg:col-span-2">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="lg:col-span-2"
+        >
           <Image loading="lazy" src={imagePathFinder.own_the_future_of_your_work} alt={t('discover_insights.hero.alt')} />
-        </div>
+        </motion.div>
       </div>
     </section>
     {/* Articles en vedette */}
     <section className="mx-auto w-full mb-10 px-4 md:px-6 lg:px-10 py-10">
-      <h2 className="text-2xl sm:text-3xl font-semibold text mb-10 md:mb-20 text-black text-center">
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-2xl sm:text-3xl font-semibold text mb-10 md:mb-20 text-black text-center"
+      >
         {t('discover_insights.featured.title')}
-      </h2>
+      </motion.h2>
 
-      <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.15
+            }
+          }
+        }}
+        className="max-w-5xl mb-10 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left"
+      >
         {featuredArticles.length > 0 ? (
           featuredArticles.slice(0, 3).map((article, index) => (
-            <div key={article.id} className="w-full">
+            <motion.div
+              key={article.id}
+              variants={{
+                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
+              }}
+              className="w-full"
+            >
               <div
                 className="bg-white rounded-lg p-0 shadow-xl overflow-hidden h-full cursor-pointer hover:shadow-2xl transition-shadow"
                 onClick={() => handleArticleClick(article.id)}
@@ -358,7 +397,7 @@ export default function DiscoverInsights() {
                   </div> */}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))
         ) : (
           // Loading placeholder avec animate-pulse si pas d'articles dynamiques
@@ -377,16 +416,22 @@ export default function DiscoverInsights() {
             ))}
           </>
         )}
-      </div>
+      </motion.div>
     </section>
 
 
     {/* Articles avec filtres */}
     <div className="absolute -mt-400" id="refine_your_focus"></div>
     <section className="mx-auto w-full mb-10 px-4 md:px-6 lg:px-10 py-10 bg-gray-200 text-center">
-      <h2 className="text-2xl md:text-3xl font-semibold text my-6 md:my-10 text-black text-center">
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-2xl md:text-3xl font-semibold text my-6 md:my-10 text-black text-center"
+      >
         {t('discover_insights.articles.title')}
-      </h2>
+      </motion.h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-5xl mx-auto">
         {/* Filtres */}

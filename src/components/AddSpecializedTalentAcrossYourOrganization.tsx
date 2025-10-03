@@ -55,11 +55,23 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
             <section className="mx-auto max-w-7xl mb-10 p-4 sm:p-6 lg:p-10">
                 <div className="w-full bg-cover bg-center bg-blue-900 p-6 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl lg:rounded-4xl border">
 
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text mb-6 sm:mb-8 lg:mb-10 mt-3 sm:mt-4 lg:mt-5 text-white text-center">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                        className="text-2xl sm:text-3xl lg:text-4xl font-semibold text mb-6 sm:mb-8 lg:mb-10 mt-3 sm:mt-4 lg:mt-5 text-white text-center"
+                    >
                         {t('specialized_talent.title')}
-                    </h2>
+                    </motion.h2>
 
-                    <div className="flex flex-wrap mb-6 sm:mb-8 lg:mb-10 gap-2 sm:gap-3 lg:gap-4 mx-auto items-center justify-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        viewport={{ once: true }}
+                        className="flex flex-wrap mb-6 sm:mb-8 lg:mb-10 gap-2 sm:gap-3 lg:gap-4 mx-auto items-center justify-center"
+                    >
                         {
                             sectorActive &&
                             sectors.map((s) =>
@@ -67,10 +79,16 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                     {isFrench ? s.libelle : s.libelle_en}
                                 </Button>
                             )}
-                    </div>
+                    </motion.div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 w-full text-white gap-6 lg:gap-8">
-                        <div className="relative order-2 lg:order-1">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            viewport={{ once: true }}
+                            className="relative order-2 lg:order-1"
+                        >
                             <p className="text-xs sm:text-sm font-light text-start mb-3 sm:mb-4">
                                 {sectorActive && (isFrench ? sectorActive?.sections.filter((s) => s.page === "home")[0]?.description :
                                     sectorActive?.sections.filter((s) => s.page === "home")[0]?.description_en)} :
@@ -122,8 +140,14 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                     </div>
                                 </Button>
                             </div>
-                        </div>
-                        <div className="relative p-3 sm:p-4 lg:p-5 order-1 lg:order-2">
+                        </motion.div>
+                        <motion.div
+                            initial={{ opacity: 0, x: 50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            viewport={{ once: true }}
+                            className="relative p-3 sm:p-4 lg:p-5 order-1 lg:order-2"
+                        >
                             <Image
                                 loading="lazy"
                                 src={imagePathFinder.bg}
@@ -142,7 +166,7 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                     className="relative z-10 w-full h-auto rounded-lg"
                                 />
                             }
-                        </div>
+                        </motion.div>
                     </div>
 
                 </div>
