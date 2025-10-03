@@ -29,14 +29,14 @@ export default function FindJobs() {
     return <>
         {/* <HomeBannerCarroussel /> */}
         {/*Find a job that works for you */}
-        <section className="mx-auto max-w-5xl mb-10 p-10">
-            <div className="grid grid-cols-5 items-center gap-4 mt-10">
-                <div className="lg:col-span-3 col-span-12  pr-4">
-                    <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+        <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+            <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mt-10">
+                <div className="lg:col-span-3 lg:pr-4">
+                    <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
                         {t('find_jobs.hero.title')}
                     </h2>
                     <div className="flex gap-4 align-start items-start">
-                        <div className="bg-blue-700 p-1 rounded-full">
+                        <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                             <FiCheck className="text-white" />
                         </div>
                         <p className="text-gray-500 text-sm mb-5">
@@ -44,7 +44,7 @@ export default function FindJobs() {
                         </p>
                     </div>
                     <div className="flex gap-4 align-start items-start">
-                        <div className="bg-blue-700 p-1 rounded-full">
+                        <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                             <FiCheck className="text-white" />
                         </div>
                         <p className="text-gray-500 text-sm mb-5">
@@ -52,49 +52,49 @@ export default function FindJobs() {
                         </p>
                     </div>
                     <div className="flex gap-4 align-start items-start">
-                        <div className="bg-blue-700 p-1 rounded-full">
+                        <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                             <FiCheck className="text-white" />
                         </div>
                         <p className="text-gray-500 text-sm mb-5">
                             {t('find_jobs.hero.feature3')}
                         </p>
                     </div>
-                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-10 !rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-6 sm:mt-10 !rounded-full text-sm w-full sm:w-auto">
                         {t('find_jobs.hero.submit_cv')}
                     </Button>
                 </div>
-                <div className="lg:col-span-2 col-span-12">
+                <div className="lg:col-span-2">
                     <Image loading="lazy" src={imagePathFinder.find_a_job_that_works_for_you} alt="Salary Guide" />
                 </div>
             </div>
         </section>
 
         {/* How we help you find a job  */}
-        <section className="mx-auto w-full mb-0 px-10 py-24 bg-gray-200">
-            <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
+        <section className="mx-auto w-full mb-0 px-4 sm:px-6 lg:px-10 py-16 sm:py-24 bg-gray-200">
+            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
                 {t('find_jobs.how_help.title')}
             </h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-2 gap-10 text-left">
-                <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
+            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
+                <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                         {t('find_jobs.upload_resume.title')}
                     </p>
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('find_jobs.upload_resume.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('find_jobs.upload_resume.button')}
                     </Button>
                 </div>
-                <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
+                <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                         {t('find_jobs.search_jobs.title')}
                     </p>
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('find_jobs.search_jobs.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('find_jobs.search_jobs.button')}
                     </Button>
                 </div>
@@ -154,39 +154,39 @@ export default function FindJobs() {
         <div id="seekers-section" className="-mt-5 absolute"></div>        
 
         {/*   Explore how we help job seekers */}
-        <section className="mx-auto w-5xl  my-20">
-            <div className="w-full bg-cover bg-center bg-blue-900 p-10 rounded-4xl border">
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 my-12 sm:my-20">
+            <div className="w-full bg-cover bg-center bg-blue-900 p-6 sm:p-10 rounded-2xl sm:rounded-4xl border">
 
-                <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
+                <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-10 mt-3 sm:mt-5 text-white text-center">
                     {t('find_jobs.help_seekers.title')}
                 </h2>
 
 
-                <div className="grid grid-cols-6 w-full gap-10 text-white">
-                    <div className="col-span-3">
-                        <div className="flex gap-4 mb-10">
+                <div className="grid grid-cols-1 lg:grid-cols-6 w-full gap-6 sm:gap-10 text-white">
+                    <div className="lg:col-span-3">
+                        <div className="flex gap-4 mb-8 sm:mb-10">
                             <div>
-                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap">
+                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap flex-shrink-0">
                                     <p className="text-sm p-0 m-0 text-blue-900 font-bold">
                                         1
                                     </p>
                                 </div>
                             </div>
-                            <div className="">
+                            <div className="flex-1">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
                                     {t('find_jobs.step1.title')}
                                 </p>
                                 <p className="text-sm font-light text text-start">
                                     {t('find_jobs.step1.description')}
                                 </p>
-                                <div className="flex gap-4 mt-5">
-                                    <Button variant="dark" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-5">
+                                    <Button variant="dark" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step1.apply_button')}
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
-                                    <Button variant="light" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="light" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step1.upload_button')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -195,23 +195,23 @@ export default function FindJobs() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex gap-4 mb-10">
+                        <div className="flex gap-4 mb-8 sm:mb-10">
                             <div>
-                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap">
+                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap flex-shrink-0">
                                     <p className="text-sm p-0 m-0 text-blue-900 font-bold">
                                         2
                                     </p>
                                 </div>
                             </div>
-                            <div className="">
+                            <div className="flex-1">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
                                     {t('find_jobs.step2.title')}
                                 </p>
                                 <p className="text-sm font-light text text-start">
                                     {t('find_jobs.step2.description')}
                                 </p>
-                                <div className="flex gap-4 mt-5">
-                                    <Button variant="light" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-5">
+                                    <Button variant="light" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step1.upload_button')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -223,30 +223,30 @@ export default function FindJobs() {
 
                         <Image loading="lazy" src={imagePathFinder.explore_how_we_help_job_seekers} alt="  We Source the Talent" className="w-full mb-4 mx-auto" />
                     </div>
-                    <div className="col-span-3">
-                        <div className="flex gap-4 mb-10">
+                    <div className="lg:col-span-3">
+                        <div className="flex gap-4 mb-8 sm:mb-10">
                             <div>
-                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap">
+                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap flex-shrink-0">
                                     <p className="text-sm p-0 m-0 text-blue-900 font-bold">
                                         3
                                     </p>
                                 </div>
                             </div>
-                            <div className="">
+                            <div className="flex-1">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
                                     {t('find_jobs.step3.title')}
                                 </p>
                                 <p className="text-sm font-light text text-start">
                                     {t('find_jobs.step3.description')}
                                 </p>
-                                <div className="flex gap-4 mt-5">
-                                    <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-5">
+                                    <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step3.interview_tips')}
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
-                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step3.salary_guide')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -255,23 +255,23 @@ export default function FindJobs() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex gap-4 mb-10">
+                        <div className="flex gap-4 mb-8 sm:mb-10">
                             <div>
-                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap">
+                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap flex-shrink-0">
                                     <p className="text-sm p-0 m-0 text-blue-900 font-bold">
                                         4
                                     </p>
                                 </div>
                             </div>
-                            <div className="">
+                            <div className="flex-1">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
                                     {t('find_jobs.step4.title')}
                                 </p>
                                 <p className="text-sm font-light text text-start">
                                     {t('find_jobs.step4.description')}
                                 </p>
-                                <div className="flex gap-4 mt-5">
-                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-5">
+                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step4.career_advice')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -280,15 +280,15 @@ export default function FindJobs() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex gap-4 mb-10">
+                        <div className="flex gap-4 mb-8 sm:mb-10">
                             <div>
-                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap">
+                                <div className="bg-white rounded-full w-10 h-10 text-center flex justify-center items-center whitespace-nowrap flex-shrink-0">
                                     <p className="text-sm p-0 m-0 text-blue-900 font-bold">
                                         5
                                     </p>
                                 </div>
                             </div>
-                            <div className="">
+                            <div className="flex-1">
                                 <p className="text-sm text-start uppercase mb-2 font-bold">
                                     {t('find_jobs.step5.title')}
                                 </p>
@@ -308,14 +308,14 @@ export default function FindJobs() {
                                     {t('find_jobs.step5.career_advice_desc')}
                                 </p>
 
-                                <div className="mt-10">
-                                    <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 mb-4">
+                                <div className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                                    <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step5.training_button')}
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
-                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 ">
+                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step5.legal_button')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />

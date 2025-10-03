@@ -51,15 +51,15 @@ export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] 
     }
   };
   return (
-    <div className="lg:flex grid grid-cols-12 gap-10 lg:px-10 mb-5 justify-between items-start w-7xl mx-auto">
-      <div className="col-span-3 lg:w-3/12">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-6 lg:px-10 mb-5 max-w-7xl mx-auto">
+      <div className="w-full">
         <div className="bg-white shadow-lg rounded-2xl p-5 w-full">
           <Image
             priority={false}
             loading="lazy"
             src={imagePathFinder.discover_insights}
             alt="logo"
-            className="w-1/2"
+            className="w-1/2 md:w-2/5"
             width={200}
             height={100}
             placeholder="blur"
@@ -74,12 +74,12 @@ export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] 
         </div>
       </div>
 
-      <div className="col-span-2 lg:w-3/12">
-        <div className="p-5 w-fit bg-blue-50 shadow-lg rounded-2xl float-right">
+      <div className="w-full">
+        <div className="p-5 w-full bg-blue-50 shadow-lg rounded-2xl">
           <p className="text-gray-600 text-sm font-bold mb-4 uppercase">
             {t('discover_insights.navbar.trending_topics')}
           </p>
-          <div className="grid grid-rows-5 gap-5">
+          <div className="flex flex-col gap-5">
             {loadingTrending ? (
               // Skeleton loader
               Array.from({ length: 5 }).map((_, index) => (
@@ -120,19 +120,19 @@ export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] 
           </div>
         </div>
       </div>
-      <div className="col-span-2 lg:w-3/12">
-        <div className="p-5 w-fit bg-blue-50 shadow-lg rounded-2xl float-right">
+      <div className="w-full">
+        <div className="p-5 w-full bg-blue-50 shadow-lg rounded-2xl">
           <p className="text-gray-600 text-sm font-bold mb-4 uppercase">
             {t('discover_insights.navbar.tools')}
           </p>
-          <div className=" grid grid-rows-5 gap-5">
-            <Link href={"/quebec-tax-calculator"} className="text-gray-500 text-sm">
+          <div className="flex flex-col gap-5">
+            <Link href={"/quebec-tax-calculator"} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
               {t('discover_insights.navbar.tools.quebec_tax_calculator')}
             </Link>
-            <Link href={"/morgage-calculator"} className="text-gray-500 text-sm">
+            <Link href={"/morgage-calculator"} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
               {t('discover_insights.navbar.tools.mortgage_calculator')}
             </Link>
-            <Link href={"/salary-guide"} className="text-gray-500 text-sm">
+            <Link href={"/salary-guide"} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
               {t('discover_insights.navbar.tools.salary_guide')}
             </Link>
             {/* <Link href={"/find-jobs"} className="text-gray-500 text-sm">

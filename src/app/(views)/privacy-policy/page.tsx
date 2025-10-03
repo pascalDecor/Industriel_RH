@@ -1,137 +1,144 @@
-export default function PricacyPolicy() {
+"use client";
+
+import { useTranslation } from '@/contexts/LanguageContext';
+
+export default function PrivacyPolicy() {
+    const { t } = useTranslation();
+
     return (
-        <div className="p-10 w-5xl mx-auto text-gray-800 text-sm ">
-            <h2 className="text-3xl font-semibold text mb-5 ">
-                {"Pricacy Policy"}
+        <div className="px-4 md:px-6 lg:px-10 py-10 max-w-5xl mx-auto text-gray-800 text-sm md:text-base mt-20">
+            <h2 className="text-2xl md:text-3xl font-semibold mb-5">
+                {t('privacy_policy.title')}
             </h2>
             <p className="mb-5">
-                {"Effective Date: " + new Date().toLocaleDateString()}
+                {t('privacy_policy.effective_date')}: {new Date().toLocaleDateString()}
             </p>
             <p className="mb-5">
-                {"At Industrielle RH, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you interact with our services."}
+                {t('privacy_policy.intro')}
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"1. Information We Collect"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('privacy_policy.section1.title')}
             </p>
             <p className="mb-5">
-                {"We may collect the following personal information:"}
+                {t('privacy_policy.section1.intro')}
             </p>
             <ul className="list-disc mb-5 space-y-3">
                 <li className="ml-7">
-                    {"Name, email address, phone number."}
+                    {t('privacy_policy.section1.item1')}
                 </li>
                 <li className="ml-7">
-                    {"Résumé/CV, work experience, education."}
+                    {t('privacy_policy.section1.item2')}
                 </li>
                 <li className="ml-7">
-                    {"Employment preferences and qualifications."}
+                    {t('privacy_policy.section1.item3')}
                 </li>
                 <li className="ml-7">
-                    {"Immigration status or documentation (when required for job placement)."}
+                    {t('privacy_policy.section1.item4')}
                 </li>
                 <li className="ml-7">
-                    {"Any other information you choose to provide."}
+                    {t('privacy_policy.section1.item5')}
                 </li>
             </ul>
-            <p className="mb-5 font-bold text-lg">
-                {"2. How We Use Your Information"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('privacy_policy.section2.title')}
             </p>
             <p className="mb-5">
-                {"Your information is used to:"}
+                {t('privacy_policy.section2.intro')}
             </p>
             <ul className="list-disc mb-5 space-y-3">
                 <li className="ml-7">
-                    {"Provide recruitment and staffing services."}
+                    {t('privacy_policy.section2.item1')}
                 </li>
                 <li className="ml-7">
-                    {"Match you with potential employers."}
+                    {t('privacy_policy.section2.item2')}
                 </li>
                 <li className="ml-7">
-                    {"Communicate job opportunities and updates."}
+                    {t('privacy_policy.section2.item3')}
                 </li>
                 <li className="ml-7">
-                    {"Fulfill legal and regulatory requirements."}
+                    {t('privacy_policy.section2.item4')}
                 </li>
                 <li className="ml-7">
-                    {"Improve our services and your experience."}
+                    {t('privacy_policy.section2.item5')}
                 </li>
             </ul>
-            <p className="mb-5 font-bold text-lg">
-                {"3. Sharing Your Information"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('privacy_policy.section3.title')}
             </p>
             <p className="mb-5">
-                {"We may share your data with:"}
+                {t('privacy_policy.section3.intro')}
             </p>
             <ul className="list-disc mb-5 space-y-3">
                 <li className="ml-7">
-                    {"Employers and partners looking to fill positions."}
+                    {t('privacy_policy.section3.item1')}
                 </li>
                 <li className="ml-7">
-                    {"Legal and immigration professionals (as required)."}
+                    {t('privacy_policy.section3.item2')}
                 </li>
                 <li className="ml-7">
-                    {"Service providers helping us deliver our services (e.g., IT support)."}
+                    {t('privacy_policy.section3.item3')}
                 </li>
                 <li className="ml-7">
-                    {"Authorities if required by law."}
+                    {t('privacy_policy.section3.item4')}
                 </li>
             </ul>
             <p className="mb-5">
-                {"We do not sell or rent your personal information."}
+                {t('privacy_policy.section3.no_sell')}
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"4. Your Rights"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('privacy_policy.section4.title')}
             </p>
             <p className="mb-5">
-                {"You have the right to:"}
+                {t('privacy_policy.section4.intro')}
             </p>
             <ul className="list-disc mb-5 space-y-3">
                 <li className="ml-7">
-                    {"Access your personal information."}
+                    {t('privacy_policy.section4.item1')}
                 </li>
                 <li className="ml-7">
-                    {"Request corrections or updates."}
+                    {t('privacy_policy.section4.item2')}
                 </li>
                 <li className="ml-7">
-                    {"Withdraw your consent at any time."}
+                    {t('privacy_policy.section4.item3')}
                 </li>
                 <li className="ml-7">
-                    {"Request deletion of your data, subject to legal limits."}
+                    {t('privacy_policy.section4.item4')}
                 </li>
             </ul>
 
             <p className="mb-5">
-                {"To exercise your rights, contact us at privacy@industrielle-rh.com."}
+                {t('privacy_policy.section4.contact')} <a href="mailto:privacy@industrielle-rh.com" className="text-blue-600 underline">privacy@industrielle-rh.com</a>.
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"5. Data Security"}
-            </p>
-            <p className="mb-5">
-                {"We take reasonable measures to protect your information from unauthorized access, loss, or misuse."}
-            </p>
-            <p className="mb-5 font-bold text-lg">
-                {"6. Retention of Data"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('privacy_policy.section5.title')}
             </p>
             <p className="mb-5">
-                {"We retain your data as long as necessary to provide our services or as required by law."}
+                {t('privacy_policy.section5.content')}
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"7. Contact Us"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('privacy_policy.section6.title')}
             </p>
             <p className="mb-5">
-                {"If you have questions about this Privacy Policy or how we handle your data, please contact us:"} <br />
-                <a href="mailto:privacy@industrielle-rh.com">📧 privacy@industrielle-rh.com</a>
+                {t('privacy_policy.section6.content')}
+            </p>
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('privacy_policy.section7.title')}
+            </p>
+            <p className="mb-5">
+                {t('privacy_policy.section7.content')} <br />
+                <a href="mailto:privacy@industrielle-rh.com" className="text-blue-600 underline">📧 privacy@industrielle-rh.com</a>
                 <br />
-                <a href="tel:+819-919-8683"> 📞 + 819-919-8683</a>
+                <a href="tel:+819-919-8683" className="text-blue-600 underline">📞 + 819-919-8683</a>
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"8. Updates to This Policy"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('privacy_policy.section8.title')}
             </p>
 
             <p className="mb-5">
-                {"We may update this policy from time to time. Any changes will be posted on our website with the updated date."} <br />
-                {"By using our services, you agree to this Privacy Policy."}
+                {t('privacy_policy.section8.content')} <br />
+                {t('privacy_policy.section8.agreement')}
             </p>
 
-        </div>)
+        </div>
+    );
 }

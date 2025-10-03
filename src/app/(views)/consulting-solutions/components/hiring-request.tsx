@@ -42,15 +42,15 @@ export default function HiringRequest() {
         }
     };
 
-    return <section className="mx-auto w-lvw mb-0 p-10 bg-gray-200 text-center">
-        <h2 className="text-3xl font-semibold text my-10 text-gray-800">
+    return <section className="mx-auto w-full mb-0 px-4 sm:px-6 lg:px-10 py-10 bg-gray-200 text-center">
+        <h2 className="text-2xl sm:text-3xl font-semibold text my-10 text-gray-800">
             {t('hire_talent.contact.title')}
         </h2>
         {state === true ?
             <SuccessSend />
             :
-            <div className="bg-blue-100 rounded-3xl p-10 border max-w-5xl mx-auto border-gray-300 shadow-lg mb-10">
-                <h2 className="text-xl font-medium text-center mb-10 text-gray-600">
+            <div className="bg-blue-100 rounded-2xl sm:rounded-3xl p-6 sm:p-10 border max-w-5xl mx-auto border-gray-300 shadow-lg mb-10">
+                <h2 className="text-lg sm:text-xl font-medium text-center mb-10 text-gray-600">
                     {t('consulting.hiring_request.subtitle')}
                 </h2>
                 <form action={action} className="grid grid-cols-12 gap-4 w-full ">
@@ -74,7 +74,7 @@ export default function HiringRequest() {
                             }
                         />
                     </div>
-                    <div className="col-span-6 text-left">
+                    <div className="col-span-12 sm:col-span-6 text-left">
                         <FloatingLabelInput
                             type="text"
                             label={t('form.last_name') + '*'}
@@ -84,7 +84,7 @@ export default function HiringRequest() {
                             onChange={(e) => { setHire(hire.update({ lastName: e.target.value })) }}
                             className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                     </div>
-                    <div className="col-span-6 text-left">
+                    <div className="col-span-12 sm:col-span-6 text-left">
                         <FloatingLabelInput
                             type="text"
                             label={t('form.first_name') + '*'}
@@ -94,7 +94,7 @@ export default function HiringRequest() {
                             onChange={(e) => { setHire(hire.update({ firstName: e.target.value })) }}
                             className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                     </div>
-                    <div className="col-span-6 text-left">
+                    <div className="col-span-12 sm:col-span-6 text-left">
                         <FloatingLabelInput
                             type="number"
                             label={t('form.phone') + '*'}
@@ -104,7 +104,7 @@ export default function HiringRequest() {
                             onChange={(e) => { setHire(hire.update({ phone: e.target.value })) }}
                             className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                     </div>
-                    <div className="col-span-6 text-left">
+                    <div className="col-span-12 sm:col-span-6 text-left">
                         <FloatingLabelInput
                             type="email"
                             label={t('form.email') + '*'}
@@ -115,7 +115,7 @@ export default function HiringRequest() {
                             className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                     </div>
 
-                    <div className="col-span-6 text-left">
+                    <div className="col-span-12 sm:col-span-6 text-left">
                         <input type="text" hidden value={hire.sectors && hire.sectors.map((s) => s.id).join(',')} name="sectors"
                             onChange={(e) => setHire(hire.update({ sectors: hire.sectors }))} />
                         <AsyncBuilder
@@ -134,7 +134,7 @@ export default function HiringRequest() {
                         />
                         <InputError messages={state?.errors?.sectors} inputName="sectors" />
                     </div>
-                    <div className="col-span-6 text-left">
+                    <div className="col-span-12 sm:col-span-6 text-left">
                         <FloatingLabelInput
                             type="number"
                             label={t('form.number_positions') + '*'}
@@ -148,7 +148,7 @@ export default function HiringRequest() {
 
 
 
-                    <div className="col-span-6 text-left">
+                    <div className="col-span-12 sm:col-span-6 text-left">
                         <FloatingLabelInput
                             type="text"
                             label={t('hire_talent.form.company_name') + '*'}
@@ -159,7 +159,7 @@ export default function HiringRequest() {
                             className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                     </div>
 
-                    <div className="col-span-6 text-left">
+                    <div className="col-span-12 sm:col-span-6 text-left">
                         <FloatingLabelInput
                             type="url"
                             label={t('form.company_website')}

@@ -25,26 +25,26 @@ export default function ContactPage() {
     return (
         <>
             {/* We accept recruitment mandates across Quebec! */}
-            <section className="mx-auto max-w-5xl mb-10 p-10">
-                <div className="grid grid-cols-5 items-center gap-4 mt-10">
-                    <div className="lg:col-span-3 col-span-12  pr-4">
-                        <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+            <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
+                <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 mt-10">
+                    <div className="lg:col-span-3 lg:pr-4">
+                        <h2 className="text-2xl md:text-3xl font-semibold text mb-6 md:mb-14 text-gray-800">
                             {t('contact.we_accept_mandates')}
                         </h2>
                         <p className="text-gray-500 text-sm mb-5">
                             {t('contact.based_in_quebec')}
                         </p>
                     </div>
-                    <div className="lg:col-span-2 col-span-12">
+                    <div className="lg:col-span-2">
                         <Image loading="lazy" src={imagePathFinder.we_accept_recruitment} alt="Salary Guide" />
                     </div>
                 </div>
             </section>
             {/*   Contact Us */}
-            <section className="mx-auto w-5xl mb-10 p-10">
+            <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
                 <div className="w-full">
 
-                    <h2 className="lg:text-3xl text-2xl font-semibold mb-4 text-black text-center">
+                    <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-black text-center">
                         {t('contact.contact_us')}
                     </h2>
 
@@ -52,37 +52,37 @@ export default function ContactPage() {
                         {t('contact.feel_free_reach')}
                     </p>
 
-                    <div className="grid grid-cols-4 gap-4 w-full mb-10 ">
-                        <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
-                            <Image loading="lazy" src={imagePathFinder.contact_telephone} alt="Describe your Need" className="w-20 mb-4" />
-                            <p className="font-semibold text  text-gray-600 text-left">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6 w-full mb-10">
+                        <div className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow">
+                            <Image loading="lazy" src={imagePathFinder.contact_telephone} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
+                            <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base text-sm sm:text-base">
                                 {t('contact.telephone_label')}: <br /> 819-919-8693
                             </p>
                         </div>
-                        <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
-                            <Image loading="lazy" src={imagePathFinder.contact_couriel} alt="Describe your Need" className="w-20 mb-4" />
-                            <p className=" font-semibold text mb-3  text-gray-600 text-left">
+                        <div className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow">
+                            <Image loading="lazy" src={imagePathFinder.contact_couriel} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
+                            <p className="font-semibold text mb-3 text-gray-600 text-left text-sm sm:text-base" >
                                 {t('contact.email')}
                             </p>
-                            <p className=" font-semibold text  text-gray-600 text-left">
+                            <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base break-words">
                                 <Link href="mailto:info@industriellerh.ca">info@industriellerh.ca</Link>
                             </p>
                         </div>
-                        <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
-                            <Image loading="lazy" src={imagePathFinder.contact_adresse} alt="Describe your Need" className="w-20 mb-4" />
-                            <p className=" font-semibold text mb-3   text-gray-600 text-left">
+                        <div className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow">
+                            <Image loading="lazy" src={imagePathFinder.contact_adresse} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
+                            <p className="font-semibold text mb-3 text-gray-600 text-left text-sm sm:text-base" >
                                 {t('contact.address')}
                             </p>
-                            <p className=" font-semibold text  text-gray-600 text-left">
+                            <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base">
                                 5805 Av. de Darlington Montréal, QC H3S 2H6
                             </p>
                         </div>
-                        <div className="col-span-1 p-7 text-left hover:border rounded-2xl hover:shadow-lg">
-                            <Image loading="lazy" src={imagePathFinder.contact_langue} alt="Describe your Need" className="w-20 mb-4" />
-                            <p className=" font-semibold text  mb-3  text-gray-600 text-left">
+                        <div className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow">
+                            <Image loading="lazy" src={imagePathFinder.contact_langue} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
+                            <p className="font-semibold text mb-3 text-gray-600 text-left text-sm sm:text-base" >
                                 {t('contact.languages_spoken')}
                             </p>
-                            <p className=" font-semibold text  text-gray-600 text-left">
+                            <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base">
                                 {t('contact.french_english')}
                             </p>
                         </div>
@@ -90,17 +90,17 @@ export default function ContactPage() {
                 </div>
             </section>
             {/*  Your contact information   */}
-            <section className="mx-auto w-lvw mb-0 px-10 py-24 bg-gray-200">
-                <div className="bg-blue-900 p-10 rounded-3xl border max-w-3xl mx-auto">
+            <section className="mx-auto w-full mb-0 px-4 md:px-6 lg:px-10 py-16 md:py-24 bg-gray-200">
+                <div className="bg-blue-900 p-6 md:p-10 rounded-3xl border max-w-3xl mx-auto">
 
-                    <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
+                    <h2 className="text-2xl md:text-3xl font-semibold text mb-6 md:mb-10 mt-5 text-white text-center">
                         {t('contact.your_contact_info')}
                     </h2>
 
                     {state === true ?
                         <SuccessSend />
-                        : <form action={action} className="grid grid-cols-12 gap-4 w-full mb-10 ">
-                            <div className="col-span-6 text-left">
+                        : <form action={action} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-10">
+                            <div className="w-full text-left">
                                 <input
                                     type="text"
                                     name="firstName"
@@ -111,7 +111,7 @@ export default function ContactPage() {
                                         }`} />
                                 <InputError messages={state?.errors?.firstName} simple={true} inputName="firstName" />
                             </div>
-                            <div className="col-span-6 text-left">
+                            <div className="w-full text-left">
                                 <input
                                     type="text"
                                     name="lastName"
@@ -122,7 +122,7 @@ export default function ContactPage() {
                                         }`} />
                                 <InputError messages={state?.errors?.lastName} simple={true} inputName="lastName" />
                             </div>
-                            <div className="col-span-6 text-left">
+                            <div className="w-full text-left">
                                 <input
                                     type="text"
                                     name="companyName"
@@ -131,7 +131,7 @@ export default function ContactPage() {
                                     placeholder={t('contact.company_name_placeholder')}
                                     className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             </div>
-                            <div className="col-span-6 text-left">
+                            <div className="w-full text-left">
                                 <input
                                     type="text"
                                     name="jobTitle"
@@ -140,7 +140,7 @@ export default function ContactPage() {
                                     placeholder={t('contact.job_title_placeholder')}
                                     className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             </div>
-                            <div className="col-span-6 text-left">
+                            <div className="w-full text-left">
                                 <input
                                     type="email"
                                     name="workEmail"
@@ -151,7 +151,7 @@ export default function ContactPage() {
                                         }`} />
                                 <InputError messages={state?.errors?.workEmail} simple={true} inputName="workEmail" />
                             </div>
-                            <div className="col-span-6 text-left">
+                            <div className="w-full text-left">
                                 <input
                                     type="tel"
                                     name="workPhone"
@@ -164,11 +164,11 @@ export default function ContactPage() {
                                 <InputError messages={state?.errors?.workPhone} simple={true} inputName="workPhone" />
                             </div>
 
-                            <div className="col-span-12 text-left ">
+                            <div className="md:col-span-2 w-full text-left">
                                 <p className="text-white font-semibold">{t('contact.tell_us_position')}</p>
                             </div>
 
-                            <div className="col-span-12 text-left">
+                            <div className="md:col-span-2 w-full text-left">
                                 <input
                                     type="text"
                                     name="postalCode"
@@ -178,11 +178,11 @@ export default function ContactPage() {
                                     className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             </div>
 
-                            <div className="col-span-12 text-left ">
+                            <div className="md:col-span-2 w-full text-left">
                                 <p className="text-white font-semibold">{t('contact.explain_need')}</p>
                             </div>
 
-                            <div className="col-span-12 text-left mb-4">
+                            <div className="md:col-span-2 w-full text-left mb-4">
                                 <textarea
                                     rows={6}
                                     name="message"
@@ -195,7 +195,7 @@ export default function ContactPage() {
                                 <InputError messages={state?.errors?.message} simple={true} inputName="message" />
                             </div>
 
-                            <div className="col-span-12 text-center">
+                            <div className="md:col-span-2 w-full text-center">
                                 <Button
                                     type="submit"
                                     variant="dark"

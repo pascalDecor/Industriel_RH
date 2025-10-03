@@ -207,15 +207,15 @@ export default function ArticleDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 mt-20">
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8 py-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded mb-4 w-3/4"></div>
-            <div className="h-4 bg-gray-200 rounded mb-2 w-1/4"></div>
-            <div className="h-64 bg-gray-200 rounded mb-6"></div>
+            <div className="h-6 md:h-8 bg-gray-200 rounded mb-4 w-full md:w-3/4"></div>
+            <div className="h-4 bg-gray-200 rounded mb-2 w-1/2 md:w-1/4"></div>
+            <div className="h-48 md:h-64 bg-gray-200 rounded mb-6"></div>
             <div className="space-y-4">
               <div className="h-4 bg-gray-200 rounded w-full"></div>
-              <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-              <div className="h-4 bg-gray-200 rounded w-4/5"></div>
+              <div className="h-4 bg-gray-200 rounded w-full md:w-5/6"></div>
+              <div className="h-4 bg-gray-200 rounded w-5/6 md:w-4/5"></div>
             </div>
           </div>
         </div>
@@ -225,13 +225,13 @@ export default function ArticleDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">{error}</h1>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <div className="text-center max-w-md w-full">
+          <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">{error}</h1>
           <Button
             variant="primary"
             onClick={() => router.push('/discover-insights')}
-            className="rounded-full"
+            className="rounded-full w-full sm:w-auto"
           >
             Retour aux articles
           </Button>
@@ -242,13 +242,13 @@ export default function ArticleDetailPage() {
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">Article non trouvé</h1>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <div className="text-center max-w-md w-full">
+          <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">Article non trouvé</h1>
           <Button
             variant="primary"
             onClick={() => router.push('/discover-insights')}
-            className="rounded-full"
+            className="rounded-full w-full sm:w-auto"
           >
             Retour aux articles
           </Button>
@@ -261,18 +261,18 @@ export default function ArticleDetailPage() {
     <div className="min-h-screen bg-gray-50">
 
       {/* Contenu principal */}
-      <div className="max-w-7xl mx-auto px-10 py-8 pt-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-10 py-8 pt-20">
         {/* En-tête de l'article */}
         <header className="mb-8">
 
-          <h1 className="text-4xl font-bold text-gray-800 mb-6 leading-tight">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-6 leading-tight">
             {translateArticleTitle(article)}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
+          <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-gray-500 mb-6">
             <span>{t('common.published_on')} {formatDate(article.createdAt)}</span>
             {article.updatedAt !== article.createdAt && (
-              <span>• {t('common.updated_on')} {formatDate(article.updatedAt)}</span>
+              <span className="hidden sm:inline">• {t('common.updated_on')} {formatDate(article.updatedAt)}</span>
             )}
             <span>• {article.views} {t('common.views')}</span>
             {article.author && (
@@ -281,11 +281,11 @@ export default function ArticleDetailPage() {
           </div>
 
           {/* Tags et spécialités */}
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 mb-6 md:mb-8">
             {article.tags.map((tag) => (
               <span
                 key={tag.id}
-                className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full"
+                className="px-2 py-1 md:px-3 md:py-1 bg-blue-100 text-blue-700 text-xs md:text-sm rounded-full"
               >
                 {language === 'en' ? tag.libelle_en : tag.libelle}
               </span>
@@ -293,7 +293,7 @@ export default function ArticleDetailPage() {
             {article.specialites.map((specialite) => (
               <span
                 key={specialite.id}
-                className="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full"
+                className="px-2 py-1 md:px-3 md:py-1 bg-green-100 text-green-700 text-xs md:text-sm rounded-full"
               >
                 {language === 'en' ? specialite.libelle_en : specialite.libelle}
               </span>
@@ -302,17 +302,17 @@ export default function ArticleDetailPage() {
         </header>
 
         {/* Boutons de partage */}
-        <div className="flex items-center justify-between mb-6 p-4 bg-white rounded-lg shadow-sm">
-          <div className="flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-4 bg-white rounded-lg shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-2 w-full sm:w-auto">
             <span className="text-sm font-medium text-gray-700">{t('common.share')}:</span>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
               {/* Facebook */}
               <button
                 onClick={handleShare.facebook}
-                className="flex items-center justify-center w-8 h-8 bg-[#1877F2] hover:bg-[#166FE5] text-white rounded-full transition-colors"
+                className="flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 bg-[#1877F2] hover:bg-[#166FE5] text-white rounded-full transition-colors"
                 title={t('common.share_facebook')}
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
               </button>
@@ -320,10 +320,10 @@ export default function ArticleDetailPage() {
               {/* LinkedIn */}
               <button
                 onClick={handleShare.linkedin}
-                className="flex items-center justify-center w-8 h-8 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full transition-colors"
+                className="flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full transition-colors"
                 title={t('common.share_linkedin')}
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                 </svg>
               </button>
@@ -331,10 +331,10 @@ export default function ArticleDetailPage() {
               {/* Twitter/X */}
               <button
                 onClick={handleShare.twitter}
-                className="flex items-center justify-center w-8 h-8 bg-black hover:bg-gray-800 text-white rounded-full transition-colors"
+                className="flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 bg-black hover:bg-gray-800 text-white rounded-full transition-colors"
                 title={t('common.share_twitter')}
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </button>
@@ -342,10 +342,10 @@ export default function ArticleDetailPage() {
               {/* WhatsApp */}
               <button
                 onClick={handleShare.whatsapp}
-                className="flex items-center justify-center w-8 h-8 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full transition-colors"
+                className="flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full transition-colors"
                 title={t('common.share_whatsapp')}
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.473 3.488" />
                 </svg>
               </button>
@@ -353,10 +353,10 @@ export default function ArticleDetailPage() {
               {/* Email */}
               <button
                 onClick={handleShare.email}
-                className="flex items-center justify-center w-8 h-8 bg-gray-600 hover:bg-gray-700 text-white rounded-full transition-colors"
+                className="flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 bg-gray-600 hover:bg-gray-700 text-white rounded-full transition-colors"
                 title={t('common.share_email')}
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                 </svg>
               </button>
@@ -366,7 +366,7 @@ export default function ArticleDetailPage() {
           {/* Copier le lien */}
           <button
             onClick={handleCopyLink}
-            className={`flex items-center space-x-2 px-3 py-1.5 text-sm transition-all duration-200 rounded-md ${linkCopied
+            className={`flex items-center gap-2 px-3 py-1.5 text-xs sm:text-sm transition-all duration-200 rounded-md w-full sm:w-auto justify-center sm:justify-start ${linkCopied
               ? 'text-green-700 bg-green-50 border border-green-300'
               : 'text-gray-600 hover:text-gray-800 border border-gray-300 hover:border-gray-400'
               }`}
@@ -403,15 +403,15 @@ export default function ArticleDetailPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 mt-10">
           {/* Contenu de l'article */}
-          <article className="col-span-3 mb-8">
+          <article className="lg:col-span-3 mb-8">
             <EditorContent content={translateArticleContent(article)} />
           </article>
 
-          <div className="col-span-1 mb-8">
-            <div className="bg-white rounded-lg shadow-sm p-4 sticky top-24">
-              <h3 className="text-lg font-semibold text-gray-800 mb-6 border-b border-gray-200 pb-3">
+          <div className="lg:col-span-1 mb-8">
+            <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 lg:sticky lg:top-24">
+              <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-4 md:mb-6 border-b border-gray-200 pb-3">
                 {t('common.similar_articles')}
               </h3>
 
@@ -419,35 +419,35 @@ export default function ArticleDetailPage() {
                 <div className="space-y-4">
                   {[1, 2, 3].map((item) => (
                     <div key={item} className="animate-pulse">
-                      <div className="h-20 bg-gray-200 rounded mb-2"></div>
+                      <div className="h-16 sm:h-20 bg-gray-200 rounded mb-2"></div>
                       <div className="h-4 bg-gray-200 rounded w-3/4 mb-1"></div>
                       <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                     </div>
                   ))}
                 </div>
               ) : relatedArticles.length > 0 ? (
-                <div className="space-y-6 mb-5">
+                <div className="space-y-4 md:space-y-6 mb-5">
                   {relatedArticles.slice(0, 3).map((relatedArticle) => (
                     <article
                       key={relatedArticle.id}
                       className="group cursor-pointer"
                       onClick={() => router.push(`/discover-insights/article/${relatedArticle.id}`)}
                     >
-                      <div className="flex space-x-3 ">
+                      <div className="flex gap-3">
                         <div className="flex-shrink-0">
                           <LazyImage
                             src={relatedArticle.image || '/images/default-article.jpg'}
                             alt={translateArticleTitle(relatedArticle)}
                             width={80}
                             height={60}
-                            className="w-20 h-15 object-cover rounded-lg group-hover:opacity-80 transition-opacity"
+                            className="w-16 h-12 sm:w-20 sm:h-15 object-cover rounded-lg group-hover:opacity-80 transition-opacity"
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-xs font-medium text-blue-700 group-hover:text-blue-600 transition-colors line-clamp-2 mb-1">
+                          <h4 className="text-xs sm:text-sm font-medium text-blue-700 group-hover:text-blue-600 transition-colors line-clamp-2 mb-1">
                             {translateArticleTitle(relatedArticle)}
                           </h4>
-                          <div className="flex items-center text-[9px] text-gray-500 space-x-2">
+                          <div className="flex items-center text-[9px] sm:text-[10px] text-gray-500 gap-2">
                             <span>{relatedArticle.views} {t('common.views')}</span>
                             <span>•</span>
                             <span>{formatDate(relatedArticle.createdAt)}</span>
@@ -491,20 +491,20 @@ export default function ArticleDetailPage() {
         </div>
 
         {/* Actions en fin d'article */}
-        <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-          <h3 className="text-xl font-semibold mb-4">{t('common.did_you_like_article')}</h3>
-          <div className="flex flex-wrap justify-center gap-4">
+        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 text-center">
+          <h3 className="text-lg md:text-xl font-semibold mb-4">{t('common.did_you_like_article')}</h3>
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4">
             <Button
               variant="primary"
               onClick={() => router.push('/discover-insights')}
-              className="rounded-full"
+              className="rounded-full w-full sm:w-auto"
             >
               {t('common.discover_more_articles')}
             </Button>
             <Button
               variant="secondary"
               onClick={() => router.push('/contact')}
-              className="rounded-full"
+              className="rounded-full w-full sm:w-auto"
             >
               {t('common.contact_us')}
             </Button>

@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaAngleRight, FaArrowLeft, FaBars, FaTimes, FaTimesCircle } from "react-icons/fa";
 import Image from "next/image";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 import Button from "./ui/button";
-import { GoArrowUpRight } from "react-icons/go";
+import { GoArrowUpRight, GoTriangleRight } from "react-icons/go";
 import { motion } from "framer-motion";
 import clsx from "clsx";
 import { useTranslation } from "@/contexts/LanguageContext";
@@ -43,12 +43,14 @@ import { GoTriangleDown } from "react-icons/go";
 import { HttpService } from "@/utils/http.services";
 import { Sector } from "@/models/sector";
 import dynamic from "next/dynamic";
+import { ArrowBigRight } from "lucide-react";
+import { TiTimes, TiTimesOutline } from "react-icons/ti";
 
 
 interface NavItem {
   label: string;
   href: string;
-   expandedComponnent?: React.ComponentType<{ sectors: Sector[] }>; 
+  expandedComponnent?: React.ComponentType<{ sectors: Sector[] }>;
 }
 
 
@@ -94,44 +96,51 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [sectors, setSectors] = useState<Sector[]>([]);
-  
+
   const navItems = getNavItems(t);
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        const temp = await HttpService.index<Sector>({
-          url: '/sectors',
-          fromJson: (json: any) => Sector.fromJSON(json)
-        });
-        setSectors(temp.data);
 
-        if(temp.data.length > 0) {
-          LocalStorageHelper.setValue("activeSector", JSON.stringify(temp.data[0]));
-        }
-      };
-      fetchData();
-    }, []);
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      const temp = await HttpService.index<Sector>({
+        url: '/sectors',
+        fromJson: (json: any) => Sector.fromJSON(json)
+      });
+      setSectors(temp.data);
 
-  function activeNavItem(href: string) {
+      if (temp.data.length > 0) {
+        LocalStorageHelper.setValue("activeSector", JSON.stringify(temp.data[0]));
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  function activeNavItem(href: string, e?: React.MouseEvent) {
     return () => {
+      // if(href !== "/about" && screen.width < 768) {
+      //   e.preventDefault();
+      // }
+      console.log("Active nav item:", href);
       setHoveredItem(href);
       LocalStorageHelper.setValue("activeNavItem", href);
+      if (href === "/about") {
+        setIsOpen(false);
+      }
     }
   }
 
   return (
-    <nav className="bg-white text-black shadow-md fixed z-50 top-0 w-full hover:bg-gray-100">
+    <nav className="bg-white text-black shadow-md fixed z-50 top-0 w-[100vw] hover:bg-gray-100 transition">
       <div className={clsx("relative w-full")}>
-        <div className={clsx("w-7xl mx-auto px-4 sm:px-6 lg:px-8 ", {
-          "h-100": isOpen
+        <div className={clsx("w-full lg:w-7xl mx-auto px-4 sm:px-6 lg:px-8 ", {
+          "h-20": isOpen
         })}>
-          <div className="flex justify-between h-18 items-center">
+          <div className="flex justify-between h-18 items-center w-full">
             {
               /* Logo */
             }
             <Link href="/">
-              <Image loading="lazy" src={imagePathFinder.logo} alt="logo" width={150} />
+              <Image loading="lazy" src={imagePathFinder.logo} alt="logo" width={screen.width < 768 ? 100 : 150} />
             </Link>
 
             {
@@ -167,8 +176,8 @@ export function Navbar() {
             {
               /* Contact Button */
             }
-            <div>
-              <Button variant="light" size="md" className="!rounded-full text-[11px] mr-3 border border-gray-300">
+            <div className="flex items-center  gap-3 sm:gap-4">
+              <Button variant="light" size="md" className="!rounded-full text-[11px] border border-gray-300 !py-1">
                 <Link href="/contact" className="hover:text-gray-600 btn text-gray-400 text-sm flex align-middle items-center">
                   <span>{t('nav.contact')}</span>
                   <div className="bg-blue-700 p-1 rounded-full ml-3">
@@ -176,29 +185,73 @@ export function Navbar() {
                   </div>
                 </Link>
               </Button>
+
+              {
+                /* Mobile Menu Button */
+              }
+              <div className="md:hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="text-gray-600 focus:outline-none">
+                  {isOpen ? <TiTimes size={24} /> : <FaBars size={24} />}
+                </button>
+              </div>
             </div>
 
-            {
-              /* Mobile Menu Button */
-            }
-            <div className="md:hidden">
-              <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
-                {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-              </button>
-            </div>
+
           </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-gray-800">
-          {Object.keys(dropdownContent).map((key) => (
-            <Link key={key} href={`/${key}`} className="block py-2 px-4 hover:bg-gray-700">
+        <>
+
+          <div className="md:hidden bg-white pb-10 texte-center h-full w-full border-t border-gray-200 relative z-10">
+            {/* {Object.keys(dropdownContent).map(key => <Link key={key} href={`/`} className="block py-3 px-4 hover:bg-gray-700 text-center">
               {key.replace("-", " ")}
-            </Link>
-          ))}
-        </div>
+            </Link>)} */}
+
+            {navItems.map((navItem, index) =>
+              <div key={index} className="">
+                {navItem.href === "/about" ? <Link href={navItem.href} onClick={activeNavItem(navItem.href)}
+                  className={clsx("transition  hover:text-slate-600 flex justify-between hover:underline text-gray-400 text-sm px-10 !py-4", {
+                    "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
+                  })}>
+                  {navItem.label}
+                  {(navItem.href !== "/about") && <FaAngleRight className={clsx("text-gray-400 ml-0.5 inline-block text-sm",
+                    {
+                      "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
+                    }
+                  )} />}
+                </Link> : <span  onClick={activeNavItem(navItem.href)}
+                  className={clsx("transition cursor-pointer  hover:text-slate-600 flex justify-between hover:underline text-gray-400 text-sm px-10 !py-4", {
+                    "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
+                  })}>
+                  {navItem.label}
+                  {(navItem.href !== "/about") && <FaAngleRight className={clsx("text-gray-400 ml-0.5 inline-block text-sm",
+                    {
+                      "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
+                    }
+                  )} />}
+                </span>}
+
+                {(hoveredItem === navItem.href && navItem.expandedComponnent) && <motion.div
+                  initial={{ opacity: 0, }}
+                  animate={{ opacity: 1, }}
+                  exit={{ opacity: 0, }}
+                  className="fixed w-full left-0 top-0 bg-gray-100 p-4  text-gray-700 shadow-xl h-[100vh] overflow-scroll">
+                  <p className="text-sm font-medium text-gray-700 mb-5 mt-3 uppercase tracking-wide flex gap-3">
+                    <FaArrowLeft onClick={() => setHoveredItem(null)} className="text-gray-400 ml-0.5 inline-block text-sm" />
+                    {navItem.label}
+                  </p>
+                  <div onClick={() => { setIsOpen(false); setHoveredItem(null); }} >
+                    {navItem.expandedComponnent && <navItem.expandedComponnent sectors={sectors} />}
+                  </div>
+                </motion.div>}
+              </div>
+            )}
+          </div>
+          <div onClick={() => setIsOpen(!isOpen)} className="fixed z-0 bottom-0 top-0  w-full h-[100vh] bg-gray opacity-100 border-t border-gray-200"></div>
+        </>
       )}
     </nav>
   );

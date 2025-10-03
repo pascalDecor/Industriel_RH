@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { formatCurrency } from './utils/formatters';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -11,11 +12,12 @@ interface TaxPieChartProps {
 }
 
 export const TaxPieChart: React.FC<TaxPieChartProps> = ({ netIncome, totalTax }) => {
+  const { t } = useTranslation();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const total = netIncome + totalTax;
-  
+
   const data = {
-    labels: ['Take Home Pay', 'Total Deductions'],
+    labels: [t('quebec_tax_calculator.chart.take_home_pay'), t('quebec_tax_calculator.chart.total_deductions')],
     datasets: [
       {
         data: [netIncome, totalTax],
@@ -126,11 +128,11 @@ export const TaxPieChart: React.FC<TaxPieChartProps> = ({ netIncome, totalTax })
             const value = context.raw;
             const percentage = ((value / total) * 100).toFixed(1);
             return [
-              `Amount: ${formatCurrency(value)}`,
-              `Percentage: ${percentage}%`,
-              context.dataIndex === 0 ? 
-                'This is your take-home pay after all deductions' :
-                'Total of all taxes and deductions including CPP and EI'
+              `${t('quebec_tax_calculator.chart.amount')}: ${formatCurrency(value)}`,
+              `${t('quebec_tax_calculator.chart.percentage')}: ${percentage}%`,
+              context.dataIndex === 0 ?
+                t('quebec_tax_calculator.chart.take_home_description') :
+                t('quebec_tax_calculator.chart.deductions_description')
             ];
           },
         },
@@ -149,22 +151,22 @@ export const TaxPieChart: React.FC<TaxPieChartProps> = ({ netIncome, totalTax })
     <div className="w-full max-w-xl mx-auto pt-4">
       <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6 mb-8 shadow-lg">
         <h3 className="text-2xl font-bold text-center text-gray-800 mb-2">
-          Annual Take-Home Pay
+          {t('quebec_tax_calculator.chart.annual_take_home')}
         </h3>
         <div className="text-4xl font-bold text-center text-green-600 mb-2">
           {formatCurrency(netIncome)}
         </div>
         <div className="text-center text-gray-600">
           <div className="text-lg mb-1">
-            Monthly: {formatCurrency(netIncome / 12)}
+            {t('quebec_tax_calculator.chart.monthly')}: {formatCurrency(netIncome / 12)}
           </div>
           <div className="text-lg">
-            Bi-weekly: {formatCurrency(netIncome / 26)}
+            {t('quebec_tax_calculator.chart.bi_weekly')}: {formatCurrency(netIncome / 26)}
           </div>
         </div>
       </div>
-      
-      <h4 className="text-center text-gray-700 font-medium mb-6">Income Distribution</h4>
+
+      <h4 className="text-center text-gray-700 font-medium mb-6">{t('quebec_tax_calculator.chart.income_distribution')}</h4>
       <div className="relative" style={{ height: '400px' }}>
         <Pie data={data} options={options} />
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -185,11 +187,11 @@ export const TaxPieChart: React.FC<TaxPieChartProps> = ({ netIncome, totalTax })
               </div>
             ) : (
               <div className="text-center transition-all duration-300">
-                <div className="text-sm text-gray-600 mb-1">Total Income</div>
+                <div className="text-sm text-gray-600 mb-1">{t('quebec_tax_calculator.chart.total_income')}</div>
                 <div className="text-xl font-semibold text-gray-800">
                   {formatCurrency(total)}
                 </div>
-                <div className="text-sm text-gray-500">Annual</div>
+                <div className="text-sm text-gray-500">{t('quebec_tax_calculator.chart.annual')}</div>
               </div>
             )}
           </div>

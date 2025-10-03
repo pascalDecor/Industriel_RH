@@ -128,104 +128,104 @@ export default function ConsultingSolutions() {
 
   return <>
     {/*Your Partner for Manufacturing Workforce Solutions */}
-    <section className="mx-auto max-w-5xl mb-10 p-10">
-      <div className="grid grid-cols-5 items-center gap-4 mt-10">
-        <div className="lg:col-span-3 col-span-12  pr-4">
-          <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+    <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+      <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mt-10">
+        <div className="lg:col-span-3 lg:pr-4">
+          <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
             {isFrench ? section1?.libelle : section1?.libelle_en}
           </h2>
           <div className="text-gray-500 text-sm mb-5">
             <EditorContent content={isFrench ? section1?.description : section1?.description_en} />
           </div>
         </div>
-        <div className="lg:col-span-2 col-span-12">
+        <div className="lg:col-span-2">
           <Image loading="lazy" src={section1?.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt="Your Partner for Manufacturing Workforce Solutions" />
         </div>
       </div>
     </section>
 
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center px-4">
       {tabs.map((tab) => (
         <button
           key={tab.id}
           onClick={() => setActiveTab(tab.id)}
-          className={`flex flex-col items-center gap-1 py-3 px-8 cursor-pointer rounded-t-xl transition-all ${activeTab === tab.id ? "bg-blue-800 font-bold text-white" : "text-gray-700 bg-gray-100"
+          className={`flex flex-col items-center gap-1 py-2 sm:py-3 px-4 sm:px-8 cursor-pointer rounded-t-xl transition-all ${activeTab === tab.id ? "bg-blue-800 font-bold text-white" : "text-gray-700 bg-gray-100"
             }`}
         >
-          <span className="text-sm">{tab.label}</span>
+          <span className="text-xs sm:text-sm whitespace-nowrap">{tab.label}</span>
         </button>
       ))}
     </div>
     {/* Ready to hire? We're ready to help  */}
     {
-      <section className="mx-auto w-full mb-0 px-10 py-24 bg-gray-200">
+      <section className="mx-auto w-full mb-0 px-4 sm:px-6 lg:px-10 py-16 sm:py-24 bg-gray-200">
 
         {activeTab === "0" ?
           <div>
-            <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
               {t('consulting.ready_to_hire.title')}
             </h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-2 gap-10 text-left">
-              <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
+            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
+              <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                   {t('hire_talent.solutions.outsourced.title')}
                 </p>
                 <p className="text-sm font-regular text-gray-500 ">
                   {t('hire_talent.solutions.outsourced.description')}
                 </p>
-                <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm">
+                <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('button.learn_more')}
                 </Button>
               </div>
-              <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
+              <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                   {t('hire_talent.solutions.international.title')}
                 </p>
                 <p className="text-sm font-regular text-gray-500 ">
                   {t('hire_talent.solutions.international.description')}
                 </p>
-                <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#international_recruitment")} className="mt-5 !rounded-full text-sm">
+                <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#international_recruitment")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('button.learn_more')}
                 </Button>
               </div>
-              <div className="col-span-2 text-center">
-                <Button variant="dark" size="md" onClick={() => router.push("/contact")} className="mt-5 mx-auto text-center !rounded-full text-sm">
+              <div className="md:col-span-2 text-center">
+                <Button variant="dark" size="md" onClick={() => router.push("/contact")} className="mt-5 mx-auto text-center !rounded-full text-sm w-full sm:w-auto">
                   {t('nav.contact')}
                 </Button>
               </div>
             </div>
           </div> :
           <div>
-            <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
               {t('find_jobs.how_help.title')}
             </h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-2 gap-10 text-left">
-              <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
+            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
+              <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                   {t('find_jobs.upload_resume.title')}
                 </p>
                 <p className="text-sm font-regular text-gray-500 ">
                   {t('find_jobs.upload_resume.description')}
                 </p>
-                <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
+                <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('find_jobs.upload_resume.button')}
                 </Button>
               </div>
-              <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
+              <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
                 <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                   {t('find_jobs.search_jobs.title')}
                 </p>
                 <p className="text-sm font-regular text-gray-500 ">
                   {t('find_jobs.search_jobs.description')}
                 </p>
-                <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm">
+                <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('find_jobs.search_jobs.button')}
                 </Button>
               </div>
-              <div className="col-span-2 text-center">
-                <Button variant="dark" size="md" onClick={handleClick} className="mt-5 mx-auto text-center !rounded-full text-sm">
+              <div className="md:col-span-2 text-center">
+                <Button variant="dark" size="md" onClick={handleClick} className="mt-5 mx-auto text-center !rounded-full text-sm w-full sm:w-auto">
                   {t('nav.contact')}
                 </Button>
               </div>
@@ -233,31 +233,31 @@ export default function ConsultingSolutions() {
           </div>}
 
 
-        <section className="mx-auto w-5xl mb-10 p-10">
-          <div className="w-full bg-blue-900  bg-[url(/images/bg_blue.png)] bg-cover bg-center py-15 px-20 rounded-4xl border">
-            <div className="grid grid-cols-6 w-full text-white">
-              <div className="col-span-3">
+        <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+          <div className="w-full bg-blue-900 bg-[url(/images/bg_blue.png)] bg-cover bg-center py-8 sm:py-12 lg:py-15 px-6 sm:px-10 lg:px-20 rounded-2xl sm:rounded-4xl border">
+            <div className="grid grid-cols-1 lg:grid-cols-6 w-full text-white gap-6 lg:gap-0">
+              <div className="lg:col-span-3">
                 <p className="text-sm font-bold text text-start mb-4">
                   {t('specialized_talent.trending_jobs')}
                 </p>
-                <div className="grid grid-cols-4 mb-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 mb-4 gap-2">
                   {sector && sector?.functions.map((f) =>
-                    <div key={f.id} className="col-span-2">
+                    <div key={f.id} className="col-span-1 sm:col-span-2">
                       <p className="text-sm font-light text text-start mb-4 underline">
                         {isFrench ? f.libelle : f.libelle_en}
                       </p>
                     </div>
                   )}
                 </div>
-                <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex px-5  mt-10">
+                <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex items-center px-5 mt-6 sm:mt-10 w-full sm:w-auto justify-center sm:justify-start">
                   {t('consulting.and_many_more')}
                   <div className="bg-blue-700 p-1 rounded-full ml-3">
                     <FiArrowRight className="text-white" />
                   </div>
                 </Button>
               </div>
-              <div className="col-span-3 p-0">
-                <Image loading="lazy" src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="  We Source the Talent" className=" mb-4 mx-auto" />
+              <div className="lg:col-span-3 p-0 flex items-center justify-center">
+                <Image loading="lazy" src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="  We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
               </div>
             </div>
 
@@ -323,15 +323,15 @@ export default function ConsultingSolutions() {
 
     <section>
 
-      <div className="flex mb-10 mt-20 mx-auto items-center justify-center">
+      <div className="flex flex-wrap mb-10 mt-12 sm:mt-20 mx-auto items-center justify-center px-4 gap-2">
         {tabsType.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTabType(tab.id)}
-            className={`flex flex-col items-center gap-1 py-3 px-3 cursor-pointer  transition-all ${activeTabType === tab.id ? "text-xl font-bold text-black uppercase" : "text-gray-500 bg-gray-100 text-sm"
+            className={`flex flex-col items-center gap-1 py-2 sm:py-3 px-2 sm:px-3 cursor-pointer transition-all ${activeTabType === tab.id ? "text-base sm:text-xl font-bold text-black uppercase" : "text-gray-500 bg-gray-100 text-xs sm:text-sm"
               }`}
           >
-            <span>{isFrench ? tab.label : tab.label_en}</span>
+            <span className="whitespace-nowrap">{isFrench ? tab.label : tab.label_en}</span>
           </button>
         ))}
       </div>
@@ -347,13 +347,13 @@ export default function ConsultingSolutions() {
 
 
     {/*Leading agency for manufacturing workforce solutions */}
-    <section className="mx-auto max-w-5xl mb-10 p-10">
-      <div className="grid grid-cols-6 items-center gap-4 mt-10">
-        <div className="lg:col-span-3 col-span-6">
+    <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+      <div className="grid grid-cols-1 lg:grid-cols-6 items-center gap-6 lg:gap-4 mt-10">
+        <div className="lg:col-span-3 order-2 lg:order-1">
           <Image loading="lazy" src={section3?.image || imagePathFinder.leading_agency_for_manufacturing_workforce_solutions} width={500} height={500} alt={section3?.libelle ?? "Leading agency for manufacturing workforce solutions"} />
         </div>
-        <div className="lg:col-span-3 col-span-6  pl-4">
-          <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+        <div className="lg:col-span-3 lg:pl-4 order-1 lg:order-2">
+          <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
             {isFrench ? section3?.libelle : section3?.libelle_en}
           </h2>
           <div className="text-gray-500 text-sm mb-5">
@@ -363,15 +363,15 @@ export default function ConsultingSolutions() {
       </div>
     </section>
     <div className="absolute mt-100" id="move_your_career_forward"></div>
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center px-4">
       {tabsForm.map((tab) => (
         <button
           key={tab.id}
           onClick={() => setActiveTabForm(tab.id)}
-          className={`flex flex-col items-center gap-1 py-3 px-8 cursor-pointer rounded-t-xl transition-all ${activeTabForm === tab.id ? "bg-blue-800 font-bold text-white" : "text-gray-700 bg-gray-100"
+          className={`flex flex-col items-center gap-1 py-2 sm:py-3 px-4 sm:px-8 cursor-pointer rounded-t-xl transition-all ${activeTabForm === tab.id ? "bg-blue-800 font-bold text-white" : "text-gray-700 bg-gray-100"
             }`}
         >
-          <span className="text-sm">{tab.label}</span>
+          <span className="text-xs sm:text-sm whitespace-nowrap">{tab.label}</span>
         </button>
       ))}
     </div>
@@ -385,7 +385,7 @@ export default function ConsultingSolutions() {
 
     <section className="mx-auto w-lvw mb-10 p-10 ">
 
-      <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
+      <h2 className="text-2xl sm:text-3xl font-semibold text mb-20 text-black text-center">
         {t('consulting.hiring_trends.title')}
       </h2>
 

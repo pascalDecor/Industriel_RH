@@ -277,4 +277,4 @@ export const provinces: Province[] = [
 ];
 
 // Tax years available
-export const taxYears: string[] = ['2024', '2023', '2022', '2021'];
+export const taxYears: string[] = ['2025','2024', '2023', '2022', '2021'];

@@ -6,8 +6,10 @@ import SelectField from './SelectField';
 import CalculatorResults from './CalculatorResults';
 import Tooltip from './Tooltip';
 import { calculateMortgage } from './utils/mortgageCalculator';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 const MorgageCalculator: React.FC = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     purchasePrice: '',
     downPayment: '',
@@ -59,23 +61,23 @@ const MorgageCalculator: React.FC = () => {
     } = {};
 
     if (!formData.purchasePrice) {
-      newErrors.purchasePrice = "Purchase price is required";
+      newErrors.purchasePrice = t('mortgage_calculator.calculator.purchase_price_required');
     } else if (isNaN(Number(formData.purchasePrice)) || Number(formData.purchasePrice) <= 0) {
-      newErrors.purchasePrice = "Please enter a valid price";
+      newErrors.purchasePrice = t('mortgage_calculator.calculator.valid_price');
     }
 
     if (!formData.downPayment) {
-      newErrors.downPayment = "Down payment is required";
+      newErrors.downPayment = t('mortgage_calculator.calculator.down_payment_required');
     } else if (isNaN(Number(formData.downPayment)) || Number(formData.downPayment) < 0) {
-      newErrors.downPayment = "Please enter a valid amount";
+      newErrors.downPayment = t('mortgage_calculator.calculator.valid_amount');
     } else if (Number(formData.downPayment) >= Number(formData.purchasePrice)) {
-      newErrors.downPayment = "Must be less than purchase price";
+      newErrors.downPayment = t('mortgage_calculator.calculator.less_than_purchase');
     }
 
     if (!formData.interestRate) {
-      newErrors.interestRate = "Interest rate is required";
+      newErrors.interestRate = t('mortgage_calculator.calculator.interest_rate_required');
     } else if (isNaN(Number(formData.interestRate)) || Number(formData.interestRate) <= 0 || Number(formData.interestRate) > 20) {
-      newErrors.interestRate = "Please enter a valid rate (0-20%)";
+      newErrors.interestRate = t('mortgage_calculator.calculator.valid_rate');
     }
 
     setErrors(newErrors);
@@ -119,32 +121,32 @@ const MorgageCalculator: React.FC = () => {
   };
 
   const amortizationOptions = [
-    { value: '5', label: '5 years' },
-    { value: '10', label: '10 years' },
-    { value: '15', label: '15 years' },
-    { value: '20', label: '20 years' },
-    { value: '25', label: '25 years' },
-    { value: '30', label: '30 years' }
+    { value: '5', label: t('mortgage_calculator.calculator.5_years') },
+    { value: '10', label: t('mortgage_calculator.calculator.10_years') },
+    { value: '15', label: t('mortgage_calculator.calculator.15_years') },
+    { value: '20', label: t('mortgage_calculator.calculator.20_years') },
+    { value: '25', label: t('mortgage_calculator.calculator.25_years') },
+    { value: '30', label: t('mortgage_calculator.calculator.30_years') }
   ];
 
   const frequencyOptions = [
-    { value: 'weekly', label: 'Weekly' },
-    { value: 'biWeekly', label: 'Bi-Weekly' },
-    { value: 'monthly', label: 'Monthly' }
+    { value: 'weekly', label: t('mortgage_calculator.calculator.weekly') },
+    { value: 'biWeekly', label: t('mortgage_calculator.calculator.bi_weekly') },
+    { value: 'monthly', label: t('mortgage_calculator.calculator.monthly') }
   ];
 
   return (
     <div className="bg-white rounded-xl shadow-2xl overflow-hidden transform transition-all animate-fadeIn">
       <div className="p-6 md:p-8">
         <h2 className="text-2xl md:text-3xl font-semibold text-blue-900 mb-6 text-center">
-          Mortgage Payment Calculator
+          {t('mortgage_calculator.calculator.title')}
         </h2>
 
         <div className="space-y-5">
           <InputField
-            label="Purchase Price"
+            label={t('mortgage_calculator.calculator.purchase_price')}
             id="purchasePrice"
-            placeholder="Enter purchase price"
+            placeholder={t('mortgage_calculator.calculator.enter_purchase_price')}
             value={formData.purchasePrice}
             onChange={(value) => handleInputChange('purchasePrice', value)}
             type="number"
@@ -154,9 +156,9 @@ const MorgageCalculator: React.FC = () => {
           />
 
           <InputField
-            label="Down Payment"
+            label={t('mortgage_calculator.calculator.down_payment')}
             id="downPayment"
-            placeholder="Enter down payment"
+            placeholder={t('mortgage_calculator.calculator.enter_down_payment')}
             value={formData.downPayment}
             onChange={(value) => handleInputChange('downPayment', value)}
             type="number"
@@ -167,9 +169,9 @@ const MorgageCalculator: React.FC = () => {
 
           <div className="relative">
             <InputField
-              label="Interest Rate"
+              label={t('mortgage_calculator.calculator.interest_rate')}
               id="interestRate"
-              placeholder="Enter interest rate"
+              placeholder={t('mortgage_calculator.calculator.enter_interest_rate')}
               value={formData.interestRate}
               onChange={(value) => handleInputChange('interestRate', value)}
               type="number"
@@ -179,26 +181,26 @@ const MorgageCalculator: React.FC = () => {
               error={errors.interestRate}
               suffix="%"
               tooltip={
-                <Tooltip content="The annual interest rate for your mortgage loan." />
+                <Tooltip content={t('mortgage_calculator.calculator.interest_rate_tooltip')} />
               }
             />
           </div>
 
           <div className="relative">
             <SelectField
-              label="Amortization"
+              label={t('mortgage_calculator.calculator.amortization')}
               id="amortization"
               value={formData.amortization}
               onChange={(value) => handleInputChange('amortization', value)}
               options={amortizationOptions}
               tooltip={
-                <Tooltip content="The total length of time it will take to pay off your mortgage in full." />
+                <Tooltip content={t('mortgage_calculator.calculator.amortization_tooltip')} />
               }
             />
           </div>
 
           <SelectField
-            label="Payment Frequency"
+            label={t('mortgage_calculator.calculator.payment_frequency')}
             id="paymentFrequency"
             value={formData.paymentFrequency}
             onChange={(value) => handleInputChange('paymentFrequency', value)}
@@ -210,13 +212,13 @@ const MorgageCalculator: React.FC = () => {
               onClick={handleCalculate}
               className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md"
             >
-              Calculate
+              {t('mortgage_calculator.calculator.calculate')}
             </button>
             <button
               onClick={handleClear}
               className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-3 px-6 rounded-lg transition-all transform hover:scale-[1.02] active:scale-[0.98]"
             >
-              Clear
+              {t('mortgage_calculator.calculator.clear')}
             </button>
           </div>
         </div>

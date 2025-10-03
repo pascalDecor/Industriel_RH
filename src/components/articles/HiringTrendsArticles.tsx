@@ -121,9 +121,9 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
 
   if (loading) {
     return (
-      <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-8 text-left">
+      <div className="max-w-5xl mb-10 mx-auto px-4 sm:px-6 lg:px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 text-left">
         {Array.from({ length: 4 }).map((_, index) => (
-          <div key={index} className="col-span-3">
+          <div key={index}>
             <div className="bg-gray-200 animate-pulse rounded-lg h-80"></div>
           </div>
         ))}
@@ -135,26 +135,26 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
   const displayArticles = articles.length >= 4 ? articles.slice(0, 4) : articles;
 
   return (
-    <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-8 text-left">
+    <div className="max-w-5xl mb-10 mx-auto px-4 sm:px-6 lg:px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 text-left">
       {displayArticles.map((item, index) => {
         // Si c'est un article dynamique de l'API
         if ('id' in item) {
           const article = item as ArticleData;
           return (
-            <div key={article.id} className="col-span-3">
-              <div 
+            <div key={article.id}>
+              <div
                 className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full cursor-pointer article-card"
                 onClick={() => handleArticleClick(article.id)}
               >
-                <LazyImage 
-                  src={article.image || '/images/default-article.jpg'} 
+                <LazyImage
+                  src={article.image || '/images/default-article.jpg'}
                   alt={translateArticleTitle(article)}
                   width={300}
                   height={180}
                   className="w-full object-cover"
                 />
-                <div className="p-5">
-                  <p className="text-sm font-regular text-blue-900 font-bold mb-5 line-clamp-2">
+                <div className="p-4 sm:p-5">
+                  <p className="text-sm font-regular text-blue-900 font-bold mb-3 sm:mb-5 line-clamp-2">
                     {translateArticleTitle(article)}
                   </p>
                   <p className="text-sm font-regular text-gray-500 line-clamp-3">
@@ -162,7 +162,7 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
                   </p>
                   <div className="mt-3 flex flex-wrap gap-1">
                     {article.tags.slice(0, 2).map((tag) => (
-                      <span 
+                      <span
                         key={tag.id}
                         className="px-1 py-1  text-blue-800 text-xs rounded-full"
                       >
@@ -172,7 +172,7 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
                   </div>
                   <div className="mt-3 flex flex-wrap gap-1">
                     {article.specialites.slice(0, 2).map((specialite) => (
-                      <span 
+                      <span
                         key={specialite.id}
                         className="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full"
                       >
@@ -188,17 +188,17 @@ export default function HiringTrendsArticles({ limit = 4 }: HiringTrendsArticles
           // Article statique de fallback
           const staticArticle = item as { title: string; description: string; image: string };
           return (
-            <div key={index} className="col-span-3">
+            <div key={index}>
               <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full">
-                <LazyImage 
-                  src={staticArticle.image} 
+                <LazyImage
+                  src={staticArticle.image}
                   alt={staticArticle.title}
                   width={300}
                   height={180}
                   className="w-full h-44 object-cover"
                 />
-                <div className="p-5">
-                  <p className="text-sm font-regular text-blue-900 font-bold mb-5">
+                <div className="p-4 sm:p-5">
+                  <p className="text-sm font-regular text-blue-900 font-bold mb-3 sm:mb-5">
                     {staticArticle.title}
                   </p>
                   <p className="text-sm font-regular text-gray-500">

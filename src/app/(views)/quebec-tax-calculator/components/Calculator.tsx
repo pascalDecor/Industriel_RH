@@ -10,10 +10,12 @@ import { Alert } from './Alert';
 import { RRSP_PERCENTAGE_LIMIT, RRSP_DOLLAR_LIMITS, TFSA_LIMITS } from './data/contributionLimits';
 import { HelpCircle, Plus, X } from 'lucide-react';
 import { Bonus, Deduction } from './types';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 export const TaxCalculator: React.FC = () => {
+  const { t } = useTranslation();
   const [province, setProvince] = useState('');
-  const [taxYear, setTaxYear] = useState('2023');
+  const [taxYear, setTaxYear] = useState('2025');
   const [incomeType, setIncomeType] = useState<'annual' | 'hourly'>('annual');
   const [income, setIncome] = useState<string>('');
   const [hoursPerWeek, setHoursPerWeek] = useState<string>('40');
@@ -130,20 +132,25 @@ export const TaxCalculator: React.FC = () => {
     if (incomeType === 'hourly' && province && taxYear && income) {
       const hourlyRate = parseFloat(income);
       const minWage = minimumWage[taxYear]?.[province];
-      
+
       if (minWage && hourlyRate < minWage) {
-        setMinimumWageAlert(`The entered hourly wage (${formatCurrency(hourlyRate)}/hr) is below the ${taxYear} minimum wage in ${province} (${formatCurrency(minWage)}/hr)`);
+        setMinimumWageAlert(t('quebec_tax_calculator.calculator.minimum_wage_alert', {
+          hourlyRate: formatCurrency(hourlyRate),
+          taxYear,
+          province,
+          minWage: formatCurrency(minWage)
+        }));
       } else {
         setMinimumWageAlert('');
       }
     } else {
       setMinimumWageAlert('');
     }
-  }, [income, province, taxYear, incomeType]);
+  }, [income, province, taxYear, incomeType, t]);
 
   const handleCalculate = () => {
     if (!province || !taxYear || !income || (incomeType === 'hourly' && !hoursPerWeek)) {
-      alert('Please fill all required fields before calculating');
+      alert(t('quebec_tax_calculator.calculator.fill_required_fields'));
       return;
     }
 
@@ -193,7 +200,7 @@ export const TaxCalculator: React.FC = () => {
 
   const handleAddBonus = () => {
     if (newBonus.amount <= 0) {
-      alert('Please enter a valid bonus amount');
+      alert(t('quebec_tax_calculator.calculator.valid_bonus_amount'));
       return;
     }
 
@@ -214,7 +221,7 @@ export const TaxCalculator: React.FC = () => {
 
   const handleAddDeduction = () => {
     if (!newDeduction.name || newDeduction.amount <= 0) {
-      alert('Please enter a valid deduction name and amount');
+      alert(t('quebec_tax_calculator.calculator.valid_deduction'));
       return;
     }
 
@@ -236,23 +243,23 @@ export const TaxCalculator: React.FC = () => {
   return (
     <div className="w-full max-w-3xl bg-white rounded-xl shadow-xl overflow-hidden transition-all duration-300 transform hover:shadow-2xl mx-auto">
       <div className="bg-gradient-to-r from-blue-800 to-blue-900 p-6 text-white">
-        <h2 className="text-2xl font-bold text-center mb-6">Calculate Your Net Income</h2>
-        
+        <h2 className="text-2xl font-bold text-center mb-6">{t('quebec_tax_calculator.calculator.title')}</h2>
+
         <div className="space-y-6">
           <SelectDropdown
-            label="Province/Territory"
+            label={t('quebec_tax_calculator.calculator.province_territory')}
             value={province}
             onChange={setProvince}
             options={provinces.map(p => ({ value: p.code, label: p.name }))}
-            placeholder="Select province or territory"
+            placeholder={t('quebec_tax_calculator.calculator.select_province')}
           />
-          
+
           <SelectDropdown
-            label="Tax Year"
+            label={t('quebec_tax_calculator.calculator.tax_year')}
             value={taxYear}
             onChange={setTaxYear}
             options={taxYears.map(year => ({ value: year, label: year }))}
-            placeholder="Select tax year"
+            placeholder={t('quebec_tax_calculator.calculator.select_tax_year')}
           />
 
           <div className="flex gap-4 items-center">
@@ -264,7 +271,7 @@ export const TaxCalculator: React.FC = () => {
                 onChange={(e) => setIncomeType('annual')}
                 className="mr-2"
               />
-              Annual Income
+              {t('quebec_tax_calculator.calculator.annual_income')}
             </label>
             <label className="flex items-center">
               <input
@@ -274,42 +281,42 @@ export const TaxCalculator: React.FC = () => {
                 onChange={(e) => setIncomeType('hourly')}
                 className="mr-2"
               />
-              Hourly Wage
+              {t('quebec_tax_calculator.calculator.hourly_wage')}
             </label>
           </div>
-          
+
           {minimumWageAlert && (
             <Alert message={minimumWageAlert} />
           )}
 
           <InputField
-            label={incomeType === 'annual' ? "Annual Gross Income" : "Hourly Wage"}
+            label={incomeType === 'annual' ? t('quebec_tax_calculator.calculator.annual_gross_income') : t('quebec_tax_calculator.calculator.hourly_wage')}
             value={income}
             onChange={handleIncomeChange}
-            placeholder={incomeType === 'annual' ? "Enter your annual gross income" : "Enter your hourly wage"}
+            placeholder={incomeType === 'annual' ? t('quebec_tax_calculator.calculator.enter_annual_income') : t('quebec_tax_calculator.calculator.enter_hourly_wage')}
             type="text"
             prefix="$"
           />
 
           {incomeType === 'hourly' && (
             <InputField
-              label="Hours per Week"
+              label={t('quebec_tax_calculator.calculator.hours_per_week')}
               value={hoursPerWeek}
               onChange={handleHoursChange}
-              placeholder="Enter hours worked per week"
+              placeholder={t('quebec_tax_calculator.calculator.enter_hours_per_week')}
               type="text"
             />
           )}
 
           <div className="border-t border-blue-700 pt-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Bonuses & Premiums</h3>
+              <h3 className="text-lg font-semibold">{t('quebec_tax_calculator.calculator.bonuses_premiums')}</h3>
               <button
                 onClick={() => setShowBonusForm(true)}
                 className="flex items-center gap-2 px-3 py-1 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Plus className="w-4 h-4" />
-                Add Bonus
+                {t('quebec_tax_calculator.calculator.add_bonus')}
               </button>
             </div>
 
@@ -317,55 +324,55 @@ export const TaxCalculator: React.FC = () => {
               <div className="bg-blue-700 p-4 rounded-lg mb-4">
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Type</label>
+                    <label className="block text-sm font-medium mb-1">{t('quebec_tax_calculator.calculator.type')}</label>
                     <select
                       value={newBonus.type}
                       onChange={(e) => setNewBonus({ ...newBonus, type: e.target.value as Bonus['type'] })}
                       className="w-full px-3 py-2 bg-blue-50 text-gray-800 rounded-lg"
                     >
-                      <option value="percentage">Percentage of Base</option>
-                      <option value="hourly">Hourly Premium</option>
-                      <option value="travel">Travel Allowance</option>
+                      <option value="percentage">{t('quebec_tax_calculator.calculator.percentage_of_base')}</option>
+                      <option value="hourly">{t('quebec_tax_calculator.calculator.hourly_premium')}</option>
+                      <option value="travel">{t('quebec_tax_calculator.calculator.travel_allowance')}</option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">
-                      {newBonus.type === 'percentage' ? 'Percentage' : 
-                       newBonus.type === 'hourly' ? 'Hourly Rate' : 
-                       'Rate per KM'}
+                      {newBonus.type === 'percentage' ? t('quebec_tax_calculator.calculator.percentage') :
+                       newBonus.type === 'hourly' ? t('quebec_tax_calculator.calculator.hourly_rate') :
+                       t('quebec_tax_calculator.calculator.rate_per_km')}
                     </label>
                     <input
                       type="number"
                       value={newBonus.amount || ''}
                       onChange={(e) => setNewBonus({ ...newBonus, amount: parseFloat(e.target.value) || 0 })}
                       className="w-full px-3 py-2 bg-blue-50 text-gray-800 rounded-lg"
-                      placeholder="Enter amount"
+                      placeholder={t('quebec_tax_calculator.calculator.enter_amount')}
                     />
                   </div>
                 </div>
 
                 {newBonus.type === 'hourly' && (
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Hours per Week</label>
+                    <label className="block text-sm font-medium mb-1">{t('quebec_tax_calculator.calculator.hours_per_week')}</label>
                     <input
                       type="number"
                       value={newBonus.hours || ''}
                       onChange={(e) => setNewBonus({ ...newBonus, hours: parseFloat(e.target.value) || 0 })}
                       className="w-full px-3 py-2 bg-blue-50 text-gray-800 rounded-lg"
-                      placeholder="Enter hours"
+                      placeholder={t('quebec_tax_calculator.calculator.enter_hours')}
                     />
                   </div>
                 )}
 
                 {newBonus.type === 'travel' && (
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">Kilometers per Week</label>
+                    <label className="block text-sm font-medium mb-1">{t('quebec_tax_calculator.calculator.kilometers_per_week')}</label>
                     <input
                       type="number"
                       value={newBonus.kilometers || ''}
                       onChange={(e) => setNewBonus({ ...newBonus, kilometers: parseFloat(e.target.value) || 0 })}
                       className="w-full px-3 py-2 bg-blue-50 text-gray-800 rounded-lg"
-                      placeholder="Enter kilometers"
+                      placeholder={t('quebec_tax_calculator.calculator.enter_kilometers')}
                     />
                   </div>
                 )}
@@ -375,13 +382,13 @@ export const TaxCalculator: React.FC = () => {
                     onClick={() => setShowBonusForm(false)}
                     className="px-4 py-2 bg-blue-800 rounded-lg hover:bg-blue-900 transition-colors"
                   >
-                    Cancel
+                    {t('quebec_tax_calculator.calculator.cancel')}
                   </button>
                   <button
                     onClick={handleAddBonus}
                     className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
                   >
-                    Add
+                    {t('quebec_tax_calculator.calculator.add')}
                   </button>
                 </div>
               </div>
@@ -411,22 +418,22 @@ export const TaxCalculator: React.FC = () => {
           </div>
 
           <div className="border-t border-blue-700 pt-4 mt-4">
-            <h3 className="text-lg font-semibold mb-4">Retirement Savings</h3>
-            
+            <h3 className="text-lg font-semibold mb-4">{t('quebec_tax_calculator.calculator.retirement_savings')}</h3>
+
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium">RRSP Contribution</label>
+                    <label className="text-sm font-medium">{t('quebec_tax_calculator.calculator.rrsp_contribution')}</label>
                     <div className="group relative">
                       <HelpCircle className="h-4 w-4 text-blue-200 cursor-help" />
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-2 bg-white text-gray-800 text-sm rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                        <p className="mb-2"><strong>Registered Retirement Savings Plan (RRSP)</strong></p>
+                        <p className="mb-2"><strong>{t('quebec_tax_calculator.calculator.rrsp_full_name')}</strong></p>
                         <ul className="list-disc pl-4 space-y-1">
-                          <li>Reduces your taxable income</li>
-                          <li>Limit: 18% of previous year's income</li>
-                          <li>Maximum {formatCurrency(RRSP_DOLLAR_LIMITS[taxYear])} for {taxYear}</li>
-                          <li>Tax-deferred growth until withdrawal</li>
+                          <li>{t('quebec_tax_calculator.calculator.rrsp_desc_1')}</li>
+                          <li>{t('quebec_tax_calculator.calculator.rrsp_desc_2')}</li>
+                          <li>{t('quebec_tax_calculator.calculator.rrsp_desc_3', { limit: formatCurrency(RRSP_DOLLAR_LIMITS[taxYear]), year: taxYear })}</li>
+                          <li>{t('quebec_tax_calculator.calculator.rrsp_desc_4')}</li>
                         </ul>
                       </div>
                     </div>
@@ -465,16 +472,16 @@ export const TaxCalculator: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium">TFSA Contribution</label>
+                    <label className="text-sm font-medium">{t('quebec_tax_calculator.calculator.tfsa_contribution')}</label>
                     <div className="group relative">
                       <HelpCircle className="h-4 w-4 text-blue-200 cursor-help" />
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-2 bg-white text-gray-800 text-sm rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                        <p className="mb-2"><strong>Tax-Free Savings Account (TFSA)</strong></p>
+                        <p className="mb-2"><strong>{t('quebec_tax_calculator.calculator.tfsa_full_name')}</strong></p>
                         <ul className="list-disc pl-4 space-y-1">
-                          <li>After-tax contributions</li>
-                          <li>Tax-free growth and withdrawals</li>
-                          <li>Limit: {formatCurrency(TFSA_LIMITS[taxYear])} for {taxYear}</li>
-                          <li>Flexible withdrawals anytime</li>
+                          <li>{t('quebec_tax_calculator.calculator.tfsa_desc_1')}</li>
+                          <li>{t('quebec_tax_calculator.calculator.tfsa_desc_2')}</li>
+                          <li>{t('quebec_tax_calculator.calculator.tfsa_desc_3', { limit: formatCurrency(TFSA_LIMITS[taxYear]), year: taxYear })}</li>
+                          <li>{t('quebec_tax_calculator.calculator.tfsa_desc_4')}</li>
                         </ul>
                       </div>
                     </div>
@@ -514,13 +521,13 @@ export const TaxCalculator: React.FC = () => {
 
           <div className="border-t border-blue-700 pt-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Other Deductions</h3>
+              <h3 className="text-lg font-semibold">{t('quebec_tax_calculator.calculator.other_deductions')}</h3>
               <button
                 onClick={() => setShowDeductionForm(true)}
                 className="flex items-center gap-2 px-3 py-1 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Plus className="w-4 h-4" />
-                Add Deduction
+                {t('quebec_tax_calculator.calculator.add_deduction')}
               </button>
             </div>
 
@@ -528,50 +535,50 @@ export const TaxCalculator: React.FC = () => {
               <div className="bg-blue-700 p-4 rounded-lg mb-4">
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Name</label>
+                    <label className="block text-sm font-medium mb-1">{t('quebec_tax_calculator.calculator.name')}</label>
                     <input
                       type="text"
                       value={newDeduction.name}
                       onChange={(e) => setNewDeduction({ ...newDeduction, name: e.target.value })}
                       className="w-full px-3 py-2 bg-blue-50 text-gray-800 rounded-lg"
-                      placeholder="e.g., Union Dues"
+                      placeholder={t('quebec_tax_calculator.calculator.name_placeholder')}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Type</label>
+                    <label className="block text-sm font-medium mb-1">{t('quebec_tax_calculator.calculator.type')}</label>
                     <select
                       value={newDeduction.type}
                       onChange={(e) => setNewDeduction({ ...newDeduction, type: e.target.value as 'percentage' | 'amount' })}
                       className="w-full px-3 py-2 bg-blue-50 text-gray-800 rounded-lg"
                     >
-                      <option value="percentage">Percentage</option>
-                      <option value="amount">Fixed Amount</option>
+                      <option value="percentage">{t('quebec_tax_calculator.calculator.percentage')}</option>
+                      <option value="amount">{t('quebec_tax_calculator.calculator.fixed_amount')}</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="mb-4">
                   <label className="block text-sm font-medium mb-1">
-                    {newDeduction.type === 'percentage' ? 'Percentage' : 'Amount'}
+                    {newDeduction.type === 'percentage' ? t('quebec_tax_calculator.calculator.percentage') : t('quebec_tax_calculator.calculator.amount')}
                   </label>
                   <input
                     type="number"
                     value={newDeduction.amount || ''}
                     onChange={(e) => setNewDeduction({ ...newDeduction, amount: parseFloat(e.target.value) || 0 })}
                     className="w-full px-3 py-2 bg-blue-50 text-gray-800 rounded-lg"
-                    placeholder={newDeduction.type === 'percentage' ? 'Enter percentage' : 'Enter amount'}
+                    placeholder={newDeduction.type === 'percentage' ? t('quebec_tax_calculator.calculator.enter_percentage') : t('quebec_tax_calculator.calculator.enter_amount')}
                     step={newDeduction.type === 'percentage' ? '0.01' : '1'}
                   />
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">Description (optional)</label>
+                  <label className="block text-sm font-medium mb-1">{t('quebec_tax_calculator.calculator.description_optional')}</label>
                   <input
                     type="text"
                     value={newDeduction.description || ''}
                     onChange={(e) => setNewDeduction({ ...newDeduction, description: e.target.value })}
                     className="w-full px-3 py-2 bg-blue-50 text-gray-800 rounded-lg"
-                    placeholder="Add a description"
+                    placeholder={t('quebec_tax_calculator.calculator.add_description')}
                   />
                 </div>
 
@@ -580,13 +587,13 @@ export const TaxCalculator: React.FC = () => {
                     onClick={() => setShowDeductionForm(false)}
                     className="px-4 py-2 bg-blue-800 rounded-lg hover:bg-blue-900 transition-colors"
                   >
-                    Cancel
+                    {t('quebec_tax_calculator.calculator.cancel')}
                   </button>
                   <button
                     onClick={handleAddDeduction}
                     className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
                   >
-                    Add
+                    {t('quebec_tax_calculator.calculator.add')}
                   </button>
                 </div>
               </div>
@@ -621,18 +628,18 @@ export const TaxCalculator: React.FC = () => {
               onClick={handleCalculate}
               disabled={isCalculating}
               className={`flex-1 py-3 rounded-lg font-medium transition-all duration-300 ${
-                isCalculating 
-                  ? 'bg-blue-400 cursor-not-allowed' 
+                isCalculating
+                  ? 'bg-blue-400 cursor-not-allowed'
                   : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800'
               }`}
             >
-              {isCalculating ? 'Calculating...' : 'Calculate'}
+              {isCalculating ? t('quebec_tax_calculator.calculator.calculating') : t('quebec_tax_calculator.calculator.calculate')}
             </button>
             <button
               onClick={handleClear}
               className="flex-1 py-3 bg-gray-700 hover:bg-gray-800 active:bg-gray-900 rounded-lg font-medium transition-all duration-300"
             >
-              Clear
+              {t('quebec_tax_calculator.calculator.clear')}
             </button>
           </div>
         </div>

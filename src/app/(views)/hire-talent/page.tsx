@@ -138,31 +138,31 @@ export default function FindJobs() {
 
         {/* Explore our talent solutions  */}
         <div className="absolute -mt-60" id="recruitment_by_outsourcing"></div>
-        <section className="mx-auto w-full mt-20 mb-10 px-10 py-2">
-            <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
+        <section className="mx-auto w-full mt-12 sm:mt-20 mb-10 px-4 sm:px-6 lg:px-10 py-2">
+            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
                 {t('hire_talent.solutions.title')}
             </h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-2 gap-10 text-left">
-                <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
+            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
+                <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                         {t('hire_talent.solutions.outsourced.title')}
                     </p>
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('hire_talent.solutions.outsourced.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={() => redirect("#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.solutions.learn_more')}
                     </Button>
                 </div>
-                <div className="col-span-1 bg-white rounded-lg p-10 shadow-lg">
+                <div className="bg-white rounded-lg p-6 sm:p-10 shadow-lg">
                     <p className="text-sm font-regular text-gray-500 font-bold mb-3">
                         {t('hire_talent.solutions.international.title')}
                     </p>
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('hire_talent.solutions.international.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("#international_recruitment")} className="mt-5 !rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={() => redirect("#international_recruitment")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.solutions.learn_more')}
                     </Button>
                 </div>
@@ -171,20 +171,20 @@ export default function FindJobs() {
 
 
         {/* How we help you find a job  */}
-        <section className="mx-auto w-full mb-0 px-10 py-24 bg-gray-200">
+        <section className="mx-auto w-full mb-0 sm:px-10 py-24 bg-gray-200">
 
             {/*How it works */}
-            <section className="mx-auto max-w-5xl mb-10 p-10">
-                <div className="grid grid-cols-4 items-center justify-center gap-25 w-full">
-                    <div className="lg:col-span-2 col-span-12">
+            <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+                <div className="grid grid-cols-1 lg:grid-cols-4 items-center justify-center gap-6 lg:gap-10 w-full">
+                    <div className="lg:col-span-2">
                         <Image loading="lazy" src={imagePathFinder.hire_talent_how_it_work} alt="Salary Guide" />
                     </div>
-                    <div className="lg:col-span-2 col-span-12">
-                        <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+                    <div className="lg:col-span-2">
+                        <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
                             {t('hire_talent.how_it_works.title')}
                         </h2>
                         <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full">
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
@@ -192,7 +192,7 @@ export default function FindJobs() {
                             </p>
                         </div>
                         <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full">
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
@@ -200,7 +200,7 @@ export default function FindJobs() {
                             </p>
                         </div>
                         <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full">
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
@@ -208,7 +208,7 @@ export default function FindJobs() {
                             </p>
                         </div>
                         <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full">
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
@@ -394,31 +394,31 @@ export default function FindJobs() {
 
 
         {/* Recruitment by outsourcing  */}
-        <section className="mx-auto max-w-5xl mb-10 px-10 py-10">
-            <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
+        <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
                 {t('hire_talent.outsourcing.title')}
             </h2>
 
 
-            <div className="grid grid-cols-5 items-center gap-4 mb-10">
-                <div className="lg:col-span-3 col-span-12  pr-4">
-                    <h2 className="text-3xl font-semibold text mb-10 text-gray-800">
+            <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mb-10">
+                <div className="lg:col-span-3 lg:pr-4">
+                    <h2 className="text-2xl sm:text-3xl font-semibold text mb-6 sm:mb-10 text-gray-800">
                         {t('hire_talent.outsourcing.hero.title')}
                     </h2>
                     <p className="text-gray-500 text-sm mb-5">
                         {t('hire_talent.outsourcing.hero.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.outsourcing.hire_talents')}
                     </Button>
                 </div>
-                <div className="lg:col-span-2 col-span-12">
+                <div className="lg:col-span-2">
                     <Image loading="lazy" src={imagePathFinder.recruitment_by_outsourcing} alt="Salary Guide" />
                 </div>
             </div>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-3 gap-4 text-left">
-                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white">
+            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left">
+                <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white">
                     <Image loading="lazy" src={imagePathFinder.find_top_talent_faster} className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.outsourcing.find_talent.title')}
@@ -427,7 +427,7 @@ export default function FindJobs() {
                         {t('hire_talent.outsourcing.find_talent.description')}
                     </p>
                 </div>
-                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white">
+                <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white">
                     <Image loading="lazy" src={imagePathFinder.hire_with_precision_confidence} className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.outsourcing.hire_precision.title')}
@@ -436,7 +436,7 @@ export default function FindJobs() {
                         {t('hire_talent.outsourcing.hire_precision.description')}
                     </p>
                 </div>
-                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white">
+                <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white">
                     <Image loading="lazy" src={imagePathFinder.secure_the_right_fit_for_your_team} className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.outsourcing.secure_fit.title')}
@@ -448,11 +448,11 @@ export default function FindJobs() {
             </div>
 
             <div className="absolute -mt-20" id="contact-infos"></div>
-            <div className="mx-auto max-w-5xl mb-10 p-10">
-                <div className="grid grid-cols-12 items-start justify-center gap-5 w-full">
+            <div className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 items-start justify-center gap-6 lg:gap-5 w-full">
 
-                    <div className="lg:col-span-5 col-span-12">
-                        <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+                    <div className="lg:col-span-5">
+                        <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
                             {t('hire_talent.contact.title')}
                         </h2>
                         <p className="text-gray-500 text-sm mb-5">
@@ -463,10 +463,10 @@ export default function FindJobs() {
                         </p>
 
                     </div>
-                    <div className="lg:col-span-7 col-span-12">
-                        <div className="bg-blue-900 p-10 rounded-3xl border max-w-3xl mx-auto">
+                    <div className="lg:col-span-7">
+                        <div className="bg-blue-900 p-6 sm:p-10 rounded-2xl sm:rounded-3xl border max-w-3xl mx-auto w-full">
 
-                            <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
+                            <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text mb-6 sm:mb-10 mt-3 sm:mt-5 text-white text-center">
                                 {t('hire_talent.contact_info.title')}
                             </h2>
 
@@ -482,8 +482,8 @@ export default function FindJobs() {
                                 </div>
                             )}
 
-                            <form onSubmit={handleSubmit} className="grid grid-cols-12 gap-4 w-full">
-                                <div className="col-span-6 text-left">
+                            <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 w-full">
+                                <div className="col-span-12  sm:col-span-6 text-left">
                                     <FloatingLabelInput
                                         type="text"
                                         label={t('hire_talent.form.first_name')}
@@ -493,7 +493,7 @@ export default function FindJobs() {
                                         required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
-                                <div className="col-span-6 text-left">
+                                <div className="col-span-12 sm:col-span-6 text-left">
                                     <FloatingLabelInput
                                         type="text"
                                         label={t('hire_talent.form.last_name')}
@@ -503,7 +503,7 @@ export default function FindJobs() {
                                         required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
-                                <div className="col-span-6 text-left">
+                                <div className="col-span-12 sm:col-span-6 text-left">
                                     <FloatingLabelInput
                                         type="text"
                                         label={t('hire_talent.form.company_name')}
@@ -513,7 +513,7 @@ export default function FindJobs() {
                                         required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
-                                <div className="col-span-6 text-left">
+                                <div className="col-span-12 sm:col-span-6 text-left">
                                     <FloatingLabelInput
                                         type="text"
                                         label={t('hire_talent.form.job_title')}
@@ -523,7 +523,7 @@ export default function FindJobs() {
                                         required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
-                                <div className="col-span-6 text-left">
+                                <div className="col-span-12 sm:col-span-6 text-left">
                                     <FloatingLabelInput
                                         type="email"
                                         label={t('hire_talent.form.work_email')}
@@ -533,7 +533,7 @@ export default function FindJobs() {
                                         required
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
-                                <div className="col-span-6 text-left">
+                                <div className="col-span-12 sm:col-span-6 text-left">
                                     <FloatingLabelInput
                                         type="tel"
                                         label={t('hire_talent.form.work_phone')}
@@ -544,11 +544,11 @@ export default function FindJobs() {
                                         className="px-4 py-2 border w-full bg-white text-gray-600 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
 
-                                <div className="col-span-12 text-left ">
-                                    <p className="text-white font-semibold">{t('hire_talent.form.tell_us_position')}</p>
+                                <div className="col-span-12 text-left mt-2">
+                                    <p className="text-white font-semibold text-sm sm:text-base">{t('hire_talent.form.tell_us_position')}</p>
                                 </div>
 
-                                <div className="col-span-6 text-left">
+                                <div className="col-span-12 sm:col-span-6 text-left">
                                     <FloatingLabelInput
                                         label={t('hire_talent.form.postal_code')}
                                         type="text"
@@ -558,7 +558,7 @@ export default function FindJobs() {
                                         required
                                     />
                                 </div>
-                                <div className="col-span-6 text-left mb-10">
+                                <div className="col-span-12 sm:col-span-6 text-left mb-6 sm:mb-10">
                                     <FloatingLabelSelect
                                         label={t('hire_talent.form.position_type')}
                                         name="position"
@@ -572,8 +572,8 @@ export default function FindJobs() {
                                     />
                                 </div>
 
-                                <div className="col-span-12 text-left ">
-                                    <p className="text-white font-semibold">{t('hire_talent.form.tell_us_position')}</p>
+                                <div className="col-span-12 text-left mt-2">
+                                    <p className="text-white font-semibold text-sm sm:text-base">{t('hire_talent.form.tell_us_position')}</p>
                                 </div>
 
                                 <div className="col-span-12 text-left mb-4">
@@ -593,7 +593,7 @@ export default function FindJobs() {
                                         variant="dark"
                                         size="md"
                                         disabled={isSubmitting}
-                                        className="!rounded-full text-sm px-20 mx-auto"
+                                        className="!rounded-full text-sm px-12 sm:px-20 mx-auto w-full sm:w-auto"
                                     >
                                         {isSubmitting ? t('hire_talent.form.submitting') : t('hire_talent.form.submit')}
                                     </Button>
@@ -611,35 +611,35 @@ export default function FindJobs() {
         <ExploreSuccessStories />
         <div className="absolute mt-1000" id="international_recruitment"></div>
         {/* International recruitment  */}
-        <section className="mx-auto max-w-5xl mb-10 px-10 py-10">
-            <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
+        <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+            <h2 className="text-2xl sm:text-3xl font-semibold text mb-12 sm:mb-20 text-black text-center">
                 {t('hire_talent.international.title')}
             </h2>
 
 
-            <div className="grid grid-cols-5 items-center gap-4 mb-10">
-                <div className="lg:col-span-3 col-span-12  pr-4">
-                    <h2 className="text-3xl font-semibold text mb-10 text-gray-800">
+            <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mb-10">
+                <div className="lg:col-span-3 lg:pr-4">
+                    <h2 className="text-2xl sm:text-3xl font-semibold text mb-6 sm:mb-10 text-gray-800">
                         {t('hire_talent.international.hero.title')}
                     </h2>
                     <p className="text-gray-500 text-sm mb-5">
                         {t('hire_talent.international.hero.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm">
+                    <Button variant="primary" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.outsourcing.hire_talents')}
                     </Button>
                 </div>
-                <div className="lg:col-span-2 col-span-12">
+                <div className="lg:col-span-2">
                     <Image loading="lazy" src={imagePathFinder.international_recruitment} alt="Salary Guide" />
                 </div>
             </div>
 
-            <h2 className="text-xl font-medium text-center capitalize mb-10 text-gray-800">
+            <h2 className="text-lg sm:text-xl font-medium text-center capitalize mb-10 text-gray-800">
                 {t('hire_talent.international.solution.title')} <br /> {t('hire_talent.international.solution.subtitle')}
             </h2>
 
-            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-3 gap-4 text-center">
-                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white hover:shadow-lg">
+            <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-center">
+                <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white hover:shadow-lg">
                     <Image loading="lazy" src={imagePathFinder.international_recruitment_icon} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.international.recruitment.title')}
@@ -648,7 +648,7 @@ export default function FindJobs() {
                         {t('hire_talent.international.recruitment.description')}
                     </p>
                 </div>
-                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white hover:shadow-lg">
+                <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white hover:shadow-lg">
                     <Image loading="lazy" src={imagePathFinder.legal_services} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.international.legal.title')}
@@ -657,7 +657,7 @@ export default function FindJobs() {
                         {t('hire_talent.international.legal.description')}
                     </p>
                 </div>
-                <div className="col-span-1 rounded-2xl p-7 border border-gray-300 bg-white hover:shadow-lg">
+                <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white hover:shadow-lg">
                     <Image loading="lazy" src={imagePathFinder.welcome_and_integration} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.international.welcome.title')}
@@ -671,18 +671,18 @@ export default function FindJobs() {
 
 
         {/*Structured approach */}
-        <section className="mx-auto w-full px-10 py-10 bg-gray-200 mb-20">
-            <div className="mx-auto max-w-5xl  p-10">
-                <div className="grid grid-cols-4 items-start justify-center gap-20 w-full">
-                    <div className="lg:col-span-2 col-span-12">
+        <section className="mx-auto w-full px-4 sm:px-6 lg:px-10 py-10 bg-gray-200 mb-20">
+            <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10 py-10">
+                <div className="grid grid-cols-1 lg:grid-cols-4 items-start justify-center gap-10 lg:gap-20 w-full">
+                    <div className="lg:col-span-2">
                         <Image loading="lazy" src={imagePathFinder.structured_approach} className="!w-full" alt="Salary Guide" />
                     </div>
-                    <div className="lg:col-span-2 col-span-12">
-                        <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+                    <div className="lg:col-span-2">
+                        <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
                             {t('hire_talent.structured.title')}
                         </h2>
                         <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full">
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
@@ -690,7 +690,7 @@ export default function FindJobs() {
                             </p>
                         </div>
                         <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full">
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
@@ -698,7 +698,7 @@ export default function FindJobs() {
                             </p>
                         </div>
                         <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full">
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
@@ -706,7 +706,7 @@ export default function FindJobs() {
                             </p>
                         </div>
                         <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full">
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
@@ -714,14 +714,14 @@ export default function FindJobs() {
                             </p>
                         </div>
                         <div className="flex gap-4 align-start items-start mb-2">
-                            <div className="bg-blue-700 p-1 rounded-full">
+                            <div className="bg-blue-700 p-1 rounded-full flex-shrink-0">
                                 <FiCheck className="text-white" />
                             </div>
                             <p className="text-gray-500 text-sm mb-5">
                                 {t('hire_talent.structured.step5')}
                             </p>
                         </div>
-                        <Button variant="primary" size="md" onClick={() => redirect("#contact-infos")} className="!rounded-full text-sm  mt-10 w-fit whitespace-nowrap">
+                        <Button variant="primary" size="md" onClick={() => redirect("#contact-infos")} className="!rounded-full text-sm mt-6 sm:mt-10 w-full sm:w-auto whitespace-nowrap">
                             {t('hire_talent.structured.contact_us')}
                         </Button>
 
@@ -734,11 +734,11 @@ export default function FindJobs() {
         <PartnersAccreditation />
 
         {/* Why choose international recruitment? */}
-        <section className="mx-auto max-w-5xl mb-10 p-10">
-            <h2 className="text-4xl font-semibold text mb-14 text-gray-800 text-center">
+        <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text mb-10 sm:mb-14 text-gray-800 text-center">
                 {t('hire_talent.why_international.title')}
             </h2>
-            <div className="grid grid-cols-2 grid-rows-2 gap-4 place-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-items-center">
 
                 <div className="bg-[url(/images/card_fond.png)] 
                   bg-white bg-cover bg-center

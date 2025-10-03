@@ -208,8 +208,12 @@ export default function DiscoverInsights() {
     console.log("Clic !");
   }
 
-  const [showTagsFilter, setShowTagsFilter] = useState(true);
+  const [showTagsFilter, setShowTagsFilter] = useState(false);
   const [showSpecialitesFilter, setShowSpecialitesFilter] = useState(false);
+
+  useEffect(() => {
+    setShowTagsFilter(window.innerWidth >= 1024);
+  }, []);
 
   // Newsletter subscription form state
   const [newsletterForm, setNewsletterForm] = useState({
@@ -294,33 +298,33 @@ export default function DiscoverInsights() {
 
   return <>
     {/* Own the future of your work */}
-    <section className="mx-auto max-w-5xl mb-10 p-10">
-      <div className="grid grid-cols-5 items-center gap-4 mt-10">
-        <div className="lg:col-span-3 col-span-12 pr-4">
-          <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+    <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
+      <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 mt-10">
+        <div className="lg:col-span-3 lg:pr-4">
+          <h2 className="text-2xl sm:text-3xl font-semibold text mb-5 sm:mb-14 text-gray-800">
             {t('discover_insights.hero.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
             {t('discover_insights.hero.description')}
           </p>
         </div>
-        <div className="lg:col-span-2 col-span-12">
+        <div className="lg:col-span-2">
           <Image loading="lazy" src={imagePathFinder.own_the_future_of_your_work} alt={t('discover_insights.hero.alt')} />
         </div>
       </div>
     </section>
     {/* Articles en vedette */}
-    <section className="mx-auto w-lvw mb-10 p-10">
-      <h2 className="text-3xl font-semibold text mb-20 text-black text-center">
+    <section className="mx-auto w-full mb-10 px-4 md:px-6 lg:px-10 py-10">
+      <h2 className="text-2xl sm:text-3xl font-semibold text mb-10 md:mb-20 text-black text-center">
         {t('discover_insights.featured.title')}
       </h2>
 
-      <div className="max-w-5xl mb-10 mx-auto grid grid-cols-12 gap-8 text-left">
+      <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left">
         {featuredArticles.length > 0 ? (
           featuredArticles.slice(0, 3).map((article, index) => (
-            <div key={article.id} className="col-span-4">
+            <div key={article.id} className="w-full">
               <div
-                className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full cursor-pointer hover:shadow-2xl transition-shadow"
+                className="bg-white rounded-lg p-0 shadow-xl overflow-hidden h-full cursor-pointer hover:shadow-2xl transition-shadow"
                 onClick={() => handleArticleClick(article.id)}
               >
                 <LazyImage
@@ -328,7 +332,7 @@ export default function DiscoverInsights() {
                   alt={article.titre}
                   width={400}
                   height={250}
-                  className="w-full  object-cover"
+                  className="w-full object-cover"
                 />
                 <div className="p-5">
                   <p className="text-sm font-regular text-blue-900 font-bold mb-5 line-clamp-2">
@@ -360,8 +364,8 @@ export default function DiscoverInsights() {
           // Loading placeholder avec animate-pulse si pas d'articles dynamiques
           <>
             {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="col-span-4">
-                <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden mb-4 h-full animate-pulse">
+              <div key={index} className="w-full">
+                <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden h-full animate-pulse">
                   <div className="w-full h-48 bg-gray-200"></div>
                   <div className="p-5">
                     <div className="h-4 bg-gray-200 rounded mb-5 w-3/4"></div>
@@ -379,15 +383,15 @@ export default function DiscoverInsights() {
 
     {/* Articles avec filtres */}
     <div className="absolute -mt-400" id="refine_your_focus"></div>
-    <section className="mx-auto w-lvw mb-10 p-10 bg-gray-200 text-center">
-      <h2 className="text-3xl font-semibold text my-10 text-black text-center">
+    <section className="mx-auto w-full mb-10 px-4 md:px-6 lg:px-10 py-10 bg-gray-200 text-center">
+      <h2 className="text-2xl md:text-3xl font-semibold text my-6 md:my-10 text-black text-center">
         {t('discover_insights.articles.title')}
       </h2>
 
-      <div className="grid grid-cols-12 gap-4 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-5xl mx-auto">
         {/* Filtres */}
-        <div className="col-span-3 text-left">
-          <div className="bg-white p-6 rounded-xl overflow-hidden mb-4 sticky top-24">
+        <div className="lg:col-span-3 text-left">
+          <div className="bg-white p-4 md:p-6 rounded-xl overflow-hidden mb-4 lg:sticky lg:top-24">
             <p className="font-regular text-blue-900 font-bold mb-5 uppercase">
               {t('discover_insights.filters.title')}
             </p>
@@ -484,11 +488,11 @@ export default function DiscoverInsights() {
         </div>
 
         {/* Articles dynamiques */}
-        <div className="col-span-9">
+        <div className="lg:col-span-9">
           {loading ? (
-            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="bg-white rounded-lg p-4 animate-pulse break-inside-avoid mb-6">
+                <div key={index} className="bg-white rounded-lg p-4 animate-pulse">
                   <div className={`bg-gray-200 rounded mb-4 ${index % 3 === 0 ? 'h-48' : index % 3 === 1 ? 'h-40' : 'h-52'}`}></div>
                   <div className="h-4 bg-gray-200 rounded mb-2"></div>
                   <div className="h-3 bg-gray-200 rounded w-3/4"></div>
@@ -497,11 +501,11 @@ export default function DiscoverInsights() {
             </div>
           ) : articles.length > 0 ? (
             <>
-              <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {articles.slice(0, 9).map((article) => (
                   <article
                     key={article.id}
-                    className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow cursor-pointer break-inside-avoid mb-6"
+                    className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow cursor-pointer"
                     onClick={() => handleArticleClick(article.id)}
                   >
                     <LazyImage
@@ -518,7 +522,7 @@ export default function DiscoverInsights() {
                       <p className="text-sm text-start text-gray-500 line-clamp-3 mb-3">
                         {getArticleDescription(article)}
                       </p>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
                         <div className="flex flex-wrap gap-1">
                           {article.tags.slice(0, 2).map((tag) => (
                             <span
@@ -529,7 +533,7 @@ export default function DiscoverInsights() {
                             </span>
                           ))}
                         </div>
-                        <div className="text-xs text-gray-400">
+                        <div className="text-xs text-gray-400 whitespace-nowrap">
                           {article.views} {t('common.views')}
                         </div>
                       </div>
@@ -539,7 +543,7 @@ export default function DiscoverInsights() {
               </div>
 
               {articles.length > 9 && (
-                <div className="flex justify-center">
+                <div className="flex justify-center mt-8">
                   <Button
                     variant="primary"
                     size="md"
@@ -573,9 +577,9 @@ export default function DiscoverInsights() {
     </section>
 
     {/* Newsletter CTA */}
-    <section className="mx-auto w-5xl mb-10 p-10">
-      <div className="w-full bg-blue-900 bg-[url(/images/bg_blue.png)] bg-cover bg-center py-15 px-20 rounded-4xl border">
-        <p className="font-medium text-3xl text-center mb-4 text-white">
+    <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
+      <div className="w-full bg-blue-900 bg-[url(/images/bg_blue.png)] bg-cover bg-center py-10 md:py-15 px-6 md:px-12 lg:px-20 rounded-2xl md:rounded-4xl border">
+        <p className="font-medium text-xl md:text-3xl text-center mb-4 text-white">
           {t('discover_insights.newsletter.title')}
         </p>
 
@@ -587,7 +591,7 @@ export default function DiscoverInsights() {
               const element = document.getElementById('newsletter-section');
               element?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="!rounded-full px-10 py-3 text-sm mx-auto mt-10 w-fit whitespace-nowrap"
+            className="!rounded-full px-8 md:px-10 py-3 text-sm mx-auto mt-6 md:mt-10 w-fit whitespace-nowrap"
           >
             {t('discover_insights.newsletter.cta')}
           </Button>
@@ -596,10 +600,10 @@ export default function DiscoverInsights() {
     </section>
 
     {/* Newsletter Subscription */}
-    <section id="newsletter-section" className="mx-auto max-w-5xl mb-10 p-10">
-      <div className="grid grid-cols-6 items-center gap-4 mt-10">
-        <div className="lg:col-span-3 col-span-6 pl-4">
-          <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+    <section id="newsletter-section" className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-6 md:gap-8 mt-10">
+        <div className="lg:pl-4">
+          <h2 className="text-2xl md:text-3xl font-semibold text mb-6 md:mb-14 text-gray-800">
             {t('discover_insights.subscription.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
@@ -607,9 +611,9 @@ export default function DiscoverInsights() {
           </p>
         </div>
 
-        <div className="lg:col-span-3 col-span-6 px-5">
-          <div className="bg-blue-900 px-10 py-5 rounded-3xl border max-w-3xl mx-auto">
-            <h2 className="text-2xl font-semibold text mb-10 mt-5 text-white text-center">
+        <div className="w-full">
+          <div className="bg-blue-900 px-6 md:px-10 py-5 rounded-3xl border max-w-3xl mx-auto">
+            <h2 className="text-xl md:text-2xl font-semibold text mb-6 md:mb-10 mt-5 text-white text-center">
               {t('discover_insights.subscription.form_title')}
             </h2>
 

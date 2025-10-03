@@ -1,101 +1,108 @@
-export  default function TermeOfUses() {
+"use client";
+
+import { useTranslation } from '@/contexts/LanguageContext';
+
+export default function TermsOfUse() {
+    const { t } = useTranslation();
+
     return (
-        <div className="p-10 w-5xl mx-auto text-gray-800 text-sm ">
-            <h2 className="text-3xl font-semibold text mb-5 ">
-                {"Terms of Use"}
+        <div className="px-4 md:px-6 lg:px-10 py-10 max-w-5xl mx-auto text-gray-800 text-sm md:text-base mt-20">
+            <h2 className="text-2xl md:text-3xl font-semibold mb-5">
+                {t('terms_of_use.title')}
             </h2>
             <p className="mb-5">
-                {"Effective Date: " + new Date().toLocaleDateString()}
+                {t('terms_of_use.effective_date')}: {new Date().toLocaleDateString()}
             </p>
 
             <p className="mb-5">
-                {"Welcome to the website of Industrielle RH Recrutement International Inc. By accessing or using our site, you agree to the following Terms of Use. Please read them carefully."}
+                {t('terms_of_use.intro')}
             </p>
 
-            <p className="mb-5 font-bold text-lg">
-                {"1. Acceptance of Terms"}
-            </p>
-
-            <p className="mb-5">
-                {"By using this site, you agree to comply with these Terms. If you do not agree, you must not use the site."}
-            </p>
-
-            <p className="mb-5 font-bold text-lg">
-                {"2. Use of the Site"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section1.title')}
             </p>
 
             <p className="mb-5">
-                {"You may use this site only for lawful purposes and in accordance with these Terms. The content is for personal, non-commercial use."}
+                {t('terms_of_use.section1.content')}
+            </p>
+
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section2.title')}
+            </p>
+
+            <p className="mb-5">
+                {t('terms_of_use.section2.intro')}
             </p>
             <p className="mb-5">
-                {"You agree not to:"}
+                {t('terms_of_use.section2.agree_not_to')}
             </p>
             <ul className="list-disc mb-5 space-y-3">
                 <li className="ml-7">
-                    {"Violate any applicable laws."}
+                    {t('terms_of_use.section2.item1')}
                 </li>
                 <li className="ml-7">
-                    {"Upload false or misleading information."}
+                    {t('terms_of_use.section2.item2')}
                 </li>
                 <li className="ml-7">
-                    {"Disrupt the site’s functionality or security."}
+                    {t('terms_of_use.section2.item3')}
                 </li>
             </ul>
 
-            <p className="mb-5 font-bold text-lg">
-                {"3. Intellectual Property"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section3.title')}
             </p>
             <p className="mb-5">
-                {"All content on this site, including text, graphics, logos, and software, is the property of Industrielle RH or its licensors. You may not reproduce, distribute, or create derivative works without our written permission."}
+                {t('terms_of_use.section3.content')}
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"4. User Content"}
-            </p>
-            <p className="mb-5">
-                {"If you submit information (e.g., CVs), you grant Industrielle RH a license to use, store, and process it for recruitment purposes. You are responsible for the accuracy of any content you provide."}
-            </p>
-            <p className="mb-5 font-bold text-lg">
-                {"5. Third-Party Links"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section4.title')}
             </p>
             <p className="mb-5">
-                {"Our site may contain links to external websites. We are not responsible for the content or privacy practices of those third parties."}
+                {t('terms_of_use.section4.content')}
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"6. Disclaimer"}
-            </p>
-            <p className="mb-5">
-                {"The site is provided “as is” without warranties of any kind. We do not guarantee the accuracy, completeness, or reliability of the site’s content."}
-            </p>
-            <p className="mb-5 font-bold text-lg">
-                {"7. Limitation of Liability"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section5.title')}
             </p>
             <p className="mb-5">
-                {"Industrielle RH is not liable for any indirect or consequential damages arising from your use of the site."}
+                {t('terms_of_use.section5.content')}
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"8. Termination"}
-            </p>
-            <p className="mb-5">
-                {"We may terminate or suspend your access to the site at any time, without notice, for violating these Terms."}
-            </p>
-            <p className="mb-5 font-bold text-lg">
-                {"9. Governing Law"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section6.title')}
             </p>
             <p className="mb-5">
-                {"These Terms are governed by the laws of the Province of Quebec, Canada. Any disputes will be resolved in the courts of Montreal, Quebec."}
+                {t('terms_of_use.section6.content')}
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"10. Contact"}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section7.title')}
             </p>
             <p className="mb-5">
-                {"If you have questions about these Terms, please contact us at: 📧 info@industrielle-rh.com 📞819-919-8683"} <br />
-                <a href="mailto:info@industrielle-rh.com">📧 info@industrielle-rh.com</a>
+                {t('terms_of_use.section7.content')}
+            </p>
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section8.title')}
+            </p>
+            <p className="mb-5">
+                {t('terms_of_use.section8.content')}
+            </p>
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section9.title')}
+            </p>
+            <p className="mb-5">
+                {t('terms_of_use.section9.content')}
+            </p>
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section10.title')}
+            </p>
+            <p className="mb-5">
+                {t('terms_of_use.section10.content')}<br />
+                <a href="mailto:info@industrielle-rh.com" className="text-blue-600 underline">📧 info@industrielle-rh.com</a>
                 <br />
-                <a href="tel:+819-919-8683">📞 + 819-919-8683</a>
+                <a href="tel:+819-919-8683" className="text-blue-600 underline">📞 + 819-919-8683</a>
             </p>
-            <p className="mb-5 font-bold text-lg">
-                {"By using our site, you agree to these Terms of Use."}
+            <p className="mb-5 font-bold text-base md:text-lg">
+                {t('terms_of_use.section10.agreement')}
             </p>
 
-        </div>)
+        </div>
+    );
 }

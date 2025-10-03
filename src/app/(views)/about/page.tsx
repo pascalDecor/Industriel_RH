@@ -9,25 +9,25 @@ export default function About() {
   
   return <>
     {/* Catalyst of prosperity for Quebec businesses */}
-    <section className="mx-auto max-w-5xl mb-10 p-10">
-      <div className="grid grid-cols-5 items-center gap-4 mt-10">
-        <div className="lg:col-span-3 col-span-12  pr-4">
-          <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+    <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+      <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-4 mt-10">
+        <div className="lg:col-span-3 lg:pr-4">
+          <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
             {t('about.catalyst.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
             {t('about.catalyst.description')}
           </p>
         </div>
-        <div className="lg:col-span-2 col-span-12">
+        <div className="lg:col-span-2">
           <Image loading="lazy" src={imagePathFinder.about_catalyst_of_prosperity} alt="Salary Guide" />
         </div>
       </div>
     </section>
-    {/* Catalyst of prosperity for Quebec businesses */}
-    <section className="mx-auto max-w-5xl mb-10 p-10">
-      <div className="grid grid-cols-4 items-center gap-4">
-        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
+    {/* Features grid */}
+    <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-center gap-4">
+        <div className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
           <Image loading="lazy" src={imagePathFinder.expertise} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.expertise.title')}
@@ -36,7 +36,7 @@ export default function About() {
             {t('about.expertise.description')}
           </p>
         </div>
-        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
+        <div className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
           <Image loading="lazy" src={imagePathFinder.technology} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.technology.title')}
@@ -45,7 +45,7 @@ export default function About() {
             {t('about.technology.description')}
           </p>
         </div>
-        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
+        <div className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg">
           <Image loading="lazy" src={imagePathFinder.innovative_approach} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.innovative_approach.title')}
@@ -54,7 +54,7 @@ export default function About() {
             {t('about.innovative_approach.description')}
           </p>
         </div>
-        <div className="col-span-1 border-2 border-gray-300 p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg" >
+        <div className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg" >
           <Image loading="lazy" src={imagePathFinder.reliability} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.reliability.title')}
@@ -68,13 +68,13 @@ export default function About() {
     </section>
 
     {/*  Mission, Vision and Values */}
-    <section className="mx-auto max-w-5xl p-10 flex items-center justify-center">
-      <div className="bg-blue-900 p-10 rounded-3xl border max-w-5xl w-5xl mx-auto">
-        <h2 className="text-3xl font-semibold text mb-10 mt-5 text-white text-center">
+    <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10 py-10 flex items-center justify-center">
+      <div className="bg-blue-900 p-6 sm:p-10 rounded-2xl sm:rounded-3xl border max-w-5xl w-full mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-semibold text mb-6 sm:mb-10 mt-3 sm:mt-5 text-white text-center">
           {t('about.mission_vision_values.title')}
         </h2>
-        <div className="grid grid-cols-12  items-center gap-14 mt-10">
-          <div className="col-span-6 text-left bg-white rounded-2xl p-7 h-full hover:bg-blue-100 hover:shadow-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 md:gap-10 lg:gap-14 mt-10">
+          <div className="text-left bg-white rounded-2xl p-6 sm:p-7 h-full hover:bg-blue-100 hover:shadow-lg">
             <p className="font-bold text mb-5  text-blue-800 text-start">
               {t('about.mission.title')}
             </p>
@@ -82,7 +82,7 @@ export default function About() {
               {t('about.mission.description')}
             </p>
           </div>
-          <div className="col-span-6 text-left bg-white rounded-2xl p-7 h-full hover:bg-blue-100 hover:shadow-lg">
+          <div className="text-left bg-white rounded-2xl p-6 sm:p-7 h-full hover:bg-blue-100 hover:shadow-lg">
             <p className="font-bold text mb-5  text-blue-800 text-start">
               {t('about.vision.title')}
             </p>
@@ -91,17 +91,17 @@ export default function About() {
             </p>
           </div>
         </div>
-        <h2 className="text-xl font-semibold text mt-10 text-white text-center">
+        <h2 className="text-lg sm:text-xl font-semibold text mt-8 sm:mt-10 text-white text-center">
           {t('about.values.title')}
         </h2>
-        <p className="text-sm font-regular text  text-white text-center mb-10">
+        <p className="text-sm font-regular text  text-white text-center mb-8 sm:mb-10">
           {t('about.values.subtitle')}
         </p>
-        <div className="grid grid-cols-2 grid-rows-2 gap-4 place-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           <div className="bg-[url(/images/card_fond.png)] hover:border-5 hover:border-blue-400
-                  bg-white bg-cover bg-center rounded-lg p-4">
-            <div className="flex">
-              <div>
+                  bg-white bg-cover bg-center rounded-lg p-4 w-full">
+            <div className="flex gap-2">
+              <div className="flex-1 min-w-0">
                 <h6 className="text-blue-800 uppercase text-sm mb-3 font-semibold">
                   {t('about.innovation.title')}
                 </h6>
@@ -109,15 +109,15 @@ export default function About() {
                   {t('about.innovation.description')}
                 </p>
               </div>
-              <div className="p-5 m-auto w-50 ">
+              <div className="p-3 sm:p-5 flex-shrink-0 w-20 sm:w-24">
                 <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_innovation} alt="Salary Guide" />
               </div>
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] hover:border-5 hover:border-blue-400
-                  bg-white bg-cover bg-center rounded-lg p-4">
-            <div className="flex">
-              <div>
+                  bg-white bg-cover bg-center rounded-lg p-4 w-full">
+            <div className="flex gap-2">
+              <div className="flex-1 min-w-0">
                 <h6 className="text-blue-800 uppercase text-sm mb-3 font-semibold">
                   {t('about.integrity.title')}
                 </h6>
@@ -125,15 +125,15 @@ export default function About() {
                   {t('about.integrity.description')}
                 </p>
               </div>
-              <div className="p-5 m-auto w-50 ">
+              <div className="p-3 sm:p-5 flex-shrink-0 w-20 sm:w-24">
                 <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_integrity} alt="What jobs are in demand?" />
               </div>
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] hover:border-5 hover:border-blue-400
-                  bg-white bg-cover bg-center rounded-lg p-4">
-            <div className="flex">
-              <div>
+                  bg-white bg-cover bg-center rounded-lg p-4 w-full">
+            <div className="flex gap-2">
+              <div className="flex-1 min-w-0">
                 <h6 className="text-blue-800 uppercase text-sm mb-3 font-semibold">
                   {t('about.diversity.title')}
                 </h6>
@@ -141,15 +141,15 @@ export default function About() {
                   {t('about.diversity.description')}
                 </p>
               </div>
-              <div className="p-5 m-auto w-50 ">
+              <div className="p-3 sm:p-5 flex-shrink-0 w-20 sm:w-24">
                 <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_diversity} alt="Robert Half blog" />
               </div>
             </div>
           </div>
           <div className="bg-[url(/images/card_fond.png)] hover:border-5 hover:border-blue-400
-                  bg-white bg-cover bg-center rounded-lg p-4">
-            <div className="flex">
-              <div>
+                  bg-white bg-cover bg-center rounded-lg p-4 w-full">
+            <div className="flex gap-2">
+              <div className="flex-1 min-w-0">
                 <h6 className="text-blue-800 uppercase text-sm mb-3 font-semibold">
                   {t('about.sustainability.title')}
                 </h6>
@@ -157,7 +157,7 @@ export default function About() {
                   {t('about.sustainability.description')}
                 </p>
               </div>
-              <div className="p-5 m-auto w-50 ">
+              <div className="p-3 sm:p-5 flex-shrink-0 w-20 sm:w-24">
                 <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_sustanability} alt="Navigate tech skills gaps" />
               </div>
             </div>
@@ -168,14 +168,14 @@ export default function About() {
     </section>
 
     {/* Hire the best francophone talent Worldwide */}
-    <section className="mx-auto max-w-5xl mb-10 p-10">
-      <div className="grid grid-cols-5 items-center gap-4 lg:gap-10 mt-10">
+    <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+      <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 lg:gap-10 mt-10">
 
-        <div className="lg:col-span-2 col-span-12">
+        <div className="lg:col-span-2 order-2 lg:order-1">
           <Image loading="lazy" src={imagePathFinder.hire_the_best_francophone_talent_worldwide} alt="Salary Guide" />
         </div>
-        <div className="lg:col-span-3 col-span-12  pr-4">
-          <h2 className="text-3xl font-semibold text mb-14 text-gray-800">
+        <div className="lg:col-span-3 lg:pr-4 order-1 lg:order-2">
+          <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-14 text-gray-800">
             {t('about.francophone_talent.title')}
           </h2>
           <p className="text-gray-500 text-sm mb-5">
@@ -187,25 +187,25 @@ export default function About() {
     </section>
 
     {/*  Leadership team  */}
-    <section className="mx-auto w-lvw mb-0 px-10 py-24 bg-gray-200">
-      <h2 className="text-3xl font-semibold text mb-10 text-black text-center">
+    <section className="mx-auto w-full mb-0 px-4 sm:px-6 lg:px-10 py-16 sm:py-24 bg-gray-200">
+      <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-10 text-black text-center">
         {t('about.leadership_team.title')}
       </h2>
 
-      <div className="mx-auto max-w-5xl p-10 grid grid-cols-3 items-end gap-4">
-        <div className="col-span-1">
-          <div className="w-full border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t hover:from-blue-300 hover:to-blue-100  hover:shadow-lg from-gray-300 to-gray-200 pb-20">
-            <Image loading="lazy" src={imagePathFinder.jamel_hein} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
-            <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10 py-10 grid grid-cols-1 lg:grid-cols-3 items-end gap-6 lg:gap-4">
+        <div className="lg:col-span-1">
+          <div className="w-full border border-gray-200 p-6 sm:p-7 rounded-2xl text-center bg-gradient-to-t hover:from-blue-300 hover:to-blue-100 hover:shadow-lg from-gray-300 to-gray-200 pb-12 sm:pb-20">
+            <Image loading="lazy" src={imagePathFinder.jamel_hein} alt="Describe your Need" className="w-32 sm:w-40 mb-4 mx-auto -mt-16 sm:-mt-20" />
+            <p className="text uppercase font-semibold mb-5 text-blue-900 text-center">
             JAMEL HEIN
           </p>
           <p className="text-sm font-regular text-gray-500 text-center">
             {t('about.positions.ceo')}
           </p>
           </div>
-         
+
         </div>
-        <div className="col-span-2 border bg-blue-900 p-7 rounded-4xl text-center h-full hover:bg-blue-800">
+        <div className="lg:col-span-2 border bg-blue-900 p-6 sm:p-7 rounded-2xl sm:rounded-4xl text-center h-full hover:bg-blue-800">
           <p className="text-sm font-light text-white text-start mb-3">
             {t('about.ceo_message.paragraph1')}
           </p>
