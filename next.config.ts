@@ -33,8 +33,8 @@ const nextConfig: NextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons'],
+    // optimizeCss: true,
+    // optimizePackageImports: ['lucide-react', 'framer-motion', 'react-icons'],
   },
   turbopack: {
     rules: {

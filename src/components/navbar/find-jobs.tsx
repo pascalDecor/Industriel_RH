@@ -22,7 +22,7 @@ export function FindJobsExpandedNavbar({ sectors }: { sectors: Sector[] }) {
           <p className="text-gray-500 text-sm mb-5">
             {t('find_jobs.nav.control_career')}
           </p>
-          <Button variant="primary" size="md" onClick={() => null} className="!rounded-full text-sm px-10 mx-auto">
+          <Button variant="primary" size="md" onClick={() => null} className="!rounded-full text-sm px-10">
             {t('find_jobs.nav.find_next_job')}
           </Button>
         </div>

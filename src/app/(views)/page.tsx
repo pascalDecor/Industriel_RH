@@ -165,31 +165,31 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 align-middle w-full mb-6 sm:mb-8 lg:mb-10">
-            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
               <LazyImage src={imagePathFinder.describe_your_need} alt="Describe your Need" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step1')}
               </p>
             </div>
-            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
               <LazyImage src={imagePathFinder.we_source_the_talent} alt="We Source the Talent" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step2')}
               </p>
             </div>
-            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
               <LazyImage src={imagePathFinder.select_and_approve} alt="Select and Approve" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step3')}
               </p>
             </div>
-            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
               <LazyImage src={imagePathFinder.seamless_integration} alt="Seamless Integration" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step4')}
               </p>
             </div>
-            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
               <LazyImage src={imagePathFinder.continuous_support} alt="Continuous Support" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step5')}

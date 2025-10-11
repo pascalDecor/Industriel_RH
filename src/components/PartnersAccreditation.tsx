@@ -94,7 +94,7 @@ export default function PartnersAccreditation() {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
-                        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 place-items-center items-center w-full mb-6 sm:mb-8 lg:mb-10"
+                        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 !justify-center items-center w-full mb-6 sm:mb-8 lg:mb-10"
                     >
                         {partners.map((partner, index) => (
                             <motion.div
@@ -106,7 +106,7 @@ export default function PartnersAccreditation() {
                                     transition: { duration: 0.3 }
                                 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-5 text-center flex flex-col items-center justify-center hover:shadow-2xl transition-shadow duration-300 cursor-pointer group min-h-[80px] sm:min-h-[100px] lg:min-h-[120px]"
+                                className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 lg:p-5 text-center flex flex-col items-center !justify-center hover:shadow-2xl transition-shadow duration-300 cursor-pointer group min-h-[80px] sm:min-h-[100px] lg:min-h-[120px]"
                             >
                                 <motion.div
                                     className="w-full h-auto flex items-center justify-center"

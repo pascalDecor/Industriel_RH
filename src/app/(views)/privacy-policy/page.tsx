@@ -1,15 +1,26 @@
 "use client";
 
 import { useTranslation } from '@/contexts/LanguageContext';
+import { motion } from "framer-motion";
 
 export default function PrivacyPolicy() {
     const { t } = useTranslation();
 
     return (
-        <div className="px-4 md:px-6 lg:px-10 py-10 max-w-5xl mx-auto text-gray-800 text-sm md:text-base mt-20">
-            <h2 className="text-2xl md:text-3xl font-semibold mb-5">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="px-4 md:px-6 lg:px-10 py-10 max-w-5xl mx-auto text-gray-800 text-sm md:text-base mt-20"
+        >
+            <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-2xl md:text-3xl font-semibold mb-5"
+            >
                 {t('privacy_policy.title')}
-            </h2>
+            </motion.h2>
             <p className="mb-5">
                 {t('privacy_policy.effective_date')}: {new Date().toLocaleDateString()}
             </p>
@@ -139,6 +150,6 @@ export default function PrivacyPolicy() {
                 {t('privacy_policy.section8.agreement')}
             </p>
 
-        </div>
+        </motion.div>
     );
 }

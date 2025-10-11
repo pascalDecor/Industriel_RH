@@ -38,9 +38,9 @@ export default function HomeBannerCarroussel() {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-start justify-start">
                     <div className="max-w-xl  ml-0 lg:ml-16">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl/18 font-semibold mb-6 sm:mb-8 lg:mb-14 text-white leading-tight">
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl/18 font-semibold mb-6 sm:mb-8 lg:mb-14 text-white leading-tight">
                             {t('carousel.slide1.title')}
-                            <strong className="bg-white text-blue-800 rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-0 font-bold uppercase ml-2 sm:ml-3 mt-2 sm:mt-3 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl inline-block">
+                            <strong className="bg-white text-blue-800 rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-0 font-bold uppercase ml-2 sm:ml-3 mt-2 sm:mt-3 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl inline-block">
                                 {t('carousel.slide1.title_highlight')}
                             </strong>
                         </h2>
@@ -50,17 +50,17 @@ export default function HomeBannerCarroussel() {
                         <div className="flex flex-col sm:flex-row gap-4 lg:gap-4">
                             <div className="">
                                 <p className="text-gray-400 sm:h-10 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.job_seekers')}</p>
-                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full border text-xs sm:text-sm w-full sm:w-auto">
+                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full border text-xs sm:text-sm w-full sm:w-auto px-10 lg:py-4">
                                     {t('carousel.slide1.find_job')}
                                 </Button>
                             </div>
                             <div className="sm:border-l border-gray-500 sm:pl-4 pt-4 sm:pt-0 border-t sm:border-t-0">
                                 <p className="text-gray-400 sm:h-10 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.businesses')}</p>
                                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                                    <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm">
+                                    {/* <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm">
                                         {t('carousel.slide1.preview_candidates')}
-                                    </Button>
-                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-xs sm:text-sm">
+                                    </Button> */}
+                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-xs sm:text-sm lg:py-4">
                                         {t('carousel.slide1.hire_now')}
                                     </Button>
                                 </div>
@@ -93,16 +93,16 @@ export default function HomeBannerCarroussel() {
                         <div className="flex flex-col sm:flex-row gap-4 lg:gap-4">
                             <div className="">
                                 <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10 sm:h-10">{t('carousel.slide1.job_seekers')}</p>
-                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full text-xs sm:text-sm w-full sm:w-auto">
+                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full text-xs sm:text-sm w-full sm:w-auto px-10">
                                     {t('carousel.slide1.find_job')}
                                 </Button>
                             </div>
                             <div className="flex-1 sm:border-l border-gray-500 sm:pl-4 pt-4 sm:pt-0 border-t sm:border-t-0">
                                 <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 lg:mb-10 sm:h-10">{t('carousel.slide1.businesses')}</p>
                                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                                    <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm">
+                                    {/* <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm">
                                         {t('carousel.slide1.preview_candidates')}
-                                    </Button>
+                                    </Button> */}
                                     <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-xs sm:text-sm">
                                         {t('carousel.slide1.hire_now')}
                                     </Button>
@@ -123,10 +123,10 @@ export default function HomeBannerCarroussel() {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-start justify-start">
                     <div className="max-w-xl  ml-0 lg:ml-16">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl/13 text-gray-800 font-semibold mb-6 sm:mb-8 lg:mb-14 leading-tight">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-5xl/13 text-gray-800 font-semibold mb-6 sm:mb-8 lg:mb-14 leading-tight">
                             {t('carousel.slide3.title')}
                             <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl/18 mt-2">{t('carousel.slide3.subtitle')}</span>
-                            <strong className="inline-block text-base sm:text-lg lg:text-xl xl:text-6xl/18 bg-blue-900 text-white rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-1 sm:py-2 font-bold uppercase mt-3 whitespace-nowrap">
+                            <strong className="inline-block text-base sm:text-lg lg:text-xl xl:text-5xl/18 bg-blue-900 text-white rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-1 sm:py-2 font-bold uppercase mt-3 whitespace-nowrap">
                                 {t('carousel.slide3.title_highlight')}
                             </strong>
                         </h2>
@@ -136,17 +136,17 @@ export default function HomeBannerCarroussel() {
                         <div className="flex flex-col sm:flex-row gap-4 lg:gap-4">
                             <div className="">
                                 <p className="text-blue-800 text-xs sm:text-sm font-semibold mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.job_seekers')}</p>
-                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full border text-xs sm:text-sm w-full sm:w-auto">
+                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full border text-xs sm:text-sm w-full sm:w-auto px-10 lg:py-4 lg:py-4">
                                     {t('carousel.slide1.find_job')}
                                 </Button>
                             </div>
                             <div className="flex-1 sm:border-l border-gray-300 sm:pl-4 pt-4 sm:pt-0 border-t sm:border-t-0">
                                 <p className="text-gray-800 text-xs sm:text-sm font-semibold mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.businesses')}</p>
                                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                                    <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm border border-gray-300">
+                                    {/* <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm border border-gray-300 lg:py-4">
                                         {t('carousel.slide1.preview_candidates')}
-                                    </Button>
-                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-xs sm:text-sm border border-gray-300">
+                                    </Button> */}
+                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-xs sm:text-sm border border-gray-300 lg:py-4">
                                         {t('carousel.slide1.hire_now')}
                                     </Button>
                                 </div>
@@ -166,10 +166,10 @@ export default function HomeBannerCarroussel() {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-start justify-start">
                     <div className="max-w-xl  ml-0 lg:ml-16">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl/13 text-gray-800 font-semibold mb-6 sm:mb-8 lg:mb-14 leading-tight">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-5xl/13 text-gray-800 font-semibold mb-6 sm:mb-8 lg:mb-14 leading-tight">
                             {t('carousel.slide3.title')}
                             <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl/18 mt-2">{t('carousel.slide3.subtitle')}</span>
-                            <strong className="inline-block text-base sm:text-lg lg:text-xl xl:text-6xl/18 bg-blue-900 text-white rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-1 sm:py-2 font-bold uppercase mt-3 whitespace-nowrap">
+                            <strong className="inline-block text-base sm:text-lg lg:text-xl xl:text-5xl/18 bg-blue-900 text-white rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-1 sm:py-2 font-bold uppercase mt-3 whitespace-nowrap">
                                 {t('carousel.slide3.title_highlight')}
                             </strong>
                         </h2>
@@ -179,17 +179,17 @@ export default function HomeBannerCarroussel() {
                         <div className="flex flex-col sm:flex-row gap-4 lg:gap-4">
                             <div className="">
                                 <p className="text-blue-800 text-xs sm:text-sm font-semibold mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.job_seekers')}</p>
-                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full border text-xs sm:text-sm w-full sm:w-auto">
+                                <Button variant="primary" size="md" onClick={handleClickFindJobs} className="!rounded-full border text-xs sm:text-sm w-full sm:w-auto px-10 lg:py-4">
                                     {t('carousel.slide1.find_job')}
                                 </Button>
                             </div>
                             <div className="flex-1 sm:border-l border-gray-300 sm:pl-4 pt-4 sm:pt-0 border-t sm:border-t-0">
                                 <p className="text-gray-800 text-xs sm:text-sm font-semibold mb-4 sm:mb-6 lg:mb-10">{t('carousel.slide1.businesses')}</p>
                                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                                    <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm border border-gray-300">
+                                    {/* <Button variant="light" size="md" onClick={handleClickPreviewCandidates} className="!rounded-full text-xs sm:text-sm border border-gray-300 lg:py-4">
                                         {t('carousel.slide1.preview_candidates')}
-                                    </Button>
-                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-xs sm:text-sm border border-gray-300">
+                                    </Button> */}
+                                    <Button variant="light" size="md" onClick={handleClickHireNow} className="!rounded-full text-xs sm:text-sm border border-gray-300 lg:py-4">
                                         {t('carousel.slide1.hire_now')}
                                     </Button>
                                 </div>

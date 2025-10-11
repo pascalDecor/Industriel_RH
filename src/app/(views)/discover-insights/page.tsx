@@ -357,7 +357,7 @@ export default function DiscoverInsights() {
             <motion.div
               key={article.id}
               variants={{
-                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                hidden: { opacity: 1, y: 30, scale: 0.95 },
                 visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5 } }
               }}
               className="w-full"
@@ -380,7 +380,7 @@ export default function DiscoverInsights() {
                   <div className="text-sm font-regular text-gray-500 line-clamp-3">
                     <EditorContent content={translateArticleContent(article)} />
                   </div>
-                  {/* <div className="mt-3 flex items-center justify-between">
+                  <div className="mt-3 flex items-center justify-between">
                     <div className="flex flex-wrap gap-1">
                       {article.tags.slice(0, 2).map((tag) => (
                         <span
@@ -394,7 +394,7 @@ export default function DiscoverInsights() {
                     <span className="text-xs text-gray-400">
                       {article.views} {t('common.views')}
                     </span>
-                  </div> */}
+                  </div>
                 </div>
               </div>
             </motion.div>
