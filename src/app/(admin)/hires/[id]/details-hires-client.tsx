@@ -4,12 +4,14 @@ import Button from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { formatDateFr } from "@/lib/formatDate";
 import Image from "next/image";
+
 import { LuDownload, LuPhone, LuTrash2 } from "react-icons/lu";
 import { HttpService } from "@/utils/http.services";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import { getFileIcon } from "@/components/ui/inputFile";
 import { imagePathFinder } from "@/utils/imagePathFinder";
+
 import { FaRegEnvelope } from "react-icons/fa";
 import { Hire } from "@/models/hire";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "@/components/ui/breadcrumb";

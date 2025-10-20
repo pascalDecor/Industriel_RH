@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import AddNotices from "./add";
 import ItemNotices from "./item";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Pagination from "@/components/paginationCustom";
 import FloatingLabelInput from "@/components/ui/input";
 import { redirect } from "next/navigation";
@@ -24,6 +24,14 @@ export default function Notices() {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const [active, setActive] = useState<Notice | undefined>(undefined);
+
+    // ✅ Mémoriser la promise pour éviter les rechargements continus
+    const fetchNotices = useCallback(async () => {
+        return HttpService.index<Notice>({
+            url: '/notices?page=' + page + '&search=' + search,
+            fromJson: (json: any) => Notice.fromJSON(json)
+        });
+    }, [page, search]);
     return (
         <div className="space-y-4">
 
@@ -54,14 +62,12 @@ export default function Notices() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <AsyncBuilder promise={async () => {
-                    return HttpService.index<Notice>({
-                        url: '/notices?page=' + page + '&search=' + search + '&_t=' + changeCount,
-                        fromJson: (json: any) => Notice.fromJSON(json)
-                    });
-                }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                <AsyncBuilder
+                    promise={fetchNotices}
+                    loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                     callDataListen={changeCount}
-                    enableRefresh={false}
+                    autoRefreshOnListen={true}
+                    autoRefreshOnPromiseChange={false}
 
                     hasData={(data) => {
                         setPage(data.meta.page);

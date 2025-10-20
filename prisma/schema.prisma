@@ -474,3 +474,74 @@ model Campaign {
   @@index([sentAt])
   @@index([createdAt])
 }
+
+model Translation {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  key         String   @db.VarChar(200) // Clé de traduction (ex: "footer.services")
+  category    String?  @db.VarChar(100) // Catégorie optionnelle (ex: "footer", "nav", "common")
+  fr          String   @db.Text // Texte en français
+  en          String   @db.Text // Texte en anglais
+  description String?  @db.Text // Description pour aider les traducteurs
+
+  @@unique([key]) // Une seule traduction par clé
+  @@index([category])
+  @@index([key])
+}
+
+model ActivityLog {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  type        String   @db.VarChar(50) // Type d'activité (ex: "translation_update", "user_created", etc.)
+  action      String   @db.VarChar(100) // Action effectuée (ex: "update", "create", "delete")
+  entityType  String   @db.VarChar(50) // Type d'entité (ex: "translation", "user", "article")
+  entityId    String?  @db.VarChar(50) // ID de l'entité concernée
+  description String   @db.Text // Description lisible de l'action
+  metadata    Json?    @default("{}") // Métadonnées supplémentaires (ancien/nouveau contenu, etc.)
+  userId      String   // Utilisateur qui a effectué l'action
+  userEmail   String   @db.VarChar(320) // Email de l'utilisateur pour affichage rapide
+  userName    String   @db.VarChar(200) // Nom de l'utilisateur pour affichage rapide
+
+  @@index([createdAt])
+  @@index([type])
+  @@index([entityType])
+  @@index([userId])
+  @@index([createdAt, type])
+}
+
+model MediaAsset {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  key          String   @unique @db.VarChar(200) // Clé unique (ex: "logo", "banner_1", même que imagePathFinder)
+  category     String?  @db.VarChar(100) // Catégorie (ex: "logos", "banners", "partners", "icons")
+
+  // Chemins et URLs
+  publicUrl    String   @db.Text // URL publique (Supabase Storage, Cloudinary, etc.)
+  fallbackPath String?  @db.VarChar(500) // Chemin statique de secours (/images/...)
+  storagePath  String?  @db.VarChar(500) // Chemin dans le storage (pour suppression)
+
+  // Métadonnées de l'image
+  fileName     String   @db.VarChar(255) // Nom du fichier original
+  altText_fr   String?  @db.Text // Texte alternatif en français
+  altText_en   String?  @db.Text // Texte alternatif en anglais
+  width        Int?     // Largeur en pixels
+  height       Int?     // Hauteur en pixels
+  fileSize     Int?     // Taille du fichier en bytes
+  mimeType     String?  @db.VarChar(100) // Type MIME (image/png, image/jpeg, etc.)
+
+  // Gestion et optimisation
+  isActive     Boolean  @default(true) // Si false, utilise le fallback statique
+  priority     String   @default("normal") @db.VarChar(20) // "critical", "high", "normal", "low" pour preload
+  description  String?  @db.Text // Description pour les admins
+
+  // Traçabilité
+  uploadedBy   String?  // ID de l'utilisateur qui a uploadé
+
+  @@index([key])
+  @@index([category])
+  @@index([isActive])
+  @@index([priority])
+  @@index([createdAt])
+}

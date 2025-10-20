@@ -1,6 +1,42 @@
 "use client";
 import { useState, useEffect, ReactNode, useCallback, useRef, useMemo, useImperativeHandle, forwardRef } from "react";
 
+/**
+ * AsyncBuilder - Composant pour gérer les appels API asynchrones avec loading/error states
+ *
+ * ⚠️ IMPORTANT - Pour éviter les requêtes continues :
+ *
+ * 1. TOUJOURS mémoriser la fonction promise avec useCallback:
+ *    ```tsx
+ *    const fetchData = useCallback(async () => {
+ *      return await HttpService.index({ url: `/api/data?page=${page}` });
+ *    }, [page]); // Ne se recrée que si page change
+ *
+ *    <AsyncBuilder promise={fetchData} ... />
+ *    ```
+ *
+ * 2. NE JAMAIS passer une fonction anonyme directement:
+ *    ```tsx
+ *    ❌ MAUVAIS - Se recrée à chaque rendu, provoque des requêtes infinies:
+ *    <AsyncBuilder promise={async () => fetch(...)} ... />
+ *
+ *    ✅ BON - Mémorisé avec useCallback:
+ *    const promise = useCallback(async () => fetch(...), [dependencies]);
+ *    <AsyncBuilder promise={promise} ... />
+ *    ```
+ *
+ * 3. Si vous utilisez callDataListen pour contrôler les refreshes,
+ *    vous pouvez désactiver autoRefreshOnPromiseChange:
+ *    ```tsx
+ *    <AsyncBuilder
+ *      promise={memoizedPromise}
+ *      callDataListen={changeCount}
+ *      autoRefreshOnListen={true}
+ *      autoRefreshOnPromiseChange={false}  // Désactive le refresh sur changement de promise
+ *    />
+ *    ```
+ */
+
 interface AsyncBuilderProps<T> {
   promise: () => Promise<T>;
   hasData: (data: T, isRefreshing: boolean) => ReactNode; // doit idéalement être pure
@@ -69,10 +105,16 @@ export const AsyncBuilder = forwardRef<AsyncBuilderRef, AsyncBuilderProps<any>>(
   const promiseRef = useRef(promise);
   const initialLoadRef = useRef(false);
   const fetchDataRef = useRef<(isRefresh?: boolean) => Promise<void>>(async () => {});
+  const isFetchingRef = useRef(false); // Éviter les appels simultanés
+  const lastCallDataListenRef = useRef<unknown>(callDataListen);
+  const dataRef = useRef<T | null>(data); // Ref pour accéder à data sans recréer les callbacks
 
   const fetchData = useCallback(
     async (isRefresh = false) => {
-      if (!mountedRef.current) return;
+      // Guard: ne pas exécuter si démonté ou si un fetch est déjà en cours
+      if (!mountedRef.current || isFetchingRef.current) return;
+
+      isFetchingRef.current = true;
 
       if (isRefresh) setIsRefreshing(true);
       else setLoading(true);
@@ -98,6 +140,7 @@ export const AsyncBuilder = forwardRef<AsyncBuilderRef, AsyncBuilderProps<any>>(
         setLoading(false);
         setIsRefreshing(false);
         onLoadingChange?.(false);
+        isFetchingRef.current = false;
       }
     },
     [onDataChange, onError, onLoadingChange]
@@ -108,12 +151,19 @@ export const AsyncBuilder = forwardRef<AsyncBuilderRef, AsyncBuilderProps<any>>(
   //   fetchDataRef.current = fetchData;
   // }, []);
 
+  // Garder dataRef à jour avec data
+  useEffect(() => {
+    dataRef.current = data;
+  }, [data]);
+
   const debouncedFetchData = useCallback(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      fetchData(data !== null);
+      // On utilise dataRef pour éviter de recréer ce callback à chaque changement de data
+      const hasExistingData = dataRef.current !== null;
+      fetchData(hasExistingData);
     }, debounceMs);
-  }, [fetchData, debounceMs, data]);
+  }, [fetchData, debounceMs]);
 
   const retry = useCallback(() => {
     fetchData();
@@ -131,7 +181,8 @@ export const AsyncBuilder = forwardRef<AsyncBuilderRef, AsyncBuilderProps<any>>(
   useEffect(() => {
     promiseRef.current = promise;
     // Si ce n'est pas le chargement initial et que autoRefreshOnPromiseChange est activé, refetch quand la promise change
-    if (autoRefreshOnPromiseChange && initialLoadRef.current) {
+    // Mais seulement si on n'est pas déjà en train de fetch (évite les appels en cascade)
+    if (autoRefreshOnPromiseChange && initialLoadRef.current && !isFetchingRef.current) {
       debouncedFetchData();
     }
   }, [promise, debouncedFetchData, autoRefreshOnPromiseChange]);
@@ -158,7 +209,15 @@ export const AsyncBuilder = forwardRef<AsyncBuilderRef, AsyncBuilderProps<any>>(
   // Refresh sur callDataListen - actif seulement si autoRefreshOnListen est activé
   useEffect(() => {
     // Si callDataListen est défini, que ce n'est pas le chargement initial et que autoRefreshOnListen est activé
-    if (autoRefreshOnListen && callDataListen !== undefined && callDataListen !== null && initialLoadRef.current) {
+    // ET que la valeur a réellement changé (évite les déclenchements en double)
+    if (
+      autoRefreshOnListen &&
+      callDataListen !== undefined &&
+      callDataListen !== null &&
+      initialLoadRef.current &&
+      lastCallDataListenRef.current !== callDataListen
+    ) {
+      lastCallDataListenRef.current = callDataListen;
       debouncedFetchData();
     }
   }, [callDataListen, autoRefreshOnListen, debouncedFetchData]);

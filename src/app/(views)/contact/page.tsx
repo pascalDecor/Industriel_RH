@@ -4,8 +4,7 @@ import { addContact } from "@/app/actions/contact";
 import Button from "@/components/ui/button";
 import InputError from "@/components/ui/inputError";
 import { Contact } from "@/models/contact";
-import { imagePathFinder } from "@/utils/imagePathFinder";
-import Image from 'next/image';
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import Link from "next/link";
 import { useActionState, useState } from "react";
 import SuccessSend from "../consulting-solutions/components/successSend";
@@ -49,7 +48,7 @@ export default function ContactPage() {
                         viewport={{ once: true }}
                         className="lg:col-span-2"
                     >
-                        <Image loading="lazy" src={imagePathFinder.we_accept_recruitment} alt="Salary Guide" />
+                        <DynamicImage imageKey="we_accept_recruitment" alt="Salary Guide"  />
                     </motion.div>
                 </div>
             </section>
@@ -98,7 +97,7 @@ export default function ContactPage() {
                             }}
                             className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow"
                         >
-                            <Image loading="lazy" src={imagePathFinder.contact_telephone} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
+                            <DynamicImage imageKey="contact_telephone" alt="Describe your Need" className="w-16 md:w-20 mb-4"  />
                             <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base text-sm sm:text-base">
                                 {t('contact.telephone_label')}: <br /> 819-919-8693
                             </p>
@@ -110,7 +109,7 @@ export default function ContactPage() {
                             }}
                             className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow"
                         >
-                            <Image loading="lazy" src={imagePathFinder.contact_couriel} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
+                            <DynamicImage imageKey="contact_couriel" alt="Describe your Need" className="w-16 md:w-20 mb-4"  />
                             <p className="font-semibold text mb-3 text-gray-600 text-left text-sm sm:text-base" >
                                 {t('contact.email')}
                             </p>
@@ -125,7 +124,7 @@ export default function ContactPage() {
                             }}
                             className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow"
                         >
-                            <Image loading="lazy" src={imagePathFinder.contact_adresse} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
+                            <DynamicImage imageKey="contact_adresse" alt="Describe your Need" className="w-16 md:w-20 mb-4"  />
                             <p className="font-semibold text mb-3 text-gray-600 text-left text-sm sm:text-base" >
                                 {t('contact.address')}
                             </p>
@@ -140,7 +139,7 @@ export default function ContactPage() {
                             }}
                             className="w-full p-5 md:p-7 text-left hover:border rounded-2xl hover:shadow-lg transition-shadow"
                         >
-                            <Image loading="lazy" src={imagePathFinder.contact_langue} alt="Describe your Need" className="w-16 md:w-20 mb-4" />
+                            <DynamicImage imageKey="contact_langue" alt="Describe your Need" className="w-16 md:w-20 mb-4"  />
                             <p className="font-semibold text mb-3 text-gray-600 text-left text-sm sm:text-base" >
                                 {t('contact.languages_spoken')}
                             </p>

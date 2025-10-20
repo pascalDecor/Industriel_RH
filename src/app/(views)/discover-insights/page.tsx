@@ -1,7 +1,8 @@
 
+
 "use client";
 
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import Image from 'next/image';
 import Button from "@/components/ui/button";
 import LazyImage from "@/components/ui/LazyImage";
@@ -322,7 +323,7 @@ export default function DiscoverInsights() {
           viewport={{ once: true }}
           className="lg:col-span-2"
         >
-          <Image loading="lazy" src={imagePathFinder.own_the_future_of_your_work} alt={t('discover_insights.hero.alt')} />
+          <DynamicImage imageKey="discover_insights" width={500} height={500} alt="Discover insights" />
         </motion.div>
       </div>
     </section>

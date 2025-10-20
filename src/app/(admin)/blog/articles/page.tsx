@@ -4,7 +4,7 @@
 import { LoadingSpinner } from "@/lib/load.helper";
 import { Article } from "@/models/article";
 import { HttpService } from "@/utils/http.services";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Button from "@/components/ui/button";
 import { redirect } from "next/navigation";
 import { AsyncBuilder } from "@/components/ui/asyncBuilder";
@@ -22,6 +22,7 @@ export default function Blog() {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const [changeCount, setchangeCount] = useState(0);
+    const [currentTab, setCurrentTab] = useState<"published" | "unpublished">("published");
 
     const onglets: OngletProps[] = [
         {
@@ -33,6 +34,15 @@ export default function Blog() {
             libelle: "Non publiés"
         }
     ];
+
+    // ✅ Mémoriser la promise pour éviter les rechargements continus
+    const fetchArticles = useCallback(async () => {
+        const publishedParam = currentTab === "published" ? "true" : "false";
+        return HttpService.index<Article>({
+            url: `/articles?page=${page}&search=${search}&published=${publishedParam}&includeContent=true`,
+            fromJson: (json: any) => Article.fromJSON(json)
+        });
+    }, [page, search, currentTab]);
 
     return (
         <div className="space-y-8">
@@ -48,7 +58,14 @@ export default function Blog() {
             </div>
 
             <div>
-                <Tabs defaultValue={onglets[0].id} className="w-full">
+                <Tabs
+                    defaultValue={onglets[0].id}
+                    className="w-full"
+                    onValueChange={(value) => {
+                        setCurrentTab(value as "published" | "unpublished");
+                        setchangeCount(c => c + 1); // Déclenche un refresh lors du changement d'onglet
+                    }}
+                >
                     <div className="bg-slate-200 py-0 px-0 w-full rounded-xl">
                         <TabsList className="w-fit px-0 py-5 bg-slate-200">
                             {onglets.map(onglet =>
@@ -60,13 +77,13 @@ export default function Blog() {
                     </div>
                     {onglets.map(onglet =>
                         <TabsContent key={onglet.id} value={onglet.id}>
-                            <AsyncBuilder promise={async () => {
-                                const publishedParam = onglet.id === "published" ? "true" : "false";
-                                return HttpService.index<Article>({
-                                    url: `/articles?page=${page}&search=${search}&published=${publishedParam}&includeContent=true`,
-                                    fromJson: (json: any) => Article.fromJSON(json)
-                                });
-                            }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>} callDataListen={changeCount} autoRefreshOnListen={true} onDataChange={(data) => {
+                            <AsyncBuilder
+                                promise={fetchArticles}
+                                loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                                callDataListen={changeCount}
+                                autoRefreshOnListen={true}
+                                autoRefreshOnPromiseChange={false}
+                                onDataChange={(data) => {
                                 if (data) {
                                     setPage(data.meta.page);
                                 }

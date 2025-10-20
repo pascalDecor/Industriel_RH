@@ -2,8 +2,7 @@
 "use client";
 
 import Button from "@/components/ui/button";
-import { imagePathFinder } from "@/utils/imagePathFinder";
-import Image from 'next/image';
+import { DynamicImage } from "@/components/ui/DynamicImage";
 
 import { FiCheck, FiSearch } from "react-icons/fi";
 import ExploreSuccessStories from "@/components/ExploreSuccessStories";
@@ -215,7 +214,7 @@ export default function FindJobs() {
                         viewport={{ once: true }}
                         className="lg:col-span-2"
                     >
-                        <Image loading="lazy" src={imagePathFinder.hire_talent_how_it_work} alt="Salary Guide" />
+                        <DynamicImage loading="lazy" imageKey="hire_talent_how_it_work" alt="Salary Guide" />
                     </motion.div>
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
@@ -520,7 +519,7 @@ export default function FindJobs() {
                     viewport={{ once: true }}
                     className="lg:col-span-2"
                 >
-                    <Image loading="lazy" src={imagePathFinder.recruitment_by_outsourcing} alt="Salary Guide" />
+                    <DynamicImage loading="lazy" imageKey="recruitment_by_outsourcing" alt="Salary Guide" />
                 </motion.div>
             </div>
 
@@ -545,7 +544,7 @@ export default function FindJobs() {
                     }}
                     className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white"
                 >
-                    <Image loading="lazy" src={imagePathFinder.find_top_talent_faster} className="!w-10 mb-5" alt="Salary Guide" />
+                    <DynamicImage loading="lazy" imageKey="find_top_talent_faster" className="!w-10 mb-5" alt="Salary Guide" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.outsourcing.find_talent.title')}
                     </p>
@@ -560,7 +559,7 @@ export default function FindJobs() {
                     }}
                     className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white"
                 >
-                    <Image loading="lazy" src={imagePathFinder.hire_with_precision_confidence} className="!w-10 mb-5" alt="Salary Guide" />
+                    <DynamicImage imageKey="hire_with_precision_confidence" alt="Salary Guide" className="!w-10 mb-5" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.outsourcing.hire_precision.title')}
                     </p>
@@ -575,7 +574,7 @@ export default function FindJobs() {
                     }}
                     className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white"
                 >
-                    <Image loading="lazy" src={imagePathFinder.secure_the_right_fit_for_your_team} className="!w-10 mb-5" alt="Salary Guide" />
+                    <DynamicImage imageKey="secure_the_right_fit_for_your_team" alt="Salary Guide" className="!w-10 mb-5" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.outsourcing.secure_fit.title')}
                     </p>
@@ -786,7 +785,7 @@ export default function FindJobs() {
                     viewport={{ once: true }}
                     className="lg:col-span-2"
                 >
-                    <Image loading="lazy" src={imagePathFinder.international_recruitment} alt="Salary Guide" />
+                    <DynamicImage imageKey="international_recruitment" alt="Salary Guide" />
                 </motion.div>
             </div>
 
@@ -796,7 +795,7 @@ export default function FindJobs() {
 
             <div className="max-w-5xl mb-10 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-center">
                 <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white hover:shadow-lg">
-                    <Image loading="lazy" src={imagePathFinder.international_recruitment_icon} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
+                    <DynamicImage imageKey="international_recruitment_icon" alt="Salary Guide" className="!w-10 mb-5 mx-auto" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.international.recruitment.title')}
                     </p>
@@ -805,7 +804,7 @@ export default function FindJobs() {
                     </p>
                 </div>
                 <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white hover:shadow-lg">
-                    <Image loading="lazy" src={imagePathFinder.legal_services} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
+                    <DynamicImage imageKey="legal_services" alt="Salary Guide" className="!w-10 mb-5 mx-auto" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.international.legal.title')}
                     </p>
@@ -814,7 +813,7 @@ export default function FindJobs() {
                     </p>
                 </div>
                 <div className="rounded-2xl p-6 sm:p-7 border border-gray-300 bg-white hover:shadow-lg">
-                    <Image loading="lazy" src={imagePathFinder.welcome_and_integration} className="!w-10 mb-5 mx-auto" alt="Salary Guide" />
+                    <DynamicImage imageKey="welcome_and_integration" alt="Salary Guide" className="!w-10 mb-5 mx-auto" />
                     <p className="text-sm font-regular text-blue-800 font-bold mb-3">
                         {t('hire_talent.international.welcome.title')}
                     </p>
@@ -837,7 +836,7 @@ export default function FindJobs() {
                         viewport={{ once: true }}
                         className="lg:col-span-2"
                     >
-                        <Image loading="lazy" src={imagePathFinder.structured_approach} className="!w-full" alt="Salary Guide" />
+                        <DynamicImage imageKey="structured_approach" alt="Salary Guide" className="!w-full" />
                     </motion.div>
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
@@ -945,7 +944,7 @@ export default function FindJobs() {
                                 {t('hire_talent.why_international.diverse_talent.description')}
                             </p>
                         </div>
-                        <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.access_to_diverse_talent} alt="Navigate tech skills gaps" />
+                        <DynamicImage imageKey="access_to_diverse_talent" alt="Navigate tech skills gaps" className="w-1/3 rounded-lg" />
                     </div>
                 </motion.div>
 
@@ -967,7 +966,7 @@ export default function FindJobs() {
                                 {t('hire_talent.why_international.skill_gaps.description')}
                             </p>
                         </div>
-                        <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.fill_critical_skill_gaps} alt="Robert Half blog" />
+                        <DynamicImage imageKey="fill_critical_skill_gaps" alt="Robert Half blog" className="w-1/3 rounded-lg" />
                     </div>
                 </motion.div>
 
@@ -989,7 +988,7 @@ export default function FindJobs() {
                                 {t('hire_talent.why_international.competitiveness.description')}
                             </p>
                         </div>
-                        <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.boost_competitiveness} alt="Salary Guide" />
+                        <DynamicImage imageKey="boost_competitiveness" alt="Salary Guide" className="w-1/3 rounded-lg" />
                     </div>
                 </motion.div>
                 <motion.div
@@ -1010,7 +1009,7 @@ export default function FindJobs() {
                                 {t('hire_talent.why_international.streamlined.description')}
                             </p>
                         </div>
-                        <Image loading="lazy" className="w-1/3 rounded-lg" src={imagePathFinder.streamlined_processes} alt="What jobs are in demand?" />
+                        <DynamicImage imageKey="streamlined_processes" alt="What jobs are in demand?" className="w-1/3 rounded-lg" />
                     </div>
                 </motion.div>
             </motion.div>

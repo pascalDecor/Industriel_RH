@@ -1,6 +1,6 @@
 "use client";
 
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import Image from 'next/image'
 import { Notice } from "@/models/notice";
@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import ShowStars from "@/app/(admin)/management/notices/showStars";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { imagePathFinder } from "@/utils/imagePathFinder";
 
 
 interface ExploreSuccessStoriesInputProps {

@@ -1,8 +1,7 @@
 "use client";
 
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import { useTranslation } from "@/contexts/LanguageContext";
-import Image from 'next/image';
 import { motion } from "framer-motion";
 
 export default function About() {
@@ -31,9 +30,9 @@ export default function About() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="lg:col-span-2"
+          className="lg:col-span-2 h-full"
         >
-          <Image loading="lazy" src={imagePathFinder.about_catalyst_of_prosperity} alt="Salary Guide" />
+          <DynamicImage imageKey="about_catalyst_of_prosperity" alt="Salary Guide"  />
         </motion.div>
       </div>
     </section>
@@ -60,7 +59,7 @@ export default function About() {
           }}
           className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg"
         >
-          <Image loading="lazy" src={imagePathFinder.expertise} alt="Describe your Need" className="w-10 mb-4 mx-auto" />
+          <DynamicImage imageKey="expertise" alt="Describe your Need" className="w-10 mb-4 mx-auto"  />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.expertise.title')}
           </p>
@@ -75,7 +74,7 @@ export default function About() {
           }}
           className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg"
         >
-          <Image loading="lazy" src={imagePathFinder.technology} alt="  We Source the Talent" className="w-10 mb-4 mx-auto" />
+          <DynamicImage imageKey="technology" alt="  We Source the Talent" className="w-10 mb-4 mx-auto"  />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.technology.title')}
           </p>
@@ -90,7 +89,7 @@ export default function About() {
           }}
           className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg"
         >
-          <Image loading="lazy" src={imagePathFinder.innovative_approach} alt="Select and Approve" className="w-10 mb-4 mx-auto" />
+          <DynamicImage imageKey="innovative_approach" alt="Select and Approve" className="w-10 mb-4 mx-auto"  />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.innovative_approach.title')}
           </p>
@@ -105,7 +104,7 @@ export default function About() {
           }}
           className="border-2 border-gray-300 p-6 sm:p-7 rounded-2xl text-center h-full hover:bg-white hover:shadow-lg"
         >
-          <Image loading="lazy" src={imagePathFinder.reliability} alt="Seamless Integration" className="w-10 mb-4 mx-auto" />
+          <DynamicImage imageKey="reliability" alt="Seamless Integration" className="w-10 mb-4 mx-auto"  />
           <p className="text-sm font-semibold mb-5  text-blue-900 text-center">
             {t('about.reliability.title')}
           </p>
@@ -166,7 +165,7 @@ export default function About() {
                 </p>
               </div>
               <div className="p-3 sm:p-5 flex-shrink-0 w-20 sm:w-24">
-                <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_innovation} alt="Salary Guide" />
+                <DynamicImage imageKey="valeur_innovation" alt="Salary Guide" className="w-full"  />
               </div>
             </div>
           </div>
@@ -182,7 +181,7 @@ export default function About() {
                 </p>
               </div>
               <div className="p-3 sm:p-5 flex-shrink-0 w-20 sm:w-24">
-                <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_integrity} alt="What jobs are in demand?" />
+                <DynamicImage imageKey="valeur_integrity" alt="What jobs are in demand?" className="w-full" />
               </div>
             </div>
           </div>
@@ -198,7 +197,7 @@ export default function About() {
                 </p>
               </div>
               <div className="p-3 sm:p-5 flex-shrink-0 w-20 sm:w-24">
-                <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_diversity} alt="Robert Half blog" />
+                <DynamicImage imageKey="valeur_diversity" alt="Robert Half blog" className="w-full" />
               </div>
             </div>
           </div>
@@ -214,7 +213,7 @@ export default function About() {
                 </p>
               </div>
               <div className="p-3 sm:p-5 flex-shrink-0 w-20 sm:w-24">
-                <Image loading="lazy" className="w-full" src={imagePathFinder.valeur_sustanability} alt="Navigate tech skills gaps" />
+                <DynamicImage imageKey="valeur_sustanability" alt="Navigate tech skills gaps" className="w-full" />
               </div>
             </div>
           </div>
@@ -234,7 +233,7 @@ export default function About() {
           viewport={{ once: true }}
           className="lg:col-span-2 order-2 lg:order-1"
         >
-          <Image loading="lazy" src={imagePathFinder.hire_the_best_francophone_talent_worldwide} alt="Salary Guide" />
+          <DynamicImage imageKey="hire_the_best_francophone_talent_worldwide" alt="Salary Guide" width={500} height={400} />
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 50 }}
@@ -275,7 +274,7 @@ export default function About() {
           className="lg:col-span-1"
         >
           <div className="w-full border border-gray-200 p-6 sm:p-7 rounded-2xl text-center bg-gradient-to-t hover:from-blue-300 hover:to-blue-100 hover:shadow-lg from-gray-300 to-gray-200 pb-12 sm:pb-20">
-            <Image loading="lazy" src={imagePathFinder.jamel_hein} alt="Describe your Need" className="w-32 sm:w-40 mb-4 mx-auto -mt-16 sm:-mt-20" />
+            <DynamicImage imageKey="jamel_hein" alt="Describe your Need" width={160} height={160} className="w-32 sm:w-40 mb-4 mx-auto -mt-16 sm:-mt-20" />
             <p className="text uppercase font-semibold mb-5 text-blue-900 text-center">
             JAMEL HEIN
           </p>

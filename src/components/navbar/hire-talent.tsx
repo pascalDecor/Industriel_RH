@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import Button from "../ui/button";
 import { redirect } from "next/navigation";
 import { Sector } from "@/models/sector";
 import { LoadingSpinner } from "@/lib/load.helper";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { useState } from "react";
+
 
 
 export function HireTalentExpandedNavbar({ sectors }: { sectors: Sector[] }) {
@@ -20,7 +20,7 @@ export function HireTalentExpandedNavbar({ sectors }: { sectors: Sector[] }) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-6 lg:px-10 mb-5 max-w-7xl mx-auto">
       <div className="w-full">
         <div className="bg-white shadow-lg rounded-2xl p-5 w-full text-start">
-          <Image loading="lazy" src={imagePathFinder.hire_talent} alt="logo" className="w-1/2 md:w-2/5" />
+          <DynamicImage imageKey="hire_talent" alt="Hire talent" className="w-1/2 md:w-2/5 mb-3" />
           <p className="text-gray-700 text-sm mb-5 font-semibold">
             {t('hire_talent.nav.description')}
           </p>

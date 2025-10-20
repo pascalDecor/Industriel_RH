@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+
 import { redirect } from "next/navigation";
 import { Sector } from "@/models/sector";
 import { useTranslation } from "@/contexts/LanguageContext";
@@ -54,16 +54,10 @@ export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] 
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-6 lg:px-10 mb-5 max-w-7xl mx-auto">
       <div className="w-full">
         <div className="bg-white shadow-lg rounded-2xl p-5 w-full">
-          <Image
-            priority={false}
-            loading="lazy"
-            src={imagePathFinder.discover_insights}
-            alt="logo"
-            className="w-1/2 md:w-2/5"
-            width={200}
-            height={100}
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGBobHB0eH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJvBYxun9ubtlOIZhKhFa/buxtrMuZBOgKiDKUQKUGKxgLAaYYJqKQyFQQPL8RoXM8VQRlhYhYVCQUBGOFRDgJBGwwCAYLPJA="
+          <DynamicImage
+            imageKey="discover_insights"
+            alt="Discover insights"
+            className="w-1/2 md:w-2/5 mb-3"
           />
           <p className="text-gray-500 text-sm mb-5">
             {t('discover_insights.navbar.description')}

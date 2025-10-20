@@ -2,8 +2,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { imagePathFinder } from "@/utils/imagePathFinder";
-import Image from 'next/image';
+import { DynamicImage } from "@/components/ui/DynamicImage";
 
 import { FiArrowRight } from "react-icons/fi";
 import { useEffect, useState } from "react";
@@ -14,6 +13,7 @@ import { SectionProps } from "@/models/props";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const EditorContent = dynamic(() => import("@/components/ui/editorContent"), {
   loading: () => <div className="animate-pulse bg-gray-200 h-4 rounded" />
@@ -152,7 +152,7 @@ export default function ConsultingSolutions() {
           viewport={{ once: true }}
           className="lg:col-span-2"
         >
-          <Image loading="lazy" src={section1?.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt="Your Partner for Manufacturing Workforce Solutions" />
+          <Image loading="lazy" src={section1?.image!} alt={`Your Partner for ${section1?.libelle} Workforce Solutions`} width={500} height={500} className="mb-4 mx-auto max-w-full h-auto" />
         </motion.div>
       </div>
     </section>
@@ -344,7 +344,7 @@ export default function ConsultingSolutions() {
                 </Button>
               </div>
               <div className="lg:col-span-3 p-0 flex items-center justify-center">
-                <Image loading="lazy" src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="  We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
+                <DynamicImage imageKey="trending_job_titles"  width={500} height={500} alt="  We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
               </div>
             </div>
 
@@ -443,7 +443,7 @@ export default function ConsultingSolutions() {
           viewport={{ once: true }}
           className="lg:col-span-3 order-2 lg:order-1"
         >
-          <Image loading="lazy" src={section3?.image || imagePathFinder.leading_agency_for_manufacturing_workforce_solutions} width={500} height={500} alt={section3?.libelle ?? "Leading agency for manufacturing workforce solutions"} />
+          <Image loading="lazy" src={section3?.image!} alt={`Leading agency for ${section3?.libelle} Workforce Solutions`} width={500} height={500} className="mb-4 mx-auto max-w-full h-auto" />
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 50 }}

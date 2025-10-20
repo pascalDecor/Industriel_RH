@@ -7,7 +7,7 @@ import { Application } from "@/models/application"
 import { HttpService } from "@/utils/http.services"
 
 import ItemCandidatures from "./item";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Pagination from "@/components/paginationCustom";
 
 
@@ -15,16 +15,23 @@ import Pagination from "@/components/paginationCustom";
 export default function ListeCandidatures({state, search} : Readonly<{state: string, search: string}>) {
     const [changeCount, setchangeCount] = useState(0);
     const [page, setPage] = useState(1);
+
+    // ✅ Mémoriser la promise pour éviter les rechargements continus
+    const fetchApplications = useCallback(async () => {
+        return await HttpService.index<Application>({
+            url: '/applications?page=' + page + '&search=' + search + '&state=' + state,
+            fromJson: (json: any) => Application.fromJSON(json)
+        });
+    }, [page, search, state]);
+
     return (
      <div className="py-5">
-                <AsyncBuilder promise={async () => {
-                    return await HttpService.index<Application>({
-                        url: '/applications?page=' + page + '&search=' + search + '&state=' + state,
-                        fromJson: (json: any) => Application.fromJSON(json)
-                    });
-                }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                <AsyncBuilder
+                    promise={fetchApplications}
+                    loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                     callDataListen={changeCount}
                     autoRefreshOnListen={true}
+                    autoRefreshOnPromiseChange={false}
                     onDataChange={(data) => {
                         if (data) {
                             setPage(data.meta.page);

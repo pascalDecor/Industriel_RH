@@ -4,7 +4,7 @@ import Button from "@/components/ui/button";
 import { SectionProps } from "@/models/props";
 import { Section } from "@/models/section";
 import { Sector } from "@/models/sector";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import Image from 'next/image';
 import { redirect } from "next/navigation";
@@ -13,6 +13,8 @@ import { FiArrowRight } from "react-icons/fi";
 import DashboardCNESST from "./pages/Dashboard";
 import { ComplianceProvider } from "./context/ComplianceContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 
 export default function QuebecTaxCalculator() {
   const [sector, setSector] = useState<Sector | undefined>(undefined);
@@ -48,7 +50,7 @@ export default function QuebecTaxCalculator() {
       <section className="mx-auto max-w-5xl mb-10 p-10">
         <div className="grid grid-cols-5 items-center gap-4 mt-10">
           <div className="lg:col-span-3 col-span-12  pr-4">
-            <Image loading="lazy" src={imagePathFinder.validCNESST} className="h-8 w-auto mb-3" alt="Salary Net" />
+            <DynamicImage imageKey="validCNESST" alt="Salary Net" className="h-8 w-auto mb-3" />
             <h2 className="text-3xl font-semibold text mb-5 text-gray-800">
               {"Validate Employment Documents with Confidence"}
             </h2>
@@ -58,7 +60,7 @@ export default function QuebecTaxCalculator() {
             </p>
           </div>
           <div className="lg:col-span-2 col-span-12">
-            <Image loading="lazy" src={imagePathFinder.valid_cnesst} alt="Salary Guide" />
+            <DynamicImage imageKey="valid_cnesst" alt="Salary Guide" />
           </div>
         </div>
       </section>

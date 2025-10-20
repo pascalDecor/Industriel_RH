@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import AddTags from "./add";
 import ItemTags from "./item";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Pagination from "@/components/paginationCustom";
 import FloatingLabelInput from "@/components/ui/input";
 
@@ -22,6 +22,14 @@ export default function Tags() {
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState('');
     const [isEnglishView, setIsEnglishView] = useState(false);
+
+    // ✅ Mémoriser la promise pour éviter les rechargements continus
+    const fetchTags = useCallback(async () => {
+        return HttpService.index<Tag>({
+            url: '/tags?page=' + page + '&search=' + search,
+            fromJson: (json: any) => Tag.fromJSON(json)
+        });
+    }, [page, search]);
 
     return (
         <div className="space-y-4">
@@ -78,14 +86,12 @@ export default function Tags() {
             </div>
 
             <div>
-                <AsyncBuilder promise={async () => {
-                    return HttpService.index<Tag>({
-                        url: '/tags?page=' + page + '&search=' + search,
-                        fromJson: (json: any) => Tag.fromJSON(json)
-                    });
-                }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+                <AsyncBuilder
+                    promise={fetchTags}
+                    loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                     callDataListen={changeCount}
-                    enableRefresh={true}
+                    autoRefreshOnListen={true}
+                    autoRefreshOnPromiseChange={false}
                     hasData={(data) => {
                         setPage(data.meta.page);
                         return <>

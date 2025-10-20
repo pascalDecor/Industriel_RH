@@ -1,7 +1,9 @@
-import { imagePathFinder } from "@/utils/imagePathFinder";
+
 import type { Metadata } from "next";
-import Image from "next/image";
+
 import Link from "next/link";
+import Image from "next/image";
+import { imagePathFinder } from "@/utils/imagePathFinder";
 
 
 export const metadata: Metadata = {

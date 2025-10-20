@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import Button from "../ui/button";
 import { redirect } from "next/navigation";
 import { Sector } from "@/models/sector";
@@ -12,16 +11,16 @@ import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 import { useState } from "react";
 
 
-export function ConsultingSolutionsExpandedNavbar({sectors}: {sectors: Sector[]}) {
+export function ConsultingSolutionsExpandedNavbar({ sectors }: { sectors: Sector[] }) {
   const { t, language } = useTranslation();
   const [isFrench, setIsFrench] = useState(language === 'fr');
   const { translateSector } = useDynamicTranslation();
- 
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 px-4 md:px-6 lg:px-10 mb-5 max-w-7xl mx-auto">
       <div className="lg:col-span-4 w-full">
         <div className="bg-white shadow-lg rounded-2xl p-5 w-full">
-          <Image loading="lazy" src={imagePathFinder.consulting_solutions} alt="logo" className="w-1/2 md:w-2/5" />
+          <DynamicImage imageKey="consulting_solutions" alt="Consulting solutions" className="w-1/2 md:w-2/5 mb-3" />
           <p className="text-gray-500 text-sm mb-5">
             {t('consulting.navbar.description')}
           </p>
@@ -43,7 +42,7 @@ export function ConsultingSolutionsExpandedNavbar({sectors}: {sectors: Sector[]}
                   {isFrench ? sector.libelle : sector.libelle_en}
                 </p>
                 <p className="text-gray-500 text-sm">
-                  { isFrench ? sector.description : sector.description_en }
+                  {isFrench ? sector.description : sector.description_en}
                 </p>
               </a>
             )) : <LoadingSpinner color="#0F766E"></LoadingSpinner>}

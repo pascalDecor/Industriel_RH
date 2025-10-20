@@ -6,7 +6,7 @@ import { Hire } from "@/models/hire"
 import { HttpService } from "@/utils/http.services"
 
 import ItemHires from "./item";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Pagination from "@/components/paginationCustom";
 import { redirect } from "next/navigation";
 
@@ -15,15 +15,23 @@ import { redirect } from "next/navigation";
 export default function ListeHires({ state, search }: Readonly<{ state: string, search: string }>) {
     const [changeCount, setchangeCount] = useState(0);
     const [page, setPage] = useState(1);
+
+    // ✅ Mémoriser la promise pour éviter les rechargements continus
+    const fetchHires = useCallback(async () => {
+        return await HttpService.index<Hire>({
+            url: '/hires?page=' + page + '&search=' + search + '&state=' + state,
+            fromJson: (json: any) => Hire.fromJSON(json)
+        });
+    }, [page, search, state]);
+
     return (
         <div className="py-5">
-            <AsyncBuilder promise={async () => {
-                return await HttpService.index<Hire>({
-                    url: '/hires?page=' + page + '&search=' + search + '&state=' + state,
-                    fromJson: (json: any) => Hire.fromJSON(json)
-                });
-            }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
+            <AsyncBuilder
+                promise={fetchHires}
+                loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>}
                 callDataListen={changeCount}
+                autoRefreshOnListen={true}
+                autoRefreshOnPromiseChange={false}
                 hasData={(data) => {
                     setPage(data.meta.page);
                     return <>

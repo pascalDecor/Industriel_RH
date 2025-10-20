@@ -1,9 +1,10 @@
 "use client";
 
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import { useTranslation } from "@/contexts/LanguageContext";
 import Image from 'next/image';
 import { motion, Variants } from "framer-motion";
+import { imagePathFinder } from "@/utils/imagePathFinder";
 
 export default function PartnersAccreditation() {
     const { t, language } = useTranslation();

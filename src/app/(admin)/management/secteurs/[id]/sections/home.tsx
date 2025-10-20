@@ -2,10 +2,11 @@
 
 import Button from "@/components/ui/button";
 import { Sector } from "@/models/sector";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import Image from "next/image";
+
 import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
-import Image from "next/image";
+
 import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
 
 import { UpdateDescriptionSectorComponent, UpdateImageSectorComponent } from "./updateComponent";
@@ -14,6 +15,7 @@ import { AsyncBuilder } from "@/components/ui/asyncBuilder";
 import { LoadingSpinner } from "@/lib/load.helper";
 import { HttpService } from "@/utils/http.services";
 import { Section } from "@/models/section";
+import { imagePathFinder } from "@/utils/imagePathFinder";
 
 export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn, showEnglish }: { sectorIn: Sector, showEnglish?: boolean }) {
     const [sector, setSector] = useState(sectorIn);

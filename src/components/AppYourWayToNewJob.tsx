@@ -1,12 +1,13 @@
 
 "use client";
 
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import { FiCheck } from "react-icons/fi";
 import Button from "./ui/button";
 import Image from 'next/image';
 import { useTranslation } from "@/contexts/LanguageContext";
 import { motion, Variants } from "framer-motion";
+import { imagePathFinder } from "@/utils/imagePathFinder";
 
 
 export default function AppYourWayToNewJob() {
@@ -135,9 +136,8 @@ export default function AppYourWayToNewJob() {
                                     className="w-full sm:w-auto !rounded-[10px] text-left hover:scale-105 transition-transform duration-300 group"
                                 >
                                     <div className="flex gap-3 sm:gap-4 items-center">
-                                        <Image
-                                            loading="lazy"
-                                            src={imagePathFinder.apple}
+                                        <DynamicImage
+                                            imageKey="apple"
                                             alt="Apple App Store"
                                             className="w-5 sm:w-6 my-auto group-hover:scale-110 transition-transform duration-300"
                                         />
@@ -161,9 +161,8 @@ export default function AppYourWayToNewJob() {
                                     className="w-full sm:w-auto !rounded-[10px] text-left hover:scale-105 transition-transform duration-300 group"
                                 >
                                     <div className="flex gap-3 sm:gap-4 items-center">
-                                        <Image
-                                            loading="lazy"
-                                            src={imagePathFinder.google_play}
+                                        <DynamicImage
+                                            imageKey="google_play"
                                             alt="Google Play Store"
                                             className="w-5 sm:w-6 my-auto group-hover:scale-110 transition-transform duration-300"
                                         />
@@ -189,13 +188,13 @@ export default function AppYourWayToNewJob() {
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.02 }}
                     >
-                        <Image
-                            loading="lazy"
-                            src={imagePathFinder.app_your_way_to_a_new_job}
+                        <DynamicImage
+                            // loading="lazy"
+                            imageKey="app_your_way_to_a_new_job"
                             alt="App your way to a new job"
-                            className="w-full h-auto"
                             width={600}
                             height={400}
+                            className="w-full h-auto"
                         />
                     </motion.div>
                 </div>

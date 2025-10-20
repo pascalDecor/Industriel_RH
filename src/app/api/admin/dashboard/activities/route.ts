@@ -10,7 +10,8 @@ export async function GET() {
       recentHires,
       recentContacts,
       recentArticles,
-      recentNewsletterSubscriptions
+      recentNewsletterSubscriptions,
+      recentActivityLogs
     ] = await Promise.all([
       // Applications récentes
       prisma.application.findMany({
@@ -98,6 +99,25 @@ export async function GET() {
         },
         orderBy: { subscribedAt: 'desc' },
         take: 20
+      }),
+
+      // Logs d'activité récents (traductions, etc.)
+      prisma.activityLog.findMany({
+        where: { createdAt: { gte: last30Days } },
+        select: {
+          id: true,
+          type: true,
+          action: true,
+          entityType: true,
+          entityId: true,
+          description: true,
+          metadata: true,
+          createdAt: true,
+          userName: true,
+          userEmail: true
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 20
       })
     ]);
 
@@ -181,7 +201,39 @@ export async function GET() {
           name: `${sub.firstName} ${sub.lastName}`,
           type: 'subscriber'
         }
-      }))
+      })),
+      ...recentActivityLogs.map(log => {
+        // Déterminer l'icône et le titre en fonction du type et de l'action
+        let icon = '📝';
+        let title = log.description;
+
+        if (log.type === 'translation') {
+          if (log.action === 'create') {
+            icon = '✨';
+            title = 'Nouvelle traduction';
+          } else if (log.action === 'update') {
+            icon = '✏️';
+            title = 'Modification traduction';
+          } else if (log.action === 'delete') {
+            icon = '🗑️';
+            title = 'Suppression traduction';
+          }
+        }
+
+        return {
+          id: `activitylog-${log.id}`,
+          type: log.type,
+          icon,
+          title,
+          description: log.description,
+          time: formatTimeAgo(log.createdAt),
+          createdAt: log.createdAt,
+          author: {
+            name: log.userName,
+            type: 'admin'
+          }
+        };
+      })
     ];
 
     // Trier par date de création et prendre les 10 plus récents

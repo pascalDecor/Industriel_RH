@@ -2,8 +2,7 @@
 "use client";
 
 import Button from "@/components/ui/button";
-import { imagePathFinder } from "@/utils/imagePathFinder";
-import Image from 'next/image';
+import { DynamicImage } from "@/components/ui/DynamicImage";
 
 import { FiArrowRight, FiCheck, FiSearch } from "react-icons/fi";
 import { TiLocationOutline } from "react-icons/ti";
@@ -117,7 +116,7 @@ export default function FindJobs() {
                     viewport={{ once: true }}
                     className="lg:col-span-2"
                 >
-                    <Image loading="lazy" src={imagePathFinder.find_a_job_that_works_for_you} alt="Salary Guide" />
+                    <DynamicImage imageKey="find_a_job_that_works_for_you" alt="Salary Guide" />
                 </motion.div>
             </div>
         </section>
@@ -337,7 +336,7 @@ export default function FindJobs() {
                             </div>
                         </div>
 
-                        <Image loading="lazy" src={imagePathFinder.explore_how_we_help_job_seekers} alt="  We Source the Talent" className="w-full mb-4 mx-auto" />
+                        <DynamicImage imageKey="explore_how_we_help_job_seekers" alt="  We Source the Talent" className="w-full mb-4 mx-auto" />
                     </motion.div>
                     <motion.div
                         variants={{

@@ -7,9 +7,16 @@ import Carousel from "./ui/carroussel";
 import { motion } from "framer-motion";
 import { redirect } from "next/navigation";
 import { useTranslation } from "@/contexts/LanguageContext";
+import { useImage } from "@/hooks/useImage";
 
 export default function HomeBannerCarroussel() {
     const { t } = useTranslation();
+
+    // Charger les images de fond dynamiquement
+    const banner = useImage('banner');
+    const banner1 = useImage('banner_1');
+    const banner2 = useImage('banner_2');
+    const banner3 = useImage('banner_3');
 
     function handleClickFindJobs() {
         redirect("/find-jobs#");
@@ -28,7 +35,11 @@ export default function HomeBannerCarroussel() {
 
 
     const slides = [
-        <div key={0} className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-[url(/images/banner.png)] bg-cover bg-center py-6 sm:py-8 lg:py-10">
+        <div
+            key={0}
+            className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-cover bg-center py-6 sm:py-8 lg:py-10"
+            style={{ backgroundImage: `url(${banner.src})` }}
+        >
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -71,7 +82,11 @@ export default function HomeBannerCarroussel() {
             </motion.div>
         </div>
         ,
-        <div key={1} className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-[url(/images/banner_1.png)] bg-cover bg-center py-6 sm:py-8 lg:py-10">
+        <div
+            key={1}
+            className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-cover bg-center py-6 sm:py-8 lg:py-10"
+            style={{ backgroundImage: `url(${banner1.src})` }}
+        >
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -113,7 +128,11 @@ export default function HomeBannerCarroussel() {
                 </div>
             </motion.div>
         </div>,
-        <div key={2} className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-[url(/images/banner_2.png)] bg-cover bg-center py-6 sm:py-8 lg:py-10">
+        <div
+            key={2}
+            className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-cover bg-center py-6 sm:py-8 lg:py-10"
+            style={{ backgroundImage: `url(${banner2.src})` }}
+        >
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -123,9 +142,9 @@ export default function HomeBannerCarroussel() {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-start justify-start">
                     <div className="max-w-xl  ml-0 lg:ml-16">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-5xl/13 text-gray-800 font-semibold mb-6 sm:mb-8 lg:mb-14 leading-tight">
+                        <h2 className="text-3xl sm:text-3xl lg:text-4xl xl:text-4xl/13 text-gray-800 font-semibold mb-6 sm:mb-8 lg:mb-14 leading-tight">
                             {t('carousel.slide3.title')}
-                            <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl/18 mt-2">{t('carousel.slide3.subtitle')}</span>
+                            <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl/15 mt-2">{t('carousel.slide3.subtitle')}</span>
                             <strong className="inline-block text-base sm:text-lg lg:text-xl xl:text-5xl/18 bg-blue-900 text-white rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-1 sm:py-2 font-bold uppercase mt-3 whitespace-nowrap">
                                 {t('carousel.slide3.title_highlight')}
                             </strong>
@@ -156,7 +175,11 @@ export default function HomeBannerCarroussel() {
                 </div>
             </motion.div>
         </div>,
-        <div key={3} className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-[url(/images/banner_3.png)] bg-cover bg-center py-6 sm:py-8 lg:py-10">
+        <div
+            key={3}
+            className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-cover bg-center py-6 sm:py-8 lg:py-10"
+            style={{ backgroundImage: `url(${banner3.src})` }}
+        >
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -166,9 +189,9 @@ export default function HomeBannerCarroussel() {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-start justify-start">
                     <div className="max-w-xl  ml-0 lg:ml-16">
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-5xl/13 text-gray-800 font-semibold mb-6 sm:mb-8 lg:mb-14 leading-tight">
+                        <h2 className="text-3xl sm:text-4xl lg:text-4xl xl:text-4xl/13 text-gray-800 font-semibold mb-6 sm:mb-8 lg:mb-14 leading-tight">
                             {t('carousel.slide3.title')}
-                            <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl/18 mt-2">{t('carousel.slide3.subtitle')}</span>
+                            <span className="block text-2xl sm:text-3xl lg:text-4xl xl:text-5xl/15 mt-2">{t('carousel.slide3.subtitle')}</span>
                             <strong className="inline-block text-base sm:text-lg lg:text-xl xl:text-5xl/18 bg-blue-900 text-white rounded-xl sm:rounded-2xl px-2 sm:px-3 lg:px-4 py-1 sm:py-2 font-bold uppercase mt-3 whitespace-nowrap">
                                 {t('carousel.slide3.title_highlight')}
                             </strong>

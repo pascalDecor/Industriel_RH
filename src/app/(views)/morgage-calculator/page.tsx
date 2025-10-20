@@ -4,7 +4,7 @@ import Button from "@/components/ui/button";
 import { SectionProps } from "@/models/props";
 import { Section } from "@/models/section";
 import { Sector } from "@/models/sector";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import Image from 'next/image';
 import { redirect } from "next/navigation";
@@ -13,6 +13,8 @@ import { FiArrowRight } from "react-icons/fi";
 import MorgageCalculator from "./components/Calculator";
 import HiringTrendsArticles from "@/components/articles/HiringTrendsArticles";
 import { useTranslation } from "@/contexts/LanguageContext";
+import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 
 export default function QuebecTaxCalculator() {
   const { t } = useTranslation();
@@ -45,7 +47,7 @@ export default function QuebecTaxCalculator() {
     <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-6 mt-10">
         <div className="lg:col-span-3 lg:pr-4">
-          <Image loading="lazy" src={imagePathFinder.mortgage_calc} className="h-8 w-auto" alt="Salary Net" />
+          <DynamicImage imageKey="mortgage_calc" alt="Salary Net" className="h-8 w-auto" />
           <h2 className="text-2xl md:text-3xl font-semibold text mb-5 text-gray-800">
             {t('mortgage_calculator.title')}
           </h2>
@@ -53,8 +55,8 @@ export default function QuebecTaxCalculator() {
             {t('mortgage_calculator.description')}
           </p>
         </div>
-        <div className="lg:col-span-2">
-          <Image loading="lazy" src={imagePathFinder.morgage_calculator} alt="Salary Guide" />
+        <div className="lg:col-span-2 h-full">
+          <DynamicImage imageKey="morgage_calculator"   alt="Mortgage Calculator"  />
         </div>
       </div>
     </section>
@@ -128,7 +130,11 @@ export default function QuebecTaxCalculator() {
             </Button>
           </div>
           <div className="flex items-center justify-center">
-            <Image loading="lazy" src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
+            {section2?.image ? (
+              <Image loading="lazy" src={section2.image} width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
+            ) : (
+              <DynamicImage imageKey="trending_job_titles" alt="We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
+            )}
           </div>
         </div>
       </div>

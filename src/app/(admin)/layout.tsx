@@ -7,6 +7,7 @@ import { useSession } from "@/hooks/useSession";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@/models/user";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -61,6 +62,7 @@ export default function LayoutAdmin({
 
     return (
         <QueryClientProvider client={queryClient}>
+            <Toaster position="top-right" />
             <section className="dark:text-gray-400 text-gray-800 h-[100vh]">
                 <div className="flex gap-0 h-full">
                     <div className="h-full">

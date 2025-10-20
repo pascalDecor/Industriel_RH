@@ -1,7 +1,10 @@
 "use client";
 
+import Image from 'next/image';
 import { imagePathFinder } from "@/utils/imagePathFinder";
-import Image from "next/image";
+
+
+
 
 export function HeaderOld() {
 

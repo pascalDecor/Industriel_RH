@@ -5,11 +5,13 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
-  ShoppingCart,
+  BookOpen,
+  UserCheck,
   Users,
   Wallet,
-  Briefcase,
-  CheckSquare,
+  Building2,
+  Tag,
+  Star,
   MessageSquare,
   Inbox,
   Calendar,
@@ -22,11 +24,15 @@ import {
   Shield,
   Mail,
   Activity,
+  Languages,
+  Image as ImageIcon,
+  ClipboardList,
+  BarChart3,
+  TrendingUp,
+  Package,
 } from "lucide-react";
-import Image from "next/image";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import React, { useState } from "react";
-import { LuAlbum } from "react-icons/lu";
 import { usePermissions } from "@/hooks/usePermissions";
 import { Permission, UserRole } from "@/types/auth";
 
@@ -50,190 +56,182 @@ interface Onglet {
   excludeRoles?: UserRole[];
 }
 
-const getRoutes = (userRole: UserRole | null): Onglet[] => [
+interface SidebarSection {
+  title?: string;
+  routes: Onglet[];
+}
+
+const getSidebarSections = (userRole: UserRole | null): SidebarSection[] => [
+  // SECTION: Vue d'ensemble
   {
-    label: "Dashboard",
-    leading: LayoutDashboard,
-    href: "/dashboard",
-    color: "text-sky-500",
-    children: [
+    title: "Vue d'ensemble",
+    routes: [
       {
-        label: "Main",
+        label: "Tableau de bord",
         leading: LayoutDashboard,
-        href: "/",
-        color: "text-sky-500",
+        href: "/dashboard",
+        color: "text-blue-600",
+      },
+    ]
+  },
+
+  // SECTION: Recrutement
+  {
+    title: "Recrutement",
+    routes: [
+      {
+        label: "Candidatures",
+        leading: ClipboardList,
+        href: "/candidatures",
+        color: "text-amber-600",
+        permissions: [Permission.APPLICATIONS_READ],
       },
       {
-        label: "Analytics",
-        leading: LayoutDashboard,
-        href: "#",
-        color: "text-sky-500",
-        roles: [UserRole.SUPER_ADMIN, UserRole.HR_DIRECTOR, UserRole.HR_MANAGER],
+        label: "Embauches",
+        leading: UserCheck,
+        href: "/hires",
+        color: "text-green-600",
+        permissions: [Permission.HIRES_READ],
       },
       {
-        label: "Ecommerce",
-        leading: LayoutDashboard,
-        href: "#",
-        color: "text-sky-500",
+        label: "Contacts",
+        leading: Inbox,
+        href: "/contacts",
+        color: "text-purple-600",
+        permissions: [Permission.CONTACTS_READ],
+      },
+    ]
+  },
+
+  // SECTION: Contenu
+  {
+    title: "Contenu",
+    routes: [
+      {
+        label: "Blog",
+        leading: BookOpen,
+        href: "/blog",
+        color: "text-indigo-600",
         excludeRoles: [UserRole.CONSULTANT],
+        children: [
+          {
+            label: "Articles",
+            leading: FileText,
+            href: "/articles",
+            color: "text-indigo-500",
+          },
+          {
+            label: "Spécialités",
+            leading: Package,
+            href: "/specialites",
+            color: "text-indigo-500",
+          },
+          {
+            label: "Tags",
+            leading: Tag,
+            href: "/tags",
+            color: "text-indigo-500",
+          },
+        ]
       },
+    ]
+  },
+
+  // SECTION: Configuration
+  {
+    title: "Configuration",
+    routes: [
       {
-        label: "Marketing",
-        leading: LayoutDashboard,
-        href: "#",
-        color: "text-sky-500",
+        label: "Contenu du site",
+        leading: Settings,
+        href: "/management",
+        color: "text-emerald-600",
         excludeRoles: [UserRole.CONSULTANT, UserRole.HR_ASSISTANT],
-      },
-    ]
-  },
-  {
-    label: "Blog",
-    leading: ShoppingCart,
-    href: "/blog",
-    color: "text-violet-500",
-    excludeRoles: [UserRole.CONSULTANT],
-    children: [
-      {
-        label: "Articles",
-        leading: LayoutDashboard,
-        href: "/articles",
-        color: "text-sky-500",
-      },
-      {
-        label: "Spécialités",
-        leading: LayoutDashboard,
-        href: "/specialites",
-        color: "text-sky-500",
-      },
-      {
-        label: "Tags",
-        leading: LayoutDashboard,
-        href: "/tags",
-        color: "text-sky-500",
-      },
-    ]
-  },
-  {
-    label: "Candidatures",
-    leading: Users,
-    href: "/candidatures",
-    color: "text-pink-500",
-    permissions: [Permission.APPLICATIONS_READ],
-  },
-  {
-    label: "Embauches",
-    leading: LuAlbum,
-    href: "/hires",
-    color: "text-orange-500",
-    permissions: [Permission.HIRES_READ],
-  },
-  // {
-  //   label: "Finance",
-  //   leading: Wallet,
-  //   href: "/finance",
-  //   color: "text-orange-500",
-  // },
-  {
-    label: "Management",
-    leading: Briefcase,
-    href: "/management",
-    color: "text-emerald-500",
-    excludeRoles: [UserRole.CONSULTANT, UserRole.HR_ASSISTANT],
-    children: [
-      {
-        label: "Secteurs",
-        leading: LayoutDashboard,
-        href: "/secteurs",
-        color: "text-sky-500",
+        children: [
+          {
+            label: "Secteurs",
+            leading: Building2,
+            href: "/secteurs",
+            color: "text-emerald-500",
+          },
+          {
+            label: "Avis clients",
+            leading: Star,
+            href: "/notices",
+            color: "text-yellow-500",
+          },
+          {
+            label: "Newsletters",
+            leading: Mail,
+            href: "/newsletters",
+            color: "text-blue-500",
+          },
+          {
+            label: "Traductions",
+            leading: Languages,
+            href: "/translations",
+            color: "text-teal-500",
+          },
+          {
+            label: "Médias",
+            leading: ImageIcon,
+            href: "/media",
+            color: "text-pink-500",
+          },
+        ]
       },
       {
-        label: "Avis",
-        leading: LayoutDashboard,
-        href: "/notices",
-        color: "text-sky-500",
-      },
-      {
-        label: "Newsletters",
-        leading: Mail,
-        href: "/newsletters",
-        color: "text-blue-500",
-      },
-    ]
-  },
-  // {
-  //   label: "Tasks",
-  //   leading: CheckSquare,
-  //   href: "/tasks",
-  //   color: "text-red-500",
-  // },
-  // {
-  //   label: "Messages",
-  //   leading: MessageSquare,
-  //   href: "/messages",
-  //   color: "text-blue-500",
-  // },
-  {
-    label: "Contacts",
-    leading: Inbox,
-    href: "/contacts",
-    color: "text-indigo-500",
-    permissions: [Permission.CONTACTS_READ],
-  },
-  // {
-  //   label: "Calendar",
-  //   leading: Calendar,
-  //   href: "/calendar",
-  //   color: "text-green-500",
-  // },
-  // {
-  //   label: "Campaigns",
-  //   leading: Megaphone,
-  //   href: "/campaigns",
-  //   color: "text-yellow-500",
-  // },
-  {
-    label: "Administration",
-    leading: Settings,
-    href: "",
-    color: "text-red-500",
-    permissions: [Permission.USERS_READ, Permission.ROLES_MANAGE],
-    children: [
-      {
-        label: "Utilisateurs",
-        leading: Users,
-        href: "/users",
-        color: "text-red-500",
-        permissions: [Permission.USERS_READ],
-      },
-      {
-        label: "Rôles & Permissions",
+        label: "Administration",
         leading: Shield,
-        href: "/roles",
-        color: "text-red-500",
-        permissions: [Permission.ROLES_MANAGE],
+        href: "",
+        color: "text-red-600",
+        permissions: [Permission.USERS_READ, Permission.ROLES_MANAGE],
+        children: [
+          {
+            label: "Utilisateurs",
+            leading: Users,
+            href: "/users",
+            color: "text-red-500",
+            permissions: [Permission.USERS_READ],
+          },
+          {
+            label: "Rôles & Permissions",
+            leading: Shield,
+            href: "/roles",
+            color: "text-red-500",
+            permissions: [Permission.ROLES_MANAGE],
+          },
+        ]
       },
-    ]
-  },
-  {
-    label: "Développement",
-    leading: Code,
-    href: "",
-    color: "text-purple-500",
-    roles: [UserRole.SUPER_ADMIN],
-    children: [
       {
-        label: "API Docs",
-        leading: FileText,
-        href: "/api-docs",
-        color: "text-purple-500",
+        label: "Développement",
+        leading: Code,
+        href: "",
+        color: "text-violet-600",
+        roles: [UserRole.SUPER_ADMIN],
+        children: [
+          {
+            label: "API Docs",
+            leading: FileText,
+            href: "/api-docs",
+            color: "text-violet-500",
+          },
+        ]
       },
     ]
   },
+
+  // SECTION: Journal
   {
-    label: "Activités",
-    leading: Activity,
-    href: "/activites",
-    color: "text-gray-500",
+    title: "Journal",
+    routes: [
+      {
+        label: "Activités",
+        leading: Activity,
+        href: "/activites",
+        color: "text-slate-600",
+      },
+    ]
   },
 ];
 
@@ -261,27 +259,50 @@ const isRouteVisible = (route: Onglet, userRole: UserRole | null, hasPermission:
 
 export default function SideBar() {
   const { userRole, hasPermission } = usePermissions();
-  const routes = getRoutes(userRole ?? null);
-
-  const visibleRoutes = routes.filter(route => isRouteVisible(route, userRole ?? null, hasPermission));
+  const sections = getSidebarSections(userRole ?? null);
 
   return (
-    <div className="space-y-4 py-4 flex flex-col h-lvh bg-white w-64 !rounded-br-3xl !rounded-tl-3xl">
+    <div className="space-y-4 py-4 flex flex-col h-lvh bg-white w-64 !rounded-br-3xl !rounded-tl-3xl overflow-y-auto">
       <div className="px-3 py-2 flex-1">
-        <Link href="/dashboard" className="flex items-center pl-3 mb-5 mt-3">
-          <Image loading="lazy" src={imagePathFinder.logo} alt="logo" width={150} />
+        <Link href="/dashboard" className="flex items-center justify-center mb-6 mt-3">
+          <DynamicImage imageKey="logo" alt="logo" width={140} height={45} />
         </Link>
-        <div className="space-y-1">
-          {visibleRoutes.map((route) => (
-            <SideBarItem key={route.href} route={route} userRole={userRole ?? null} hasPermission={hasPermission} />
-          ))}
+
+        <div className="space-y-6">
+          {sections.map((section, sectionIndex) => {
+            const visibleRoutes = section.routes.filter(route =>
+              isRouteVisible(route, userRole ?? null, hasPermission)
+            );
+
+            if (visibleRoutes.length === 0) return null;
+
+            return (
+              <div key={sectionIndex} className="space-y-1">
+                {section.title && (
+                  <div className="px-3 mb-2">
+                    <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                      {section.title}
+                    </h3>
+                  </div>
+                )}
+                {visibleRoutes.map((route) => (
+                  <SideBarItem
+                    key={route.href}
+                    route={route}
+                    userRole={userRole ?? null}
+                    hasPermission={hasPermission}
+                  />
+                ))}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 }
 
-function SideBarItem({ route, userRole, hasPermission }: { 
+function SideBarItem({ route, userRole, hasPermission }: {
   route: Onglet;
   userRole: UserRole | null;
   hasPermission: (permission: Permission) => boolean;
@@ -290,42 +311,49 @@ function SideBarItem({ route, userRole, hasPermission }: {
   const [check, setcheck] = useState(false);
 
   // Filtrer les enfants visibles
-  const visibleChildren = route.children?.filter(child => 
+  const visibleChildren = route.children?.filter(child =>
     isRouteVisible(child, userRole, hasPermission)
   ) || [];
 
+  const isActive = pathname === route.href || pathname!.startsWith(route.href + '/');
+
   return (
-    <div className={cn((check && visibleChildren.length > 0) && "!bg-slate-200 rounded-xl pt-1")}>
+    <div className={cn((check && visibleChildren.length > 0) && "!bg-slate-50 rounded-xl pt-1")}>
       <Link
         onClick={() => { setcheck(!check); route.active = true; }}
         key={route.href}
         href={visibleChildren.length > 0 ? "#" : route.href}
         className={cn(
-          "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:font-semibold hover:bg-slate-200 rounded-lg transition",
-          pathname === route.href ? "bg-slate-200" : "transparent",
+          "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:bg-slate-100 rounded-lg transition-all duration-200",
+          isActive ? "bg-slate-100 text-slate-900 shadow-sm" : "text-slate-600",
         )}
       >
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center flex-1">
-            {route.leading && <route.leading className={cn("h-5 w-5 mr-3", route.color)} />}
-            {route.label}
+            {route.leading && <route.leading className={cn("h-5 w-5 mr-3", isActive ? route.color : "text-slate-400", "group-hover:scale-110 transition-transform")} />}
+            <span className={cn(isActive && "font-semibold")}>{route.label}</span>
           </div>
           {visibleChildren.length > 0 && (
-            !check ? <ChevronDown className="h-5 w-5 text-muted-foreground" /> :
-              <ChevronUp className="h-5 w-5 text-muted-foreground" />
+            !check ? <ChevronDown className="h-4 w-4 text-slate-400" /> :
+              <ChevronUp className="h-4 w-4 text-slate-400" />
           )}
         </div>
       </Link>
 
       {(check && visibleChildren.length > 0) &&
-        <div className="pl-5 pr-3 -mt-5">
-          <div className="p-4 flex flex-col">
+        <div className="pl-3 pr-2 mt-1">
+          <div className="py-2 flex flex-col space-y-0.5">
             {visibleChildren.map(child => {
               // Si l'href de l'enfant commence par "/", c'est un lien absolu
               const childHref = child.href.startsWith('/') ? child.href : route.href + child.href;
+              const isChildActive = pathname === (route.href + childHref);
+
               return (
-                <Link href={ route.href + childHref} key={child.href}
-                  className="flex items-center hover:bg-slate-300 rounded-lg transition text-sm px-4 py-1 hover:py-2 hover:font-semibold"
+                <Link href={route.href + childHref} key={child.href}
+                  className={cn(
+                    "flex items-center hover:bg-slate-200 rounded-lg transition-all duration-200 text-sm px-4 py-2",
+                    isChildActive ? "bg-slate-200 text-slate-900 font-medium" : "text-slate-600"
+                  )}
                   target={child.href === '/api-docs' ? '_blank' : '_self'}
                   rel={child.href === '/api-docs' ? 'noopener noreferrer' : undefined}
                 >

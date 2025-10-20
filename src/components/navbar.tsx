@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaAngleRight, FaArrowLeft, FaBars, FaTimes, FaTimesCircle } from "react-icons/fa";
-import Image from "next/image";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import Button from "./ui/button";
 import { GoArrowUpRight, GoTriangleRight } from "react-icons/go";
 import { motion } from "framer-motion";
 import clsx from "clsx";
 import { useTranslation } from "@/contexts/LanguageContext";
+import { EditableText } from "@/app/(admin)/management/translations/components/EditableText";
 
 
 const FindJobsExpandedNavbar = dynamic(() =>
@@ -91,8 +91,45 @@ const getNavItems = (t: (key: string) => string): NavItem[] => [
   },
 ];
 
-export function Navbar() {
-  const { t } = useTranslation();
+interface NavbarProps {
+  isTranslateMode?: boolean;
+  translations?: { id: string; key: string; fr: string; en: string }[];
+  onUpdate?: (id: string, fr: string, en: string) => void;
+}
+
+export function Navbar({ isTranslateMode = false, translations = [], onUpdate = () => {} }: NavbarProps = {}) {
+  const { t, language } = useTranslation();
+
+  // Prevent link clicks in translate mode
+  const handleLinkClick = (e: React.MouseEvent) => {
+    if (isTranslateMode) {
+      e.preventDefault();
+    }
+  };
+
+  // Helper function to render text based on mode
+  const renderText = (key: string) => {
+    if (!isTranslateMode) {
+      return t(key);
+    }
+
+    const translation = translations.find(tr => tr.key === key);
+    if (!translation) {
+      return t(key);
+    }
+
+    return (
+      <EditableText
+        translationKey={key}
+        currentText={language === 'fr' ? translation.fr : translation.en}
+        language={language as 'fr' | 'en'}
+        translationId={translation.id}
+        onUpdate={onUpdate}
+        allTranslations={translations}
+        className="hover:bg-yellow-200 hover:text-gray-900"
+      />
+    );
+  };
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [sectors, setSectors] = useState<Sector[]>([]);
@@ -139,8 +176,8 @@ export function Navbar() {
             {
               /* Logo */
             }
-            <Link href="/">
-              <Image loading="lazy" src={imagePathFinder.logo} alt="logo" width={screen.width < 768 ? 100 : 150} />
+            <Link href="/" onClick={handleLinkClick}>
+              <DynamicImage imageKey="logo" alt="logo" width={typeof window !== 'undefined' && window.innerWidth < 768 ? 100 : 150} priority />
             </Link>
 
             {
@@ -150,20 +187,29 @@ export function Navbar() {
               {navItems.map((navItem, index) =>
                 <div
                   key={index}
-                  onMouseEnter={() => setHoveredItem(navItem.href)}
-                  onMouseLeave={() => setHoveredItem(null)}>
-                  <Link href={navItem.href} onClick={activeNavItem(navItem.href)} className={clsx("transition  hover:text-slate-600 hover:underline text-gray-400 text-sm", {
-                    "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
-                  })}>
+                  onMouseEnter={() => !isTranslateMode && setHoveredItem(navItem.href)}
+                  onMouseLeave={() => !isTranslateMode && setHoveredItem(null)}>
+                  <Link
+                    href={navItem.href}
+                    onClick={(e) => {
+                      if (isTranslateMode) {
+                        e.preventDefault();
+                      } else {
+                        activeNavItem(navItem.href, e)();
+                      }
+                    }}
+                    className={clsx("transition  hover:text-slate-600 hover:underline text-gray-400 text-sm", {
+                      "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
+                    })}>
                     {navItem.label}
-                    {(hoveredItem === navItem.href && navItem.href !== "/about") && <GoTriangleDown className={clsx("text-gray-400 ml-0.5 inline-block text-sm",
+                    {(hoveredItem === navItem.href && navItem.href !== "/about" && !isTranslateMode) && <GoTriangleDown className={clsx("text-gray-400 ml-0.5 inline-block text-sm",
                       {
                         "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
                       }
                     )} />}
                   </Link>
                   {/* Dropdown Content */}
-                  {(hoveredItem === navItem.href && navItem.expandedComponnent) && <motion.div
+                  {(hoveredItem === navItem.href && navItem.expandedComponnent && !isTranslateMode) && <motion.div
                     initial={{ opacity: 0, }}
                     animate={{ opacity: 1, }}
                     exit={{ opacity: 0, }}
@@ -178,8 +224,8 @@ export function Navbar() {
             }
             <div className="flex items-center  gap-3 sm:gap-4">
               <Button variant="light" size="md" className="!rounded-full text-[11px] border border-gray-300 !py-1">
-                <Link href="/contact" className="hover:text-gray-600 btn text-gray-400 text-sm flex align-middle items-center">
-                  <span>{t('nav.contact')}</span>
+                <Link href="/contact" onClick={handleLinkClick} className="hover:text-gray-600 btn text-gray-400 text-sm flex align-middle items-center">
+                  <span>{renderText('nav.contact')}</span>
                   <div className="bg-blue-700 p-1 rounded-full ml-3">
                     <GoArrowUpRight size={20} className="text-white" />
                   </div>
@@ -212,7 +258,15 @@ export function Navbar() {
 
             {navItems.map((navItem, index) =>
               <div key={index} className="">
-                {navItem.href === "/about" ? <Link href={navItem.href} onClick={activeNavItem(navItem.href)}
+                {navItem.href === "/about" ? <Link
+                  href={navItem.href}
+                  onClick={(e) => {
+                    if (isTranslateMode) {
+                      e.preventDefault();
+                    } else {
+                      activeNavItem(navItem.href, e)();
+                    }
+                  }}
                   className={clsx("transition  hover:text-slate-600 flex justify-between hover:underline text-gray-400 text-sm px-10 !py-4", {
                     "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
                   })}>
@@ -222,19 +276,27 @@ export function Navbar() {
                       "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
                     }
                   )} />}
-                </Link> : <span  onClick={activeNavItem(navItem.href)}
+                </Link> : <span
+                  onClick={(e) => {
+                    if (!isTranslateMode) {
+                      activeNavItem(navItem.href, e)();
+                    } else {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }
+                  }}
                   className={clsx("transition cursor-pointer  hover:text-slate-600 flex justify-between hover:underline text-gray-400 text-sm px-10 !py-4", {
                     "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
                   })}>
                   {navItem.label}
-                  {(navItem.href !== "/about") && <FaAngleRight className={clsx("text-gray-400 ml-0.5 inline-block text-sm",
+                  {(navItem.href !== "/about" && !isTranslateMode) && <FaAngleRight className={clsx("text-gray-400 ml-0.5 inline-block text-sm",
                     {
                       "!text-slate-600 underline font-bold": LocalStorageHelper.getValue("activeNavItem") === navItem.href,
                     }
                   )} />}
                 </span>}
 
-                {(hoveredItem === navItem.href && navItem.expandedComponnent) && <motion.div
+                {(hoveredItem === navItem.href && navItem.expandedComponnent && !isTranslateMode) && <motion.div
                   initial={{ opacity: 0, }}
                   animate={{ opacity: 1, }}
                   exit={{ opacity: 0, }}

@@ -3,11 +3,12 @@ import { Card } from "@/components/ui/card";
 import { formatDateFr } from "@/lib/formatDate";
 import { Hire } from "@/models/hire";
 import { LuDownload, LuPhone, LuTrash2 } from "react-icons/lu";
+import Image from "next/image";
 
 import { HttpService } from "@/utils/http.services";
 import { useState } from "react";
-import Image from "next/image";
 import { imagePathFinder } from "@/utils/imagePathFinder";
+
 import { FaRegEnvelope } from "react-icons/fa6";
 import { getFileIcon } from "@/components/ui/inputFile";
 

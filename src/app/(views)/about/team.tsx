@@ -1,12 +1,12 @@
 "use client";
 
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import { useTranslation } from "@/contexts/LanguageContext";
-import Image from "next/image";
+
 
 export default function Team() {
     const { t } = useTranslation();
-    
+
     return <>
         {/* Catalyst of prosperity for Quebec businesses */}
         <section className="mx-auto w-lvw mb-0 px-10 py-24 bg-gray-200">
@@ -16,7 +16,7 @@ export default function Team() {
 
             <div className="mx-auto max-w-5xl mb-10 p-10 grid grid-cols-3 gap-4">
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-                    <Image loading="lazy" src={imagePathFinder.Jerome_youmani_lankoande} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
+                    <DynamicImage imageKey="Jerome_youmani_lankoande" alt="Jérôme Youmani Lankoandé" className="w-40 mb-4 mx-auto -mt-20" />
                     <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
                         Jérôme Youmani Lankoandé +
                     </p>
@@ -25,7 +25,7 @@ export default function Team() {
                     </p>
                 </div>
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-                    <Image loading="lazy" src={imagePathFinder.alice_morin} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
+                    <DynamicImage imageKey="alice_morin" alt="Alice Morin" className="w-40 mb-4 mx-auto -mt-20" />
                     <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
                         Alice Morin
                     </p>
@@ -34,7 +34,7 @@ export default function Team() {
                     </p>
                 </div>
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-                    <Image loading="lazy" src={imagePathFinder.louis_caron} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
+                    <DynamicImage imageKey="louis_caron" alt="Louis Caron" className="w-40 mb-4 mx-auto -mt-20" />
                     <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
                         Louis Caron
                     </p>
@@ -50,7 +50,7 @@ export default function Team() {
 
             <div className="mx-auto max-w-5xl mb-10 p-10 grid grid-cols-3 gap-4">
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-                    <Image loading="lazy" src={imagePathFinder.paul_farcas} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
+                    <DynamicImage imageKey="paul_farcas" alt="Paul Farcas" className="w-40 mb-4 mx-auto -mt-20" />
                     <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
                         Paul Farcas
                     </p>
@@ -59,7 +59,7 @@ export default function Team() {
                     </p>
                 </div>
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-                    <Image loading="lazy" src={imagePathFinder.komi_sodoke} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
+                    <DynamicImage imageKey="komi_sodoke" alt="Komi Sodoke, PhD" className="w-40 mb-4 mx-auto -mt-20" />
                     <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
                         Komi Sodoke, PhD
                     </p>
@@ -68,7 +68,7 @@ export default function Team() {
                     </p>
                 </div>
                 <div className="col-span-1 border border-gray-200 p-7 rounded-2xl text-center  bg-gradient-to-t from-gray-300 to-gray-200 h-full">
-                    <Image loading="lazy" src={imagePathFinder.eloise_emery} alt="Describe your Need" className="w-40 mb-4 mx-auto -mt-20" />
+                    <DynamicImage imageKey="eloise_emery" alt="Éloïse Emery" className="w-40 mb-4 mx-auto -mt-20" />
                     <p className="text uppercase font-semibold mb-5  text-blue-900 text-center">
                         Éloïse Emery
                     </p>

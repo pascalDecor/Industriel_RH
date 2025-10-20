@@ -1939,6 +1939,30 @@ interface LanguageProviderProps {
 
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [language, setLanguageState] = useState<Language>('fr');
+  const [dbTranslations, setDbTranslations] = useState<Record<Language, Record<string, string>> | null>(null);
+  const [isLoadingTranslations, setIsLoadingTranslations] = useState(true);
+
+  // Charger les traductions depuis la base de données
+  useEffect(() => {
+    const loadTranslations = async () => {
+      try {
+        const response = await fetch('/api/translations');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.translations) {
+            setDbTranslations(data.translations);
+          }
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des traductions:', error);
+        // En cas d'erreur, on utilisera les traductions statiques
+      } finally {
+        setIsLoadingTranslations(false);
+      }
+    };
+
+    loadTranslations();
+  }, []);
 
   // Charger la langue depuis localStorage au démarrage
   useEffect(() => {
@@ -1958,21 +1982,24 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
   // Fonction de traduction
   const t = (key: string, params?: Record<string, string | number>): string => {
-    let text = translations[language][key] || key;
-    
+    // Utiliser les traductions de la DB si disponibles, sinon fallback vers les traductions statiques
+    const activeTranslations = dbTranslations || translations;
+    let text = activeTranslations[language][key] || translations[language][key] || key;
+
     // Remplacer les paramètres s'ils existent
     if (params) {
       Object.entries(params).forEach(([param, value]) => {
         text = text.replace(`{{${param}}}`, String(value));
       });
     }
-    
+
     return text;
   };
-  
+
   // Fonction pour traduire les champs dynamiques
   const translateDynamic = (category: 'sectors' | 'functions' | 'cities', originalText: string): string => {
-    const dynamicTranslations = translations[language].dynamic as any;
+    const activeTranslations = dbTranslations || translations;
+    const dynamicTranslations = activeTranslations[language].dynamic as any;
     const translation = dynamicTranslations?.[category]?.[originalText];
     return translation || originalText;
   };

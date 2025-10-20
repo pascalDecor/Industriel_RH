@@ -1,9 +1,10 @@
 "use client";
 
 import { Sector } from "@/models/sector";
-import { imagePathFinder } from "@/utils/imagePathFinder";
-import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
 import Image from "next/image";
+
+import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
+
 import { useState } from "react";
 import { UpdateDescriptionSectorComponent, UpdateImageSectorComponent } from "./updateComponent";
 import { AsyncBuilder } from "@/components/ui/asyncBuilder";
@@ -12,6 +13,7 @@ import { Section } from "@/models/section";
 import { HttpService } from "@/utils/http.services";
 import Button from "@/components/ui/button";
 import { FiArrowRight } from "react-icons/fi";
+import { imagePathFinder } from "@/utils/imagePathFinder";
 
 export function SectionUIConsultingSolutionsSection1({ sectorIn, showEnglish }: { sectorIn: Sector, showEnglish?: boolean }) {
     const [sector, setSector] = useState(sectorIn);

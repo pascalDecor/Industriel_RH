@@ -1,7 +1,7 @@
 
 "use client";
 
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import { FiArrowRight } from "react-icons/fi";
 import Button from "./ui/button";
 import Image from 'next/image'
@@ -12,6 +12,8 @@ import { motion } from "framer-motion";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { useRouter } from "next/navigation";
+import { useImage } from "@/hooks/useImage";
+import { imagePathFinder } from "@/utils/imagePathFinder";
 
 export default function AddSpecializedTalentAcrossYourOrganization() {
     const { t, language } = useTranslation();

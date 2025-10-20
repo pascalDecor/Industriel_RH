@@ -4,7 +4,7 @@ import Button from "@/components/ui/button";
 import { SectionProps } from "@/models/props";
 import { Section } from "@/models/section";
 import { Sector } from "@/models/sector";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import Image from 'next/image';
 import { redirect } from "next/navigation";
@@ -15,6 +15,8 @@ import { useTranslation } from "@/contexts/LanguageContext";
 import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 import HiringTrendsArticles from "@/components/articles/HiringTrendsArticles";
 import { motion } from "framer-motion";
+import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 
 export default function QuebecTaxCalculator() {
   const { t } = useTranslation();
@@ -54,7 +56,7 @@ export default function QuebecTaxCalculator() {
           viewport={{ once: true }}
           className="lg:col-span-3 lg:pr-4"
         >
-          <Image loading="lazy" src={imagePathFinder.salaryIQ} className="h-8 w-auto" alt="Salary Net" />
+          <DynamicImage imageKey="salaryIQ" alt="Salary Net" className="h-8 w-auto" />
           <h2 className="text-2xl md:text-3xl font-semibold text mb-5 text-gray-800">
             {t('salary_guide.hero.title')}
           </h2>
@@ -69,7 +71,7 @@ export default function QuebecTaxCalculator() {
           viewport={{ once: true }}
           className="lg:col-span-2"
         >
-          <Image loading="lazy" src={imagePathFinder.salary_guide_page} alt="Salary Guide" />
+          <DynamicImage imageKey="salary_guide_page" alt="Salary Guide" />
         </motion.div>
       </div>
     </section>
@@ -180,7 +182,11 @@ export default function QuebecTaxCalculator() {
             </Button>
           </div>
           <div className="flex items-center justify-center">
-            <Image loading="lazy" src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
+            {section2?.image ? (
+              <Image loading="lazy" src={section2.image} width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
+            ) : (
+              <DynamicImage imageKey="trending_job_titles" alt="We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
+            )}
           </div>
         </div>
 

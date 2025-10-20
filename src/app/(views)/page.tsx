@@ -3,11 +3,9 @@
 
 import dynamic from "next/dynamic";
 import { FiCheck, FiSearch } from "react-icons/fi";
-import LazyImage from "@/components/ui/LazyImage";
-import { imagePathFinder } from "@/utils/imagePathFinder";
+import { DynamicImage } from "@/components/ui/DynamicImage";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { redirect } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 
 const Button = dynamic(() => import("@/components/ui/button"), {
@@ -63,7 +61,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex-shrink-0 self-center sm:self-start">
-                <Image className="w-full sm:w-32 lg:w-36 rounded-lg" src={imagePathFinder.salary_guide_1} alt="Salary Guide" width={150} height={100} />
+                <DynamicImage imageKey="salary_guide_1" alt="Salary Guide" width={150} height={100} className="w-full sm:w-32 lg:w-36 rounded-lg" />
               </div>
             </div>
           </Link>
@@ -80,7 +78,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex-shrink-0 self-center sm:self-start">
-                <Image className="w-full sm:w-32 lg:w-36 rounded-lg" src={imagePathFinder.cv_builder} alt="Quebec Tax Calculator" width={150} height={100} />
+                <DynamicImage imageKey="cv_builder" alt="Quebec Tax Calculator" width={150} height={100} className="w-full sm:w-32 lg:w-36 rounded-lg" />
               </div>
             </div>
           </Link>
@@ -97,7 +95,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex-shrink-0 self-center sm:self-start">
-                <Image className="w-full sm:w-32 lg:w-36 rounded-lg" src={imagePathFinder.ir_blog} alt="IR blog" width={150} height={100} />
+                <DynamicImage imageKey="ir_blog" alt="IR blog" width={150} height={100} className="w-full sm:w-32 lg:w-36 rounded-lg" />
               </div>
             </div>
           </Link>
@@ -114,7 +112,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex-shrink-0 self-center sm:self-start">
-                <Image className="w-full sm:w-32 lg:w-36 rounded-lg" src={imagePathFinder.navigate_tech_skill} alt="Navigate tech skills gaps" width={150} height={100} />
+                <DynamicImage imageKey="navigate_tech_skill" alt="Navigate tech skills gaps" width={150} height={100} className="w-full sm:w-32 lg:w-36 rounded-lg" />
               </div>
             </div>
           </Link>
@@ -166,31 +164,31 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 align-middle w-full mb-6 sm:mb-8 lg:mb-10">
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
-              <LazyImage src={imagePathFinder.describe_your_need} alt="Describe your Need" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <DynamicImage imageKey="describe_your_need" alt="Describe your Need" width={40} height={40} className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step1')}
               </p>
             </div>
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
-              <LazyImage src={imagePathFinder.we_source_the_talent} alt="We Source the Talent" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <DynamicImage imageKey="we_source_the_talent" alt="We Source the Talent" width={40} height={40} className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step2')}
               </p>
             </div>
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
-              <LazyImage src={imagePathFinder.select_and_approve} alt="Select and Approve" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <DynamicImage imageKey="select_and_approve" alt="Select and Approve" width={40} height={40} className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step3')}
               </p>
             </div>
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
-              <LazyImage src={imagePathFinder.seamless_integration} alt="Seamless Integration" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <DynamicImage imageKey="seamless_integration" alt="Seamless Integration" width={40} height={40} className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step4')}
               </p>
             </div>
             <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-7 text-center transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
-              <LazyImage src={imagePathFinder.continuous_support} alt="Continuous Support" className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" width={40} height={40} />
+              <DynamicImage imageKey="continuous_support" alt="Continuous Support" width={40} height={40} className="w-8 sm:w-10 mb-3 sm:mb-4 mx-auto" />
               <p className="text-xs sm:text-sm font-semibold text-gray-800 text-center">
                 {t('home.how_it_works.step5')}
               </p>
@@ -242,7 +240,7 @@ export default function Home() {
             </div>
           </div>
           <div className="w-full lg:w-2/5 mt-6 lg:mt-0">
-            <LazyImage src={imagePathFinder.find_your_next_hire} alt="Find your next hire" width={400} height={300} className="w-full h-auto" />
+            <DynamicImage imageKey="find_your_next_hire" alt="Find your next hire" width={400} height={300} className="w-full h-auto" />
           </div>
         </div>
       </section>
@@ -252,7 +250,7 @@ export default function Home() {
       <section className="mx-auto w-full mb-10 p-4 sm:p-6 lg:p-10 bg-gray-200">
         <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-8 m-auto max-w-5xl lg:p-10">
           <div className="w-full lg:w-3/5 lg:mr-7 order-2 lg:order-1">
-            <LazyImage src={imagePathFinder.we_are_experts_in_employee_recognition} alt="Employee recognition experts" width={400} height={300} className="w-full h-auto" />
+            <DynamicImage imageKey="we_are_experts_in_employee_recognition" alt="Employee recognition experts" width={400} height={300} className="w-full h-auto" />
           </div>
           <div className="w-full lg:w-3/5 lg:pr-4 order-1 lg:order-2">
             <h2 className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-10 lg:mb-14 text-gray-800">
@@ -353,7 +351,7 @@ export default function Home() {
             </div>
           </div>
           <div className="w-3/5">
-            <LazyImage src={imagePathFinder.shape_the_career_you_want} alt="Shape your career" width={400} height={300} />
+            <DynamicImage imageKey="shape_the_career_you_want" alt="Shape your career" width={400} height={300} />
           </div>
         </div>
       </section>

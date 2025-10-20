@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-     console.log('Authenticated user found userWithRole:', authResult);
+    console.log('Authenticated user found userWithRole:', authResult);
 
     // Retourner les informations de session
     return NextResponse.json({

@@ -1,0 +1,47 @@
+
+> industriel-rh-site-1@0.1.0 dev
+> next dev --turbopack
+
+ ⚠ Port 3000 is in use by process 3392, using available port 3001 instead.
+   ▲ Next.js 15.4.5 (Turbopack)
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.1.71:3001
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     ✓ optimizeCss
+     · optimizePackageImports
+
+ ✓ Starting...
+ ✓ Compiled middleware in 198ms
+node:events:497
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EPERM: operation not permitted, open 'C:\Users\ATD\Documents\Projets\Industriel_RH\.next\trace'
+Emitted 'error' event on WriteStream instance at:
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'open',
+  path: 'C:\\Users\\ATD\\Documents\\Projets\\Industriel_RH\\.next\\trace'
+}
+
+Node.js v20.17.0
+node:events:497
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EPERM: operation not permitted, open 'C:\Users\ATD\Documents\Projets\Industriel_RH\.next\trace'
+Emitted 'error' event on WriteStream instance at:
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'open',
+  path: 'C:\\Users\\ATD\\Documents\\Projets\\Industriel_RH\\.next\\trace'
+}
+
+Node.js v20.17.0
