@@ -16,7 +16,8 @@ export const SignUpFormSchema = z.object({
     // .regex(/[^a-zA-Z0-9]/, {
     //   message: 'Contain at least one special character.',
     // })
-    .trim()
+    .trim(),
+  recaptchaToken: z.string().min(1, { message: "reCAPTCHA validation required." }).optional(),
 });
 
 export const AddArticleFormSchema = z.object({

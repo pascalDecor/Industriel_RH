@@ -10,7 +10,7 @@ import { LoadingSpinner } from "@/lib/load.helper";
 import { HttpService } from "@/utils/http.services";
 
 import { Civility } from "@/models/civility";
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { addCandidature } from "@/app/actions/candidatures";
 import { Sector } from "@/models/sector";
 import { Fonction } from "@/models/fonction";
@@ -19,13 +19,16 @@ import { Application } from "@/models/application";
 import SuccessSend from "./successSend";
 import InputError from "@/components/ui/inputError";
 import { useTranslation } from "@/contexts/LanguageContext";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 
 export default function MoveYourCareerForward() {
     const { t, language} = useTranslation();
+    const { executeRecaptcha } = useGoogleReCaptcha();
     const [state, action, pending] = useActionState(addCandidature, undefined);
     const [candidature, setCandidature] = useState(Application.fromJSON({} as any));
     const [sectorId, setSectorId] = useState<string | undefined>(candidature.sectorId);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const getLocalizedLabel = (item: any) => language === 'en' ? (item.libelle_en || item.libelle) : item.libelle;
 
@@ -54,6 +57,41 @@ export default function MoveYourCareerForward() {
         }
     };
 
+    const handleApplicationSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!executeRecaptcha) {
+            console.error('reCAPTCHA not yet available');
+            return;
+        }
+
+        // Capture form element before async call
+        const form = e.currentTarget;
+        setIsSubmitting(true);
+
+        try {
+            // Generate reCAPTCHA token
+            const token = await executeRecaptcha('application_form');
+
+            // Create FormData and add the token
+            const formData = new FormData(form);
+            formData.set('recaptchaToken', token);
+
+            // Submit the form
+            action(formData);
+        } catch (error) {
+            console.error('Error executing reCAPTCHA:', error);
+            setIsSubmitting(false);
+        }
+    };
+
+    // Reset isSubmitting when state changes (form submission completed)
+    useEffect(() => {
+        if (state !== undefined) {
+            setIsSubmitting(false);
+        }
+    }, [state]);
+
     return <section className="mx-auto w-full mb-0 px-4 sm:px-6 lg:px-10 py-10 bg-gray-200 text-center">
         <h2 className="text-2xl sm:text-3xl font-semibold text my-6 sm:my-10 text-gray-800">
             {t('consulting.move_career.title')}
@@ -65,7 +103,7 @@ export default function MoveYourCareerForward() {
                 <h2 className="text-lg sm:text-xl font-medium text-center mb-6 sm:mb-10 text-gray-600">
                     {t('consulting.move_career.subtitle')}
                 </h2>
-                <form action={action} className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 w-full ">
+                <form onSubmit={handleApplicationSubmit} className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 w-full ">
                     <div className="col-span-12 text-left">
                         <AsyncBuilder
                             promise={async () => { return HttpService.index<Civility>({ url: '/civilities', fromJson: (json: any) => Civility.fromJSON(json), }) }}
@@ -265,7 +303,7 @@ export default function MoveYourCareerForward() {
 
 
                     <div className="col-span-12 text-center">
-                        <Button className="!rounded-full text-sm px-20 mx-auto mt-10" type="submit" isLoading={pending} disabled={pending}>
+                        <Button className="!rounded-full text-sm px-20 mx-auto mt-10" type="submit" isLoading={pending || isSubmitting} disabled={pending || isSubmitting}>
                             {t('form.submit')}
                         </Button>
                     </div>

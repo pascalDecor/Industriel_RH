@@ -33,6 +33,23 @@ interface ArticleData {
   author?: { id: string; name: string };
 }
 
+interface FeaturedBlockData {
+  id: string;
+  titre: string;
+  titre_en?: string;
+  description: string;
+  description_en?: string;
+  type: string;
+  position: number;
+  bgColor: string;
+  textColor: string;
+  linkUrl?: string;
+  linkText?: string;
+  linkText_en?: string;
+  isActive: boolean;
+  priority: number;
+}
+
 export default function DynamicArticlesGrid({
   category = "all",
   sectorId = null,
@@ -40,6 +57,7 @@ export default function DynamicArticlesGrid({
   showFeaturedBlocks = true
 }: DynamicArticlesGridProps) {
   const [articles, setArticles] = useState<ArticleData[]>([]);
+  const [featuredBlocks, setFeaturedBlocks] = useState<FeaturedBlockData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -54,7 +72,10 @@ export default function DynamicArticlesGrid({
 
   useEffect(() => {
     fetchArticles();
-  }, [category, sectorId, limit]);
+    if (showFeaturedBlocks) {
+      fetchFeaturedBlocks();
+    }
+  }, [category, sectorId, limit, showFeaturedBlocks]);
 
   const fetchArticles = async () => {
     try {
@@ -81,6 +102,25 @@ export default function DynamicArticlesGrid({
       setError(t('common.error_loading_articles'));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchFeaturedBlocks = async () => {
+    try {
+      const response = await fetch('/api/featured-blocks');
+
+      if (!response.ok) {
+        console.warn('Impossible de récupérer les featured blocks');
+        return;
+      }
+
+      const data = await response.json();
+      if (data.success && data.data) {
+        setFeaturedBlocks(data.data);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des featured blocks:', error);
+      // Ne pas afficher d'erreur à l'utilisateur, juste logger
     }
   };
 
@@ -153,39 +193,44 @@ export default function DynamicArticlesGrid({
     const content: React.ReactElement[] = [];
 
     articles.forEach((article, index) => {
-      // Insérer le bloc Featured après le 1er article
-      if (showFeaturedBlocks && index === 1) {
-        content.push(
-          <div key={`featured-${index}`} className="masonry-item">
-            <div className="bg-blue-900 text-white rounded-lg p-6 shadow-lg">
-              <p className="text-sm font-regular font-bold mb-3">
-                {t('find_jobs.featured')}
-              </p>
-              <p className="text-sm font-regular">
-                {t('find_jobs.what_jobs_demand')}
-              </p>
-            </div>
-          </div>
-        );
-      }
+      // Insérer les featured blocks dynamiques à leurs positions respectives
+      if (showFeaturedBlocks && featuredBlocks.length > 0) {
+        // Trouver les blocs qui doivent être insérés après cet article
+        const blocksAtPosition = featuredBlocks.filter(block => block.position === index);
 
-      // Insérer le bloc Tag Results après le 3ème article
-      if (showFeaturedBlocks && index === 3) {
-        content.push(
-          <div key={`tag-results-${index}`} className="masonry-item">
-            <div className="bg-black text-white rounded-lg p-6 shadow-lg">
-              <p className="text-sm font-regular font-bold mb-3">
-                {t('find_jobs.tag_results')}
-              </p>
-              <p className="text-sm font-regular mb-4">
-                {t('find_jobs.landing_job')}
-              </p>
-              <p className="text-sm font-regular">
-                {t('find_jobs.posts_count', { count: articles.length.toString() })}
-              </p>
+        blocksAtPosition.forEach((block) => {
+          const title = language === 'en' ? (block.titre_en || block.titre) : block.titre;
+          const description = language === 'en' ? (block.description_en || block.description) : block.description;
+          const linkText = language === 'en' ? (block.linkText_en || block.linkText) : block.linkText;
+
+          content.push(
+            <div key={`featured-block-${block.id}`} className="masonry-item">
+              <div
+                className="rounded-lg p-6 shadow-lg"
+                style={{
+                  backgroundColor: block.bgColor,
+                  color: block.textColor
+                }}
+              >
+                <p className="text-sm font-bold mb-3">
+                  {title}
+                </p>
+                <p className="text-sm mb-4">
+                  {description}
+                </p>
+                {block.linkUrl && linkText && (
+                  <a
+                    href={block.linkUrl}
+                    className="text-sm font-semibold underline hover:opacity-80 transition-opacity"
+                    style={{ color: block.textColor }}
+                  >
+                    {linkText}
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
-        );
+          );
+        });
       }
 
       // Ajouter l'article normal

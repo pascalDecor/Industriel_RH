@@ -100,6 +100,45 @@ model Article {
   @@index([authorId, published])
 }
 
+model FeaturedBlock {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Contenu bilingue
+  titre       String
+  titre_en    String?
+  description String   @db.Text
+  description_en String? @db.Text
+
+  // Configuration
+  type        FeaturedBlockType @default(FEATURED)
+  position    Int      @default(1) // Position dans la grille (ex: après le 1er article)
+  bgColor     String   @default("#1E3A8A") // Couleur de fond (hex)
+  textColor   String   @default("#FFFFFF") // Couleur du texte (hex)
+  linkUrl     String?  // URL optionnelle
+  linkText    String?  // Texte du lien
+  linkText_en String?  // Texte du lien en anglais
+
+  // Statut
+  isActive    Boolean  @default(true)
+  priority    Int      @default(0) // Ordre de priorité (plus élevé = plus prioritaire)
+
+  // Index
+  @@index([type])
+  @@index([isActive])
+  @@index([position])
+  @@index([priority])
+  @@index([type, isActive, priority])
+}
+
+enum FeaturedBlockType {
+  FEATURED     // Bloc "À la une"
+  TAG_RESULTS  // Bloc "Résultats par tag"
+  PROMOTION    // Bloc promotionnel
+  CUSTOM       // Bloc personnalisé
+}
+
 model Tag {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())

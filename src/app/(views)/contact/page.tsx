@@ -6,20 +6,58 @@ import InputError from "@/components/ui/inputError";
 import { Contact } from "@/models/contact";
 import { DynamicImage } from "@/components/ui/DynamicImage";
 import Link from "next/link";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import SuccessSend from "../consulting-solutions/components/successSend";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 export default function ContactPage() {
     const { t } = useTranslation();
+    const { executeRecaptcha } = useGoogleReCaptcha();
     let [state, action, pending] = useActionState(addContact, undefined);
     const [contact, setContact] = useState(Contact.fromJSON({} as any));
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setContact(contact.update({ [name]: value }));
     };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!executeRecaptcha) {
+            console.error('reCAPTCHA not yet available');
+            return;
+        }
+
+        // Capture form element before async call
+        const form = e.currentTarget;
+        setIsSubmitting(true);
+
+        try {
+            // Generate reCAPTCHA token
+            const token = await executeRecaptcha('contact_form');
+
+            // Create FormData and add the token
+            const formData = new FormData(form);
+            formData.set('recaptchaToken', token);
+
+            // Submit the form
+            action(formData);
+        } catch (error) {
+            console.error('Error executing reCAPTCHA:', error);
+            setIsSubmitting(false);
+        }
+    };
+
+    // Reset isSubmitting when state changes (form submission completed)
+    useEffect(() => {
+        if (state !== undefined) {
+            setIsSubmitting(false);
+        }
+    }, [state]);
 
 
     return (
@@ -166,7 +204,7 @@ export default function ContactPage() {
 
                     {state === true ?
                         <SuccessSend />
-                        : <form action={action} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-10">
+                        : <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-10">
                             <div className="w-full text-left">
                                 <input
                                     type="text"
@@ -267,10 +305,11 @@ export default function ContactPage() {
                                     type="submit"
                                     variant="dark"
                                     size="md"
-                                    disabled={pending}
+                                    isLoading={pending || isSubmitting}
+                                    disabled={pending || isSubmitting}
                                     className="!rounded-full text-sm px-20 mx-auto"
                                 >
-                                    {pending ? t('contact.submitting') : t('contact.submit')}
+                                    {t('contact.submit')}
                                 </Button>
                             </div>
                         </form>}

@@ -17,6 +17,7 @@ import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 import EditorContent from "@/components/ui/editorContent";
 import MultiSelect from "@/components/ui/multiSelect";
 import { motion } from "framer-motion";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 
 interface ArticleData {
@@ -45,6 +46,7 @@ interface FilterElementsProps {
 
 
 export default function DiscoverInsights() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const router = useRouter();
   const { t, language } = useTranslation();
   const { translateArticleTitle, translateSpecialty, translateTag, translateArticleContent } = useDynamicTranslation();
@@ -260,10 +262,19 @@ export default function DiscoverInsights() {
       return;
     }
 
+    if (!executeRecaptcha) {
+      console.error('reCAPTCHA not yet available');
+      setNewsletterStatus('error');
+      return;
+    }
+
     setIsSubmittingNewsletter(true);
     setNewsletterStatus('idle');
 
     try {
+      // Generate reCAPTCHA token
+      const token = await executeRecaptcha('newsletter_form');
+
       const response = await fetch('/api/newsletters/subscribe', {
         method: 'POST',
         headers: {
@@ -273,7 +284,8 @@ export default function DiscoverInsights() {
           firstName: newsletterForm.firstName,
           lastName: newsletterForm.lastName,
           email: newsletterForm.email,
-          areasOfInterest: newsletterForm.areasOfInterest
+          areasOfInterest: newsletterForm.areasOfInterest,
+          recaptchaToken: token
         })
       });
 
@@ -744,10 +756,11 @@ export default function DiscoverInsights() {
                   type="submit"
                   variant="dark"
                   size="md"
+                  isLoading={isSubmittingNewsletter}
                   disabled={isSubmittingNewsletter}
                   className="!rounded-full text-sm px-20 mx-auto"
                 >
-                  {isSubmittingNewsletter ? t('common.submitting') : t('common.submit')}
+                  {t('common.submit')}
                 </Button>
               </div>
             </form>

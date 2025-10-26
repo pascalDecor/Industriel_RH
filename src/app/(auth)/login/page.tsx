@@ -6,25 +6,60 @@ import FloatingLabelInput from '@/components/ui/input';
 import InputError from '@/components/ui/inputError';
 import { LocalStorageHelper } from '@/utils/localStorage.helper';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useActionState, useEffect, useState, Suspense } from 'react'
+import { useActionState, useEffect, useState, Suspense } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 function LoginForm() {
+    const { executeRecaptcha } = useGoogleReCaptcha();
     let [state, action, pending] = useActionState(signUp, undefined);
     const [stateOTP, actionOTP, pendingOTP] = useActionState(signUpOTP, undefined);
 
     const [email, setEmail] = useState('');
     const [otp, setOTP] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirectTo = searchParams?.get('redirect') || '/dashboard';
 
 
+    const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!executeRecaptcha) {
+            console.error('reCAPTCHA not yet available');
+            return;
+        }
+
+        // Capture form element before async call
+        const form = e.currentTarget;
+        setIsSubmitting(true);
+
+        try {
+            // Generate reCAPTCHA token
+            const token = await executeRecaptcha('login_form');
+
+            // Create FormData and add the token
+            const formData = new FormData(form);
+            formData.set('recaptchaToken', token);
+
+            // Submit the form
+            action(formData);
+        } catch (error) {
+            console.error('Error executing reCAPTCHA:', error);
+            setIsSubmitting(false);
+        }
+    };
+
     useEffect(() => {
         console.log(state);
         if (state === true) {
             LocalStorageHelper.setBoolValue("isLoggedIn", true);
             LocalStorageHelper.setValue("email", email);
+            setIsSubmitting(false);
+        }
+        else if (state !== undefined) {
+            setIsSubmitting(false);
         }
         else {
             const isLoggedIn = LocalStorageHelper.getBoolValue("isLoggedIn");
@@ -68,7 +103,7 @@ function LoginForm() {
                     </div>
                     <Button className='px-8 w-full' disabled={pendingOTP} type="submit">Soumettre</Button>
                 </form> :
-                <form action={action} className='w-100'>
+                <form onSubmit={handleLoginSubmit} className='w-100'>
                     <div className='mb-5'>
                         <label htmlFor="email" className='mb-2 block text-sm text-gray-500'>Email</label>
                         <FloatingLabelInput
@@ -81,7 +116,7 @@ function LoginForm() {
                         <FloatingLabelInput error={state?.errors && state?.errors.password && ' '} label="password" name="password" type="password" />
                         <InputError messages={state?.errors?.password} inputName="password" />
                     </div>
-                    <Button className='px-8 w-full' isLoading={(pending || pendingOTP)} disabled={(pending || pendingOTP)} type="submit">Sign in</Button>
+                    <Button className='px-8 w-full' isLoading={(pending || pendingOTP || isSubmitting)} disabled={(pending || pendingOTP || isSubmitting)} type="submit">Sign in</Button>
                 </form>}
         </div>
     )

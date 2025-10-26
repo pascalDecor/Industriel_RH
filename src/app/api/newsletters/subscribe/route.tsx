@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from "@/lib/connect_db";
+import { validateRecaptcha } from '@/lib/recaptcha';
 
 export const POST = async (req: Request) => {
   try {
@@ -9,6 +10,23 @@ export const POST = async (req: Request) => {
     if (!data.firstName || !data.lastName || !data.email) {
       return NextResponse.json(
         { error: 'Les champs firstName, lastName et email sont requis.' },
+        { status: 400 }
+      );
+    }
+
+    // Validate reCAPTCHA token
+    if (!data.recaptchaToken) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA token is required.' },
+        { status: 400 }
+      );
+    }
+
+    const recaptchaValidation = await validateRecaptcha(data.recaptchaToken, 'newsletter_form');
+
+    if (!recaptchaValidation.success) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA validation failed. Please try again.' },
         { status: 400 }
       );
     }

@@ -59,6 +59,7 @@ const AddHireFormSchema = z.object({
         .optional()
         .default({ connect: [] }),
     civilityId: z.string().trim(),
+    recaptchaToken: z.string().min(1, { message: "reCAPTCHA validation required." }),
 });
 
 
@@ -90,6 +91,7 @@ export async function addHire(state: FormStateAddHire, formData: FormData) {
                 .filter(Boolean)
                 .map((s) => ({ id: s.trim() })),
         },
+        recaptchaToken: formData.get('recaptchaToken'),
     });
 
     console.log("validatedFields data", validatedFields.data);
@@ -102,6 +104,36 @@ export async function addHire(state: FormStateAddHire, formData: FormData) {
         }
     }
     else {
+        // Validate reCAPTCHA token server-side
+        try {
+            const recaptchaResponse = await fetch('/api/verify-recaptcha', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: validatedFields.data.recaptchaToken,
+                    action: 'hiring_form',
+                }),
+            });
+
+            const recaptchaData = await recaptchaResponse.json();
+
+            if (!recaptchaData.success) {
+                return {
+                    errors: {
+                        recaptchaToken: ['reCAPTCHA validation failed. Please try again.'],
+                    },
+                };
+            }
+        } catch (error) {
+            console.error('reCAPTCHA verification error:', error);
+            return {
+                errors: {
+                    recaptchaToken: ['reCAPTCHA verification error. Please try again.'],
+                },
+            };
+        }
         // Upload cv
         if (documentSupport.size > 0) {
             const formDataImage = new FormData();
@@ -119,10 +151,13 @@ export async function addHire(state: FormStateAddHire, formData: FormData) {
 
          validatedFields.data.details_of_positions = details_of_positions;
 
+        // Remove recaptchaToken from data before sending to API
+        const { recaptchaToken, ...hireData } = validatedFields.data;
+
         if (documentSupportPath.startsWith("http")) {
             const temp = await HttpService.add<Hire>({
                 url: "/hires",
-                data: {...validatedFields.data, document_support: documentSupportPath},
+                data: {...hireData, document_support: documentSupportPath},
             }).then((res) => {
                 console.log(res);
                 return res;

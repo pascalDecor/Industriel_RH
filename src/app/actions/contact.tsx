@@ -28,6 +28,7 @@ const addContactFormSchema = z.object({
     message: z.string().min(2, { message: "Be at least 2 characters long" }).trim(),
     status: z.string().trim().default("pending"),
     priority: z.string().trim().default("normal"),
+    recaptchaToken: z.string().min(1, { message: "reCAPTCHA validation required." }),
 });
 
 export async function addContact(state: FormStateAddConntact, formData: FormData) {
@@ -42,6 +43,7 @@ export async function addContact(state: FormStateAddConntact, formData: FormData
         workPhone: formData.get('workPhone'),
         postalCode: formData.get('postalCode'),
         message: formData.get('message'),
+        recaptchaToken: formData.get('recaptchaToken'),
     })
 
     console.log("validatedFields", validatedFields.data);
@@ -54,9 +56,43 @@ export async function addContact(state: FormStateAddConntact, formData: FormData
     }
 
     else {
+        // Validate reCAPTCHA token server-side
+        try {
+            const recaptchaResponse = await fetch('/api/verify-recaptcha', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: validatedFields.data.recaptchaToken,
+                    action: 'contact_form',
+                }),
+            });
+
+            const recaptchaData = await recaptchaResponse.json();
+
+            if (!recaptchaData.success) {
+                return {
+                    errors: {
+                        recaptchaToken: ['reCAPTCHA validation failed. Please try again.'],
+                    },
+                };
+            }
+        } catch (error) {
+            console.error('reCAPTCHA verification error:', error);
+            return {
+                errors: {
+                    recaptchaToken: ['reCAPTCHA verification error. Please try again.'],
+                },
+            };
+        }
+
+        // Remove recaptchaToken from data before sending to API
+        const { recaptchaToken, ...contactData } = validatedFields.data;
+
         const temp = await HttpService.add<Contact>({
             url: "/contacts",
-            data: validatedFields.data,
+            data: contactData,
         }).then((res) => {
             console.log(res);
             return res;

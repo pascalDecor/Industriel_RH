@@ -180,3 +180,22 @@ export interface UserProps {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface FeaturedBlockProps {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  titre: string;
+  titre_en?: string;
+  description: string;
+  description_en?: string;
+  type: string; // 'FEATURED' | 'TAG_RESULTS' | 'PROMOTION' | 'CUSTOM'
+  position: number;
+  bgColor: string;
+  textColor: string;
+  linkUrl?: string;
+  linkText?: string;
+  linkText_en?: string;
+  isActive: boolean;
+  priority: number;
+}

@@ -4,6 +4,12 @@ import { baseApiURL } from '@/constant/api';
 import { FormStateAddApplication, AddApplicationFormSchema, } from '@/lib/definitions'
 import { Application } from '@/models/application';
 import { HttpService } from '@/utils/http.services'
+import { z } from 'zod';
+
+
+const AddApplicationFormSchemaWithRecaptcha = AddApplicationFormSchema.extend({
+    recaptchaToken: z.string().min(1, { message: "reCAPTCHA validation required." }),
+});
 
 
 export async function addCandidature(state: FormStateAddApplication, formData: FormData) {
@@ -14,7 +20,7 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
     let imageLetterPath = fileLetter.name;
 
     // Validate form fields
-    const validatedFields = AddApplicationFormSchema.safeParse({
+    const validatedFields = AddApplicationFormSchemaWithRecaptcha.safeParse({
         lastName: formData.get('name'),
         firstName: formData.get('firstName'),
         email: formData.get('email'),
@@ -28,6 +34,7 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
         functionId: formData.get('function'),
         civilityId: formData.get('civility'),
         cityId: formData.get('city'),
+        recaptchaToken: formData.get('recaptchaToken'),
     });
 
 
@@ -41,6 +48,36 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
         }
     }
     else {
+        // Validate reCAPTCHA token server-side
+        try {
+            const recaptchaResponse = await fetch('/api/verify-recaptcha', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: validatedFields.data.recaptchaToken,
+                    action: 'application_form',
+                }),
+            });
+
+            const recaptchaData = await recaptchaResponse.json();
+
+            if (!recaptchaData.success) {
+                return {
+                    errors: {
+                        recaptchaToken: ['reCAPTCHA validation failed. Please try again.'],
+                    },
+                };
+            }
+        } catch (error) {
+            console.error('reCAPTCHA verification error:', error);
+            return {
+                errors: {
+                    recaptchaToken: ['reCAPTCHA verification error. Please try again.'],
+                },
+            };
+        }
 
         // Upload cv
         if (fileCv.size > 0) {
@@ -71,9 +108,12 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
         }
         //
         if (imageCvPath.startsWith("http") && imageLetterPath.startsWith("http")) {
+            // Remove recaptchaToken from data before sending to API
+            const { recaptchaToken, ...applicationData } = validatedFields.data;
+
             const temp = await HttpService.add<Application>({
                 url: "/applications",
-                data: validatedFields.data,
+                data: applicationData,
             }).then((res) => {
                 console.log(res);
                 return res;

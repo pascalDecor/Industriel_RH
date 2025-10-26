@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import "../css/globals.css";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { RecaptchaProvider } from "@/contexts/RecaptchaContext";
 import { ComplianceProvider } from "./(views)/valid-cnesst/context/ComplianceContext";
+import CookieConsent from "@/components/CookieConsent";
 
 
 const plus_Jakarta_Sans = Plus_Jakarta_Sans({
@@ -29,9 +31,12 @@ export default function RootLayout({
             overflowX: "hidden",
             backgroundColor: "#fff"
           }}>
-            <LanguageProvider>
-              {children}
-            </LanguageProvider>
+            <RecaptchaProvider>
+              <LanguageProvider>
+                {children}
+                <CookieConsent />
+              </LanguageProvider>
+            </RecaptchaProvider>
           </body>
     </html>
   );

@@ -74,7 +74,14 @@ const translations: Record<Language, Record<string, string>> = {
     'common.view_less': 'Voir moins',
     'common.retry': 'Réessayer',
     'common.error_loading_articles': 'Impossible de charger les articles',
-    
+
+    // Cookies
+    'cookies.title': 'Nous utilisons des cookies',
+    'cookies.message': 'Nous utilisons des cookies pour améliorer votre expérience sur notre site. En continuant à naviguer, vous acceptez notre utilisation des cookies.',
+    'cookies.learn_more': 'En savoir plus',
+    'cookies.accept': 'Accepter',
+    'cookies.decline': 'Refuser',
+
     // Formulaires
     'form.name': 'Nom',
     'form.email': 'Courriel',
@@ -1028,7 +1035,14 @@ const translations: Record<Language, Record<string, string>> = {
     'common.view_less': 'View Less',
     'common.retry': 'Retry',
     'common.error_loading_articles': 'Unable to load articles',
-    
+
+    // Cookies
+    'cookies.title': 'We use cookies',
+    'cookies.message': 'We use cookies to improve your experience on our site. By continuing to browse, you accept our use of cookies.',
+    'cookies.learn_more': 'Learn more',
+    'cookies.accept': 'Accept',
+    'cookies.decline': 'Decline',
+
     // Formulaires
     'form.name': 'Name',
     'form.email': 'Email',

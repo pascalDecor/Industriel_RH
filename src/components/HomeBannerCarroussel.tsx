@@ -18,6 +18,17 @@ export default function HomeBannerCarroussel() {
     const banner2 = useImage('banner_2');
     const banner3 = useImage('banner_3');
 
+    // Fonction helper pour extraire l'URL de l'image (gère string et StaticImageData)
+    const getImageUrl = (imageSrc: string | { src: string } | any): string => {
+        if (typeof imageSrc === 'string') {
+            return imageSrc;
+        }
+        if (imageSrc && typeof imageSrc === 'object' && 'src' in imageSrc) {
+            return imageSrc.src;
+        }
+        return '';
+    };
+
     function handleClickFindJobs() {
         redirect("/find-jobs#");
     }
@@ -38,7 +49,7 @@ export default function HomeBannerCarroussel() {
         <div
             key={0}
             className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-cover bg-center py-6 sm:py-8 lg:py-10"
-            style={{ backgroundImage: `url(${banner.src})` }}
+            style={{ backgroundImage: `url(${getImageUrl(banner.src)})` }}
         >
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
@@ -85,7 +96,7 @@ export default function HomeBannerCarroussel() {
         <div
             key={1}
             className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-cover bg-center py-6 sm:py-8 lg:py-10"
-            style={{ backgroundImage: `url(${banner1.src})` }}
+            style={{ backgroundImage: `url(${getImageUrl(banner1.src)})` }}
         >
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
@@ -131,7 +142,7 @@ export default function HomeBannerCarroussel() {
         <div
             key={2}
             className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-cover bg-center py-6 sm:py-8 lg:py-10"
-            style={{ backgroundImage: `url(${banner2.src})` }}
+            style={{ backgroundImage: `url(${getImageUrl(banner2.src)})` }}
         >
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
@@ -178,7 +189,7 @@ export default function HomeBannerCarroussel() {
         <div
             key={3}
             className="w-full h-[calc(100vh-55px)] min-h-[500px] bg-cover bg-center py-6 sm:py-8 lg:py-10"
-            style={{ backgroundImage: `url(${banner3.src})` }}
+            style={{ backgroundImage: `url(${getImageUrl(banner3.src)})` }}
         >
             <motion.div
                 initial={{ opacity: 0, y: 50 }}

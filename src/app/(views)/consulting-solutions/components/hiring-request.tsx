@@ -9,7 +9,7 @@ import { AsyncBuilder } from "@/components/ui/asyncBuilder";
 import { LoadingSpinner } from "@/lib/load.helper";
 import { Civility } from "@/models/civility";
 import { HttpService } from "@/utils/http.services";
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { Hire } from "@/models/hire";
 import { addHire } from "@/app/actions/hire";
 import InputError from "@/components/ui/inputError";
@@ -19,13 +19,16 @@ const EditorJSComponent = dynamic(() => import("@/components/ui/editorJS"), { ss
 import SuccessSend from "./successSend";
 import dynamic from "next/dynamic";
 import { useTranslation } from "@/contexts/LanguageContext";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 
 export default function HiringRequest() {
     const { t, language } = useTranslation();
+    const { executeRecaptcha } = useGoogleReCaptcha();
     const [state, action, pending] = useActionState(addHire, undefined);
 
     const [hire, setHire] = useState(Hire.fromJSON({} as any));
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const getLocalizedLabel = (item: any) => language === 'en' ? (item.libelle_en || item.libelle) : item.libelle;
 
@@ -42,6 +45,41 @@ export default function HiringRequest() {
         }
     };
 
+    const handleHiringSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!executeRecaptcha) {
+            console.error('reCAPTCHA not yet available');
+            return;
+        }
+
+        // Capture form element before async call
+        const form = e.currentTarget;
+        setIsSubmitting(true);
+
+        try {
+            // Generate reCAPTCHA token
+            const token = await executeRecaptcha('hiring_form');
+
+            // Create FormData and add the token
+            const formData = new FormData(form);
+            formData.set('recaptchaToken', token);
+
+            // Submit the form
+            action(formData);
+        } catch (error) {
+            console.error('Error executing reCAPTCHA:', error);
+            setIsSubmitting(false);
+        }
+    };
+
+    // Reset isSubmitting when state changes (form submission completed)
+    useEffect(() => {
+        if (state !== undefined) {
+            setIsSubmitting(false);
+        }
+    }, [state]);
+
     return <section className="mx-auto w-full mb-0 px-4 sm:px-6 lg:px-10 py-10 bg-gray-200 text-center">
         <h2 className="text-2xl sm:text-3xl font-semibold text my-10 text-gray-800">
             {t('hire_talent.contact.title')}
@@ -53,7 +91,7 @@ export default function HiringRequest() {
                 <h2 className="text-lg sm:text-xl font-medium text-center mb-10 text-gray-600">
                     {t('consulting.hiring_request.subtitle')}
                 </h2>
-                <form action={action} className="grid grid-cols-12 gap-4 w-full ">
+                <form onSubmit={handleHiringSubmit} className="grid grid-cols-12 gap-4 w-full ">
                     <div className="col-span-12 text-left">
                         <AsyncBuilder
                             promise={async () => { return HttpService.index<Civility>({ url: '/civilities', fromJson: (json: any) => Civility.fromJSON(json), }) }}
@@ -195,7 +233,7 @@ export default function HiringRequest() {
 
 
                     <div className="col-span-12 text-center">
-                        <Button className="!rounded-full text-sm px-20 mx-auto mt-10" isLoading={pending} disabled={pending}>
+                        <Button className="!rounded-full text-sm px-20 mx-auto mt-10" isLoading={pending || isSubmitting} disabled={pending || isSubmitting}>
                             {t('form.start')}
                         </Button>
                     </div>
