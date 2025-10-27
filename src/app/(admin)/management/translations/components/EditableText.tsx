@@ -78,7 +78,7 @@ export function EditableText({
     try {
       setSaving(true);
 
-      const response = await fetch('/api/admin/translations', {
+      const response = await fetch('/api/translations', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

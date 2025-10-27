@@ -139,7 +139,7 @@ function FirstLoginForm() {
 
       if (response.ok) {
         // Rediriger vers le dashboard après succès
-        router.push('/admin/dashboard?first-login=true');
+        router.push('/dashboard?first-login=true');
       } else {
         setErrors({ form: data.error || 'Erreur lors de la mise à jour du mot de passe' });
       }
