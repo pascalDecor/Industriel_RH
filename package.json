@@ -54,7 +54,7 @@
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.486.0",
-    "next": "^15.4.5",
+    "next": "15.4.10",
     "next-auth": "^4.24.11",
     "next-iron-session": "^4.2.0",
     "next-themes": "^0.4.6",
