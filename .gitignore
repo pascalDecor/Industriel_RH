@@ -45,3 +45,7 @@ next-env.d.ts
 
 # images
 /public/images/uploads
+
+# env
+.env
+.env.local
