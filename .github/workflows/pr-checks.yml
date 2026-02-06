@@ -34,7 +34,7 @@ jobs:
       - name: Generate Prisma Client
         run: npm run generate
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://user:password@localhost:5432/db' }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://user:password@localhost:5432/site_db' }}
 
       - name: Build Application
         run: npm run build
