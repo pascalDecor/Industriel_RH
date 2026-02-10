@@ -124,7 +124,10 @@ const SalaryResults: React.FC<SalaryResultsProps> = ({ data, searchParams }) => 
               <XAxis type="number" tickFormatter={formatCurrency} />
               <YAxis dataKey="name" type="category" />
               <Tooltip
-                formatter={(value: number) => [formatCurrency(value), t('salary_guide.chart.salary')]}
+                formatter={(value: number | string | undefined) => [
+                  formatCurrency(typeof value === "number" ? value : 0),
+                  t('salary_guide.chart.salary'),
+                ]}
                 contentStyle={{
                   backgroundColor: 'rgba(150, 150, 150, 0.9)',
                   borderRadius: '8px',
@@ -146,7 +149,10 @@ const SalaryResults: React.FC<SalaryResultsProps> = ({ data, searchParams }) => 
                 <XAxis dataKey="year" />
                 <YAxis tickFormatter={(value) => `$${Math.round(value / 1000)}k`} />
                 <Tooltip
-                  formatter={(value: number) => [formatCurrency(value), t('salary_guide.chart.salary')]}
+                  formatter={(value: number | string | undefined) => [
+                    formatCurrency(typeof value === "number" ? value : 0),
+                    t('salary_guide.chart.salary'),
+                  ]}
                   contentStyle={{
                     backgroundColor: 'rgba(150, 150, 150, 0.9)',
                     borderRadius: '8px',
@@ -167,7 +173,10 @@ const SalaryResults: React.FC<SalaryResultsProps> = ({ data, searchParams }) => 
                 <XAxis dataKey="name" />
                 <YAxis tickFormatter={(value) => `$${Math.round(value / 1000)}k`} />
                 <Tooltip
-                  formatter={(value: number) => [formatCurrency(value), t('salary_guide.chart.salary')]}
+                  formatter={(value: number | string | undefined) => [
+                    formatCurrency(typeof value === "number" ? value : 0),
+                    t('salary_guide.chart.salary'),
+                  ]}
                   contentStyle={{
                     backgroundColor: 'rgba(150, 150, 150, 0.9)',
                     borderRadius: '8px',

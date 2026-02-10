@@ -115,7 +115,7 @@ export default function MainChart({
                 <XAxis type="number" />
                 <YAxis dataKey="libelle" type="category" width={80} />
                 <Tooltip
-                  formatter={(value: number) => [value, 'Candidatures']}
+                  formatter={(value: number | string | undefined) => [value ?? 0, 'Candidatures']}
                 />
                 <Bar dataKey="_count.applications" fill="#3b82f6" radius={[0, 4, 4, 0]} />
               </BarChart>
@@ -164,7 +164,7 @@ export default function MainChart({
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value: number) => [value, 'Candidatures']} />
+                <Tooltip formatter={(value: number | string | undefined) => [value ?? 0, 'Candidatures']} />
               </PieChart>
             </ResponsiveContainer>
           ) : (

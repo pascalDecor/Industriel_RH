@@ -67,7 +67,7 @@ export async function PUT(
       return NextResponse.json({
         success: false,
         message: 'Données invalides',
-        errors: error.errors
+        errors: error.issues
       }, { status: 400 });
     }
 
