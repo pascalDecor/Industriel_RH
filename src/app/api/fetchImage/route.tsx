@@ -1,10 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseAdminClient() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
+}
 
 const sanitizeFileName = (name: string) =>
   name
@@ -15,6 +17,15 @@ const sanitizeFileName = (name: string) =>
 
 export async function POST(req: Request) {
   try {
+    const supabase = getSupabaseAdminClient();
+    const bucket = process.env.SUPABASE_BUCKET_NAME;
+    if (!supabase || !bucket) {
+      return NextResponse.json(
+        { error: 'Supabase is not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY / SUPABASE_BUCKET_NAME).' },
+        { status: 500 }
+      );
+    }
+
     const { url } = await req.json();
 
     if (!url) {
@@ -48,8 +59,6 @@ export async function POST(req: Request) {
 
     // Convertir la réponse en blob
     const blob = await response.blob();
-    
-    const bucket = process.env.SUPABASE_BUCKET_NAME!;
 
     // Upload vers Supabase
     const { data, error } = await supabase.storage

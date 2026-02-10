@@ -5,10 +5,12 @@ import { hasPermission } from '@/lib/permissions/server-permissions';
 import { Permission, UserWithRole } from '@/types/server-auth';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseAdminClient() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
+}
 
 const sanitizeFileName = (name: string) =>
   name
@@ -83,6 +85,14 @@ export async function PUT(
   { params }: { params: Promise<{ key: string }> }
 ) {
   try {
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) {
+      return NextResponse.json(
+        { error: 'Supabase is not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY).' },
+        { status: 500 }
+      );
+    }
+
     // Vérifier l'authentification et les permissions
     const authResult = await verifyAuth(request);
     if (!authResult.success || !authResult.user) {
@@ -127,7 +137,13 @@ export async function PUT(
     const safeName = sanitizeFileName(file.name);
     const safeCategory = category ? sanitizeFileName(category) : 'misc';
     const storagePath = `media/${safeCategory}/${Date.now()}-${safeName}`;
-    const bucket = process.env.SUPABASE_BUCKET_NAME!;
+    const bucket = process.env.SUPABASE_BUCKET_NAME;
+    if (!bucket) {
+      return NextResponse.json(
+        { error: 'Supabase bucket is not configured (SUPABASE_BUCKET_NAME).' },
+        { status: 500 }
+      );
+    }
 
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from(bucket)
@@ -247,6 +263,14 @@ export async function DELETE(
   { params }: { params: Promise<{ key: string }> }
 ) {
   try {
+    const supabase = getSupabaseAdminClient();
+    if (!supabase) {
+      return NextResponse.json(
+        { error: 'Supabase is not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY).' },
+        { status: 500 }
+      );
+    }
+
     // Vérifier l'authentification et les permissions
     const authResult = await verifyAuth(request);
     if (!authResult.success || !authResult.user) {
@@ -283,7 +307,13 @@ export async function DELETE(
     // Supprimer du storage
     if (mediaAsset.storagePath) {
       try {
-        const bucket = process.env.SUPABASE_BUCKET_NAME!;
+        const bucket = process.env.SUPABASE_BUCKET_NAME;
+        if (!bucket) {
+          return NextResponse.json(
+            { error: 'Supabase bucket is not configured (SUPABASE_BUCKET_NAME).' },
+            { status: 500 }
+          );
+        }
         await supabase.storage
           .from(bucket)
           .remove([mediaAsset.storagePath]);
