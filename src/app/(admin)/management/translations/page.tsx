@@ -416,7 +416,7 @@ export default function TranslationsPage() {
             </h1>
             <p className="text-gray-600 mt-2">
               {globalSearchMode
-                ? '🔍 Recherche globale - Recherchez dans toutes les traductions'
+                ? 'Recherche globale - Recherchez dans toutes les traductions'
                 : selectedGroup
                 ? `Édition : ${TRANSLATION_GROUPS.find(g => g.id === selectedGroup)?.name}`
                 : 'Sélectionnez une section à éditer'}
@@ -446,7 +446,7 @@ export default function TranslationsPage() {
                 </span>
               </div>
               <h3 className="text-lg font-bold mb-2">
-                🔍 Recherche globale
+                Recherche globale
               </h3>
               <p className="text-white/90 text-sm">
                 Rechercher dans toutes les traductions du site, tous secteurs confondus
@@ -746,12 +746,12 @@ export default function TranslationsPage() {
                     {globalSearchMode ? (
                       searchTerm ? (
                         <div>
-                          <p className="text-lg mb-2">🔍 Aucun résultat trouvé</p>
+                          <p className="text-lg mb-2"> Aucun résultat trouvé</p>
                           <p className="text-sm">Essayez avec d'autres mots-clés</p>
                         </div>
                       ) : (
                         <div>
-                          <p className="text-lg mb-2">🔍 Recherche globale</p>
+                          <p className="text-lg mb-2"> Recherche globale</p>
                           <p className="text-sm">Saisissez un terme pour rechercher dans toutes les traductions</p>
                         </div>
                       )

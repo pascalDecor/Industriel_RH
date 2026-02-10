@@ -1,5 +1,5 @@
 
-const isProd = true; 
+const isProd = false; 
 
 const PROD_API_BASE_URL = "https://industriel-rh.vercel.app/api"
 const PROD_API_BASE = "https://industriel-rh.vercel.app"

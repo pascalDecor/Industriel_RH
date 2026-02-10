@@ -4,7 +4,6 @@ import "../css/globals.css";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { RecaptchaProvider } from "@/contexts/RecaptchaContext";
-import { ComplianceProvider } from "./(views)/valid-cnesst/context/ComplianceContext";
 import CookieConsent from "@/components/CookieConsent";
 
 

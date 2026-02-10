@@ -16,6 +16,7 @@ import {
   Pie,
   Cell
 } from "recharts";
+import { BarChart3, PieChart as PieChartIcon } from "lucide-react";
 
 interface MainChartProps {
   applicationsData: Array<{ name: string; candidatures: number }>;
@@ -33,9 +34,6 @@ export default function MainChart({
   sectorsData,
   conversionRate
 }: MainChartProps) {
-
-  // Debug des données secteurs
-  console.log('sectorsData:', sectorsData);
 
   // Combiner les données pour le graphique principal
   const combinedData = applicationsData.map(app => {
@@ -62,7 +60,7 @@ export default function MainChart({
   return (
     <div className="grid gap-6 md:grid-cols-2">
       {/* Graphique principal - Candidatures vs Embauches */}
-      <Card className="col-span-2 p-6 shadow-none border-none">
+      <Card className="col-span-2 p-6 shadow-none border-0">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-medium">Candidatures vs Embauches (6 derniers mois)</h3>
           <div className="flex items-center space-x-4 text-sm">
@@ -103,7 +101,7 @@ export default function MainChart({
       </Card>
 
       {/* Graphique en barres - Top secteurs */}
-      <Card className="p-6 shadow-none border-none">
+      <Card className="p-6 shadow-none border-0">
         <h3 className="text-lg font-medium mb-4">Top secteurs (candidatures)</h3>
         <div className="h-[250px]">
           {sectorsData.length > 0 ? (
@@ -123,9 +121,9 @@ export default function MainChart({
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-full text-gray-500">
+            <div className="flex items-center justify-center h-full text-muted-foreground">
               <div className="text-center">
-                <span className="text-4xl block mb-2">📊</span>
+                <BarChart3 className="h-10 w-10 mx-auto mb-2" />
                 <p className="text-sm">Aucune donnée de secteur disponible</p>
               </div>
             </div>
@@ -134,15 +132,15 @@ export default function MainChart({
       </Card>
 
       {/* Graphique en secteurs + Métriques */}
-      <Card className="p-6 shadow-none border-none">
+      <Card className="p-6 shadow-none border-0">
         <h3 className="text-lg font-medium mb-4">Répartition par secteur</h3>
 
         {/* Taux de conversion */}
-        <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+        <div className="mb-6 p-4 bg-muted/40 rounded-lg border">
           <div className="text-center">
             <div className="text-3xl font-bold text-green-600">{conversionRate}%</div>
-            <div className="text-sm text-gray-600">Taux de conversion</div>
-            <div className="text-xs text-gray-500 mt-1">
+            <div className="text-sm text-muted-foreground">Taux de conversion</div>
+            <div className="text-xs text-muted-foreground mt-1">
               Candidatures → Embauches
             </div>
           </div>
@@ -170,9 +168,9 @@ export default function MainChart({
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-full text-gray-500">
+            <div className="flex items-center justify-center h-full text-muted-foreground">
               <div className="text-center">
-                <span className="text-4xl block mb-2">🥧</span>
+                <PieChartIcon className="h-10 w-10 mx-auto mb-2" />
                 <p className="text-sm">Aucune candidature par secteur</p>
               </div>
             </div>
@@ -195,7 +193,7 @@ export default function MainChart({
               </Link>
             ))
           ) : (
-            <div className="text-center py-4 text-gray-500">
+            <div className="text-center py-4 text-muted-foreground">
               <p className="text-sm">Pas encore de données à afficher</p>
               <Link href="/candidatures" className="text-blue-600 hover:text-blue-800 text-sm">
                 Voir les candidatures →

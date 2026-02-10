@@ -1,15 +1,17 @@
 "use client";
 
+import type React from "react";
 import { Card } from "@/components/ui/card";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 import Link from "next/link";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 interface StatsCardProps {
   title: string;
   value: string | number;
   change: number;
   changeText: string;
-  icon: string;
+  icon: React.ReactNode;
   chartData?: Array<{ value: number }>;
   color?: string;
   href?: string;
@@ -30,22 +32,24 @@ export default function StatsCard({
   const cardContent = (
     <>
       <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <h3 className="text-sm font-medium text-gray-600">{title}</h3>
-        <span className="text-2xl">{icon}</span>
+        <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
+        <span className="text-muted-foreground">{icon}</span>
       </div>
 
-      <div className="text-2xl font-bold text-gray-900 mb-1">
+      <div className="text-2xl font-semibold tracking-tight text-foreground mb-1">
         {typeof value === 'number' ? value.toLocaleString() : value}
       </div>
 
       <div className="flex items-center justify-between">
-        <div className={`text-xs flex items-center ${
-          isPositive ? 'text-green-600' : 'text-red-600'
-        }`}>
-          <span className="mr-1">
-            {isPositive ? '↗️' : '↘️'}
-          </span>
-          {Math.abs(change)}% {changeText}
+        <div
+          className={[
+            "text-xs flex items-center gap-1",
+            isPositive ? "text-emerald-600" : "text-rose-600",
+          ].join(" ")}
+        >
+          {isPositive ? <ArrowUpRight className="h-3.5 w-3.5" /> : <ArrowDownRight className="h-3.5 w-3.5" />}
+          <span className="font-medium">{Math.abs(change)}%</span>
+          <span className="text-muted-foreground">{changeText}</span>
         </div>
       </div>
 
@@ -70,7 +74,7 @@ export default function StatsCard({
   if (href) {
     return (
       <Link href={href} className="block">
-        <Card className="p-6 shadow-none border-none bg-white hover:bg-gray-50 transition-colors cursor-pointer">
+        <Card className="p-6 bg-card hover:bg-accent/40 transition-colors cursor-pointer shadow-none border-0">
           {cardContent}
         </Card>
       </Link>
@@ -78,7 +82,7 @@ export default function StatsCard({
   }
 
   return (
-    <Card className="p-6 shadow-none border-none bg-white">
+    <Card className="p-6 bg-card shadow-none border-0">
       {cardContent}
     </Card>
   );

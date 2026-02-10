@@ -3,11 +3,23 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   crossOrigin: "anonymous",
+  allowedDevOrigins: [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://192.168.5.178:3000"
+  ],
   images: {
     remotePatterns: [
       {
         protocol: "http",
         hostname: "localhost",
+        port: "3000",
+        pathname: "/**",
+        search: ""
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
         port: "3000",
         pathname: "/**",
         search: ""
@@ -27,10 +39,10 @@ const nextConfig: NextConfig = {
         search: ""
       }
     ],
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 31536000,
     dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;"
   },
   experimental: {
     // optimizeCss: true,
@@ -38,22 +50,22 @@ const nextConfig: NextConfig = {
   },
   turbopack: {
     rules: {
-      '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',
-      },
-    },
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js"
+      }
+    }
   },
   reactStrictMode: true,
-  eslint: {
-    ignoreDuringBuilds: true
-  },
+  // eslint: {
+  //   // ignoreDuringBuilds: true
+  // },
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
+    removeConsole: process.env.NODE_ENV === "production"
+  }
 };
 
 export default nextConfig;
