@@ -61,7 +61,7 @@ export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn, 
                                 </div>
                                 <div className="relative mb-10 pt-10">
 
-                                    <motion.img key={sector?.id} src={imagePathFinder.light.src} initial={{
+                                    <motion.img key={sector?.id} src={imagePathFinder.light} initial={{
                                         y: 100,
                                         opacity: 0
                                     }} animate={{

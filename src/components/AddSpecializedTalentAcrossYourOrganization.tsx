@@ -109,7 +109,7 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                             <div className="relative mb-6 sm:mb-8 lg:mb-10 pt-6 sm:pt-8 lg:pt-10">
                                 <motion.img
                                     key={sectorActive?.id}
-                                    src={imagePathFinder.light.src}
+                                    src={imagePathFinder.light}
                                     initial={{
                                         y: 100,
                                         opacity: 0

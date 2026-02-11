@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { imagePathFinder } from '@/utils/imagePathFinder';
-import { StaticImageData } from 'next/image';
 
 export interface ImageData {
-  src: string | StaticImageData;
+  src: string;
   alt: string;
   width?: number;
   height?: number;
@@ -81,13 +80,9 @@ export function useImage(
 
         // Pas d'image dynamique, utiliser le fallback statique
         if (staticImage) {
-          // Extraire width et height si c'est une StaticImageData
-          const isStaticImageData = typeof staticImage === 'object' && 'src' in staticImage;
           setImageData({
             src: staticImage,
             alt: key,
-            width: isStaticImageData ? (staticImage as StaticImageData).width : undefined,
-            height: isStaticImageData ? (staticImage as StaticImageData).height : undefined,
             isLoading: false
           });
         } else {
@@ -104,12 +99,9 @@ export function useImage(
         console.warn(`Erreur lors du chargement de l'image "${key}", utilisation du fallback statique`, error);
 
         // En cas d'erreur, utiliser le fallback statique
-        const isStaticImageData = staticImage && typeof staticImage === 'object' && 'src' in staticImage;
         setImageData({
           src: staticImage || '',
           alt: key,
-          width: isStaticImageData ? (staticImage as StaticImageData).width : undefined,
-          height: isStaticImageData ? (staticImage as StaticImageData).height : undefined,
           isLoading: false,
           error: staticImage ? undefined : 'Image non disponible'
         });
