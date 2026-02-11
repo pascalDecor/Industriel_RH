@@ -1,6 +1,6 @@
 "use client";
 
-import { baseApiURL } from '@/constant/api';
+import { baseApiURL, uploadApiURL } from '@/constant/api';
 import { Hire } from '@/models/hire';
 import { HttpService } from '@/utils/http.services'
 import { z } from 'zod';
@@ -139,7 +139,7 @@ export async function addHire(state: FormStateAddHire, formData: FormData) {
             const formDataImage = new FormData();
             formDataImage.append('image', documentSupport);
 
-            const res = await fetch(baseApiURL + '/upload', {
+            const res = await fetch(uploadApiURL, {
                 method: 'POST',
                 body: formDataImage,
             });

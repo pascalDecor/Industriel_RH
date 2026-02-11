@@ -8,7 +8,7 @@ import { Article } from "@/models/article";
 import InputError from "@/components/ui/inputError";
 import FileUpload from "@/components/ui/inputFile";
 import { errors } from "jose";
-import { baseApiURL } from "@/constant/api";
+import { uploadApiURL } from "@/constant/api";
 
 interface EditImageProps {
     article: Article;
@@ -39,7 +39,7 @@ export default function EditImage({ article, onChange }: EditImageProps) {
             const formDataImage = new FormData();
             formDataImage.append('image', file);
 
-            const res = await fetch(baseApiURL + '/upload', {
+            const res = await fetch(uploadApiURL, {
                 method: 'POST',
                 body: formDataImage,
             });

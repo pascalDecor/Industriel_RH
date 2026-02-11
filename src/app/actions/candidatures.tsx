@@ -1,6 +1,6 @@
 "use client";
 
-import { baseApiURL } from '@/constant/api';
+import { baseApiURL, uploadApiURL } from '@/constant/api';
 import { FormStateAddApplication, AddApplicationFormSchema, } from '@/lib/definitions'
 import { Application } from '@/models/application';
 import { HttpService } from '@/utils/http.services'
@@ -84,7 +84,7 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
             const formDataImage = new FormData();
             formDataImage.append('image', fileCv);
 
-            const res = await fetch(baseApiURL + '/upload', {
+            const res = await fetch(uploadApiURL, {
                 method: 'POST',
                 body: formDataImage,
             });
@@ -98,7 +98,7 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
             const formDataLetter = new FormData();
             formDataLetter.append('image', fileLetter);
 
-            const resLetter = await fetch(baseApiURL + '/upload', {
+            const resLetter = await fetch(uploadApiURL, {
                 method: 'POST',
                 body: formDataLetter,
             });

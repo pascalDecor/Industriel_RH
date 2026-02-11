@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useId } from 'react';
 import EditorJS from '@editorjs/editorjs';
+import { uploadApiURL } from '@/constant/api';
 import '@/styles/editorjs.css';
 
 // Importations dynamiques des outils
@@ -85,7 +86,7 @@ export default function EditorJSComponent({ onChange, initialData, placeholder =
                         class: ImageTool,
                         config: {
                             endpoints: {
-                                byFile: '/api/upload',
+                                byFile: uploadApiURL,
                                 byUrl: '/api/fetchImage', // Optionnel
                             },
                             captionPlaceholder: 'Légende de l\'image...',
@@ -98,7 +99,7 @@ export default function EditorJSComponent({ onChange, initialData, placeholder =
                                         const formData = new FormData();
                                         formData.append('image', file);
 
-                                        const response = await fetch('/api/upload', {
+                                        const response = await fetch(uploadApiURL, {
                                             method: 'POST',
                                             credentials: 'include',
                                             body: formData,

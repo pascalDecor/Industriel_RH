@@ -1,7 +1,7 @@
 
 "use client";
 
-import { baseApiURL } from '@/constant/api';
+import { baseApiURL, uploadApiURL } from '@/constant/api';
 import { FormState, AddArticleFormSchema, } from '@/lib/definitions'
 import { Article } from '@/models/article'
 import { User } from '@/models/user';
@@ -56,7 +56,7 @@ export async function addArticle(state: FormState, formData: FormData) {
     const formDataImage = new FormData();
     formDataImage.append('image', file);
 
-    const res = await fetch(baseApiURL + '/upload', {
+    const res = await fetch(uploadApiURL, {
         method: 'POST',
         body: formDataImage,
     });

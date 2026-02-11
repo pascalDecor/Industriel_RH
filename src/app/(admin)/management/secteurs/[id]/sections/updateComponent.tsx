@@ -9,7 +9,7 @@ import { Section } from "@/models/section";
 import { HttpService } from "@/utils/http.services";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { baseApiURL } from "@/constant/api";
+import { uploadApiURL } from "@/constant/api";
 
 export function UpdateDescriptionSectorComponent({ section, onChange, libelle,libelle_en, value, value_en }: { section: Section, onChange: (state: any) => void, libelle: string, libelle_en: string, value: string, value_en: string | undefined }) {
 
@@ -85,7 +85,7 @@ export function UpdateImageSectorComponent({ section, onChange }: { section: Sec
         const formDataImage = new FormData();
         formDataImage.append('image', file!);
 
-        const res = await fetch(baseApiURL + '/upload', {
+        const res = await fetch(uploadApiURL, {
             method: 'POST',
             body: formDataImage,
         });

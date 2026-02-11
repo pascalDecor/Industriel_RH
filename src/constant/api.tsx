@@ -24,6 +24,12 @@ const apiBaseWithoutProtocolValue = (() => {
   }
 })();
 
+/** True lorsque l'URL de l'app est sur un domaine Vercel (*.vercel.app) */
+export const isVercel = apiBaseWithoutProtocolValue.endsWith(".vercel.app");
+
+/** Endpoint d'upload : /api/upload_vercel sur Vercel, /api/upload ailleurs */
+export const uploadApiURL = apiBaseUrl + (isVercel ? "/upload_vercel" : "/upload");
+
 export const apiBaseURL = apiBaseUrl;
 export const baseApiURL: string = apiBaseUrl;
 export const apiBase: string = appUrl;
