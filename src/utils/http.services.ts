@@ -47,7 +47,6 @@ const createOptimizedAxiosInstance = (): AxiosInstance => {
       // Ajouter les cookies manuellement depuis document.cookie
       if (typeof document !== 'undefined') {
         const cookies = document.cookie;
-        console.log('Cookies disponibles:', cookies);
         if (cookies) {
           config.headers['Cookie'] = cookies;
         }

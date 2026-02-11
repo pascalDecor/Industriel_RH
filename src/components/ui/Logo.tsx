@@ -22,7 +22,6 @@ export default function Logo({
   const [logoSrc, setLogoSrc] = useState('/images/logo.png');
 
   const handleLogoError = () => {
-    console.log('Erreur de chargement du logo:', logoSrc);
     if (logoSrc === '/images/logo.png') {
       // Essayer le logo alternatif
       setLogoSrc('/images/logo_light.png');

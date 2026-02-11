@@ -36,20 +36,19 @@ export default function LayoutAdmin({
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        if (!initialisation) {
-            console.log("useEffect", session, isLoading, !session && !isLoading);
+        if (!initialisation && session !== undefined) {
             try {
-                setUser(User.fromJSON(session?.user));
-                console.log("user", user);
+                const parsedUser = User.fromJSON(session?.user);
+                setUser(parsedUser);
                 setInitialisation(true);
-                if (user?.id === "") {
-                    return redirect('/login');
-                } 
-            } catch (error) {
-                console.log(error);
+                if (parsedUser?.id === "") {
+                    redirect('/login');
+                }
+            } catch {
+                setInitialisation(true);
             }
         }
-    }, [session, isLoading, user]);
+    }, [session, isLoading, initialisation]);
 
 
     if (isLoading) {

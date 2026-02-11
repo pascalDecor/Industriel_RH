@@ -1,12 +1,25 @@
-import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
+import { writeFile, mkdir } from 'fs/promises';
+import path from 'path';
 
-function getSupabaseAdminClient() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) return null;
-  return createClient(url, key);
-}
+const ALLOWED_FILE_TYPES = [
+  'image/jpeg',
+  'image/jpg', 
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/svg+xml',
+  'image/x-icon',
+  'application/pdf',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.ms-powerpoint',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+];
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 const sanitizeFileName = (name: string) =>
   name
@@ -15,49 +28,53 @@ const sanitizeFileName = (name: string) =>
     .replace(/[^a-zA-Z0-9.\-_]/g, '-')
     .toLowerCase();
 
-export async function POST(req: Request) {
-  const supabase = getSupabaseAdminClient();
-  const bucket = process.env.SUPABASE_BUCKET_NAME;
-  if (!supabase || !bucket) {
-    return NextResponse.json(
-      { error: 'Supabase is not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY / SUPABASE_BUCKET_NAME).' },
-      { status: 500 }
-    );
+const validateFile = (file: File): { isValid: boolean; error?: string } => {
+  if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+    return {
+      isValid: false,
+      error: 'File type not allowed. Please upload images (JPEG, PNG, GIF, WebP) or documents (PDF, DOC, DOCX).'
+    };
   }
+  
+  if (file.size > MAX_FILE_SIZE) {
+    return {
+      isValid: false,
+      error: `File size too large. Maximum size is ${MAX_FILE_SIZE / (1024 * 1024)}MB.`
+    };
+  }
+  
+  return { isValid: true };
+};
 
+export async function POST(req: Request) {
   const formData = await req.formData();
   const file = formData.get('image') as File;
 
-  if (!file) {
-    return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+  if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 });
+  
+  // Validate file type and size
+  const validation = validateFile(file);
+  if (!validation.isValid) {
+    return NextResponse.json({ error: validation.error }, { status: 400 });
   }
 
-  const originalName = file.name;
-  const safeName = sanitizeFileName(originalName);
-  const path = `public/${Date.now()}-${safeName}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const safeName = sanitizeFileName(file.name);
+  const filename = `${Date.now()}-${safeName}`;
+  const uploadDir = path.join(process.cwd(), 'public/uploads');
+  await mkdir(uploadDir, { recursive: true });
+  const filePath = path.join(uploadDir, filename);
 
-  // Upload
-  const { data, error } = await supabase.storage
-    .from(bucket)
-    .upload(path, file, {
-      contentType: file.type,
-      cacheControl: '3600',
-      upsert: true,
-    });
+  await writeFile(filePath, buffer);
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+  const host = req.headers.get('host');
+  const protocol = req.headers.get('x-forwarded-proto') ?? 'http';
+  const baseUrl = `${protocol}://${host}`;
 
-  // Récupérer l'URL publique
-  const { data: publicUrlData } = supabase.storage
-    .from(bucket)
-    .getPublicUrl(path);
+  const fileUrl = `${baseUrl}/uploads/${filename}`;
 
   return NextResponse.json({
     success: 1,
-    file: {
-      url: publicUrlData.publicUrl,
-    },
+    file: { url: fileUrl },
   });
 }

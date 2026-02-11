@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import { HttpService } from "@/utils/http.services";
 import { useState } from "react";
-import { userAvartarURL } from "@/constant/api";
+import { userAvatarURL } from "@/constant/api";
 import { imagePathFinder } from "@/utils/imagePathFinder";
 
 import { FaRegEnvelope } from "react-icons/fa6";
@@ -24,7 +24,6 @@ export default function ItemCandidatures({ candidature, onChange }: { candidatur
         HttpService.delete<Application>({
             url: `/applications/${id}`,
         }).then((res) => {
-            console.log(res);
             setLoadingDelete(false);
             if (res) {
                 onChange(res);

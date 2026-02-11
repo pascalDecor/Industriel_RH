@@ -87,6 +87,8 @@ export default function ExploreSuccessStories({ className }: Readonly<ExploreSuc
               loading="lazy"
               src={imagePathFinder.logo_only}
               alt="Logo"
+              width={80}
+              height={80}
               className="w-16 sm:w-20 mx-auto mb-4 sm:mb-5"
             />
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-8 sm:mb-10 lg:mb-14 text-gray-800">

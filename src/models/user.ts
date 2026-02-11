@@ -1,7 +1,7 @@
 
 "use client";
 
-import { userAvartarURL } from "@/constant/api";
+import { userAvatarURL } from "@/constant/api";
 import { BaseModel } from "./baseModel";
 import { UserProps } from "./props";
 import { UserRole } from "@/types/auth";
@@ -13,7 +13,7 @@ export class User extends BaseModel<UserProps> {
       ...props,
       avatarUrl:
         props.avatarUrl ??
-        userAvartarURL,
+        userAvatarURL,
     });
   }
   

@@ -99,7 +99,7 @@ jobs:
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
             # Naviguer vers le répertoire du projet
-            cd ${{ secrets.VPS_DEPLOY_PATH || '/var/www/industriel-rh' }}
+            cd ${{ secrets.VPS_DEPLOY_PATH || '/home/deploy/Industriel_RH' }}
             
             # Récupérer les dernières modifications
             git fetch origin
