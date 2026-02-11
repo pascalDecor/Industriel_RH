@@ -163,14 +163,45 @@ Si vous utilisez Docker, créez un `docker-compose.yml` et modifiez le workflow 
 
 ## Dépannage
 
+### Les mises à jour ne sont pas prises en compte sur le serveur
+
+1. **Vérifier que le déploiement s’exécute**  
+   Onglet **Actions** → dernier workflow run. Le job "Deploy to VPS" doit être vert. S’il est absent, le déploiement ne tourne que sur **push sur `main`** (pas sur les PR).
+
+2. **Déclencher un déploiement à la main**  
+   Actions → "CI/CD Pipeline" → "Run workflow" (bouton **Run workflow**). Utile pour tester sans push.
+
+3. **VPS et dépôt privé**  
+   Si le dépôt est **privé**, le VPS doit pouvoir faire `git fetch` :
+   - Ajouter une **Deploy key** (Settings → Deploy keys) avec la clé **publique** du VPS.
+   - Sur le VPS : `ssh-keygen -t ed25519 -C "vps-deploy"` puis ajouter la clé publique dans GitHub.
+   - Ou configurer un **Personal Access Token** pour le clone/fetch (HTTPS).
+
+4. **Branche sur le VPS**  
+   Le workflow fait `git fetch origin main` puis `git reset --hard <commit>`. Sur le VPS, vérifier :
+   ```bash
+   cd $VPS_DEPLOY_PATH
+   git remote -v   # doit pointer vers votre dépôt GitHub
+   git fetch origin main
+   git log -1 --oneline
+   ```
+   Si la branche par défaut est `master`, adapter le workflow (remplacer `main` par `master`).
+
+5. **Cache Next.js**  
+   Le workflow supprime `.next` avant chaque build. Si vous modifiez le workflow et désactivez cette étape, un ancien cache peut rester : en cas de doute, sur le VPS faire `rm -rf .next` puis relancer un déploiement.
+
+6. **Nom de l’app PM2**  
+   Le redémarrage utilise : `pm2 restart industriel-rh`. Vérifier le nom exact avec `pm2 list` ; si différent (ex. `industriel-rh-site-1`), adapter la ligne dans `.github/workflows/ci-cd.yml` ou renommer l’app PM2.
+
 ### Vérifier les logs du workflow
 
-Allez dans l'onglet **Actions** de votre dépôt GitHub pour voir les logs de déploiement.
+Allez dans l'onglet **Actions** de votre dépôt GitHub pour voir les logs de déploiement. Le step "Deploy to VPS via SSH" affiche le commit déployé (ex. "Code à jour sur le commit: abc1234").
 
 ### Vérifier les logs de l'application sur le VPS
 
 ```bash
 # Si vous utilisez PM2
+pm2 list
 pm2 logs industriel-rh
 
 # Si vous utilisez systemd
