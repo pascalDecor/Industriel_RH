@@ -350,14 +350,7 @@ export default function MediaManagementPage() {
 
     const staticImage = imagePathFinder[key as keyof typeof imagePathFinder];
     if (staticImage) {
-      // Les images importées via Next.js ont une propriété src
-      if (typeof staticImage === 'object' && 'src' in staticImage) {
-        return { src: staticImage.src as string, isCustom: false };
-      }
-      // Si c'est une string directe
-      if (typeof staticImage === 'string') {
-        return { src: staticImage, isCustom: false };
-      }
+      return { src: staticImage, isCustom: false };
     }
 
     return { src: '', isCustom: false };
