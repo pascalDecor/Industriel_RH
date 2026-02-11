@@ -12,7 +12,11 @@ const plus_Jakarta_Sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
 });
 
+const appUrl =
+  process.env.NEXT_PUBLIC_APP_URL || "https://industriel-rh.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(appUrl),
   title: {
     default: "Industrielle RH | Recrutement et solutions RH au Québec",
     template: "%s | Industrielle RH",
@@ -20,9 +24,25 @@ export const metadata: Metadata = {
   description:
     "Industrielle RH accompagne les entreprises et les candidats avec des solutions de recrutement, d'embauche et de conseil en ressources humaines au Québec.",
   keywords: ["recrutement", "RH", "emploi", "Québec", "ressources humaines", "Industrielle RH"],
+  icons: {
+    icon: "/images/logo.png",
+    apple: "/images/logo.png",
+  },
   openGraph: {
     locale: "fr_CA",
     type: "website",
+    images: [
+      {
+        url: "/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Industrielle RH",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/images/logo.png"],
   },
 };
 

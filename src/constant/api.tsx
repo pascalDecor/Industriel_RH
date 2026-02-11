@@ -6,7 +6,7 @@
 const isProd = process.env.NODE_ENV === "production";
 
 // Valeurs par défaut (fallback pour la rétrocompatibilité)
-const DEFAULT_PROD_APP_URL = "https://industriel-rh.vercel.app";
+const DEFAULT_PROD_APP_URL = "https://industriellerh.com";
 const DEFAULT_DEV_APP_URL = "http://localhost:3000";
 const DEFAULT_USER_AVATAR =
   "https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-3d-icon-download-in-png-blend-fbx-gltf-file-formats--men-people-male-pack-avatars-icons-5187871.png?f=webp";
@@ -20,7 +20,7 @@ const apiBaseWithoutProtocolValue = (() => {
   try {
     return new URL(appUrl).host;
   } catch {
-    return isProd ? "industriel-rh.vercel.app" : "localhost:3000";
+    return isProd ? "industriellerh.com" : "localhost:3000";
   }
 })();
 
