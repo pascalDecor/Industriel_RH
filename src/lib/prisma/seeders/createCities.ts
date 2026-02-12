@@ -1,5 +1,12 @@
-module.exports = async function createCivilities(prisma: any) {
+module.exports = async function createCities(prisma: any) {
   console.log("🔹 seed cities...");
+  const country = await prisma.country.findFirst({
+    where: { libelle: "Canada" }
+  });
+  if (!country) {
+    console.log("⚠️ Canada non trouvé. Exécutez d'abord le seed des pays (createCountries).");
+    return;
+  }
   const noms = [
     "Alma",
     "Amos",
@@ -103,10 +110,6 @@ module.exports = async function createCivilities(prisma: any) {
     "Métis-sur-Mer",
     "Mirabel"
   ];
-
-  const country = await prisma.country.findFirst({
-    where: { libelle: "Canada" }
-  });
 
   for (const libelle of noms) {
     const sp = await prisma.city.findFirst({

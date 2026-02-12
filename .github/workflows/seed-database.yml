@@ -1,0 +1,49 @@
+name: Database Seed (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type YES to confirm database seeding"
+        required: true
+        default: "NO"
+
+env:
+  NODE_VERSION: 20.x
+
+jobs:
+  seed:
+    name: Run Prisma Seed
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⛔ Safety check
+        if: github.event.inputs.confirm != 'YES'
+        run: |
+          echo "❌ Seeding aborted. You must type YES to proceed."
+          exit 1
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Run database seed
+        run: npx prisma db seed
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: ✅ Seed completed
+        run: echo "✅ Database seed executed successfully"

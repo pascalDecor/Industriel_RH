@@ -48,7 +48,10 @@ module.exports = async function createSectors(prisma: any) {
       });
 
       switch (sector.en) {
-        case "Manufacturing":
+        case "Manufacturing": {
+          const hasFunctions = (await prisma.function.count({ where: { sectorId: sp.id } })) > 0;
+          const hasSections = (await prisma.sectionUI.count({ where: { sectorId: sp.id } })) > 0;
+          if (!hasFunctions) {
           await prisma.function.createMany({
             data: [
               {
@@ -68,7 +71,8 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
-
+          }
+          if (!hasSections) {
           await prisma.sectionUI.createMany({
             data: [
               {
@@ -119,8 +123,13 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
+          }
           break;
-        case "Construction":
+        }
+        case "Construction": {
+          const hasFunctions = (await prisma.function.count({ where: { sectorId: sp.id } })) > 0;
+          const hasSections = (await prisma.sectionUI.count({ where: { sectorId: sp.id } })) > 0;
+          if (!hasFunctions) {
           await prisma.function.createMany({
             data: [
               {
@@ -145,6 +154,8 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
+          }
+          if (!hasSections) {
           await prisma.sectionUI.createMany({
             data: [
               {
@@ -195,8 +206,13 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
+          }
           break;
-        case "Healthcare":
+        }
+        case "Healthcare": {
+          const hasFunctions = (await prisma.function.count({ where: { sectorId: sp.id } })) > 0;
+          const hasSections = (await prisma.sectionUI.count({ where: { sectorId: sp.id } })) > 0;
+          if (!hasFunctions) {
           await prisma.function.createMany({
             data: [
               {
@@ -216,6 +232,8 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
+          }
+          if (!hasSections) {
           await prisma.sectionUI.createMany({
             data: [
               {
@@ -266,8 +284,13 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
+          }
           break;
-        case "Transport":
+        }
+        case "Transport": {
+          const hasFunctions = (await prisma.function.count({ where: { sectorId: sp.id } })) > 0;
+          const hasSections = (await prisma.sectionUI.count({ where: { sectorId: sp.id } })) > 0;
+          if (!hasFunctions) {
           await prisma.function.createMany({
             data: [
               {
@@ -287,6 +310,8 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
+          }
+          if (!hasSections) {
           await prisma.sectionUI.createMany({
             data: [
               {
@@ -337,8 +362,13 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
+          }
           break;
-        case "Agriculture & Agro-Food":
+        }
+        case "Agriculture & Agro-Food": {
+          const hasFunctions = (await prisma.function.count({ where: { sectorId: sp.id } })) > 0;
+          const hasSections = (await prisma.sectionUI.count({ where: { sectorId: sp.id } })) > 0;
+          if (!hasFunctions) {
           await prisma.function.createMany({
             data: [
               {
@@ -363,6 +393,8 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
+          }
+          if (!hasSections) {
           await prisma.sectionUI.createMany({
             data: [
               {
@@ -413,7 +445,9 @@ module.exports = async function createSectors(prisma: any) {
               }
             ]
           });
+          }
           break;
+        }
         default:
           break;
       }
