@@ -51,3 +51,5 @@ module.exports = async function createSpecialites(prisma: any) {
     }
   }
 };
+
+export {};

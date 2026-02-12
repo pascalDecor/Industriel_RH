@@ -15,3 +15,5 @@ module.exports = async function createCountries(prisma: any) {
     }
   }
 };
+
+export {};

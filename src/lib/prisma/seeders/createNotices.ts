@@ -50,3 +50,5 @@ module.exports = async function createNotices(prisma: any) {
     }
   }
 };
+
+export {};

@@ -30,3 +30,5 @@ module.exports = async function createCivilities(prisma: any) {
     }
   }
 };
+
+export {};

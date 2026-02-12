@@ -44,3 +44,4 @@ async function createUsers(prisma: any) {
 }
 
 module.exports = createUsers;
+export {};

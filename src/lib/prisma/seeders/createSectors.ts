@@ -454,3 +454,5 @@ module.exports = async function createSectors(prisma: any) {
     }
   }
 };
+
+export {};

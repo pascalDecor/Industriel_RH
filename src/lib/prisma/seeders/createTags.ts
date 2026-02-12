@@ -50,3 +50,5 @@ module.exports = async function createTags(prisma: any) {
     }
   }
 };
+
+export {};

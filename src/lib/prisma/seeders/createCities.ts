@@ -125,3 +125,5 @@ module.exports = async function createCities(prisma: any) {
     }
   }
 };
+
+export {};
