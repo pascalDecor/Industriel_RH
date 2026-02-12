@@ -129,8 +129,9 @@ jobs:
               exit 1
             fi
 
-            # Supprimer l'ancien build (conserver le reste du repo si présent)
-            rm -rf .next node_modules package.json package-lock.json public
+            # Supprimer l'ancien build (fichiers parfois créés par PM2 avec permissions différentes)
+            chmod -R u+rwX .next 2>/dev/null || true
+            rm -rf .next node_modules package.json package-lock.json public || sudo rm -rf .next node_modules package.json package-lock.json public
 
             # Extraire le build
             tar -xzf "$TARBALL"
