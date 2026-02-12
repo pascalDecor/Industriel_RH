@@ -1,4 +1,4 @@
-module.exports = async function createCities(prisma: any) {
+async function createCities(prisma: any) {
   console.log("🔹 seed cities...");
   const country = await prisma.country.findFirst({
     where: { libelle: "Canada" }
@@ -124,6 +124,7 @@ module.exports = async function createCities(prisma: any) {
       });
     }
   }
-};
+}
 
-export {};
+module.exports = createCities;
+export default createCities;

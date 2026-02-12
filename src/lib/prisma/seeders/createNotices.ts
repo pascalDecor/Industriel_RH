@@ -1,4 +1,4 @@
-module.exports = async function createNotices(prisma: any) {
+async function createNotices(prisma: any) {
   console.log("🔹 seed notices...");
   const notices = [
     {
@@ -49,6 +49,7 @@ module.exports = async function createNotices(prisma: any) {
       });
     }
   }
-};
+}
 
-export {};
+module.exports = createNotices;
+export default createNotices;

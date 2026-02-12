@@ -1,4 +1,4 @@
-module.exports = async function createSectors(prisma: any) {
+async function createSectors(prisma: any) {
   console.log("🔹 seed sectors…");
   const sectors = [
     {
@@ -453,6 +453,7 @@ module.exports = async function createSectors(prisma: any) {
       }
     }
   }
-};
+}
 
-export {};
+module.exports = createSectors;
+export default createSectors;

@@ -1,4 +1,4 @@
-module.exports = async function createTags(prisma: any) {
+async function createTags(prisma: any) {
   console.log("🔹 seed tags");
   const tags = [
     { fr: "Actualités", en: "News" },
@@ -49,6 +49,7 @@ module.exports = async function createTags(prisma: any) {
       });
     }
   }
-};
+}
 
-export {};
+module.exports = createTags;
+export default createTags;

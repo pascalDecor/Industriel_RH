@@ -1,4 +1,4 @@
-module.exports = async function createCivilities(prisma: any) {
+async function createCivilities(prisma: any) {
   console.log("🔹 seed civilities…");
   const civilities = [
     { fr: "Monsieur", en: "Mr." },
@@ -29,6 +29,7 @@ module.exports = async function createCivilities(prisma: any) {
       });
     }
   }
-};
+}
 
-export {};
+module.exports = createCivilities;
+export default createCivilities;

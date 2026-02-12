@@ -1,4 +1,4 @@
-module.exports = async function createSpecialites(prisma: any) {
+async function createSpecialites(prisma: any) {
   console.log("🔹 seed specialites…");
   const specialites = [
     { fr: "Développement de carrière", en: "Career Development" },
@@ -50,6 +50,7 @@ module.exports = async function createSpecialites(prisma: any) {
       });
     }
   }
-};
+}
 
-export {};
+module.exports = createSpecialites;
+export default createSpecialites;
