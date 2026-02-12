@@ -7,41 +7,21 @@ on:
   pull_request:
     branches:
       - main
-  # Déclenchement manuel pour tester le déploiement
   workflow_dispatch:
 
 env:
   NODE_VERSION: '20.x'
 
 jobs:
-  # lint:
-  #   name: Lint Code
-  #   runs-on: ubuntu-latest
-    
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: ${{ env.NODE_VERSION }}
-  #         cache: 'npm'
-
-  #     - name: Install dependencies
-  #       run: npm ci
-
-  #     - name: Run ESLint
-  #       run: npm run lint
-
   build:
-    name: Build Application
+    name: Build Next.js
     runs-on: ubuntu-latest
-    # needs: lint
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -62,10 +42,21 @@ jobs:
         env:
           NODE_ENV: production
 
+      - name: Archive build for deployment
+        run: |
+          tar -czf release.tar.gz .next package.json package-lock.json public node_modules
+        shell: bash
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nextjs-build
+          path: release.tar.gz
+
   type-check:
     name: Type Check
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -87,12 +78,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ build, type-check ]
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-    
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0
+          name: nextjs-build
+          path: ./deploy
 
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -107,26 +99,25 @@ jobs:
             set -e
             DEPLOY_PATH="${{ secrets.VPS_DEPLOY_PATH || '/home/deploy/Industriel_RH' }}"
             COMMIT_SHA="${{ github.sha }}"
-            
+
             echo "📌 Commit à déployer: ${COMMIT_SHA}"
-            
-            cd "${DEPLOY_PATH}" || { echo "❌ Répertoire introuvable: ${DEPLOY_PATH}"; exit 1; }
-            
-            # Vérifier que origin pointe bien vers le dépôt
-            git remote -v
-            git fetch origin main
-            git checkout main
-            git reset --hard "${COMMIT_SHA}"
-            echo "✅ Code à jour sur le commit: $(git rev-parse --short HEAD)"
-            
-            # Nettoyer le cache Next.js pour forcer un build propre
-            rm -rf .next
-            
-            npm ci --production=false
-            npm run generate
-            npm run build
-            
-            # Redémarrer l'application (ajustez selon votre configuration)
-            pm2 restart industriel-rh || pm2 start npm --name "industriel-rh" -- start
-            
+
+            # Créer le répertoire de déploiement si nécessaire
+            mkdir -p "$DEPLOY_PATH"
+            cd "$DEPLOY_PATH"
+
+            # Supprimer l'ancien build
+            rm -rf .next node_modules package.json package-lock.json public
+
+            # Copier le build depuis GitHub Actions
+            cp -r ~/deploy/release.tar.gz ./
+            tar -xzf release.tar.gz
+            rm release.tar.gz
+
+            echo "✅ Build déployé sur le serveur"
+
+            # Redémarrage PM2
+            pm2 delete industriel-rh || true
+            pm2 start npm --name "industriel-rh" -- start
+
             echo "✅ Déploiement terminé avec succès! Commit: $(git rev-parse --short HEAD)"
