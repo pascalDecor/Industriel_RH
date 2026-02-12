@@ -86,6 +86,16 @@ jobs:
           name: nextjs-build
           path: ./deploy
 
+      - name: Copy build to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          source: "deploy/release.tar.gz"
+          target: ${{ secrets.VPS_DEPLOY_PATH || '/home/deploy/Industriel_RH' }}
+
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.0.3
         env:
@@ -98,26 +108,28 @@ jobs:
           script: |
             set -e
             DEPLOY_PATH="${{ secrets.VPS_DEPLOY_PATH || '/home/deploy/Industriel_RH' }}"
-            COMMIT_SHA="${{ github.sha }}"
 
-            echo "📌 Commit à déployer: ${COMMIT_SHA}"
+            echo "📌 Déploiement du build sur le serveur"
 
-            # Créer le répertoire de déploiement si nécessaire
             mkdir -p "$DEPLOY_PATH"
             cd "$DEPLOY_PATH"
 
-            # Supprimer l'ancien build
+            if [ ! -f release.tar.gz ]; then
+              echo "❌ release.tar.gz introuvable dans $DEPLOY_PATH"
+              exit 1
+            fi
+
+            # Supprimer l'ancien build (conserver le reste du repo si présent)
             rm -rf .next node_modules package.json package-lock.json public
 
-            # Copier le build depuis GitHub Actions
-            cp -r ~/deploy/release.tar.gz ./
+            # Extraire le build copié par l'étape SCP
             tar -xzf release.tar.gz
             rm release.tar.gz
 
-            echo "✅ Build déployé sur le serveur"
+            echo "✅ Build extrait sur le serveur"
 
             # Redémarrage PM2
             pm2 delete industriel-rh || true
             pm2 start npm --name "industriel-rh" -- start
 
-            echo "✅ Déploiement terminé avec succès! Commit: $(git rev-parse --short HEAD)"
+            echo "✅ Déploiement terminé avec succès!"
