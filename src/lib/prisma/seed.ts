@@ -1,12 +1,13 @@
-import { PrismaClient } from "@prisma/client";
-import createSpecialites from "./seeders/createSpecialites";
-import createSectors from "./seeders/createSectors";
-import createCivilities from "./seeders/createCivilities";
-import createCities from "./seeders/createCities";
-import createCountries from "./seeders/createCountries";
-import createTags from "./seeders/createTags";
-import createNotices from "./seeders/createNotices";
-import createUsers from "./seeders/createUsers";
+import { PrismaClient } from '@prisma/client';
+
+import createSectors from './seeders/createSectors';
+import createSpecialites from './seeders/createSpecialites';
+import createCivilities from './seeders/createCivilities';
+import createCities from './seeders/createCities';
+import createCountries from './seeders/createCountries';
+import createTags from './seeders/createTags';
+import createNotices from './seeders/createNotices';
+import createUsers from './seeders/createUsers';
 
 const prisma = new PrismaClient();
 
