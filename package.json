@@ -10,7 +10,7 @@
     "generate": "prisma generate",
     "build": "next build",
     "vercel-build": "npm run generate && npm run build",
-    "seed": "node -r ts-node/register ./src/lib/prisma/seed.cjs"
+    "seed": "TS_NODE_PROJECT=./tsconfig.seed.json node -r ts-node/register ./src/lib/prisma/seed.cjs"
   },
   "dependencies": {
     "@editorjs/checklist": "^1.6.0",
