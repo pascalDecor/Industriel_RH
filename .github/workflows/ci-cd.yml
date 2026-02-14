@@ -44,7 +44,7 @@ jobs:
 
       - name: Archive build for deployment
         run: |
-          tar -czf release.tar.gz .next package.json package-lock.json public node_modules prisma
+          tar -czf release.tar.gz .next package.json package-lock.json public node_modules prisma src/lib/prisma
         shell: bash
 
       - name: Upload build artifact
