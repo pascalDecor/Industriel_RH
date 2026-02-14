@@ -44,7 +44,7 @@ jobs:
 
       - name: Archive build for deployment
         run: |
-          tar -czf release.tar.gz .next package.json package-lock.json public node_modules
+          tar -czf release.tar.gz .next package.json package-lock.json public node_modules prisma
         shell: bash
 
       - name: Upload build artifact
@@ -80,23 +80,6 @@ jobs:
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run Prisma migrations
-        run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
@@ -121,11 +104,13 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         env:
           GITHUB_SHA: ${{ github.sha }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
+          envs: GITHUB_SHA,DATABASE_URL
           script: |
             set -e
             DEPLOY_PATH="${{ secrets.VPS_DEPLOY_PATH || '/home/deploy/Industriel_RH' }}"
@@ -148,13 +133,16 @@ jobs:
 
             # Supprimer l'ancien build (fichiers parfois créés par PM2 avec permissions différentes)
             chmod -R u+rwX .next 2>/dev/null || true
-            rm -rf .next node_modules package.json package-lock.json public || sudo rm -rf .next node_modules package.json package-lock.json public
+            rm -rf .next node_modules package.json package-lock.json public prisma || sudo rm -rf .next node_modules package.json package-lock.json public prisma
 
             # Extraire le build
             tar -xzf "$TARBALL"
             rm -f release.tar.gz deploy/release.tar.gz
 
             echo "✅ Build extrait sur le serveur"
+
+            # Migrations Prisma (base locale sur le VPS)
+            npx prisma migrate deploy
 
             # Redémarrage PM2
             pm2 delete industriel-rh || true
