@@ -42,6 +42,7 @@ next-env.d.ts
 
 #prisma
 /prisma/migrations
+/prisma-seed
 
 # images
 /public/images/uploads

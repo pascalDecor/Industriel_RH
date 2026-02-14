@@ -42,9 +42,12 @@ jobs:
         env:
           NODE_ENV: production
 
+      - name: Build seed (TS → CJS)
+        run: npm run build:seed
+
       - name: Archive build for deployment
         run: |
-          tar -czf release.tar.gz .next package.json package-lock.json public node_modules prisma src/lib/prisma
+          tar -czf release.tar.gz .next package.json package-lock.json public node_modules prisma prisma-seed
         shell: bash
 
       - name: Upload build artifact
@@ -133,7 +136,7 @@ jobs:
 
             # Supprimer l'ancien build (fichiers parfois créés par PM2 avec permissions différentes)
             chmod -R u+rwX .next 2>/dev/null || true
-            rm -rf .next node_modules package.json package-lock.json public prisma || sudo rm -rf .next node_modules package.json package-lock.json public prisma
+            rm -rf .next node_modules package.json package-lock.json public prisma prisma-seed || sudo rm -rf .next node_modules package.json package-lock.json public prisma prisma-seed
 
             # Extraire le build
             tar -xzf "$TARBALL"

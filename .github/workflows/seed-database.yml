@@ -18,19 +18,43 @@ jobs:
           echo "❌ Seeding aborted. You must type YES to proceed."
           exit 1
 
-      - name: Trigger seed on VPS
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build seed (TS → CJS)
+        run: npm run build:seed
+
+      - name: Copy prisma-seed and package.json to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          source: "prisma-seed,package.json"
+          target: ${{ secrets.VPS_DEPLOY_PATH || '/home/deploy/Industriel_RH' }}
+
+      - name: Run seed on VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22
+          port: ${{ secrets.VPS_PORT || 22 }}
           script: |
             echo "📌 Running database seed on server..."
-            cd /home/deploy/Industriel_RH
-            source ~/.nvm/nvm.sh
-            nvm use 20
-            npm ci
+            cd ${{ secrets.VPS_DEPLOY_PATH || '/home/deploy/Industriel_RH' }}
+            source ~/.nvm/nvm.sh 2>/dev/null || true
+            nvm use 20 2>/dev/null || true
             npx prisma generate
             npx prisma db seed
             echo "✅ Seed completed on server"
