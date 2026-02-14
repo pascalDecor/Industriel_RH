@@ -13,7 +13,7 @@
     "seed": "node ./src/lib/prisma/run-seed.cjs"
   },
   "prisma": {
-    "seed": "node ./src/lib/prisma/seed.cjs"
+    "seed": "node ./src/lib/prisma/run-seed.cjs"
   },
   "dependencies": {
     "@editorjs/checklist": "^1.6.0",
