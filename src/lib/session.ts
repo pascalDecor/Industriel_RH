@@ -14,7 +14,7 @@ export const setCookie = (
     serialize(name, value, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax", // "lax" pour que le cookie soit envoyé lors d'une nav vers /api-docs (ex. nouvel onglet)
       path: path,
       maxAge: maxAge
     })

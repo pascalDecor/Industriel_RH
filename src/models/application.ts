@@ -54,6 +54,10 @@ export class Application extends BaseModel<ApplicationProps> {
     return this.props.state;
   }
 
+  get isRead(): boolean {
+    return this.props.isRead ?? false;
+  }
+
   get year_of_experience(): number {
     return this.props.year_of_experience;
   }

@@ -40,7 +40,7 @@ export default function Header({ user }: Readonly<{ user: User | null }>) {
             <Bell className="h-5 w-5" />
           </Button>
           {hasInternalAccess && (
-            <Link href="/api-docs" target="_blank" rel="noopener noreferrer">
+            <Link href="/api-docs">
               <Button variant="dark" size="sm" className="bg-purple-100 !text-purple-800 !border-none !rounded-full aspect-ratio-1 hover:!bg-purple-200 h-10 w-10 p-0 flex items-center justify-center">
                 <FileText className="h-5 w-5" />
               </Button>

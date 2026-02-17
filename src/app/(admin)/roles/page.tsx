@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import Button from '@/components/ui/button';
 import RoleOverview from '@/components/admin/RoleOverview';
 import PermissionsMatrix from '@/components/admin/PermissionsMatrix';
+import RoleConfig from '@/components/admin/RoleConfig';
 import { PermissionGuard } from '@/components/ui/PermissionGuard';
 import { Permission } from '@/types/auth';
 import { 
@@ -47,17 +48,7 @@ export default function RolesPage() {
       case 'matrix':
         return <PermissionsMatrix />;
       case 'settings':
-        return (
-          <Card className="p-8 text-center">
-            <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Configuration des rôles
-            </h3>
-            <p className="text-gray-600">
-              Cette section sera bientôt disponible pour configurer les paramètres avancés des rôles.
-            </p>
-          </Card>
-        );
+        return <RoleConfig />;
       default:
         return <RoleOverview />;
     }

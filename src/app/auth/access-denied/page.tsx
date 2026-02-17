@@ -106,10 +106,10 @@ export default function AccessDeniedPage() {
           <p className="text-xs text-gray-500">
             Pour demander l'accès, contactez :{' '}
             <a 
-              href="mailto:tech@industriellerh.ca" 
+              href="mailto:contact@industriellerh.com" 
               className="text-blue-600 hover:underline"
             >
-              tech@industriellerh.ca
+              contact@industriellerh.com
             </a>
           </p>
         </div>

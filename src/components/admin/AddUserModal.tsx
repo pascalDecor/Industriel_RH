@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Dialog, 
   DialogContent, 
@@ -10,10 +10,14 @@ import {
   DialogTitle 
 } from '@/components/ui/dialog';
 import Button from '@/components/ui/button';
-import { UserRole, ROLE_LABELS } from '@/types/auth';
-import { getAssignableRoles } from '@/lib/permissions/permission-helpers';
-import { usePermissions } from '@/hooks/usePermissions';
 import { Plus, AlertCircle, CheckCircle, Mail } from 'lucide-react';
+
+interface AssignableRole {
+  id: string;
+  code: string;
+  label: string;
+  level: number;
+}
 
 interface AddUserModalProps {
   isOpen: boolean;
@@ -22,21 +26,47 @@ interface AddUserModalProps {
 }
 
 export default function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserModalProps) {
-  const { userRole } = usePermissions();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [assignableRoles, setAssignableRoles] = useState<AssignableRole[]>([]);
+  const [rolesLoading, setRolesLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    role: UserRole.CONSULTANT
+    role: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Récupérer les rôles assignables par l'utilisateur actuel
-  const assignableRoles = userRole ? getAssignableRoles(userRole) : [];
+  // Charger les rôles assignables depuis l'API (référentiel en base)
+  useEffect(() => {
+    if (!isOpen) return;
+    let cancelled = false;
+    setRolesLoading(true);
+    fetch('/api/admin/roles/assignable', { credentials: 'include' })
+      .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Erreur chargement des rôles'))))
+      .then((data) => {
+        if (!cancelled && data.roles?.length) {
+          setAssignableRoles(data.roles);
+          setFormData((prev) => ({
+            ...prev,
+            role: prev.role && data.roles.some((r: AssignableRole) => r.code === prev.role) ? prev.role : data.roles[0].code
+          }));
+        } else if (!cancelled) {
+          setAssignableRoles([]);
+          setFormData((prev) => ({ ...prev, role: '' }));
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setAssignableRoles([]);
+      })
+      .finally(() => {
+        if (!cancelled) setRolesLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [isOpen]);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -58,8 +88,8 @@ export default function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserMo
 
 
     // Validation du rôle
-    if (!assignableRoles.includes(formData.role)) {
-      newErrors.role = 'Vous n\'avez pas les permissions pour assigner ce rôle';
+    if (!formData.role || !assignableRoles.some((r) => r.code === formData.role)) {
+      newErrors.role = 'Veuillez sélectionner un rôle assignable';
     }
 
     setErrors(newErrors);
@@ -86,7 +116,7 @@ export default function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserMo
         body: JSON.stringify({
           name: formData.name.trim(),
           email: formData.email.trim().toLowerCase(),
-          role: formData.role
+          role: formData.role.trim().toUpperCase()
         })
       });
 
@@ -101,7 +131,7 @@ export default function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserMo
       setFormData({
         name: '',
         email: '',
-        role: UserRole.CONSULTANT
+        role: assignableRoles[0]?.code ?? ''
       });
       
       // Notifier le parent pour actualiser la liste
@@ -134,7 +164,7 @@ export default function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserMo
       setFormData({
         name: '',
         email: '',
-        role: UserRole.CONSULTANT
+        role: assignableRoles[0]?.code ?? ''
       });
       setErrors({});
       setError(null);
@@ -218,7 +248,7 @@ export default function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserMo
               )}
             </div>
 
-            {/* Rôle */}
+            {/* Rôle (liste depuis l'API = référentiel en base) */}
             <div className="space-y-2">
               <label htmlFor="role" className="text-sm font-medium text-gray-700">
                 Rôle *
@@ -226,17 +256,23 @@ export default function AddUserModal({ isOpen, onClose, onUserAdded }: AddUserMo
               <select
                 id="role"
                 value={formData.role}
-                onChange={(e) => handleInputChange('role', e.target.value as UserRole)}
+                onChange={(e) => handleInputChange('role', e.target.value)}
                 className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                   errors.role ? 'border-red-300' : 'border-gray-300'
                 }`}
-                disabled={loading}
+                disabled={loading || rolesLoading}
               >
-                {assignableRoles.map(role => (
-                  <option key={role} value={role}>
-                    {ROLE_LABELS[role]}
-                  </option>
-                ))}
+                {rolesLoading ? (
+                  <option value="">Chargement des rôles...</option>
+                ) : assignableRoles.length === 0 ? (
+                  <option value="">Aucun rôle assignable</option>
+                ) : (
+                  assignableRoles.map((r) => (
+                    <option key={r.id} value={r.code}>
+                      {r.label}
+                    </option>
+                  ))
+                )}
               </select>
               {errors.role && (
                 <p className="text-sm text-red-600">{errors.role}</p>

@@ -100,8 +100,8 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ### Rôles utilisateurs en base
 Assurez-vous que les utilisateurs ont les rôles appropriés :
 ```sql
-UPDATE users SET role = 'developer' WHERE email = 'dev@industriellerh.ca';
-UPDATE users SET role = 'admin' WHERE email = 'admin@industriellerh.ca';
+UPDATE users SET role = 'developer' WHERE email = 'dev@industriellerh.com';
+UPDATE users SET role = 'admin' WHERE email = 'admin@industriellerh.com';
 ```
 
 ## 🔄 Flux d'authentification
@@ -134,8 +134,8 @@ graph TD
 ## 📞 Support
 
 Pour les questions de sécurité ou demandes d'accès :
-- **Email technique** : tech@industriellerh.ca
-- **Email sécurité** : security@industriellerh.ca
+- **Email technique** : contact@industriellerh.com
+- **Email sécurité** : security@industriellerh.com
 
 ## 🔍 Audit de sécurité
 

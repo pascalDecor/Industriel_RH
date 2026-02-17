@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-middleware';
-import { hasPermission } from '@/lib/permissions/server-permissions';
+import { hasPermission } from '@/lib/permissions/hasPermission';
 import { Permission, UserWithRole, UserRole } from '@/types/server-auth';
+import type { AuthApiUser } from '@/lib/auth-middleware';
 import { 
   generateSecurePassword, 
   generateFirstLoginToken, 
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const user = authResult.user as UserWithRole;
+    const user = authResult.user as AuthApiUser;
 
     // Vérifier les permissions de lecture des utilisateurs
     if (!hasPermission(user, Permission.USERS_READ)) {
@@ -107,29 +108,60 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = authResult.user as UserWithRole;
+    const currentUser = authResult.user as AuthApiUser;
 
     // Vérifier les permissions de création d'utilisateurs
-    if (!hasPermission(user, Permission.USERS_CREATE)) {
+    if (!hasPermission(currentUser, Permission.USERS_CREATE)) {
       return NextResponse.json(
         { error: 'Permissions insuffisantes' },
         { status: 403 }
       );
     }
 
-    const { name, email, role } = await request.json();
+    const { name, email, role: roleCode } = await request.json();
 
     // Validation des données
-    if (!name || !email || !role) {
+    if (!name || !email || !roleCode) {
       return NextResponse.json(
-        { error: 'Données manquantes' },
+        { error: 'Données manquantes (nom, email, rôle)' },
+        { status: 400 }
+      );
+    }
+
+    // Rôle en base (source de vérité pour les permissions)
+    const roleRecord = await prisma.role.findUnique({
+      where: { code: String(roleCode).trim().toUpperCase() }
+    });
+    if (!roleRecord) {
+      return NextResponse.json(
+        { error: 'Rôle non trouvé. Choisissez un rôle proposé par l\'application.' },
+        { status: 400 }
+      );
+    }
+
+    // Ne pas assigner un rôle de niveau supérieur ou égal au sien
+    const currentLevel = currentUser.roleLevel ?? 0;
+    if (roleRecord.level >= currentLevel) {
+      return NextResponse.json(
+        { error: 'Vous ne pouvez pas assigner un rôle de niveau supérieur ou égal au vôtre' },
+        { status: 403 }
+      );
+    }
+
+    // Pour UserRoleAssignment.role (enum), n'accepter que les codes présents dans l'enum
+    const validRoleEnum = Object.values(UserRole).includes(roleCode as UserRole)
+      ? (roleCode as UserRole)
+      : null;
+    if (!validRoleEnum) {
+      return NextResponse.json(
+        { error: 'Ce rôle ne peut pas être assigné à la création (référentiel en cours de migration).' },
         { status: 400 }
       );
     }
 
     // Vérifier si l'email existe déjà
     const existingUser = await prisma.user.findUnique({
-      where: { email }
+      where: { email: String(email).trim().toLowerCase() }
     });
 
     if (existingUser) {
@@ -138,9 +170,6 @@ export async function POST(request: NextRequest) {
         { status: 409 }
       );
     }
-
-    // Vérifier si l'utilisateur peut assigner ce rôle
-    // TODO: Implémenter la logique de vérification des rôles assignables
 
     // Générer un mot de passe temporaire sécurisé
     const tempPassword = await generateSecurePassword();
@@ -176,13 +205,15 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    // Assigner le rôle via UserRoleAssignment
+    // Assigner le rôle via UserRoleAssignment (roleId = référentiel en base)
     await prisma.userRoleAssignment.create({
       data: {
         userId: newUser.id,
-        role: role as UserRole,
+        role: validRoleEnum,
+        roleId: roleRecord.id,
         isPrimary: true,
-        isActive: true
+        isActive: true,
+        assignedBy: currentUser.id
       }
     });
 
@@ -190,7 +221,7 @@ export async function POST(request: NextRequest) {
     const emailSent = await sendWelcomeEmail({
       name: newUser.name,
       email: newUser.email,
-      role: role as UserRole,
+      role: validRoleEnum,
       tempPassword,
       firstLoginToken
     });
@@ -204,7 +235,7 @@ export async function POST(request: NextRequest) {
       id: newUser.id,
       name: newUser.name,
       email: newUser.email,
-      role: role as UserRole,
+      role: validRoleEnum,
       isActive: newUser.isActive,
       lastLogin: newUser.lastLogin || undefined,
       avatarUrl: newUser.avatarUrl || undefined,

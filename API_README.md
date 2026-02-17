@@ -6,7 +6,7 @@ Cette documentation décrit l'API REST de la plateforme Industrielle RH, une sol
 
 ### Interface Swagger UI
 - **URL de développement**: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
-- **URL de production**: [https://industriellerh.ca/api-docs](https://industriellerh.ca/api-docs)
+- **URL de production**: [https://industriellerh.com/api-docs](https://industriellerh.com/api-docs)
 
 ### Spécification OpenAPI
 - **Format JSON**: `/api/swagger`
@@ -119,8 +119,8 @@ Certains endpoints peuvent nécessiter une authentification. Le système utilise
 - **Documentation**: `http://localhost:3000/api-docs`
 
 ### Production
-- **Base URL**: `https://industriellerh.ca/api`
-- **Documentation**: `https://industriellerh.ca/api-docs`
+- **Base URL**: `https://industriellerh.com/api`
+- **Documentation**: `https://industriellerh.com/api-docs`
 
 ## 📊 Modèles de données
 
@@ -208,8 +208,8 @@ La documentation est automatiquement servie via l'endpoint `/api/swagger` et l'i
 ## 📞 Support
 
 Pour toute question concernant cette API :
-- **Email technique** : tech@industriellerh.ca
-- **Email général** : info@industriellerh.ca
+- **Email technique** : contact@industriellerh.com
+- **Email général** : info@industriellerh.com
 - **Téléphone** : 819-919-8693
 
 ## 📄 Licence

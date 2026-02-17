@@ -6,78 +6,38 @@ import SwaggerUI from 'swagger-ui-react';
 import { useAuth } from '@/hooks/useAuth';
 import 'swagger-ui-react/swagger-ui.css';
 
+/**
+ * Documentation API. Accès contrôlé par le proxy (token + rôle : SUPER_ADMIN, HR_DIRECTOR, HR_MANAGER, IT_ENGINEER).
+ */
 export default function ApiDocsPage() {
   const [spec, setSpec] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { authenticated, loading: authLoading, hasInternalAccess, hasSwaggerAccess, user, logout } = useAuth();
   const router = useRouter();
-
-  // Redirection si non authentifié ou sans accès interne
-  useEffect(() => {
-    if (!authLoading) {
-      console.log('API Docs Access Check:', {
-        authenticated,
-        hasInternalAccess,
-        hasSwaggerAccess,
-        userRole: user?.role,
-        userIsActive: user?.isActive
-      });
-
-      if (!authenticated) {
-        console.log('Redirecting to login - not authenticated');
-        router.push('/auth/login?redirect=/api-docs');
-        return;
-      }
-      if (!hasSwaggerAccess) {
-        console.log('Redirecting to access denied - no swagger access for role:', user?.role);
-        router.push('/auth/access-denied');
-        return;
-      }
-
-      console.log('API Docs access granted for user:', user?.role);
-    }
-  }, [authenticated, authLoading, hasSwaggerAccess, user, router]);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
-    // Ne charger la spec que si l'utilisateur est authentifié et a l'accès swagger
-    if (authenticated && hasSwaggerAccess) {
-      const loadSwaggerSpec = async () => {
-        try {
-          const response = await fetch('/api/swagger');
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const swaggerSpec = await response.json();
-          setSpec(swaggerSpec);
-        } catch (err) {
-          console.error('Erreur lors du chargement de la spécification Swagger:', err);
-          setError(err instanceof Error ? err.message : 'Erreur inconnue');
-        } finally {
-          setLoading(false);
+    const loadSwaggerSpec = async () => {
+      try {
+        const response = await fetch('/api/swagger', { credentials: 'include' });
+        // if (response.status === 401 || response.status === 403) {
+        //   router.replace('/auth/login?redirect=/api-docs');
+        //   return;
+        // }
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
         }
-      };
-
-      loadSwaggerSpec();
-    }
-  }, [authenticated, hasSwaggerAccess]);
-
-  // Affichage pendant le chargement de l'auth
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Vérification des permissions...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Ne pas afficher la page si pas d'accès swagger (la redirection se fera via useEffect)
-  if (!authenticated || !hasSwaggerAccess) {
-    return null;
-  }
+        const swaggerSpec = await response.json();
+        setSpec(swaggerSpec);
+      } catch (err) {
+        console.error('Erreur chargement Swagger:', err);
+        setError(err instanceof Error ? err.message : 'Erreur inconnue');
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadSwaggerSpec();
+  }, [router]);
 
   if (loading) {
     return (
@@ -209,8 +169,8 @@ export default function ApiDocsPage() {
           <p className="mb-2">© 2025 Industrielle RH Inc. Tous droits réservés.</p>
           <p className="text-gray-400 text-sm">
             Pour toute question concernant cette API, contactez: 
-            <a href="mailto:tech@industriellerh.ca" className="text-blue-400 hover:underline ml-1">
-              tech@industriellerh.ca
+            <a href="mailto:contact@industriellerh.com" className="text-blue-400 hover:underline ml-1">
+              contact@industriellerh.com
             </a>
           </p>
         </div>

@@ -13,7 +13,7 @@ const plus_Jakarta_Sans = Plus_Jakarta_Sans({
 });
 
 const appUrl =
-  process.env.NEXT_PUBLIC_APP_URL || "https://industriel-rh.vercel.app";
+  process.env.NEXT_PUBLIC_APP_URL || "https://industriellerh.com/";
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
+import createRolesAndPermissions from './seeders/createRolesAndPermissions';
 import createSectors from './seeders/createSectors';
 import createDefaultConsultingSector from './seeders/createDefaultConsultingSector';
 import createSpecialites from './seeders/createSpecialites';
@@ -14,6 +15,7 @@ import createTeamMembers from './seeders/createTeamMembers';
 const prisma = new PrismaClient();
 
 async function main() {
+  await createRolesAndPermissions(prisma);
   await createSpecialites(prisma);
   await createSectors(prisma);
   await createDefaultConsultingSector(prisma);

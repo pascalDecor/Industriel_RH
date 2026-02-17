@@ -11,7 +11,8 @@
     "build": "next build",
     "vercel-build": "npm run generate && npm run build",
     "build:seed": "tsc -p tsconfig.seed.build.json",
-    "seed": "node ./src/lib/prisma/run-seed.cjs"
+    "seed": "node ./src/lib/prisma/run-seed.cjs",
+    "seed:roles-users": "node ./src/lib/prisma/run-seed-roles-users.cjs"
   },
   "prisma": {
     "seed": "node ./prisma-seed/seed.js"

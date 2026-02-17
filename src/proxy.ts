@@ -3,6 +3,7 @@ import { jwToken } from '@/lib/jwt';
 
 const PUBLIC_ROUTES = [
   '/login',
+  '/auth/login', // éviter de protéger la page de login elle-même
   '/api/auth/login',
   '/api/auth/login/complete',
   '/_next',
@@ -60,12 +61,48 @@ function isApiRoute(pathname: string): boolean {
   return pathname.startsWith('/api');
 }
 
+/** Évite la boucle redirect : ne jamais utiliser /auth/login ou /login comme cible de redirect. */
+function safeRedirectPath(pathname: string): string {
+  if (pathname === '/auth/login' || pathname.startsWith('/auth/login?') || pathname === '/login' || pathname.startsWith('/login?')) {
+    return '/';
+  }
+  return pathname;
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
   // Permettre l'accès aux routes publiques
   if (isPublicRoute(pathname)) {
     return NextResponse.next();
+  }
+
+  // /api-docs et /api/swagger : token + rôle requis (SUPER_ADMIN, HR_DIRECTOR, HR_MANAGER, IT_ENGINEER)
+  const SWAGGER_ALLOWED_ROLES = ['SUPER_ADMIN', 'HR_DIRECTOR', 'HR_MANAGER', 'IT_ENGINEER'];
+  if (pathname === '/api-docs' || pathname.startsWith('/api-docs/') || pathname === '/api/swagger' || pathname.startsWith('/api/swagger/')) {
+    const token = request.cookies.get('token')?.value;
+    if (!token) {
+      const loginUrl = new URL('/auth/login', request.url);
+      loginUrl.searchParams.set('redirect', safeRedirectPath(pathname));
+      return NextResponse.redirect(loginUrl);
+    }
+    try {
+      const decoded = await jwToken.verify(token);
+      if (!decoded || typeof decoded !== 'object' || !decoded.id) {
+        const loginUrl = new URL('/auth/login', request.url);
+        loginUrl.searchParams.set('redirect', safeRedirectPath(pathname));
+        return NextResponse.redirect(loginUrl);
+      }
+      const role = (decoded as { role?: string }).role || '';
+      if (!SWAGGER_ALLOWED_ROLES.includes(role)) {
+        return NextResponse.redirect(new URL('/auth/access-denied', request.url));
+      }
+      return NextResponse.next();
+    } catch {
+      const loginUrl = new URL('/auth/login', request.url);
+      loginUrl.searchParams.set('redirect', safeRedirectPath(pathname));
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
   // Vérifier l'authentification seulement pour les routes protégées
@@ -80,7 +117,7 @@ export async function proxy(request: NextRequest) {
     // Rediriger vers la page de connexion pour les routes protégées
     if (!isApiRoute(pathname)) {
       const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('redirect', pathname);
+      loginUrl.searchParams.set('redirect', safeRedirectPath(pathname));
       return NextResponse.redirect(loginUrl);
     }
     

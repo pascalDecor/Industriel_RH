@@ -55,4 +55,8 @@ export class Contact extends BaseModel<ContactProps> {
   get priority(): string {
     return this.props.priority;
   }
+
+  get isRead(): boolean {
+    return this.props.isRead ?? false;
+  }
 }

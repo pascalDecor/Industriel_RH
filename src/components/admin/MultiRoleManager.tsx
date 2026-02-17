@@ -159,10 +159,11 @@ export default function MultiRoleManager({
   };
 
   const getRoleColor = (role: UserRole, isPrimary: boolean = false) => {
-    const baseColors = {
+    const baseColors: Record<UserRole, string> = {
       [UserRole.SUPER_ADMIN]: 'border-yellow-200 bg-yellow-50',
       [UserRole.HR_DIRECTOR]: 'border-purple-200 bg-purple-50',
       [UserRole.HR_MANAGER]: 'border-blue-200 bg-blue-50',
+      [UserRole.IT_ENGINEER]: 'border-cyan-200 bg-cyan-50',
       [UserRole.RECRUITER_SENIOR]: 'border-green-200 bg-green-50',
       [UserRole.RECRUITER]: 'border-orange-200 bg-orange-50',
       [UserRole.HR_ASSISTANT]: 'border-gray-200 bg-gray-50',

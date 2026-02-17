@@ -152,7 +152,7 @@ export default function ContactPage() {
                                 {t('contact.email')}
                             </p>
                             <p className="font-semibold text text-gray-600 text-left text-sm sm:text-base break-words">
-                                <Link href="mailto:info@industriellerh.ca">info@industriellerh.ca</Link>
+                                <Link href="mailto:info@industriellerh.com">info@industriellerh.com</Link>
                             </p>
                         </motion.div>
                         <motion.div

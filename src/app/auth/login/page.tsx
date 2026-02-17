@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import Logo from '@/components/ui/Logo';
 
@@ -11,17 +11,14 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { authenticated, user } = useAuth();
-  
-  const redirectPath = searchParams?.get('redirect') || '/';
 
   // Rediriger si déjà authentifié
   useEffect(() => {
     if (authenticated && user) {
-      router.push(redirectPath);
+      router.push('/');
     }
-  }, [authenticated, user, router, redirectPath]);
+  }, [authenticated, user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,8 +41,7 @@ function LoginForm() {
         throw new Error(data.message || 'Erreur de connexion');
       }
 
-      // Rediriger vers la page demandée ou l'accueil
-      router.push(redirectPath);
+      router.push('/');
     } catch (error) {
       console.error('Erreur de connexion:', error);
       setError(error instanceof Error ? error.message : 'Erreur de connexion');
@@ -67,22 +63,6 @@ function LoginForm() {
           <p className="mt-2 text-center text-sm text-gray-600">
             Industrielle RH - Documentation API
           </p>
-          {redirectPath === '/api-docs' && (
-            <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-md p-3">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-yellow-700">
-                    <strong>Accès restreint :</strong> La documentation API nécessite des privilèges internes.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (

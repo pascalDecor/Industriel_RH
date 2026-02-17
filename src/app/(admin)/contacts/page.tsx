@@ -51,7 +51,6 @@ export default function Candidatures() {
                         type="text"
                         name="search"
                         value={search ?? ''} onChange={(e) => { setSearch(e.target.value); }} />
-                    <Button className="w-full py-3 whitespace-nowrap">Ajouter un contact</Button>
                 </div>
             </div>
 

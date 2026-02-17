@@ -141,6 +141,7 @@ export interface ApplicationProps {
   cv: string;
   coverLetter?: string;
   state: string;
+  isRead?: boolean;
   sectorId: string;
   functionId: string;
   civilityId: string;
@@ -185,6 +186,7 @@ export interface ContactProps {
   message: string;
   status: string;
   priority: string;
+  isRead?: boolean;
 }
 
 export interface UserProps {

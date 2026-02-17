@@ -70,6 +70,8 @@ export default function PermissionsMatrix({ className, compact = false }: Permis
         return <Crown className="h-4 w-4 text-yellow-500" />;
       case UserRole.HR_DIRECTOR:
         return <Shield className="h-4 w-4 text-purple-500" />;
+      case UserRole.IT_ENGINEER:
+        return <Database className="h-4 w-4 text-indigo-500" />;
       default:
         return <Users className="h-4 w-4 text-gray-500" />;
     }

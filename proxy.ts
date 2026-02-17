@@ -1,99 +1,54 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAccessToken } from './src/lib/jwt';
 
+/** Rôles autorisés pour /api-docs et /api/swagger (codes en base = majuscules) */
+const SWAGGER_ALLOWED_ROLES = ['SUPER_ADMIN', 'HR_DIRECTOR', 'HR_MANAGER', 'IT_ENGINEER'];
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protéger les routes sensibles
-  const protectedRoutes = ['/api-docs', '/api/swagger'];
-  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
-
-  if (isProtectedRoute) {
-    try {
-      // Récupérer le token depuis les cookies
-      const token = request.cookies.get('token')?.value;
-      
-      if (!token) {
-        return redirectToLogin(request);
-      }
-
-      // Vérifier le token
-      const user = await verifyAccessToken(token);
-      
-      if (!user) {
-        return redirectToLogin(request);
-      }
-
-      // Vérifier les privilèges pour l'accès interne
-      const allowedRoles = ['admin', 'super_admin', 'developer', 'internal'];
-      if (!allowedRoles.includes(user.role)) {
-        // Pour les routes API, retourner une erreur JSON
-        if (pathname.startsWith('/api/')) {
-          return NextResponse.json(
-            { 
-              error: 'Access denied', 
-              message: 'Insufficient privileges for internal access',
-              code: 'INSUFFICIENT_PRIVILEGES'
-            },
-            { status: 403 }
-          );
-        }
-        
-        // Pour les pages, rediriger vers access-denied
-        const url = request.nextUrl.clone();
-        url.pathname = '/auth/access-denied';
-        return NextResponse.redirect(url);
-      }
-
-      // Utilisateur autorisé, continuer
-      return NextResponse.next();
-
-    } catch (error) {
-      console.error('Erreur middleware authentification:', error);
-      
-      // Pour les routes API, retourner une erreur JSON
-      if (pathname.startsWith('/api/')) {
-        return NextResponse.json(
-          { 
-            error: 'Authentication error', 
-            message: 'Failed to verify authentication',
-            code: 'AUTH_ERROR'
-          },
-          { status: 500 }
-        );
-      }
-      
-      return redirectToLogin(request);
-    }
+  // Ne protéger que /api-docs et /api/swagger ; laisser passer toutes les autres routes (dont /)
+  if (pathname !== '/api-docs' && !pathname.startsWith('/api-docs/') && pathname !== '/api/swagger' && !pathname.startsWith('/api/swagger/')) {
+    return NextResponse.next();
   }
 
-  return NextResponse.next();
+  const raw = request.cookies.get('token')?.value;
+  const token = typeof raw === 'string' ? raw.trim() : '';
+
+  if (!token) {
+    return redirectToLogin(request);
+  }
+
+  try {
+    const user = await verifyAccessToken(token);
+    if (!user) {
+      return redirectToLogin(request);
+    }
+
+    const role = (user.role as string) || '';
+    if (!SWAGGER_ALLOWED_ROLES.includes(role)) {
+      return NextResponse.redirect(new URL('/auth/access-denied', request.url));
+    }
+
+    return NextResponse.next();
+  } catch {
+    return redirectToLogin(request);
+  }
 }
 
 function redirectToLogin(request: NextRequest) {
   const url = request.nextUrl.clone();
-  
-  // Pour les routes API, retourner une erreur JSON au lieu de rediriger
   if (url.pathname.startsWith('/api/')) {
     return NextResponse.json(
-      { 
-        error: 'Authentication required', 
-        message: 'Please log in to access this resource',
-        code: 'AUTH_REQUIRED'
-      },
+      { error: 'Authentication required', message: 'Please log in to access this resource', code: 'AUTH_REQUIRED' },
       { status: 401 }
     );
   }
-  
-  // Pour les pages, rediriger vers la connexion
   url.pathname = '/auth/login';
   url.searchParams.set('redirect', request.nextUrl.pathname);
   return NextResponse.redirect(url);
 }
 
 export const config = {
-  matcher: [
-    '/api-docs/:path*',
-    '/api/swagger/:path*'
-  ]
+  matcher: ['/api-docs', '/api-docs/:path*', '/api/swagger', '/api/swagger/:path*']
 };

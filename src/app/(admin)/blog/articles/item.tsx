@@ -6,32 +6,50 @@ import Image from "next/image";
 import clsx from "clsx";
 import { useState } from "react";
 import Link from "next/link";
-import { EyeIcon, EditIcon, ToggleLeftIcon, ToggleRightIcon, PencilIcon, LanguagesIcon } from "lucide-react";
+import { EyeIcon, ToggleLeftIcon, ToggleRightIcon, PencilIcon, LanguagesIcon, Trash2 } from "lucide-react";
 import Button from "@/components/ui/button";
 import { HttpService } from "@/utils/http.services";
+import ConfirmDeleteModal from "@/components/ui/ConfirmDeleteModal";
+import { toast } from "sonner";
 
 export default function ItemArticles({ article, onChange, className = "col-span-3 md:col-span-2 lg:col-span-1" }: { article: Article, onChange: (state: any) => void, className?: string }) {
     const [imageError, setImageError] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [loadingDelete, setLoadingDelete] = useState(false);
     const hasImage = article.image && article.image.trim() !== '' && !imageError;
     const hasEnglishContent = article.titre_en || article.contenu_en;
 
     const handleTogglePublished = async (e: React.MouseEvent) => {
-        e.preventDefault(); // Empêcher la navigation
+        e.preventDefault();
         e.stopPropagation();
-        
         setIsUpdating(true);
         try {
             await HttpService.update({
                 url: `/articles/${article.id}`,
                 data: { published: !article.published }
             });
-            onChange(true); // Rafraîchir la liste
+            onChange(true);
         } catch (error) {
             console.error('Erreur lors de la mise à jour:', error);
             alert('Erreur lors de la mise à jour du statut');
         } finally {
             setIsUpdating(false);
+        }
+    };
+
+    const handleConfirmDelete = async (e?: React.MouseEvent) => {
+        e?.preventDefault();
+        e?.stopPropagation();
+        setLoadingDelete(true);
+        try {
+            await HttpService.delete({ url: `/articles/${article.id}` });
+            onChange(true);
+        } catch (err) {
+            toast.error("Impossible de supprimer l'article");
+            throw err;
+        } finally {
+            setLoadingDelete(false);
         }
     };
 
@@ -78,7 +96,6 @@ export default function ItemArticles({ article, onChange, className = "col-span-
                     </Button>
                     <Link href={`/blog/articles/${article.id}/edit`} onClick={(e) => e.stopPropagation()}>
                         <Button
-                            // size="md"
                             title="Modifier l'article"
                             variant="success"
                             className="p-1 h-8"
@@ -86,7 +103,28 @@ export default function ItemArticles({ article, onChange, className = "col-span-
                             <PencilIcon className="w-3 h-3" />
                         </Button>
                     </Link>
+                    <Button
+                        title="Supprimer l'article"
+                        variant="danger"
+                        className="p-1 h-8 bg-red-100 hover:bg-red-200 text-red-700"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setDeleteModalOpen(true);
+                        }}
+                    >
+                        <Trash2 className="w-3 h-3" />
+                    </Button>
                 </div>
+
+                <ConfirmDeleteModal
+                    isOpen={deleteModalOpen}
+                    onClose={() => setDeleteModalOpen(false)}
+                    onConfirm={handleConfirmDelete}
+                    title="Supprimer l'article"
+                    description={<>Supprimer définitivement « {article.titre} » ?</>}
+                    loading={loadingDelete}
+                />
 
                 <div className="relative w-full h-60 rounded-lg overflow-hidden">
                     {hasImage ? (

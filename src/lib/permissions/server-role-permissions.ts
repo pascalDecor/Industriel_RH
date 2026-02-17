@@ -38,6 +38,15 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     Permission.SALARY_CALCULATIONS
   ],
 
+  [UserRole.IT_ENGINEER]: [
+    // Ingénieur IT - Accès API, documentation, support technique
+    Permission.API_ACCESS,
+    Permission.ARTICLES_READ,
+    Permission.USERS_READ,
+    Permission.REPORTS_BASIC,
+    Permission.ANALYTICS_READ
+  ],
+
   [UserRole.HR_MANAGER]: [
     // Management RH - Gestion équipes et supervision
     Permission.APPLICATIONS_CREATE,
@@ -157,6 +166,9 @@ export const INHERITED_PERMISSIONS: Record<UserRole, Permission[]> = {
   ],
   
   [UserRole.HR_MANAGER]: [],
+  [UserRole.IT_ENGINEER]: [
+    Permission.API_ACCESS
+  ],
   [UserRole.RECRUITER_SENIOR]: [],
   [UserRole.RECRUITER]: [],
   [UserRole.HR_ASSISTANT]: [],

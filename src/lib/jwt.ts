@@ -66,7 +66,11 @@ export async function generateTokens(payload: UserPayload): Promise<{
  */
 export async function verifyAccessToken(token: string): Promise<UserPayload | null> {
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
+    const t = typeof token === 'string' ? token.trim() : '';
+    if (!t || t.split('.').length !== 3) {
+      return null;
+    }
+    const { payload } = await jwtVerify(t, JWT_SECRET);
     
     // Vérifier que c'est bien un access token
     if (payload.type !== 'access') {

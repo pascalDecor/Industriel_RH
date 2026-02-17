@@ -5,8 +5,8 @@ import Button from '@/components/ui/button';
 import FloatingLabelInput from '@/components/ui/input';
 import InputError from '@/components/ui/inputError';
 import { LocalStorageHelper } from '@/utils/localStorage.helper';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useActionState, useEffect, useState, Suspense } from 'react';
+import { useRouter } from 'next/navigation';
+import { useActionState, useEffect, useState, Suspense, startTransition } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 function LoginForm() {
@@ -21,9 +21,6 @@ function LoginForm() {
     const [resendMessage, setResendMessage] = useState<string | null>(null);
 
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const redirectTo = searchParams?.get('redirect') || '/dashboard';
-
 
     const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -45,8 +42,10 @@ function LoginForm() {
             const formData = new FormData(form);
             formData.set('recaptchaToken', token);
 
-            // Submit the form
-            action(formData);
+            // useActionState exige que l'action soit appelée dans une transition
+            startTransition(() => {
+                action(formData);
+            });
         } catch (error) {
             console.error('Error executing reCAPTCHA:', error);
             setIsSubmitting(false);
@@ -75,14 +74,9 @@ function LoginForm() {
         if (stateOTP === true) {
             LocalStorageHelper.removeKey("isLoggedIn");
             LocalStorageHelper.removeKey("email");
-
-            // Attendre que les cookies soient propagés puis rediriger
-            console.log(`Connexion réussie, redirection vers ${redirectTo} dans 500ms...`);
-            setTimeout(() => {
-                router.push(redirectTo);
-            }, 500);
+            setTimeout(() => router.push('/dashboard'), 500);
         }
-    }, [state, action, pending, stateOTP, actionOTP, pendingOTP, router, email, redirectTo]);
+    }, [state, action, pending, stateOTP, actionOTP, pendingOTP, router, email]);
 
     const handleResendOtp = async () => {
         const emailToUse = email || LocalStorageHelper.getValue("email");

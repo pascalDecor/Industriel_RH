@@ -6,12 +6,12 @@
     "version": "1.0.0",
     "contact": {
       "name": "Industrielle RH",
-      "email": "info@industriellerh.ca",
-      "url": "https://industriellerh.ca"
+      "email": "info@industriellerh.com",
+      "url": "https://industriellerh.com"
     },
     "license": {
       "name": "Propriétaire",
-      "url": "https://industriellerh.ca/terms"
+      "url": "https://industriellerh.com/terms"
     }
   },
   "servers": [
@@ -20,7 +20,7 @@
       "description": "Serveur de développement"
     },
     {
-      "url": "https://industriellerh.ca/api",
+      "url": "https://industriellerh.com/api",
       "description": "Serveur de production"
     }
   ],

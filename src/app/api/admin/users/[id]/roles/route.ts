@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-middleware';
-import { hasPermissionMultiRole, canAssignRole } from '@/lib/permissions/multi-role-helpers';
+import { hasPermission } from '@/lib/permissions/hasPermission';
 import { Permission, UserRole } from '@/types/server-auth';
-import { UserWithRoles } from '@/types/auth';
 import prisma from '@/lib/connect_db';
 
 // GET - Récupérer les rôles d'un utilisateur
@@ -13,7 +12,6 @@ export async function GET(
   try {
     const { id } = await params;
 
-    // Vérifier l'authentification et les permissions
     const authResult = await verifyAuth(request);
     if (!authResult.success || !authResult.user) {
       return NextResponse.json(
@@ -22,11 +20,8 @@ export async function GET(
       );
     }
 
-    const currentUser = authResult.user as unknown as UserWithRoles;
-    const isSuperAdmin = (currentUser as { role?: string }).role === UserRole.SUPER_ADMIN;
-
-    // Vérifier les permissions de lecture des utilisateurs (ou SUPER_ADMIN legacy)
-    if (!isSuperAdmin && !hasPermissionMultiRole(currentUser, Permission.USERS_READ)) {
+    const currentUser = authResult.user as { permissions?: string[]; isActive?: boolean };
+    if (!hasPermission(currentUser, Permission.USERS_READ)) {
       return NextResponse.json(
         { error: 'Permissions insuffisantes' },
         { status: 403 }
@@ -76,12 +71,8 @@ export async function POST(
       );
     }
 
-    const currentUser = authResult.user as unknown as UserWithRoles;
-    const legacyRole = (currentUser as { role?: string }).role;
-    const isSuperAdmin = legacyRole === UserRole.SUPER_ADMIN;
-
-    // Vérifier les permissions d'assignation de rôles (ou SUPER_ADMIN legacy)
-    if (!isSuperAdmin && !hasPermissionMultiRole(currentUser, Permission.ROLES_ASSIGN)) {
+    const currentUser = authResult.user as { permissions?: string[]; roleLevel?: number; isActive?: boolean };
+    if (!hasPermission(currentUser, Permission.ROLES_ASSIGN)) {
       return NextResponse.json(
         { error: 'Permissions insuffisantes pour assigner des rôles' },
         { status: 403 }
@@ -90,7 +81,6 @@ export async function POST(
 
     const { role, isPrimary = false, expiresAt } = await request.json();
 
-    // Validation du rôle
     if (!role || !Object.values(UserRole).includes(role)) {
       return NextResponse.json(
         { error: 'Rôle invalide' },
@@ -98,7 +88,23 @@ export async function POST(
       );
     }
 
-    // Vérifier que l'utilisateur cible existe
+    const roleToAssign = await prisma.role.findUnique({
+      where: { code: role }
+    });
+    if (!roleToAssign) {
+      return NextResponse.json(
+        { error: 'Rôle non trouvé en base' },
+        { status: 400 }
+      );
+    }
+    const currentLevel = currentUser.roleLevel ?? 0;
+    if (roleToAssign.level >= currentLevel) {
+      return NextResponse.json(
+        { error: 'Vous ne pouvez pas assigner un rôle de niveau supérieur ou égal au vôtre' },
+        { status: 403 }
+      );
+    }
+
     const targetUser = await prisma.user.findUnique({
       where: { id },
       include: {
@@ -112,14 +118,6 @@ export async function POST(
       return NextResponse.json(
         { error: 'Utilisateur non trouvé' },
         { status: 404 }
-      );
-    }
-
-    // Vérifier si l'utilisateur peut assigner ce rôle (SUPER_ADMIN peut tout assigner)
-    if (!isSuperAdmin && !canAssignRole(currentUser, role)) {
-      return NextResponse.json(
-        { error: 'Vous ne pouvez pas assigner ce rôle' },
-        { status: 403 }
       );
     }
 
@@ -154,19 +152,18 @@ export async function POST(
       });
     }
 
-    // Créer la nouvelle assignation de rôle
     const newRoleAssignment = await prisma.userRoleAssignment.create({
       data: {
         userId: id,
         role: role as UserRole,
+        roleId: roleToAssign.id,
         isPrimary,
-        assignedBy: currentUser.id,
+        assignedBy: (authResult.user as { id: string }).id,
         expiresAt: expiresAt ? new Date(expiresAt) : null
       }
     });
 
-    // Log de l'action
-    console.log(`Role assignment: User ${currentUser.name} assigned role ${role} to user ${targetUser.name}`);
+    console.log(`Role assignment: User ${(authResult.user as { name: string }).name} assigned role ${role} to user ${targetUser.name}`);
 
     return NextResponse.json({
       success: true,

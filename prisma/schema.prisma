@@ -41,24 +41,47 @@ model User {
   @@index([firstLoginToken])
 }
 
-model UserRoleAssignment {
+// Rôles (référentiel en base, remplace l'enum UserRole)
+model Role {
   id          String   @id @default(cuid())
-  userId      String
-  role        UserRole
-  isPrimary   Boolean  @default(false)
-  assignedAt  DateTime @default(now())
-  assignedBy  String?  // ID de l'utilisateur qui a assigné ce rôle
-  isActive    Boolean  @default(true)
-  expiresAt   DateTime? // Pour les rôles temporaires
-  
-  // Relations
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  // Contraintes
-  @@unique([userId, role]) // Un utilisateur ne peut avoir le même rôle qu'une fois
-  @@index([userId])
-  @@index([role])
-  @@index([isPrimary])
+  code        String   @unique // SUPER_ADMIN, HR_DIRECTOR, ...
+  label       String
+  description String?  @db.Text
+  level       Int      @default(0) // hiérarchie pour assignation
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  rolePermissions RolePermission[]
+  userAssignments UserRoleAssignment[]
+
+  @@index([code])
+}
+
+// Permissions (référentiel en base)
+model Permission {
+  id        String   @id @default(cuid())
+  code      String   @unique // applications.read, api.access, ...
+  label     String
+  category  String?  // APPLICATIONS, HIRES, ADMIN, ...
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rolePermissions RolePermission[]
+
+  @@index([code])
+  @@index([category])
+}
+
+// Liaison rôle <-> permissions (N-N)
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
 }
 
 enum UserRole {
@@ -72,6 +95,28 @@ enum UserRole {
   CONSULTANT
 }
 
+model UserRoleAssignment {
+  id          String    @id @default(cuid())
+  userId      String
+  role        UserRole  // conservé pour migration, puis remplacé par roleId
+  roleId      String?   // FK vers Role (rempli par le seed)
+  isPrimary   Boolean   @default(false)
+  assignedAt  DateTime  @default(now())
+  assignedBy  String?
+  isActive    Boolean   @default(true)
+  expiresAt   DateTime?
+
+  user         User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedRole Role? @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, role])
+  @@index([userId])
+  @@index([role])
+  @@index([roleId])
+  @@index([isPrimary])
+}
+
+
 model Article {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
@@ -83,9 +128,9 @@ model Article {
   published Boolean  @default(false)
   image     String?
   views     Int      @default(0)
-  // Relations
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
+  // Relations (author optionnel : peut être null si l'utilisateur a été supprimé)
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  String?
 
   tags        Tag[]
   specialites Specialite[]
@@ -305,6 +350,7 @@ model Application {
   cv                 String
   coverLetter        String?
   state              String   @default("pending")
+  isRead             Boolean  @default(false)
   // Relations
   sector             Sector   @relation(fields: [sectorId], references: [id])
   sectorId           String
@@ -360,9 +406,10 @@ model Contact {
   workPhone   String   
   postalCode  String?  
   message     String   @db.Text
-  status      String   @default("pending") // pending, contacted, resolved
+  status      String   @default("pending") // pending, accepted, rejected
   priority    String   @default("normal") // low, normal, high, urgent
-  
+  isRead      Boolean  @default(false)
+
   @@index([status])
   @@index([createdAt])
   @@index([workEmail])

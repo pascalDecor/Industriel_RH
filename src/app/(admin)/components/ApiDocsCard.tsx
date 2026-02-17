@@ -45,8 +45,6 @@ export default function ApiDocsCard() {
           <div className="flex items-center space-x-3">
             <Link
               href="/api-docs"
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors"
             >
               <FileText className="h-4 w-4 mr-2" />

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth } from '@/lib/auth-middleware';
-import { hasPermissionMultiRole } from '@/lib/permissions/multi-role-helpers';
+import { hasPermission } from '@/lib/permissions/hasPermission';
 import { Permission, UserWithRoles } from '@/types/auth';
 import prisma from '@/lib/connect_db';
 
@@ -24,7 +24,7 @@ export async function PATCH(
     const currentUser = authResult.user as unknown as UserWithRoles;
 
     // Vérifier les permissions d'assignation de rôles
-    if (!hasPermissionMultiRole(currentUser, Permission.ROLES_ASSIGN)) {
+    if (!hasPermission(currentUser, Permission.ROLES_ASSIGN)) {
       return NextResponse.json(
         { error: 'Permissions insuffisantes' },
         { status: 403 }
@@ -114,7 +114,7 @@ export async function DELETE(
     const currentUser = authResult.user as unknown as UserWithRoles;
 
     // Vérifier les permissions d'assignation de rôles
-    if (!hasPermissionMultiRole(currentUser, Permission.ROLES_ASSIGN)) {
+    if (!hasPermission(currentUser, Permission.ROLES_ASSIGN)) {
       return NextResponse.json(
         { error: 'Permissions insuffisantes' },
         { status: 403 }
