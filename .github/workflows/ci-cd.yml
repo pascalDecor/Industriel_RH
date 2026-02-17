@@ -50,11 +50,14 @@ jobs:
           tar -czf release.tar.gz .next package.json package-lock.json public node_modules prisma prisma-seed
         shell: bash
 
+      # N'uploader que sur main pour limiter le quota (les PR n'ont pas besoin de l'artifact)
       - name: Upload build artifact
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
           name: nextjs-build
           path: release.tar.gz
+          retention-days: 2
 
   type-check:
     name: Type Check
