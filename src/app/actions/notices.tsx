@@ -17,6 +17,7 @@ export type FormState =
             stars?: string[];
         };
         message?: string;
+        notFound?: boolean;
     }
     | boolean
     | undefined;
@@ -53,11 +54,14 @@ export async function addNotice(state: FormState, formData: FormData) {
             data: validatedFields.data,
         };
         const temp = await (
-            validatedFields.data.id.length < 1 ?
-                HttpService.add<Notice>(payload) :
-                HttpService.update<Notice>(payload)).then((res) => {
-                    return res;
-                })
-        return (temp as { state?: boolean }).state ?? false;
+            validatedFields.data.id.length < 1
+                ? HttpService.add<Notice>(payload)
+                : HttpService.update<Notice>(payload)
+        );
+        const result = temp as { state?: boolean; notFound?: boolean };
+        if (result.notFound) {
+            return { notFound: true };
+        }
+        return result.state ?? false;
     }
 }

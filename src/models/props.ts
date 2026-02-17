@@ -25,6 +25,22 @@ export interface NoticeProps {
   stars: number;
 }
 
+export interface TeamMemberProps {
+  id: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  nom: string;
+  prenom: string;
+  post: string;
+  imageKey?: string | null;
+  linkedin?: string | null;
+  twitter?: string | null;
+  facebook?: string | null;
+  instagram?: string | null;
+  website?: string | null;
+  order?: number;
+}
+
 export interface CivilityProps {
   id: string;
   createdAt?: Date;
@@ -55,6 +71,8 @@ export interface SectorProps {
   updatedAt?: Date;
   libelle: string;
   libelle_en?: string;
+  isActive?: boolean;
+  isDefaultConsultingSolutions?: boolean;
   functions?: FonctionProps[];
   _count?: {
     functions: number;

@@ -129,6 +129,9 @@ export const loginRateLimit = new RateLimiter(5, 15 * 60 * 1000, 30 * 60 * 1000)
 // Instance pour les tentatives OTP
 export const otpRateLimit = new RateLimiter(3, 10 * 60 * 1000, 15 * 60 * 1000); // 3 tentatives par 10 minutes, bloqué 15 minutes
 
+// Instance pour le renvoi d'OTP (3 renvois par 10 minutes)
+export const resendOtpRateLimit = new RateLimiter(3, 10 * 60 * 1000, 2 * 60 * 1000);
+
 /**
  * Obtient l'identifiant unique d'une requête (IP + User-Agent)
  */

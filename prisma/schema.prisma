@@ -65,6 +65,7 @@ enum UserRole {
   SUPER_ADMIN
   HR_DIRECTOR
   HR_MANAGER
+  IT_ENGINEER
   RECRUITER_SENIOR
   RECRUITER
   HR_ASSISTANT
@@ -186,14 +187,16 @@ model Function {
 }
 
 model Sector {
-  id                      String        @id @default(cuid())
-  createdAt               DateTime      @default(now())
-  updatedAt               DateTime      @updatedAt
-  libelle                 String
-  libelle_en              String?       // Libellé en anglais
-  description             String?
-  description_en          String?       // Description en anglais
-  alternativeDescriptions String[]      @default([])
+  id                            String        @id @default(cuid())
+  createdAt                     DateTime      @default(now())
+  updatedAt                     DateTime      @updatedAt
+  libelle                       String
+  libelle_en                    String?       // Libellé en anglais
+  description                   String?
+  description_en                String?       // Description en anglais
+  alternativeDescriptions       String[]      @default([])
+  isActive                      Boolean       @default(true) // Désactiver pour masquer du site public
+  isDefaultConsultingSolutions  Boolean       @default(false) // Secteur affiché sur /consulting-solutions sans clic (exclu de la liste navbar)
   // Relations
   functions               Function[]
   candidats               Application[]
@@ -247,6 +250,24 @@ model Notice {
   stars     Int      @default(4)
 
   @@index([content_en])
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  nom       String
+  prenom    String
+  post      String   // Poste / titre
+  imageKey  String?  // Clé média pour la photo (ex: team_member_xxx ou clé existante)
+  linkedin  String?
+  twitter  String?
+  facebook  String?
+  instagram String?
+  website   String?
+  order     Int      @default(0) // Ordre d'affichage
+
+  @@index([order])
 }
 
 model Country {

@@ -64,6 +64,7 @@ export const imagePaths = {
   louis_caron: "/images/members/louis_caron.png",
   paul_farcas: "/images/members/paul_farcas.png",
   jamel_hein: "/images/members/jamel_hein.png",
+  nathalie_fontana: "/images/members/nathalie_fontana.png",
   find_a_job_that_works_for_you: "/images/find_a_job_that_works_for_you.png",
   card_image_1: "/images/cards/image_1.png",
   card_image_2: "/images/cards/image_2.png",

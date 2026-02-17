@@ -1,11 +1,6 @@
 import { NextResponse, NextRequest } from "next/server"
 import prisma from '@/lib/connect_db';
-import { withQuery } from "@/lib/prisma/helpers";
-import { Function } from "@prisma/client";
-
-// Cache pour les fonctions
-const functionsCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 20 * 60 * 1000; // 20 minutes
+import { getFunctionsCached, setFunctionsCached, invalidateFunctionsCache } from "./cache";
 
 export const GET = async (request: NextRequest) => {
     try {
@@ -21,9 +16,8 @@ export const GET = async (request: NextRequest) => {
         const skip = (page - 1) * limit;
         const cacheKey = `functions:${page}:${limit}:${search}:${sectorId}:${includeCount}`;
         
-        // Vérifier le cache
-        const cached = functionsCache.get(cacheKey);
-        if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+        const cached = getFunctionsCached(cacheKey);
+        if (cached) {
             return NextResponse.json(cached.data);
         }
 
@@ -77,9 +71,7 @@ export const GET = async (request: NextRequest) => {
             }
         };
 
-        // Mettre en cache
-        functionsCache.set(cacheKey, { data: result, timestamp: Date.now() });
-
+        setFunctionsCached(cacheKey, result);
         return NextResponse.json(result);
 
     } catch (error) {
@@ -95,10 +87,7 @@ export const POST = async (req: Request) => {
             data: { libelle: data.libelle, sectorId: data.sectorId }
         });
 
-        // Invalider le cache
-        const keysToDelete = Array.from(functionsCache.keys()).filter(key => key.startsWith('functions:'));
-        keysToDelete.forEach(key => functionsCache.delete(key));
-
+        invalidateFunctionsCache();
         return NextResponse.json(functionCreated, { status: 201 });
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 });

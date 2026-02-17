@@ -58,6 +58,11 @@ export default function ExploreSuccessStories({ className }: Readonly<ExploreSuc
 
   const totalPages = Math.ceil(notices.length / itemsPerPage);
 
+  // Ne rien afficher s'il n'y a aucun avis (après chargement)
+  if (!isLoading && notices.length === 0) {
+    return null;
+  }
+
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % totalPages);
   };

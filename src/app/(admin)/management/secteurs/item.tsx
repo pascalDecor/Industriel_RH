@@ -1,5 +1,4 @@
 import Button from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { formatDateFr } from "@/lib/formatDate";
 import { Sector } from "@/models/sector";
 import {
@@ -27,28 +26,64 @@ export default function ItemSectors({ sector, onChange, onActive }: ItemSectorsP
     const [showEnglish, setShowEnglish] = useState(false);
 
     const [loadingDelete, setLoadingDelete] = useState(false);
-    const handleDelete = (id: string) => () => {
-        console.log("id", id);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const [deleteConfirmName, setDeleteConfirmName] = useState("");
+    const [loadingSetDefault, setLoadingSetDefault] = useState(false);
+
+    const executeDelete = () => {
         setLoadingDelete(true);
         HttpService.delete<Sector>({
-            url: `/sectors/${id}`,
+            url: `/sectors/${sector.id}`,
         }).then((res) => {
-            console.log(res);
             setLoadingDelete(false);
-            if (res) {
-                if (onChange) {
-                    onChange(res);
-                }
+            if (res?.state) {
+                setConfirmDelete(false);
+                if (onChange) onChange(res);
             }
+        }).catch(() => {
+            setLoadingDelete(false);
+            setConfirmDelete(false);
+        });
+    };
+
+    const setAsDefaultConsultingSolutions = () => {
+        setLoadingSetDefault(true);
+        fetch(`/api/sectors/${sector.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                libelle: sector.libelle,
+                libelle_en: sector.libelle_en ?? null,
+                description: sector.description ?? null,
+                description_en: sector.description_en ?? null,
+                alternativeDescriptions: sector.alternativeDescriptions ?? [],
+                isActive: sector.isActive,
+                isDefaultConsultingSolutions: true,
+            }),
         })
-    }
+            .then((res) => {
+                setLoadingSetDefault(false);
+                if (res.ok && onChange) onChange({});
+            })
+            .catch(() => setLoadingSetDefault(false));
+    };
 
 
     return (
-        <div className="p-5 !border-none !shadow-none flex flex-row justify-between items-start cursor-pointer hover:shadow-md"
+        <div className={`p-5 !border-none !shadow-none flex flex-row justify-between items-start cursor-pointer hover:shadow-md ${!sector.isActive ? 'opacity-75 bg-slate-50' : ''}`}
             key={sector.id} onClick={() => onActive && onActive(sector)}>
             <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    {!sector.isActive && (
+                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                            Désactivé
+                        </span>
+                    )}
+                    {sector.isDefaultConsultingSolutions && (
+                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-teal-100 text-teal-800">
+                            Page consulting-solutions par défaut
+                        </span>
+                    )}
                     <p className="my-0 text-slate-700 font-semibold py-0 mb-0">
                         {showEnglish ? (sector.libelle_en || sector.libelle) : sector.libelle}
                     </p>
@@ -83,7 +118,23 @@ export default function ItemSectors({ sector, onChange, onActive }: ItemSectorsP
                     {sector.functionsCount} fonction(s) . crée le {formatDateFr(sector.createdAt ?? new Date())}
                 </p>
             </div>
-            <div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
+            <div className="flex flex-wrap items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                {!sector.isDefaultConsultingSolutions && (
+                    <Button
+                        title="Définir comme page consulting-solutions par défaut"
+                        variant="secondary"
+                        size="sm"
+                        className="!rounded-full text-[11px] h-8 !bg-teal-50 !text-teal-700 hover:!bg-teal-100"
+                        onClick={setAsDefaultConsultingSolutions}
+                        disabled={loadingSetDefault}
+                    >
+                        {loadingSetDefault ? (
+                            <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                        ) : (
+                            "Par défaut consulting"
+                        )}
+                    </Button>
+                )}
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger>
                         <Button title="Modifier" variant="success" size="sm" className="!rounded-full text-[11px] h-8 w-8 !bg-green-200 !text-green-700 !p-2">
@@ -103,22 +154,62 @@ export default function ItemSectors({ sector, onChange, onActive }: ItemSectorsP
                     </DialogContent>
                 </Dialog>
 
-                <Button 
-                    loadingColor="red" 
-                    isLoading={loadingDelete} 
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(sector.id)();
-                    }} 
-                    title="Supprimer" 
-                    variant="danger" 
-                    size="sm" 
-                    className="!rounded-full text-[11px] h-8 w-8 !bg-red-200 !text-red-700 !p-2"
-                >
-                    {!loadingDelete && <LuTrash2 className="h-5 w-5" />}
-                </Button>
+                <Dialog open={confirmDelete} onOpenChange={(open) => {
+                    setConfirmDelete(open);
+                    if (!open) setDeleteConfirmName("");
+                }}>
+                    <DialogTrigger asChild>
+                        <Button
+                            title={sector.isDefaultConsultingSolutions ? "Impossible de supprimer le secteur par défaut (page consulting-solutions)" : "Supprimer"}
+                            variant="danger"
+                            size="sm"
+                            className="!rounded-full text-[11px] h-8 w-8 !bg-red-200 !text-red-700 !p-2"
+                            disabled={sector.isDefaultConsultingSolutions}
+                        >
+                            <LuTrash2 className="h-5 w-5" />
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-md">
+                        <h3 className="text-lg font-semibold text-slate-800 mb-2">Supprimer le secteur</h3>
+                        <p className="text-sm text-slate-600 mb-3">
+                            Êtes-vous sûr de vouloir supprimer ce secteur ? Cette action est irréversible.
+                        </p>
+                        <p className="text-sm text-slate-600 mb-2">
+                            Pour confirmer, saisissez le nom du secteur : <strong className="text-slate-800">{sector.libelle}</strong>
+                        </p>
+                        <input
+                            type="text"
+                            value={deleteConfirmName}
+                            onChange={(e) => setDeleteConfirmName(e.target.value)}
+                            placeholder={sector.libelle}
+                            className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:border-teal-500 mb-4"
+                            autoFocus
+                        />
+                        <div className="flex justify-end gap-2">
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => { setConfirmDelete(false); setDeleteConfirmName(""); }}
+                                disabled={loadingDelete}
+                            >
+                                Annuler
+                            </Button>
+                            <Button
+                                variant="danger"
+                                size="sm"
+                                onClick={executeDelete}
+                                disabled={loadingDelete || deleteConfirmName.trim() !== sector.libelle}
+                            >
+                                {loadingDelete ? (
+                                    <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                                ) : (
+                                    'Supprimer'
+                                )}
+                            </Button>
+                        </div>
+                    </DialogContent>
+                </Dialog>
             </div>
-
         </div>
     )
 }

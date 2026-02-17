@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/connect_db';
+import { invalidateFunctionsCache } from '../cache';
 
 export const GET = async (_req: Request, context: { params: Promise<{ id: string }> }) => {
     try {
@@ -34,6 +35,7 @@ export const PUT = async (req: Request, context: { params: Promise<{ id: string 
             where: { id: id },
             data: { libelle: data.libelle, libelle_en: data.libelle_en},
         });
+        invalidateFunctionsCache();
         return NextResponse.json(updated, { status: 200 });
     } catch (error) {
         console.error("PUT error:", error);
@@ -47,6 +49,7 @@ export const DELETE = async (_req: Request, context: { params: Promise<{ id: str
         await prisma.function.delete({
             where: { id: id },
         });
+        invalidateFunctionsCache();
         return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 });

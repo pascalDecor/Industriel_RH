@@ -52,7 +52,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.contact': 'Contact',
     'nav.hire_talent': 'Embaucher des talents',
     'nav.find_jobs': 'Trouver un emploi',
-    'nav.consulting': 'Solutions-conseil',
+    'nav.consulting': 'Solutions-conseil-RH',
     'nav.salary_guide': 'Guide salarial',
     'nav.tax_calculator': 'Calculateur d\'impôt',
     'nav.mortgage_calculator': 'Calculateur hypothécaire',
@@ -129,6 +129,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.cards.cv_builder.desc': 'Calculez vos impôts québécois facilement. Estimation précise de vos retenues et remboursements.',
     'home.cards.blog.title': 'Blog IR',
     'home.cards.blog.desc': 'Gardez une longueur d\'avance avec les dernières données, idées, conseils et astuces de certains des experts les plus éminents du secteur des solutions de talents.',
+    'blog.recent_articles': 'Articles de blogue récents',
     'home.cards.tech_skills.title': 'Naviguer dans les lacunes de compétences technologiques',
     'home.cards.tech_skills.desc': 'Découvrez des stratégies pour constituer une équipe technologique complète pour soutenir les priorités commerciales.',
     
@@ -248,6 +249,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Secteurs
     'sectors.title': 'Secteurs d\'expertise',
+    'sectors.activity_title': 'NOS SECTEURS D\'ACTIVITÉS',
     'sectors.manufacturing': 'Fabrication',
     'sectors.construction': 'Construction',
     'sectors.healthcare': 'Santé',
@@ -320,6 +322,7 @@ const translations: Record<Language, Record<string, string>> = {
     'mobile_app.download_on': 'Télécharger sur',
     'mobile_app.app_store': 'App Store',
     'mobile_app.google_play': 'Google Play',
+    'mobile_app.description': 'Une innovation signée Industrielle RH, au service des entreprises du Québec et des Talents francophones partout dans le monde.',
     
     // Page À propos
     'about.catalyst.title': 'Catalyseur de prospérité pour les entreprises québécoises',
@@ -366,7 +369,8 @@ const translations: Record<Language, Record<string, string>> = {
     'about.ceo_message.paragraph3': 'Je crois fermement que le succès d\'une entreprise passe par la qualité des personnes qui la composent, et chaque jour, je m\'engage à bâtir des ponts solides entre les talents et les opportunités.',
     
     // Postes d'équipe
-    'about.positions.ceo': 'Président Directeur Général',
+    'about.positions.ceo': 'Co-fondateur',
+    'about.positions.crha' : 'Co-fondatrice',
     'about.positions.it_manager': 'Gestionnaire de projet TI',
     'about.positions.project_director': 'Directeur de Projet',
     'about.positions.it_systems_director': 'Directeur des Systèmes d\'Information',
@@ -579,6 +583,47 @@ const translations: Record<Language, Record<string, string>> = {
     'consulting.move_career.subtitle': 'Soumettez votre candidature spontanée',
     'consulting.hiring_request.subtitle': 'Soumettez votre demande d\'embauche',
     'consulting.navbar.description': 'Découvrez comment nos capacités de conseil peuvent aider à transformer votre entreprise.',
+    'consulting.navbar.discover_solutions': 'Découvrir nos solutions',
+    'consulting.navbar.error_load': 'Impossible de charger les secteurs.',
+    'consulting.navbar.no_sectors': 'Aucun secteur pour le moment.',
+    'consulting.cta.expertise': 'Nous combinons notre expertise en recrutement international et en accompagnement stratégique RH pour vous aider à bâtir une organisation performante.',
+    'consulting.cta.grants': 'Des subventions sont disponibles pour plusieurs projets RH, il nous fera plaisir de les explorer avec vous.',
+    'consulting.cta.button': 'Contactez nous',
+    'consulting.cta.growth.title': 'Propulsez votre croissance',
+    'consulting.cta.growth.subtitle': 'Attirez et développez les bons talents',
+    'consulting.cta.growth.item1': 'Planification de la relève',
+    'consulting.cta.growth.item2': 'Recrutement local et international',
+    'consulting.cta.growth.item3': 'Chasse de tête',
+    'consulting.cta.growth.item4': 'Immigration et relocalisation',
+    'consulting.cta.growth.item5': 'Rémunération et avantages sociaux',
+    'consulting.cta.process.title': 'Simplifiez vos processus',
+    'consulting.cta.process.subtitle': 'Réduisez les risques et libérez du temps',
+    'consulting.cta.process.item1': 'Documents : contrat, manuels...',
+    'consulting.cta.process.item2': 'Pratiques et politiques claires',
+    'consulting.cta.process.item3': 'Conformité : lois 90, 27, 25..',
+    'consulting.cta.process.item4': 'Implantation de logiciels RH',
+    'consulting.cta.performance.title': 'Optimisez la performance',
+    'consulting.cta.performance.subtitle': 'Alignez vos pratiques RH avec vos objectifs d\'affaires',
+    'consulting.cta.performance.item1': 'Définition des rôles',
+    'consulting.cta.performance.item2': 'Évaluation de performance',
+    'consulting.cta.performance.item3': 'Plan de formation',
+    'consulting.cta.performance.item4': 'Structure organisationnelle',
+    'consulting.cta.performance.item5': 'Soutien stratégique à la direction',
+    'consulting.cta.growth.modal.p1': 'La croissance d\'une entreprise repose d\'abord sur sa capacité à attirer, intégrer et développer les bons talents.',
+    'consulting.cta.growth.modal.p2': 'Nous accompagnons les entreprises dans leurs projets d\'expansion, en combinant recrutement local et international et structuration stratégique des talents. De la chasse de tête aux processus d\'immigration et de relocalisation, nous assurons une intégration fluide et conforme des travailleurs.',
+    'consulting.cta.growth.modal.p3': 'Au-delà du recrutement, nous vous aidons à planifier la relève, à structurer une offre de rémunération incluant les avantages tels que les assurances et les plans de retraite, afin d\'assurer l\'attractivité et la cohérence de votre offre employeur.',
+    'consulting.cta.growth.modal.p4': 'Notre objectif : sécuriser votre croissance et bâtir une organisation solide, alignée avec vos ambitions d\'affaires.',
+    'consulting.cta.growth.modal.p5': 'Plusieurs projets RH peuvent être admissibles à des subventions. Nous vous accompagnons dans leur identification et leur mise en œuvre afin d\'optimiser vos investissements.',
+    'consulting.cta.process.modal.p1': 'Une gestion RH structurée protège votre entreprise et libère du temps à la direction.',
+    'consulting.cta.process.modal.p2': 'Nous mettons en place ou optimisons votre département RH en structurant vos documents d\'embauche, vos dossiers d\'employés, vos politiques internes et votre manuel de l\'employé. Nous veillons à votre conformité aux lois applicables, incluant la gestion de la formation, la protection des renseignements personnels et la prévention des risques psychosociaux (lois 90, 25, 27) et la mise en place d\'un programme d\'accès à l\'égalité en emploi.',
+    'consulting.cta.process.modal.p3': 'Nous implantons des processus clairs pour l\'onboarding, la gestion des heures, des congés et des absences, ainsi que la transmission des informations à la paie. Notre approche vous permet de gagner en efficacité, de réduire les risques et d\'assurer une base organisationnelle saine pour soutenir votre croissance.',
+    'consulting.cta.process.modal.p4': 'De plus, afin d\'automatiser les processus notre experte RH travaille en collaboration avec notre expert TI pour choisir les bons logiciels RH pour vos besoins. Lorsque nécessaire, nous développons des outils personnalisés adaptés à votre réalité.',
+    'consulting.cta.process.modal.p5': 'Plusieurs projets RH peuvent être admissibles à des subventions. Nous vous accompagnons dans leur identification et leur mise en œuvre afin d\'optimiser vos investissements.',
+    'consulting.cta.performance.modal.p1': 'La performance durable repose sur des rôles clairs, des gestionnaires outillés et des équipes mobilisées.',
+    'consulting.cta.performance.modal.p2': 'Nous vous accompagnons dans la définition des rôles et responsabilités, la mise en place d\'un cycle structuré de gestion de la performance et le développement d\'indicateurs pertinents. Nous concevons des plans de formation alignés sur vos priorités stratégiques et qui soutiennent le développement de vos talents clés.',
+    'consulting.cta.performance.modal.p3': 'Nous offrons également un accompagnement stratégique aux gestionnaires, aux professionnels RH et à la direction, incluant coaching, soutien dans des situations spécifiques et déploiement d\'initiatives RH structurantes. Chaque intervention vise à aligner les pratiques RH avec vos objectifs d\'affaires, et fait l\'objet d\'une mesure d\'impact.',
+    'consulting.cta.performance.modal.p4': 'Notre objectif : mobiliser vos équipes et renforcer votre capacité organisationnelle.',
+    'consulting.cta.performance.modal.p5': 'Plusieurs projets RH peuvent être admissibles à des subventions. Nous vous accompagnons dans leur identification et leur mise en œuvre afin d\'optimiser vos investissements.',
     
     // Page Guide Salarial
     'salary_guide.hero.title': 'Découvrez votre valeur',
@@ -1013,7 +1058,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.contact': 'Contact',
     'nav.hire_talent': 'Hire Talent',
     'nav.find_jobs': 'Find Jobs',
-    'nav.consulting': 'Consulting Solutions',
+    'nav.consulting': 'Consulting-Solutions-RH',
     'nav.salary_guide': 'Salary Guide',
     'nav.tax_calculator': 'Tax Calculator',
     'nav.mortgage_calculator': 'Mortgage Calculator',
@@ -1090,6 +1135,7 @@ const translations: Record<Language, Record<string, string>> = {
     'home.cards.cv_builder.desc': 'Calculate your Quebec taxes easily. Accurate estimation of your deductions and refunds.',
     'home.cards.blog.title': 'IR Blog',
     'home.cards.blog.desc': 'Stay one step ahead with the latest data, insights, tips and tricks from some of the foremost experts in the talent solutions business.',
+    'blog.recent_articles': 'Recent blog articles',
     'home.cards.tech_skills.title': 'Navigate tech skills gaps',
     'home.cards.tech_skills.desc': 'Discover strategies for building a comprehensive tech team to support business priorities.',
     
@@ -1209,6 +1255,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Secteurs
     'sectors.title': 'Areas of expertise',
+    'sectors.activity_title': 'OUR SECTORS OF ACTIVITY',
     'sectors.manufacturing': 'Manufacturing',
     'sectors.construction': 'Construction',
     'sectors.healthcare': 'Healthcare',
@@ -1281,6 +1328,7 @@ const translations: Record<Language, Record<string, string>> = {
     'mobile_app.download_on': 'Download on the',
     'mobile_app.app_store': 'App Store',
     'mobile_app.google_play': 'Google Play',
+    'mobile_app.description': 'Our app is available on the Apple and Google Play stores. It allows you to receive instant notifications of job matches, filter searches by skills and preferences, and apply in a tap and much more.',
     
     // About page
     'about.catalyst.title': 'Catalyst of prosperity for Quebec businesses',
@@ -1327,7 +1375,8 @@ const translations: Record<Language, Record<string, string>> = {
     'about.ceo_message.paragraph3': 'I firmly believe that a company\'s success depends on the quality of the people who comprise it, and every day, I commit to building solid bridges between talent and opportunities.',
     
     // Team positions
-    'about.positions.ceo': 'Chief Executive Officer',
+    'about.positions.ceo': 'Co-founder',
+    'about.positions.crha' : 'Co-founder',
     'about.positions.it_manager': 'IT Project Manager',
     'about.positions.project_director': 'Project Director',
     'about.positions.it_systems_director': 'Information Systems Director',
@@ -1540,6 +1589,47 @@ const translations: Record<Language, Record<string, string>> = {
     'consulting.move_career.subtitle': 'Submit your spontaneous application',
     'consulting.hiring_request.subtitle': 'Submit your hiring Request',
     'consulting.navbar.description': 'See how our consulting capabilities can help transform your business.',
+    'consulting.navbar.discover_solutions': 'Discover our solutions',
+    'consulting.navbar.error_load': 'Unable to load sectors.',
+    'consulting.navbar.no_sectors': 'No sectors at this time.',
+    'consulting.cta.expertise': 'We combine our expertise in international recruitment and strategic HR support to help you build a high-performing organization.',
+    'consulting.cta.grants': 'Grants are available for several HR projects; we will be happy to explore them with you.',
+    'consulting.cta.button': 'Contact us',
+    'consulting.cta.growth.title': 'Boost your growth',
+    'consulting.cta.growth.subtitle': 'Attract and develop the right talent',
+    'consulting.cta.growth.item1': 'Succession planning',
+    'consulting.cta.growth.item2': 'Local and international recruitment',
+    'consulting.cta.growth.item3': 'Headhunting',
+    'consulting.cta.growth.item4': 'Immigration and relocation',
+    'consulting.cta.growth.item5': 'Compensation and benefits',
+    'consulting.cta.process.title': 'Simplify your processes',
+    'consulting.cta.process.subtitle': 'Reduce risks and free up time',
+    'consulting.cta.process.item1': 'Documents: contracts, manuals...',
+    'consulting.cta.process.item2': 'Clear practices and policies',
+    'consulting.cta.process.item3': 'Compliance: laws 90, 27, 25..',
+    'consulting.cta.process.item4': 'HR software implementation',
+    'consulting.cta.performance.title': 'Optimize performance',
+    'consulting.cta.performance.subtitle': 'Align your HR practices with your business objectives',
+    'consulting.cta.performance.item1': 'Role definition',
+    'consulting.cta.performance.item2': 'Performance evaluation',
+    'consulting.cta.performance.item3': 'Training plan',
+    'consulting.cta.performance.item4': 'Organizational structure',
+    'consulting.cta.performance.item5': 'Strategic support for management',
+    'consulting.cta.growth.modal.p1': 'A company\'s growth depends first on its ability to attract, integrate and develop the right talent.',
+    'consulting.cta.growth.modal.p2': 'We support companies in their expansion projects by combining local and international recruitment and strategic talent structuring. From headhunting to immigration and relocation processes, we ensure a smooth and compliant integration of workers.',
+    'consulting.cta.growth.modal.p3': 'Beyond recruitment, we help you plan succession, structure a compensation package including benefits such as insurance and retirement plans, to ensure the attractiveness and consistency of your employer offer.',
+    'consulting.cta.growth.modal.p4': 'Our goal: secure your growth and build a solid organization aligned with your business ambitions.',
+    'consulting.cta.growth.modal.p5': 'Several HR projects may be eligible for grants. We support you in identifying and implementing them to optimize your investments.',
+    'consulting.cta.process.modal.p1': 'Structured HR management protects your company and frees up time for management.',
+    'consulting.cta.process.modal.p2': 'We set up or optimize your HR department by structuring your hiring documents, employee files, internal policies and employee handbook. We ensure your compliance with applicable laws, including training management, protection of personal information and prevention of psychosocial risks (laws 90, 25, 27) and the implementation of an employment equity program.',
+    'consulting.cta.process.modal.p3': 'We implement clear processes for onboarding, management of hours, leave and absences, as well as transmission of information to payroll. Our approach helps you gain efficiency, reduce risks and ensure a healthy organizational base to support your growth.',
+    'consulting.cta.process.modal.p4': 'In addition, to automate processes our HR expert works in collaboration with our IT expert to choose the right HR software for your needs. When necessary, we develop custom tools adapted to your reality.',
+    'consulting.cta.process.modal.p5': 'Several HR projects may be eligible for grants. We support you in identifying and implementing them to optimize your investments.',
+    'consulting.cta.performance.modal.p1': 'Sustainable performance rests on clear roles, equipped managers and mobilized teams.',
+    'consulting.cta.performance.modal.p2': 'We support you in defining roles and responsibilities, implementing a structured performance management cycle and developing relevant indicators. We design training plans aligned with your strategic priorities and that support the development of your key talent.',
+    'consulting.cta.performance.modal.p3': 'We also offer strategic support to managers, HR professionals and management, including coaching, support in specific situations and deployment of structuring HR initiatives. Each intervention aims to align HR practices with your business objectives and is subject to impact measurement.',
+    'consulting.cta.performance.modal.p4': 'Our goal: mobilize your teams and strengthen your organizational capacity.',
+    'consulting.cta.performance.modal.p5': 'Several HR projects may be eligible for grants. We support you in identifying and implementing them to optimize your investments.',
     
     // Salary Guide Page
     'salary_guide.hero.title': 'Discover Your Value',
@@ -1946,6 +2036,9 @@ const translations: Record<Language, Record<string, string>> = {
 
   }
 };
+
+/** Export des traductions par défaut pour la synchronisation côté serveur (API) */
+export { translations as defaultTranslations };
 
 interface LanguageProviderProps {
   children: ReactNode;

@@ -436,12 +436,12 @@ export default function FindJobs() {
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
-                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
+                                    {/* <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step5.legal_button')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
                                         </div>
-                                    </Button>
+                                    </Button> */}
                                 </div>
                             </div>
                         </div>

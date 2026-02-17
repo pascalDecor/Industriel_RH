@@ -24,8 +24,11 @@ export default function AddNotices({ notice, onChange }: { notice: Notice, onCha
 
     useEffect(() => {
         if (state === true) {
-            onChange(state);
+            onChange({ refresh: true, clearSearch: true });
+        } else if (state && typeof state === "object" && state.notFound) {
+            onChange({ refresh: true });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state]);
 
     return (

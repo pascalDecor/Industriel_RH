@@ -110,7 +110,12 @@ export default function AppYourWayToNewJob() {
                                     </p>
                                 </motion.div>
                             ))}
+
+<p className="text-gray-900 text-sm sm:text-base italic">{t('mobile_app.description')}</p>
+                            
                         </motion.div>
+
+                        
 
                         <motion.div
                             initial="hidden"

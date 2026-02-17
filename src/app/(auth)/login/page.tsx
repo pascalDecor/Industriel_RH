@@ -17,6 +17,8 @@ function LoginForm() {
     const [email, setEmail] = useState('');
     const [otp, setOTP] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isResending, setIsResending] = useState(false);
+    const [resendMessage, setResendMessage] = useState<string | null>(null);
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -82,6 +84,30 @@ function LoginForm() {
         }
     }, [state, action, pending, stateOTP, actionOTP, pendingOTP, router, email, redirectTo]);
 
+    const handleResendOtp = async () => {
+        const emailToUse = email || LocalStorageHelper.getValue("email");
+        if (!emailToUse || isResending) return;
+        setIsResending(true);
+        setResendMessage(null);
+        try {
+            const response = await fetch('/api/auth/resend-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailToUse })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setResendMessage('Code renvoyé par email');
+            } else {
+                setResendMessage(data.message || 'Erreur lors du renvoi');
+            }
+        } catch {
+            setResendMessage('Erreur lors du renvoi');
+        } finally {
+            setIsResending(false);
+        }
+    };
+
 
     return (
         <div className='text-gray-800'>
@@ -96,12 +122,27 @@ function LoginForm() {
                     <div className='mb-5'>
                         <label htmlFor="otp" className='mb-2 block text-sm text-gray-500'>Code OTP</label>
                         <FloatingLabelInput
-                            error={state?.errors && state?.errors.otp && state.errors.otp.join(', ')}
+                            error={stateOTP?.errors && stateOTP?.errors.otp && stateOTP.errors.otp.join(', ')}
                             label='Otp' name="otp" type="number" placeholder="Code OTP"
                             value={otp} onChange={(e) => setOTP(e.target.value)}
                         />
                     </div>
-                    <Button className='px-8 w-full' disabled={pendingOTP} type="submit">Soumettre</Button>
+                    <Button className='px-8 w-full mb-3' isLoading={pendingOTP} disabled={pendingOTP} type="submit">Soumettre</Button>
+                    <div className="text-center">
+                        <button
+                            type="button"
+                            onClick={handleResendOtp}
+                            disabled={isResending}
+                            className="text-sm text-blue-600 hover:text-blue-800 hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {isResending ? 'Envoi en cours...' : 'Renvoyer le code'}
+                        </button>
+                        {resendMessage && (
+                            <p className={`mt-2 text-sm ${resendMessage.startsWith('Code') ? 'text-green-600' : 'text-red-600'}`}>
+                                {resendMessage}
+                            </p>
+                        )}
+                    </div>
                 </form> :
                 <form onSubmit={handleLoginSubmit} className='w-100'>
                     <div className='mb-5'>

@@ -19,14 +19,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
   title: {
     default: "Industrielle RH | Recrutement et solutions RH au Québec",
-    template: "%s | Industrielle RH",
+    template: "Industrielle RH et recrutement",
   },
   description:
     "Industrielle RH accompagne les entreprises et les candidats avec des solutions de recrutement, d'embauche et de conseil en ressources humaines au Québec.",
   keywords: ["recrutement", "RH", "emploi", "Québec", "ressources humaines", "Industrielle RH"],
   icons: {
-    icon: "/images/logo.png",
-    apple: "/images/logo.png",
+    icon: "/images/logo_icone.png",
+    apple: "/images/logo_icone.png",
   },
   openGraph: {
     locale: "fr_CA",

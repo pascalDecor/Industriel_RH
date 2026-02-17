@@ -117,19 +117,27 @@ const generateEmailTemplate = (templateId: string, content: string, subject: str
 };
 
 
+const isGmail = () => (process.env.EMAIL_HOST || "").includes("gmail.com");
+
 // Créer une nouvelle instance de transporter pour chaque envoi pour éviter les connexions persistantes
-const createTransporter = () => nodemailer.createTransport({
-  host: "mail.industriellerh.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false
-  }
-} as any);
+const createTransporter = () => {
+  const host = process.env.EMAIL_HOST || "mail.industriellerh.com";
+  const port = parseInt(process.env.EMAIL_PORT || "587");
+  const useSecure = port === 465;
+
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure: useSecure,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+    tls: {
+      rejectUnauthorized: true,
+    },
+  });
+};
 
 // Fonction pour envoyer à un seul destinataire
 export const sendSingleMail = async (
@@ -198,12 +206,16 @@ export const sendSingleMail = async (
       }
     }
 
-    // Pour d'autres erreurs, essayer la configuration alternative
-    if (retryCount === 0) {
-      console.log("🔄 Tentative avec configuration SSL alternative...");
+    // Pour d'autres erreurs, essayer la configuration SSL alternative (port 465) si on était sur 587
+    const host = process.env.EMAIL_HOST || "mail.industriellerh.com";
+    const port = parseInt(process.env.EMAIL_PORT || "587");
+    const shouldTryFallback = retryCount === 0 && port !== 465;
+
+    if (shouldTryFallback) {
+      console.log("🔄 Tentative avec configuration SSL alternative (port 465)...");
       try {
         const fallbackTransporter = nodemailer.createTransport({
-          host: "mail.industriellerh.com",
+          host,
           port: 465,
           secure: true,
           auth: {
@@ -211,17 +223,19 @@ export const sendSingleMail = async (
             pass: process.env.EMAIL_PASS,
           },
           tls: {
-            rejectUnauthorized: false
-          }
+            rejectUnauthorized: false,
+          },
         } as any);
 
         try {
           await fallbackTransporter.sendMail({
-            from: `${process.env.EMAIL_FROM_NAME || 'Industriel RH'} <${process.env.EMAIL_USER}>`,
+            from: `${process.env.EMAIL_FROM_NAME || "Industriel RH"} <${process.env.EMAIL_USER}>`,
             to,
             subject,
             text,
-            html
+            html: templateData?.templateId && templateData?.content && templateData?.title
+              ? generateEmailTemplate(templateData.templateId, templateData.content, subject, templateData.title)
+              : html,
           });
 
           console.log(`✅ Email envoyé avec succès via fallback à ${to}`);

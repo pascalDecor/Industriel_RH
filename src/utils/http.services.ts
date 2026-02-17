@@ -107,6 +107,7 @@ type AddOrupdateReturnType<T> = {
   state: boolean;
   response: AxiosResponse;
   convertData: T;
+  notFound?: boolean;
 };
 
 type DeleteReturnType<T> = {
@@ -377,6 +378,14 @@ export class HttpService {
         throw new Error("Erreur lors de l'ajout");
       }
     } catch (error: unknown) {
+      const status = axios.isAxiosError(error) ? error.response?.status : undefined;
+      if (status === 404) {
+        toast.error("Cet enregistrement n'existe plus ou a été supprimé.", {
+          className: errorToastClassName,
+          duration: 5000
+        });
+        return { state: false, notFound: true };
+      }
       console.error(error);
       toast.error("Une erreur est survenue lors de la modification", {
         className: errorToastClassName,

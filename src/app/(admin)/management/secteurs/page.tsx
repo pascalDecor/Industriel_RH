@@ -110,7 +110,7 @@ export default function Sectors() {
                 <AsyncBuilder 
                     promise={async () => {
                         return HttpService.index<Sector>({
-                            url: '/sectors?page=' + page + '&search=' + search,
+                            url: '/sectors?page=' + page + '&search=' + search + '&includeInactive=true&includeDefaultConsultingSolutions=true',
                             fromJson: (json: any) => Sector.fromJSON(json)
                         });
                     }} 

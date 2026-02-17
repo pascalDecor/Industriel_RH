@@ -223,6 +223,7 @@ export default function TranslationsPage() {
   const [viewMode, setViewMode] = useState<'list' | 'preview'>('preview'); // Default to preview mode
   const [currentLanguage, setCurrentLanguage] = useState<'fr' | 'en'>('fr');
   const [globalSearchMode, setGlobalSearchMode] = useState(false);
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     fetchTranslations();
@@ -242,6 +243,34 @@ export default function TranslationsPage() {
       toast.error('Erreur lors du chargement des traductions');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSyncTranslations = async () => {
+    try {
+      setSyncing(true);
+      const response = await fetch('/api/admin/translations/sync', { method: 'POST' });
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.error || 'Erreur lors de la synchronisation');
+        return;
+      }
+
+      if (data.added > 0) {
+        await fetchTranslations();
+        toast.success(`Synchronisation terminée : ${data.added} nouvelle(s) traduction(s) ajoutée(s), ${data.skipped} déjà existante(s).`);
+      } else {
+        toast.success(`Aucune nouvelle traduction. ${data.skipped} déjà en base.`);
+      }
+      if (data.errors?.length) {
+        toast.error(`${data.errors.length} erreur(s) : ${data.errors.slice(0, 2).join(', ')}${data.errors.length > 2 ? '...' : ''}`);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la synchronisation:', error);
+      toast.error('Erreur lors de la synchronisation');
+    } finally {
+      setSyncing(false);
     }
   };
 
@@ -422,8 +451,19 @@ export default function TranslationsPage() {
                 : 'Sélectionnez une section à éditer'}
             </p>
           </div>
-          <div className="text-sm text-gray-600">
-            Total: {translations.length} traductions
+          <div className="flex items-center gap-4">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleSyncTranslations}
+              disabled={syncing}
+              isLoading={syncing}
+            >
+              {syncing ? 'Synchronisation...' : 'Synchroniser les nouvelles traductions'}
+            </Button>
+            <div className="text-sm text-gray-600">
+              Total: {translations.length} traductions
+            </div>
           </div>
         </div>
 

@@ -1,5 +1,3 @@
-"use client";
-
 import { UserWithRoles, UserRoleAssignment, UserRole, Permission } from '@/types/auth';
 import { ROLE_PERMISSIONS, INHERITED_PERMISSIONS } from './role-permissions';
 import { ROLE_HIERARCHY } from '@/types/auth';
@@ -16,6 +14,10 @@ export function getPrimaryRole(user: UserWithRoles): UserRole | null {
  * Récupère tous les rôles actifs d'un utilisateur
  */
 export function getActiveRoles(user: UserWithRoles): UserRole[] {
+  if (!user || !Array.isArray(user.userRoles)) {
+    return [];
+  }
+
   return user.userRoles
     .filter(r => r.isActive && (!r.expiresAt || r.expiresAt > new Date()))
     .map(r => r.role);

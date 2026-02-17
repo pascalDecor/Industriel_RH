@@ -2,19 +2,34 @@
 
 import { DynamicImage } from "@/components/ui/DynamicImage";
 import Button from "../ui/button";
-import { redirect } from "next/navigation";
 import { Sector } from "@/models/sector";
 import { LoadingSpinner } from "@/lib/load.helper";
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { useTranslation } from "@/contexts/LanguageContext";
-import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 
-export function ConsultingSolutionsExpandedNavbar({ sectors }: { sectors: Sector[] }) {
+interface ConsultingSolutionsExpandedNavbarProps {
+  sectors: Sector[];
+  sectorsLoading?: boolean;
+  sectorsError?: boolean;
+}
+
+export function ConsultingSolutionsExpandedNavbar({ sectors, sectorsLoading = false, sectorsError = false }: ConsultingSolutionsExpandedNavbarProps) {
   const { t, language } = useTranslation();
+  const router = useRouter();
+  const pathname = usePathname();
   const [isFrench, setIsFrench] = useState(language === 'fr');
-  const { translateSector } = useDynamicTranslation();
+
+  const goToDefaultConsultingSolutions = () => {
+    LocalStorageHelper.setValue("activeSector", "");
+    if (pathname === "/consulting-solutions") {
+      window.location.href = "/consulting-solutions";
+    } else {
+      router.push("/consulting-solutions");
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 px-4 md:px-6 lg:px-10 mb-5 max-w-7xl mx-auto">
@@ -24,8 +39,8 @@ export function ConsultingSolutionsExpandedNavbar({ sectors }: { sectors: Sector
           <p className="text-gray-500 text-sm mb-5">
             {t('consulting.navbar.description')}
           </p>
-          <Button variant="primary" size="md" onClick={() => redirect("/contact")} className="!rounded-full text-sm px-10">
-            {t('nav.contact')}
+          <Button variant="primary" size="md" onClick={goToDefaultConsultingSolutions} className="!rounded-full text-sm px-10">
+            {t('consulting.navbar.discover_solutions')}
           </Button>
         </div>
       </div>
@@ -36,16 +51,24 @@ export function ConsultingSolutionsExpandedNavbar({ sectors }: { sectors: Sector
             {t('footer.areas_expertise')}
           </p>
           <div className="flex flex-col gap-5">
-            {sectors.length > 0 ? sectors.map((sector) => (
-              <a onClick={() => LocalStorageHelper.setValue("activeSector", JSON.stringify(sector.toJSON()))} key={sector.id} href={`/consulting-solutions`} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
-                <p className="text-gray-500 text-sm font-bold mb-2">
-                  {isFrench ? sector.libelle : sector.libelle_en}
-                </p>
-                <p className="text-gray-500 text-sm">
-                  {isFrench ? sector.description : sector.description_en}
-                </p>
-              </a>
-            )) : <LoadingSpinner color="#0F766E"></LoadingSpinner>}
+            {sectorsLoading ? (
+              <LoadingSpinner color="#0F766E" />
+            ) : sectorsError ? (
+              <p className="text-amber-600 text-sm">{t('consulting.navbar.error_load') || 'Impossible de charger les secteurs.'}</p>
+            ) : sectors.length > 0 ? (
+              sectors.map((sector) => (
+                <a onClick={() => LocalStorageHelper.setValue("activeSector", JSON.stringify(sector.toJSON()))} key={sector.id} href={`/consulting-solutions`} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
+                  <p className="text-gray-500 text-sm font-bold mb-2">
+                    {isFrench ? sector.libelle : (sector.libelle_en ?? sector.libelle)}
+                  </p>
+                  <p className="text-gray-500 text-sm">
+                    {isFrench ? sector.description : (sector.description_en ?? sector.description)}
+                  </p>
+                </a>
+              ))
+            ) : (
+              <p className="text-gray-500 text-sm">{t('consulting.navbar.no_sectors') || 'Aucun secteur pour le moment.'}</p>
+            )}
           </div>
         </div>
       </div>

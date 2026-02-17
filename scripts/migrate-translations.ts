@@ -54,7 +54,7 @@ const translationsToImport: Record<string, Record<string, string>> = {
     'nav.contact': 'Contact',
     'nav.hire_talent': 'Embaucher des talents',
     'nav.find_jobs': 'Trouver un emploi',
-    'nav.consulting': 'Solutions-conseil',
+    'nav.consulting': 'Solutions-conseil-RH',
     'nav.salary_guide': 'Guide salarial',
     'nav.tax_calculator': 'Calculateur d\'impôt',
     'nav.mortgage_calculator': 'Calculateur hypothécaire',
@@ -251,4 +251,4 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect();
-  });
+});

@@ -110,7 +110,15 @@ export function DynamicImage({
     );
   }
 
-  const imageSrc = imageData.src;
+  // Normaliser l'URL pour éviter les problèmes de localhost en prod (Vercel bloque les IP privées)
+  let imageSrc = imageData.src as string | StaticImageData;
+  if (typeof imageSrc === 'string') {
+    // Si l'URL commence par http://localhost:3000 ou http://127.0.0.1:3000, on garde uniquement le chemin
+    const localhostMatch = imageSrc.match(/^https?:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?(\/.*)$/);
+    if (localhostMatch?.[1]) {
+      imageSrc = localhostMatch[1];
+    }
+  }
   const imageAlt = alt || imageData.alt;
 
   // Déterminer width et height
@@ -123,7 +131,7 @@ export function DynamicImage({
   return (
     <div className={`relative ${isEditMode ? 'group' : ''} ${shouldFill && !className?.includes('w-') && !className?.includes('h-') ? 'w-full h-full' : ''}`}>
       <Image
-        src={imageSrc as string | StaticImageData}
+        src={imageSrc}
         alt={imageAlt}
         width={shouldFill ? undefined : imgWidth || undefined}
         height={shouldFill ? undefined : imgHeight || undefined}

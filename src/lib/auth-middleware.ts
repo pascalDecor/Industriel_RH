@@ -171,8 +171,8 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
       };
     }
 
-    // Transformer en UserWithRole
-    const userWithRole: UserWithRole = {
+    // Transformer en UserWithRole avec userRoles pour hasPermissionMultiRole (API)
+    const userWithRole: UserWithRole & { userRoles: Array<{ role: string; isPrimary: boolean; isActive: boolean; expiresAt?: Date | null }> } = {
       id: user.id,
       name: user.name,
       email: user.email,
@@ -181,7 +181,13 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
       lastLogin: user.lastLogin || undefined,
       avatarUrl: user.avatarUrl || undefined,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt
+      updatedAt: user.updatedAt,
+      userRoles: user.userRoles.map(ur => ({
+        role: ur.role,
+        isPrimary: ur.isPrimary,
+        isActive: true,
+        expiresAt: null
+      }))
     };
 
     return {

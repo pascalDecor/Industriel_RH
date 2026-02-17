@@ -51,5 +51,11 @@ export class Sector extends BaseModel<SectorProps> {
     return this.props.alternativeDescriptions;
   }
 
+  get isActive(): boolean {
+    return this.props.isActive !== false;
+  }
 
+  get isDefaultConsultingSolutions(): boolean {
+    return this.props.isDefaultConsultingSolutions === true;
+  }
 }

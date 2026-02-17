@@ -96,6 +96,7 @@ export const ROLE_HIERARCHY: Record<UserRole, number> = {
   [UserRole.SUPER_ADMIN]: 7,
   [UserRole.HR_DIRECTOR]: 6,
   [UserRole.HR_MANAGER]: 5,
+  [UserRole.IT_ENGINEER]: 4,
   [UserRole.RECRUITER_SENIOR]: 4,
   [UserRole.RECRUITER]: 3,
   [UserRole.HR_ASSISTANT]: 2,

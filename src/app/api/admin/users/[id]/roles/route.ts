@@ -23,9 +23,10 @@ export async function GET(
     }
 
     const currentUser = authResult.user as unknown as UserWithRoles;
+    const isSuperAdmin = (currentUser as { role?: string }).role === UserRole.SUPER_ADMIN;
 
-    // Vérifier les permissions de lecture des utilisateurs
-    if (!hasPermissionMultiRole(currentUser, Permission.USERS_READ)) {
+    // Vérifier les permissions de lecture des utilisateurs (ou SUPER_ADMIN legacy)
+    if (!isSuperAdmin && !hasPermissionMultiRole(currentUser, Permission.USERS_READ)) {
       return NextResponse.json(
         { error: 'Permissions insuffisantes' },
         { status: 403 }
@@ -76,9 +77,11 @@ export async function POST(
     }
 
     const currentUser = authResult.user as unknown as UserWithRoles;
+    const legacyRole = (currentUser as { role?: string }).role;
+    const isSuperAdmin = legacyRole === UserRole.SUPER_ADMIN;
 
-    // Vérifier les permissions d'assignation de rôles
-    if (!hasPermissionMultiRole(currentUser, Permission.ROLES_ASSIGN)) {
+    // Vérifier les permissions d'assignation de rôles (ou SUPER_ADMIN legacy)
+    if (!isSuperAdmin && !hasPermissionMultiRole(currentUser, Permission.ROLES_ASSIGN)) {
       return NextResponse.json(
         { error: 'Permissions insuffisantes pour assigner des rôles' },
         { status: 403 }
@@ -112,8 +115,8 @@ export async function POST(
       );
     }
 
-    // Vérifier si l'utilisateur peut assigner ce rôle
-    if (!canAssignRole(currentUser, role)) {
+    // Vérifier si l'utilisateur peut assigner ce rôle (SUPER_ADMIN peut tout assigner)
+    if (!isSuperAdmin && !canAssignRole(currentUser, role)) {
       return NextResponse.json(
         { error: 'Vous ne pouvez pas assigner ce rôle' },
         { status: 403 }

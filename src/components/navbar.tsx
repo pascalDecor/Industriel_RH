@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaAngleRight, FaArrowLeft, FaBars, FaTimes, FaTimesCircle } from "react-icons/fa";
 import { DynamicImage } from "@/components/ui/DynamicImage";
@@ -40,7 +41,6 @@ const HireTalentExpandedNavbar = dynamic(() =>
 
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { GoTriangleDown } from "react-icons/go";
-import { HttpService } from "@/utils/http.services";
 import { Sector } from "@/models/sector";
 import dynamic from "next/dynamic";
 import { ArrowBigRight } from "lucide-react";
@@ -50,7 +50,7 @@ import { TiTimes, TiTimesOutline } from "react-icons/ti";
 interface NavItem {
   label: string;
   href: string;
-  expandedComponnent?: React.ComponentType<{ sectors: Sector[] }>;
+  expandedComponnent?: React.ComponentType<{ sectors: Sector[]; sectorsLoading?: boolean; sectorsError?: boolean }>;
 }
 
 
@@ -99,6 +99,7 @@ interface NavbarProps {
 
 export function Navbar({ isTranslateMode = false, translations = [], onUpdate = () => {} }: NavbarProps = {}) {
   const { t, language } = useTranslation();
+  const pathname = usePathname();
 
   // Prevent link clicks in translate mode
   const handleLinkClick = (e: React.MouseEvent) => {
@@ -133,19 +134,35 @@ export function Navbar({ isTranslateMode = false, translations = [], onUpdate = 
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [sectors, setSectors] = useState<Sector[]>([]);
+  const [sectorsLoading, setSectorsLoading] = useState(true);
+  const [sectorsError, setSectorsError] = useState(false);
 
   const navItems = getNavItems(t);
 
   useEffect(() => {
     const fetchData = async () => {
-      const temp = await HttpService.index<Sector>({
-        url: '/sectors',
-        fromJson: (json: any) => Sector.fromJSON(json)
-      });
-      setSectors(temp.data);
-
-      if (temp.data.length > 0) {
-        LocalStorageHelper.setValue("activeSector", JSON.stringify(temp.data[0]));
+      setSectorsLoading(true);
+      setSectorsError(false);
+      try {
+        const res = await fetch("/api/sectors?limit=50");
+        if (!res.ok) {
+          setSectorsError(true);
+          setSectors([]);
+          return;
+        }
+        const json = await res.json();
+        const list = Array.isArray(json?.data) ? json.data : [];
+        const meta = json?.meta && typeof json.meta === "object" ? json.meta : {};
+        const mapped = list.map((item: unknown) => Sector.fromJSON(item as ConstructorParameters<typeof Sector>[0]));
+        setSectors(mapped);
+        if (mapped.length > 0) {
+          LocalStorageHelper.setValue("activeSector", JSON.stringify(mapped[0]));
+        }
+      } catch {
+        setSectorsError(true);
+        setSectors([]);
+      } finally {
+        setSectorsLoading(false);
       }
     };
     fetchData();
@@ -195,6 +212,13 @@ export function Navbar({ isTranslateMode = false, translations = [], onUpdate = 
                       if (isTranslateMode) {
                         e.preventDefault();
                       } else {
+                        if (navItem.href === "/consulting-solutions") {
+                          LocalStorageHelper.setValue("activeSector", "");
+                          if (pathname === "/consulting-solutions") {
+                            e.preventDefault();
+                            window.location.href = "/consulting-solutions";
+                          }
+                        }
                         activeNavItem(navItem.href, e)();
                       }
                     }}
@@ -214,7 +238,7 @@ export function Navbar({ isTranslateMode = false, translations = [], onUpdate = 
                     animate={{ opacity: 1, }}
                     exit={{ opacity: 0, }}
                     className="absolute w-full left-0 top-15 mt-2 bg-gray-100 p-4  text-gray-700 shadow-xl">
-                    {navItem.expandedComponnent && <navItem.expandedComponnent sectors={sectors} />}
+                    {navItem.expandedComponnent && <navItem.expandedComponnent sectors={sectors} sectorsLoading={sectorsLoading} sectorsError={sectorsError} />}
                   </motion.div>}
                 </div>)}
             </div>
@@ -223,10 +247,10 @@ export function Navbar({ isTranslateMode = false, translations = [], onUpdate = 
               /* Contact Button */
             }
             <div className="flex items-center  gap-3 sm:gap-4">
-              <Button variant="light" size="md" className="!rounded-full text-[11px] border border-gray-300 !py-1">
-                <Link href="/contact" onClick={handleLinkClick} className="hover:text-gray-600 btn text-gray-400 text-sm flex align-middle items-center">
+              <Button variant="primary" size="md" className="!rounded-full text-[11px] !py-1">
+                <Link href="/contact" onClick={handleLinkClick} className="text-white hover:text-white btn text-sm flex align-middle items-center">
                   <span>{renderText('nav.contact')}</span>
-                  <div className="bg-blue-700 p-1 rounded-full ml-3">
+                  <div className="bg-white/20 p-1 rounded-full ml-3">
                     <GoArrowUpRight size={20} className="text-white" />
                   </div>
                 </Link>
@@ -306,7 +330,7 @@ export function Navbar({ isTranslateMode = false, translations = [], onUpdate = 
                     {navItem.label}
                   </p>
                   <div onClick={() => { setIsOpen(false); setHoveredItem(null); }} >
-                    {navItem.expandedComponnent && <navItem.expandedComponnent sectors={sectors} />}
+                    {navItem.expandedComponnent && <navItem.expandedComponnent sectors={sectors} sectorsLoading={sectorsLoading} sectorsError={sectorsError} />}
                   </div>
                 </motion.div>}
               </div>

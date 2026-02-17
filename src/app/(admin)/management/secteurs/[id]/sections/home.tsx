@@ -9,7 +9,7 @@ import { FiArrowRight } from "react-icons/fi";
 
 import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
 
-import { UpdateDescriptionSectorComponent, UpdateImageSectorComponent } from "./updateComponent";
+import { UpdateDescriptionSectorComponent, UpdateImageSectorComponent, SectionImagePreview } from "./updateComponent";
 import { useState } from "react";
 import { AsyncBuilder } from "@/components/ui/asyncBuilder";
 import { LoadingSpinner } from "@/lib/load.helper";
@@ -85,8 +85,7 @@ export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn, 
                                     width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full absolute top-0 z-0" />
                                 <Popover>
                                     <PopoverTrigger>
-                                        {sector && <Image loading="lazy" src={sector === undefined ? imagePathFinder.add_specialized_talent_across_your_organization : sector.sections.filter((s) => s.page === "home")[0]?.image}
-                                            width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full relative z-10 cursor-pointer" />}
+                                        {sector && <SectionImagePreview image={sector.sections.filter((s) => s.page === "home")[0]?.image} fallback={imagePathFinder.add_specialized_talent_across_your_organization} width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full relative z-10 cursor-pointer" />}
                                     </PopoverTrigger>
                                     <PopoverContent className="z-50">
                                         <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />

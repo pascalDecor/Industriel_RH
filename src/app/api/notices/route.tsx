@@ -1,11 +1,5 @@
 import { NextResponse, NextRequest } from "next/server"
 import prisma from '@/lib/connect_db';
-import { withQuery } from "@/lib/prisma/helpers";
-import { Notice } from "@prisma/client";
-
-// Cache pour les avis
-const noticesCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
 
 export const GET = async (request: NextRequest) => {
     try {
@@ -18,13 +12,6 @@ export const GET = async (request: NextRequest) => {
         const stars = searchParams.get('stars');
         
         const skip = (page - 1) * limit;
-        const cacheKey = `notices:${page}:${limit}:${search}:${stars}`;
-        
-        // Vérifier le cache
-        const cached = noticesCache.get(cacheKey);
-        if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-            return NextResponse.json(cached.data);
-        }
 
         const where: any = {};
         
@@ -68,9 +55,6 @@ export const GET = async (request: NextRequest) => {
             }
         };
 
-        // Mettre en cache
-        noticesCache.set(cacheKey, { data: result, timestamp: Date.now() });
-
         return NextResponse.json(result);
 
     } catch (error) {
@@ -85,10 +69,6 @@ export const POST = async (req: Request) => {
         const noticeCreated = await prisma.notice.create({
             data: { content: data.content, author: data.author, stars: data.stars },
         });
-
-        // Invalider le cache
-        const keysToDelete = Array.from(noticesCache.keys()).filter(key => key.startsWith('notices:'));
-        keysToDelete.forEach(key => noticesCache.delete(key));
 
         return NextResponse.json(noticeCreated, { status: 201 });
     } catch (error) {

@@ -1,12 +1,10 @@
 "use client";
 
 import { Sector } from "@/models/sector";
-import Image from "next/image";
-
 import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
 
 import { useState } from "react";
-import { UpdateDescriptionSectorComponent, UpdateImageSectorComponent } from "./updateComponent";
+import { UpdateDescriptionSectorComponent, UpdateImageSectorComponent, SectionImagePreview } from "./updateComponent";
 import { AsyncBuilder } from "@/components/ui/asyncBuilder";
 import { LoadingSpinner } from "@/lib/load.helper";
 import { Section } from "@/models/section";
@@ -57,7 +55,7 @@ export function SectionUIConsultingSolutionsSection1({ sectorIn, showEnglish }: 
                         <div className="lg:col-span-2 col-span-12">
                             <Popover>
                                 <PopoverTrigger>
-                                    <Image loading="lazy" src={section.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
+                                    <SectionImagePreview image={section.image} fallback={imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
                                     <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />
@@ -113,7 +111,7 @@ export function SectionUIConsultingSolutionsSection2({ sectorIn, showEnglish }: 
                             <div className="col-span-3 p-0">
                                 <Popover>
                                     <PopoverTrigger>
-                                        <Image loading="lazy" src={section.image || imagePathFinder.trending_job_titles} alt="image" width={500} height={500} />
+                                        <SectionImagePreview image={section.image} fallback={imagePathFinder.trending_job_titles} width={500} height={500} alt="image" />
                                     </PopoverTrigger>
                                     <PopoverContent className="z-50">
                                         <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />
@@ -151,7 +149,7 @@ export function SectionUIConsultingSolutionsSection3({ sectorIn, showEnglish }: 
                         <div className="lg:col-span-2 col-span-12 pr-4">
                             <Popover>
                                 <PopoverTrigger>
-                                    <Image loading="lazy" src={section.image || imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
+                                    <SectionImagePreview image={section.image} fallback={imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
                                     <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />

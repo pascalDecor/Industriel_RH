@@ -3,9 +3,76 @@
 import { DynamicImage } from "@/components/ui/DynamicImage";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { FaLinkedin, FaTwitter, FaFacebook, FaInstagram, FaGlobe } from "react-icons/fa";
+
+function normalizeLinkedinUrl(input: string): string {
+  let s = input.trim();
+  if (!s) return "";
+
+  s = s.replace(/^https:\/\/https\/+/i, "https://");
+  s = s.replace(/^https:\/\/http\/+/i, "http://");
+  s = s.replace(/^https\/+/i, "https://");
+  s = s.replace(/^http\/+/i, "http://");
+  s = s.replace(/^https:\/*/i, "https://");
+  s = s.replace(/^http:\/*/i, "http://");
+
+  if (!/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(s)) {
+    s = `https://${s}`;
+  }
+
+  try {
+    const url = new URL(s);
+    const host = url.hostname.toLowerCase();
+    if (host === "linkedin" || host === "www.linkedin") {
+      const path = url.pathname.replace(/^\/+/, "").replace(/\/+$/, "") || "";
+      const normalizedPath =
+        path.startsWith("in/") || path.startsWith("company/") || path.startsWith("school/")
+          ? `/${path}`
+          : path
+            ? `/in/${path}`
+            : "/in/";
+      return `https://www.linkedin.com${normalizedPath}`;
+    }
+  } catch {
+    // noop
+  }
+
+  return s;
+}
+
+interface TeamMemberData {
+  id: string;
+  nom: string;
+  prenom: string;
+  post: string;
+  imageKey: string | null;
+  linkedin: string | null;
+  twitter: string | null;
+  facebook: string | null;
+  instagram: string | null;
+  website: string | null;
+  order: number;
+}
+
+const SOCIAL_LINKS_CONFIG: { key: keyof TeamMemberData; label: string; Icon: React.ComponentType<{ className?: string }>; color?: string }[] = [
+  { key: "linkedin", label: "LinkedIn", Icon: FaLinkedin, color: "text-[#0A66C2] hover:text-[#004182]" },
+  { key: "twitter", label: "Twitter", Icon: FaTwitter, color: "text-slate-600 hover:text-sky-500" },
+  { key: "facebook", label: "Facebook", Icon: FaFacebook, color: "text-slate-600 hover:text-[#1877F2]" },
+  { key: "instagram", label: "Instagram", Icon: FaInstagram, color: "text-slate-600 hover:text-[#E4405F]" },
+  { key: "website", label: "Site web", Icon: FaGlobe, color: "text-slate-600 hover:text-teal-600" },
+];
 
 export default function About() {
   const { t } = useTranslation();
+  const [teamMembers, setTeamMembers] = useState<TeamMemberData[]>([]);
+
+  useEffect(() => {
+    fetch("/api/team-members?limit=50")
+      .then((res) => res.ok ? res.json() : { data: [] })
+      .then((json) => setTeamMembers(Array.isArray(json?.data) ? json.data : []))
+      .catch(() => setTeamMembers([]));
+  }, []);
   
   return <>
     {/* Catalyst of prosperity for Quebec businesses */}
@@ -260,48 +327,64 @@ export default function About() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="text-2xl sm:text-3xl font-semibold text mb-8 sm:mb-10 text-black text-center"
+        className="text-2xl sm:text-3xl font-semibold text mb-10 sm:mb-20 text-black text-center"
       >
         {t('about.leadership_team.title')}
       </motion.h2>
 
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10 py-10 grid grid-cols-1 lg:grid-cols-3 items-end gap-6 lg:gap-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="lg:col-span-1"
-        >
-          <div className="w-full border border-gray-200 p-6 sm:p-7 rounded-2xl text-center bg-gradient-to-t hover:from-blue-300 hover:to-blue-100 hover:shadow-lg from-gray-300 to-gray-200 pb-12 sm:pb-20">
-            <DynamicImage imageKey="jamel_hein" alt="Describe your Need" width={160} height={160} className="w-32 sm:w-40 mb-4 mx-auto -mt-16 sm:-mt-20" />
-            <p className="text uppercase font-semibold mb-5 text-blue-900 text-center">
-            JAMEL HEIN
-          </p>
-          <p className="text-sm font-regular text-gray-500 text-center">
-            {t('about.positions.ceo')}
-          </p>
-          </div>
-
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="lg:col-span-2 border bg-blue-900 p-6 sm:p-7 rounded-2xl sm:rounded-4xl text-center h-full hover:bg-blue-800"
-        >
-          <p className="text-sm font-light text-white text-start mb-3">
-            {t('about.ceo_message.paragraph1')}
-          </p>
-          <p className="text-sm font-light text-white text-start mb-3">
-            {t('about.ceo_message.paragraph2')}
-          </p>
-          <p className="text-sm font-light text-white text-start mb-3">
-            {t('about.ceo_message.paragraph3')}
-          </p>
-        </motion.div>
-
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10 py-10 flex flex-wrap justify-center gap-6 lg:gap-4">
+        {teamMembers.map((member, index) => (
+          <motion.div
+            key={member.id}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.05 }}
+            viewport={{ once: true }}
+            className="flex w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-0.666rem)] max-w-sm"
+          >
+            <div className="w-full border border-gray-200 p-6 sm:p-7 rounded-2xl text-center bg-gradient-to-t hover:from-blue-300 hover:to-blue-100 hover:shadow-lg from-gray-300 to-gray-200 pb-6 sm:pb-10 flex flex-col">
+              {member.imageKey ? (
+                <DynamicImage
+                  imageKey={member.imageKey}
+                  alt={`${member.prenom} ${member.nom}`}
+                  width={160}
+                  height={160}
+                  className="w-32 sm:w-40 mb-4 mx-auto -mt-16 sm:-mt-20"
+                />
+              ) : (
+                <div className="w-32 sm:w-40 h-32 sm:h-40 mb-4 mx-auto -mt-16 sm:-mt-20 rounded-full bg-slate-300 flex items-center justify-center text-slate-500 text-2xl font-semibold">
+                  {member.prenom.charAt(0)}{member.nom.charAt(0)}
+                </div>
+              )}
+              <p className="text uppercase font-semibold mb-2 text-blue-900 text-center flex-1">
+                {member.prenom} {member.nom}
+              </p>
+              <p className="text-sm font-regular text-gray-500 text-center mb-2">
+                {member.post}
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {SOCIAL_LINKS_CONFIG.map(({ key, label, Icon, color }) => {
+                  const url = member[key];
+                  if (!url || typeof url !== "string" || !url.trim()) return null;
+                  const href = key === "linkedin" ? normalizeLinkedinUrl(url) : normalizeLinkedinUrl(url);
+                  return (
+                    <a
+                      key={key}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center justify-center gap-1.5 text-sm font-medium ${color ?? "text-slate-600 hover:text-teal-600"}`}
+                      aria-label={`${label} de ${member.prenom} ${member.nom}`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span>{label}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
 
     </section>

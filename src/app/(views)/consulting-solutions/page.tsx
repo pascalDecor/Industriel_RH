@@ -3,14 +3,16 @@
 
 import dynamic from "next/dynamic";
 import { DynamicImage } from "@/components/ui/DynamicImage";
+import { SectionImagePreview } from "@/app/(admin)/management/secteurs/[id]/sections/updateComponent";
 
 import { FiArrowRight } from "react-icons/fi";
+import { Users, FileText, Rocket, Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Sector } from "@/models/sector";
-import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { Section } from "@/models/section";
 import { SectionProps } from "@/models/props";
 import { useRouter } from "next/navigation";
+import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -58,15 +60,35 @@ export default function ConsultingSolutions() {
 
 
   useEffect(() => {
-    const data = LocalStorageHelper.getValue("activeSector");
-    if (data) {
-      const temp = JSON.parse(LocalStorageHelper.getValue("activeSector") ?? "{}");
-      const tempSector = Sector.fromJSON(temp as SectionProps);
-      setSector(tempSector);
-    } else {
-      router.push("/");
+    // Priorité 1 : secteur choisi dans la navbar (localStorage)
+    const stored = LocalStorageHelper.getValue("activeSector");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed?.id) {
+          setSector(Sector.fromJSON(parsed as SectionProps));
+          return;
+        }
+      } catch {
+        // JSON invalide, on continue vers le défaut API
+      }
     }
-  }, []);
+
+    // Priorité 2 : secteur par défaut (API) quand on arrive sans avoir cliqué sur un secteur
+    fetch("/api/sectors/default-consulting-solutions")
+      .then((res) => {
+        if (res.ok) return res.json();
+        return null;
+      })
+      .then((json) => {
+        if (json) {
+          setSector(Sector.fromJSON(json as SectionProps));
+        } else {
+          router.push("/");
+        }
+      })
+      .catch(() => router.push("/"));
+  }, [router]);
 
   useEffect(() => {
     if (sector) {
@@ -99,12 +121,15 @@ export default function ConsultingSolutions() {
         console.error('Erreur lors de la récupération des secteurs:', error);
       }
     };
-
     fetchSectors();
   }, []);
 
   function handleClick() {
-    console.log("Clic !");
+    if (sector?.isDefaultConsultingSolutions) {
+      router.push('/contact');
+    } else {
+      router.push('/discover-insights#refine_your_focus');
+    }
   }
 
   const tabs = [
@@ -126,6 +151,21 @@ export default function ConsultingSolutions() {
   const [activeTab, setActiveTab] = useState("0");
   const [activeTabType, setActiveTabType] = useState("1");
   const [activeTabForm, setActiveTabForm] = useState("0");
+  const [ctaModal, setCtaModal] = useState<"growth" | "process" | "performance" | null>(null);
+  const [hasRecentArticles, setHasRecentArticles] = useState(false);
+
+  useEffect(() => {
+    const checkArticles = async () => {
+      try {
+        const res = await fetch('/api/articles?limit=1&published=true');
+        const data = await res.json();
+        setHasRecentArticles(Array.isArray(data.data) && data.data.length > 0);
+      } catch {
+        setHasRecentArticles(false);
+      }
+    };
+    checkArticles();
+  }, []);
 
   return <>
     {/*Your Partner for Manufacturing Workforce Solutions */}
@@ -152,10 +192,213 @@ export default function ConsultingSolutions() {
           viewport={{ once: true }}
           className="lg:col-span-2"
         >
-          <Image loading="lazy" src={section1?.image!} alt={`Your Partner for ${section1?.libelle} Workforce Solutions`} width={500} height={500} className="mb-4 mx-auto max-w-full h-auto" />
+          <SectionImagePreview image={section1?.image} alt={`Your Partner for ${section1?.libelle ?? ""} Workforce Solutions`} width={500} height={500} className="mb-4 mx-auto max-w-full h-auto" />
         </motion.div>
       </div>
     </section>
+
+    {/* Section CTA expertise + 3 colonnes + subventions */}
+    <section className="bg-white py-16 sm:py-20 px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-center text-lg sm:text-xl text-black font-medium mb-12 sm:mb-16 leading-relaxed max-w-4xl mx-auto">
+          {t('consulting.cta.expertise')}
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-14">
+          {/* Colonne 1 : Propulsez votre croissance */}
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => setCtaModal("growth")}
+            onKeyDown={(e) => e.key === "Enter" && setCtaModal("growth")}
+            className="flex flex-col rounded-lg overflow-hidden shadow-md border border-gray-100 cursor-pointer hover:shadow-lg hover:border-blue-200 transition-all"
+          >
+            <div className="bg-blue-800 px-5 py-6 text-white">
+              <h3 className="text-xl font-bold uppercase tracking-tight leading-tight text-center">
+                {t('consulting.cta.growth.title').split(' ').slice(0, 1).join(' ')}
+              </h3>
+              <h3 className="text-lg font-bold uppercase tracking-tight text-center">
+                {t('consulting.cta.growth.title').split(' ').slice(1).join(' ')}
+              </h3>
+            </div>
+            <div className="bg-white p-6 flex-1">
+              <p className="text-blue-700/90 text-sm font-medium mb-4 flex items-center gap-2">
+                <Users className="h-5 w-5 shrink-0" />
+                {t('consulting.cta.growth.subtitle')}
+              </p>
+              <ul className="space-y-2 text-gray-700 text-sm">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-blue-800 shrink-0 mt-0.5" />
+                    <span>{t(`consulting.cta.growth.item${i}`)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Colonne 2 : Simplifiez vos processus */}
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => setCtaModal("process")}
+            onKeyDown={(e) => e.key === "Enter" && setCtaModal("process")}
+            className="flex flex-col rounded-lg overflow-hidden shadow-md border border-gray-100 cursor-pointer hover:shadow-lg hover:border-blue-200 transition-all"
+          >
+            <div className="bg-blue-800 px-5 py-6 text-white">
+              <h3 className="text-xl font-bold uppercase tracking-tight leading-tight text-center">
+                {t('consulting.cta.process.title').split(' ').slice(0, 1).join(' ')}
+              </h3>
+              <h3 className="text-lg font-bold uppercase tracking-tight text-center">
+                {t('consulting.cta.process.title').split(' ').slice(1).join(' ')}
+              </h3>
+            </div>
+            <div className="bg-white p-6 flex-1">
+              <p className="text-blue-700/90 text-sm font-medium mb-4 flex items-center gap-2">
+                <FileText className="h-5 w-5 shrink-0" />
+                {t('consulting.cta.process.subtitle')}
+              </p>
+              <ul className="space-y-2 text-gray-700 text-sm">
+                {[1, 2, 3, 4].map((i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-blue-800 shrink-0 mt-0.5" />
+                    <span>{t(`consulting.cta.process.item${i}`)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Colonne 3 : Optimisez la performance */}
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => setCtaModal("performance")}
+            onKeyDown={(e) => e.key === "Enter" && setCtaModal("performance")}
+            className="flex flex-col rounded-lg overflow-hidden shadow-md border border-gray-100 cursor-pointer hover:shadow-lg hover:border-blue-200 transition-all"
+          >
+            <div className="bg-blue-800 px-5 py-6 text-white">
+              <h3 className="text-xl font-bold uppercase tracking-tight leading-tight text-center">
+                {t('consulting.cta.performance.title').split(' ').slice(0, 1).join(' ')}
+              </h3>
+              <h3 className="text-lg font-bold uppercase tracking-tight text-center">
+                {t('consulting.cta.performance.title').split(' ').slice(1).join(' ')}
+              </h3>
+            </div>
+            <div className="bg-white p-6 flex-1">
+              <p className="text-blue-700/90 text-sm font-medium mb-4 flex items-center gap-2">
+                <Rocket className="h-5 w-5 shrink-0" />
+                {t('consulting.cta.performance.subtitle')}
+              </p>
+              <ul className="space-y-2 text-gray-700 text-sm">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-blue-800 shrink-0 mt-0.5" />
+                    <span>{t(`consulting.cta.performance.item${i}`)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <p className="text-center text-lg sm:text-xl text-black font-medium mb-12 sm:mb-16 leading-relaxed max-w-4xl mx-auto">
+            {t('consulting.cta.grants')}
+          </p>
+          <Button
+            variant="primary"
+            size="md"
+            onClick={() => router.push('/contact')}
+            className="!rounded-full mx-auto font-bold uppercase tracking-wide px-8 py-3 border border-blue-800/80"
+          >
+            {t('consulting.cta.button')}
+          </Button>
+        </div>
+      </div>
+    </section>
+
+    {/* Modal CTA (Propulsez / Simplifiez / Optimisez) */}
+    {ctaModal && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+        onClick={() => setCtaModal(null)}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cta-modal-title"
+      >
+        <div
+          className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-between px-6 py-4 border-b bg-blue-800 text-white shrink-0">
+            <h2 id="cta-modal-title" className="text-lg font-bold uppercase">
+              {ctaModal === "growth" && t('consulting.cta.growth.title')}
+              {ctaModal === "process" && t('consulting.cta.process.title')}
+              {ctaModal === "performance" && t('consulting.cta.performance.title')}
+            </h2>
+            <button
+              type="button"
+              onClick={() => setCtaModal(null)}
+              className="p-2 rounded-full hover:bg-white/20 transition-colors"
+              aria-label="Fermer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="overflow-y-auto px-6 py-6 space-y-4">
+            {ctaModal === "growth" && [1, 2, 3, 4, 5].map((i) => (
+              <p
+                key={i}
+                className={
+                  i === 1 ? "text-base sm:text-lg font-semibold text-gray-800 leading-relaxed" :
+                  i === 4 ? "text-sm sm:text-base font-semibold text-blue-800 leading-relaxed" :
+                  i === 5 ? "text-sm text-gray-600 italic leading-relaxed" :
+                  "text-sm sm:text-base text-gray-700 leading-relaxed"
+                }
+              >
+                {t(`consulting.cta.growth.modal.p${i}`)}
+              </p>
+            ))}
+            {ctaModal === "process" && [1, 2, 3, 4, 5].map((i) => (
+              <p
+                key={i}
+                className={
+                  i === 1 ? "text-base sm:text-lg font-semibold text-gray-800 leading-relaxed" :
+                  i === 5 ? "text-sm text-gray-600 italic leading-relaxed" :
+                  "text-sm sm:text-base text-gray-700 leading-relaxed"
+                }
+              >
+                {t(`consulting.cta.process.modal.p${i}`)}
+              </p>
+            ))}
+            {ctaModal === "performance" && [1, 2, 3, 4, 5].map((i) => (
+              <p
+                key={i}
+                className={
+                  i === 1 ? "text-base sm:text-lg font-semibold text-gray-800 leading-relaxed" :
+                  i === 4 ? "text-sm sm:text-base font-semibold text-blue-800 leading-relaxed" :
+                  i === 5 ? "text-sm text-gray-600 italic leading-relaxed" :
+                  "text-sm sm:text-base text-gray-700 leading-relaxed"
+                }
+              >
+                {t(`consulting.cta.performance.modal.p${i}`)}
+              </p>
+            ))}
+          </div>
+          <div className="px-6 py-4 border-t shrink-0 flex justify-center">
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => { setCtaModal(null); router.push('/contact'); }}
+              className="!rounded-full font-bold uppercase w-full sm:w-auto"
+            >
+              {t('consulting.cta.button')}
+            </Button>
+          </div>
+        </div>
+      </div>
+    )}
 
     <div className="flex items-center justify-center px-4">
       {tabs.map((tab) => (
@@ -241,7 +484,7 @@ export default function ConsultingSolutions() {
                 className="md:col-span-2 text-center"
               >
                 <Button variant="dark" size="md" onClick={() => router.push("/contact")} className="mt-5 mx-auto text-center !rounded-full text-sm w-full sm:w-auto">
-                  {t('nav.contact')}
+                  {t('consulting.cta.button')}
                 </Button>
               </motion.div>
             </motion.div>
@@ -313,7 +556,7 @@ export default function ConsultingSolutions() {
                 className="md:col-span-2 text-center"
               >
                 <Button variant="dark" size="md" onClick={handleClick} className="mt-5 mx-auto text-center !rounded-full text-sm w-full sm:w-auto">
-                  {t('nav.contact')}
+                  {t('consulting.cta.button')}
                 </Button>
               </motion.div>
             </motion.div>
@@ -325,7 +568,7 @@ export default function ConsultingSolutions() {
             <div className="grid grid-cols-1 lg:grid-cols-6 w-full text-white gap-6 lg:gap-0">
               <div className="lg:col-span-3">
                 <p className="text-sm font-bold text text-start mb-4">
-                  {t('specialized_talent.trending_jobs')}
+                  {sector?.isDefaultConsultingSolutions ? "NOS SECTEURS D’ACTIVITÉS": t('specialized_talent.trending_jobs')}
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 mb-4 gap-2">
                   {sector && sector?.functions.map((f) =>
@@ -337,14 +580,14 @@ export default function ConsultingSolutions() {
                   )}
                 </div>
                 <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300 !text-gray-500 flex items-center px-5 mt-6 sm:mt-10 w-full sm:w-auto justify-center sm:justify-start">
-                  {t('consulting.and_many_more')}
+                  {sector?.isDefaultConsultingSolutions ? t('consulting.cta.button') : t('consulting.and_many_more')}
                   <div className="bg-blue-700 p-1 rounded-full ml-3">
                     <FiArrowRight className="text-white" />
                   </div>
                 </Button>
               </div>
               <div className="lg:col-span-3 p-0 flex items-center justify-center">
-                <DynamicImage imageKey="trending_job_titles"  width={500} height={500} alt="  We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
+                <SectionImagePreview image={section2?.image} alt="  We Source the Talent" width={500} height={500} className="mb-4 mx-auto max-w-full h-auto" />
               </div>
             </div>
 
@@ -408,20 +651,27 @@ export default function ConsultingSolutions() {
 
     {/* Tabs */}
 
+    {hasRecentArticles && (
     <section>
+
+    <h2 className="text-2xl sm:text-3xl font-semibold text my-8 sm:my-14 text-gray-800 text-center">
+    {t('blog.recent_articles')}
+      </h2>
 
       <div className="flex flex-wrap mb-10 mt-12 sm:mt-20 mx-auto items-center justify-center px-4 gap-2">
         {tabsType.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTabType(tab.id)}
-            className={`flex flex-col items-center gap-1 py-2 sm:py-3 px-2 sm:px-3 cursor-pointer transition-all ${activeTabType === tab.id ? "text-base sm:text-xl font-bold text-black uppercase" : "text-gray-500 bg-gray-100 text-xs sm:text-sm"
+            className={`flex flex-col items-center gap-1 py-2 sm:py-3 px-2 sm:px-3 cursor-pointer transition-all ${activeTabType === tab.id ? "text-base sm:text-xl font-bold text-black uppercase" : "text-gray-500  text-xs sm:text-sm"
               }`}
           >
             <span className="whitespace-nowrap">{isFrench ? tab.label : tab.label_en}</span>
           </button>
         ))}
       </div>
+
+
 
       <DynamicArticlesGrid
         category={tabsType.find(tab => tab.id === activeTabType)?.label.toLowerCase() || "all"}
@@ -430,11 +680,12 @@ export default function ConsultingSolutions() {
         showFeaturedBlocks={true}
       />
     </section>
+    )}
 
 
 
     {/*Leading agency for manufacturing workforce solutions */}
-    <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+   { !sector?.isDefaultConsultingSolutions && <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-6 items-center gap-6 lg:gap-4 mt-10">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -443,7 +694,7 @@ export default function ConsultingSolutions() {
           viewport={{ once: true }}
           className="lg:col-span-3 order-2 lg:order-1"
         >
-          <Image loading="lazy" src={section3?.image!} alt={`Leading agency for ${section3?.libelle} Workforce Solutions`} width={500} height={500} className="mb-4 mx-auto max-w-full h-auto" />
+          <SectionImagePreview image={section3?.image} alt={`Leading agency for ${section3?.libelle ?? ""} Workforce Solutions`} width={500} height={500} className="mb-4 mx-auto max-w-full h-auto" />
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 50 }}
@@ -460,7 +711,7 @@ export default function ConsultingSolutions() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </section>}
     <div className="absolute mt-100" id="move_your_career_forward"></div>
     <div className="flex items-center justify-center px-4">
       {tabsForm.map((tab) => (

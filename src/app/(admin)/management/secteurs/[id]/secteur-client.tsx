@@ -7,7 +7,8 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { formatDateFr } from "@/lib/formatDate";
 import { LoadingSpinner } from "@/lib/load.helper";
 import { Sector } from "@/models/sector";
-import { HttpService } from "@/utils/http.services"
+import { HttpService } from "@/utils/http.services";
+import { baseApiURL } from "@/constant/api";
 import { Slash } from "lucide-react";
 import { LuTrash2 } from "react-icons/lu";
 import { MdOutlineModeEditOutline } from "react-icons/md";
@@ -18,6 +19,7 @@ import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FonctionsListe from "./functions/liste";
 import { SectorSections } from "./sections";
+import { toast } from "react-hot-toast";
 
 interface SecteurClientProps {
     sectorId: string;
@@ -25,23 +27,84 @@ interface SecteurClientProps {
 
 export function SecteurClient({ sectorId }: SecteurClientProps) {
     const [loadingDelete, setLoadingDelete] = useState(false);
+    const [loadingToggle, setLoadingToggle] = useState(false);
     const [changeCount, setchangeCount] = useState(0);
     const [open, setOpen] = useState(false);
     const [showEnglish, setShowEnglish] = useState(false);
+    const [confirmToggle, setConfirmToggle] = useState<'deactivate' | 'activate' | null>(null);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const [deleteConfirmName, setDeleteConfirmName] = useState("");
+    const [loadingSetDefault, setLoadingSetDefault] = useState(false);
 
-    const handleDelete = (id: string) => () => {
-        console.log("id", id);
-        setLoadingDelete(true);
-        HttpService.delete<Sector>({
-            url: `/sectors/${id}`,
-        }).then((res) => {
-            console.log(res);
-            setLoadingDelete(false);
-            if (res) {
-                redirect('/management/secteurs');
-            }
+    const setAsDefaultConsultingSolutions = (sector: Sector) => {
+        setLoadingSetDefault(true);
+        fetch(`${baseApiURL}/sectors/${sector.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({
+                libelle: sector.libelle,
+                libelle_en: sector.libelle_en ?? null,
+                description: sector.description ?? null,
+                description_en: sector.description_en ?? null,
+                alternativeDescriptions: sector.alternativeDescriptions ?? [],
+                isActive: sector.isActive,
+                isDefaultConsultingSolutions: true,
+            }),
         })
-    }
+            .then((res) => {
+                if (!res.ok) throw new Error(res.statusText);
+                return res.json();
+            })
+            .then(() => {
+                setLoadingSetDefault(false);
+                toast.success("Secteur défini comme page consulting-solutions par défaut");
+                setchangeCount(c => c + 1);
+            })
+            .catch(() => {
+                setLoadingSetDefault(false);
+                toast.error("Erreur lors de la mise à jour");
+            });
+    };
+
+    const executeToggleActive = (sector: Sector) => {
+        setLoadingToggle(true);
+        fetch(`${baseApiURL}/sectors/${sector.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ isActive: !sector.isActive }),
+        })
+            .then((res) => {
+                if (!res.ok) throw new Error(res.statusText);
+                return res.json();
+            })
+            .then(() => {
+                setLoadingToggle(false);
+                setConfirmToggle(null);
+                toast.success(sector.isActive ? 'Secteur désactivé' : 'Secteur réactivé');
+                setchangeCount(c => c + 1);
+            })
+            .catch(() => {
+                setLoadingToggle(false);
+                setConfirmToggle(null);
+                toast.error('Erreur lors de la mise à jour');
+            });
+    };
+
+    const executeDelete = (id: string) => {
+        setLoadingDelete(true);
+        HttpService.delete<Sector>({ url: `/sectors/${id}` })
+            .then((res) => {
+                setLoadingDelete(false);
+                setConfirmDelete(false);
+                if (res) redirect('/management/secteurs');
+            })
+            .catch(() => {
+                setLoadingDelete(false);
+                setConfirmDelete(false);
+            });
+    };
 
     return (
         <AsyncBuilder
@@ -75,7 +138,17 @@ export function SecteurClient({ sectorId }: SecteurClientProps) {
                         <div className="col-span-6">
                             <div className="flex flex-row justify-between items-center w-full">
                                 <div className="flex-1">
-                                    <div className="flex items-center gap-3 mb-2">
+                                    <div className="flex items-center gap-3 mb-2 flex-wrap">
+                                        {!sector?.isActive && (
+                                            <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-100 text-amber-800">
+                                                Désactivé
+                                            </span>
+                                        )}
+                                        {sector?.isDefaultConsultingSolutions && (
+                                            <span className="text-xs font-medium px-2 py-1 rounded-full bg-teal-100 text-teal-800">
+                                                Page consulting-solutions par défaut
+                                            </span>
+                                        )}
                                         <h2 className="text-3xl font-bold tracking-tight mb-0">
                                             {showEnglish ? (sector?.libelle_en || sector?.libelle) : sector?.libelle}
                                         </h2>
@@ -116,9 +189,47 @@ export function SecteurClient({ sectorId }: SecteurClientProps) {
                                         {sector?.functionsCount} fonction(s) . crée le {formatDateFr(sector?.createdAt ?? new Date())}
                                     </p>
                                 </div>
-                                <div className="flex space-x-2">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    {!sector?.isDefaultConsultingSolutions && (
+                                        <Button
+                                            title="Définir comme page consulting-solutions par défaut"
+                                            variant="secondary"
+                                            size="sm"
+                                            className="!rounded-full text-xs font-medium px-3 py-1.5 !bg-teal-50 !text-teal-700 hover:!bg-teal-100 whitespace-nowrap"
+                                            onClick={() => sector && setAsDefaultConsultingSolutions(sector)}
+                                            disabled={loadingSetDefault}
+                                        >
+                                            {loadingSetDefault ? (
+                                                <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                                            ) : (
+                                                "Par défaut consulting"
+                                            )}
+                                        </Button>
+                                    )}
+                                    <Button
+                                        title={
+                                            sector?.isDefaultConsultingSolutions && sector?.isActive
+                                                ? "Impossible de désactiver le secteur par défaut. Définissez d'abord un autre secteur par défaut."
+                                                : sector?.isActive
+                                                    ? 'Désactiver le secteur (masquer du site)'
+                                                    : 'Activer le secteur'
+                                        }
+                                        variant={sector?.isActive ? 'secondary' : 'primary'}
+                                        size="sm"
+                                        className={`!rounded-full text-xs font-medium px-3 py-1.5 whitespace-nowrap ${sector?.isActive ? '!bg-slate-200 !text-slate-700' : '!bg-emerald-200 !text-emerald-800'}`}
+                                        onClick={() => setConfirmToggle(sector?.isActive ? 'deactivate' : 'activate')}
+                                        disabled={loadingToggle || (!!sector?.isDefaultConsultingSolutions && !!sector?.isActive)}
+                                    >
+                                        {loadingToggle ? (
+                                            <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                                        ) : sector?.isActive ? (
+                                            'Désactiver'
+                                        ) : (
+                                            'Activer'
+                                        )}
+                                    </Button>
                                     <Dialog open={open} onOpenChange={setOpen}>
-                                        <DialogTrigger>
+                                        <DialogTrigger asChild>
                                             <Button title="Modifier" variant="success" size="sm" className="!rounded-full text-[11px] h-8 w-8 !bg-green-200 !text-green-700 !p-2">
                                                 <MdOutlineModeEditOutline className="h-5 w-5" />
                                             </Button>
@@ -133,17 +244,87 @@ export function SecteurClient({ sectorId }: SecteurClientProps) {
                                         </DialogContent>
                                     </Dialog>
 
-                                    <Button 
-                                        loadingColor="red" 
-                                        isLoading={loadingDelete} 
-                                        onClick={handleDelete(sector?.id ?? '')} 
-                                        title="Supprimer" 
-                                        variant="danger" 
-                                        size="sm" 
+                                    <Button
+                                        title={sector?.isDefaultConsultingSolutions ? "Impossible de supprimer le secteur par défaut (page consulting-solutions)" : "Supprimer"}
+                                        variant="danger"
+                                        size="sm"
                                         className="!rounded-full text-[11px] h-8 w-8 !bg-red-200 !text-red-700 !p-2"
+                                        onClick={() => setConfirmDelete(true)}
+                                        disabled={loadingDelete || sector?.isDefaultConsultingSolutions}
                                     >
-                                        {!loadingDelete && <LuTrash2 className="h-5 w-5" />}
+                                        {loadingDelete ? (
+                                            <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                                        ) : (
+                                            <LuTrash2 className="h-5 w-5" />
+                                        )}
                                     </Button>
+
+                                    {/* Modal confirmation Désactiver / Activer */}
+                                    <Dialog open={confirmToggle !== null} onOpenChange={(open) => !open && setConfirmToggle(null)}>
+                                        <DialogContent className="max-w-md">
+                                            <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                                                {confirmToggle === 'deactivate' && 'Désactiver le secteur'}
+                                                {confirmToggle === 'activate' && 'Activer le secteur'}
+                                            </h3>
+                                            <p className="text-sm text-slate-600 mb-6">
+                                                {confirmToggle === 'deactivate' && 'Êtes-vous sûr de vouloir désactiver ce secteur ? Il ne sera plus visible sur le site public.'}
+                                                {confirmToggle === 'activate' && 'Êtes-vous sûr de vouloir activer ce secteur ? Il sera à nouveau visible sur le site.'}
+                                            </p>
+                                            <div className="flex justify-end gap-2">
+                                                <Button variant="secondary" size="sm" onClick={() => setConfirmToggle(null)} disabled={loadingToggle}>
+                                                    Annuler
+                                                </Button>
+                                                <Button variant="primary" size="sm" onClick={() => sector && executeToggleActive(sector)} disabled={loadingToggle}>
+                                                    {loadingToggle ? (
+                                                        <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                                                    ) : (
+                                                        'Confirmer'
+                                                    )}
+                                                </Button>
+                                            </div>
+                                        </DialogContent>
+                                    </Dialog>
+
+                                    {/* Modal confirmation Supprimer */}
+                                    <Dialog open={confirmDelete} onOpenChange={(open) => {
+                                        setConfirmDelete(open);
+                                        if (!open) setDeleteConfirmName("");
+                                    }}>
+                                        <DialogContent className="max-w-md">
+                                            <h3 className="text-lg font-semibold text-slate-800 mb-2">Supprimer le secteur</h3>
+                                            <p className="text-sm text-slate-600 mb-3">
+                                                Êtes-vous sûr de vouloir supprimer ce secteur ? Cette action est irréversible.
+                                            </p>
+                                            <p className="text-sm text-slate-600 mb-2">
+                                                Pour confirmer, saisissez le nom du secteur : <strong className="text-slate-800">{sector?.libelle}</strong>
+                                            </p>
+                                            <input
+                                                type="text"
+                                                value={deleteConfirmName}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDeleteConfirmName(e.target.value)}
+                                                placeholder={sector?.libelle}
+                                                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm outline-none focus:border-teal-500 mb-4"
+                                                autoFocus
+                                            />
+                                            <div className="flex justify-end gap-2">
+                                                <Button variant="secondary" size="sm" onClick={() => { setConfirmDelete(false); setDeleteConfirmName(""); }} disabled={loadingDelete}>
+                                                    Annuler
+                                                </Button>
+                                                <Button
+                                                    variant="danger"
+                                                    size="sm"
+                                                    onClick={() => sector?.id && executeDelete(sector.id)}
+                                                    disabled={loadingDelete || deleteConfirmName.trim() !== (sector?.libelle ?? "")}
+                                                >
+                                                    {loadingDelete ? (
+                                                        <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                                                    ) : (
+                                                        'Supprimer'
+                                                    )}
+                                                </Button>
+                                            </div>
+                                        </DialogContent>
+                                    </Dialog>
                                 </div>
                             </div>
                         </div>

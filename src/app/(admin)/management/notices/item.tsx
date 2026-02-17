@@ -28,22 +28,23 @@ export default function ItemNotices({ notice, onChange }: ItemNoticesProps) {
     const [showEnglish, setShowEnglish] = useState(false);
 
     const [loadingDelete, setLoadingDelete] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false);
 
-    const handleDelete = (id: string) => () => {
-        console.log("id", id);
+    const executeDelete = () => {
         setLoadingDelete(true);
         HttpService.delete<Notice>({
-            url: `/notices/${id}`,
+            url: `/notices/${notice.id}`,
         }).then((res) => {
-            console.log(res);
             setLoadingDelete(false);
-            if (res) {
-                if (onChange) {
-                    onChange(res);
-                }
+            setConfirmDelete(false);
+            if (res && onChange) {
+                onChange(res);
             }
-        })
-    }
+        }).catch(() => {
+            setLoadingDelete(false);
+            setConfirmDelete(false);
+        });
+    };
 
 
     return (
@@ -109,9 +110,49 @@ export default function ItemNotices({ notice, onChange }: ItemNoticesProps) {
                     </Dialog>
 
 
-                    <Button loadingColor="red" isLoading={loadingDelete} onClick={handleDelete(notice.id)} title="Supprimer" variant="danger" size="sm" className="!rounded-full text-[11px] h-8 w-8 !bg-red-200 !text-red-700 !p-2">
-                        {!loadingDelete && <LuTrash2 className="h-5 w-5" />}
-                    </Button>
+                    <Dialog open={confirmDelete} onOpenChange={setConfirmDelete}>
+                        <DialogTrigger asChild>
+                            <Button
+                                title="Supprimer"
+                                variant="danger"
+                                size="sm"
+                                className="!rounded-full text-[11px] h-8 w-8 !bg-red-200 !text-red-700 !p-2"
+                            >
+                                <LuTrash2 className="h-5 w-5" />
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-md">
+                            <h3 className="text-lg font-semibold text-slate-800 mb-2">Supprimer l&apos;avis</h3>
+                            <p className="text-sm text-slate-600 mb-3">
+                                Êtes-vous sûr de vouloir supprimer cet avis ? Cette action est irréversible.
+                            </p>
+                            <p className="text-sm text-slate-500 mb-4 italic">
+                                &quot;{notice.content.length > 80 ? notice.content.slice(0, 80) + "…" : notice.content}&quot;
+                            </p>
+                            <div className="flex justify-end gap-2">
+                                <Button
+                                    variant="secondary"
+                                    size="sm"
+                                    onClick={() => setConfirmDelete(false)}
+                                    disabled={loadingDelete}
+                                >
+                                    Annuler
+                                </Button>
+                                <Button
+                                    variant="danger"
+                                    size="sm"
+                                    onClick={executeDelete}
+                                    disabled={loadingDelete}
+                                >
+                                    {loadingDelete ? (
+                                        <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                                    ) : (
+                                        "Supprimer"
+                                    )}
+                                </Button>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
                 </div>
                 <p className="my-0 text-slate-700 text-sm py-0 font-semibold">
                     crée le {formatDateFr(notice.createdAt ?? new Date())}

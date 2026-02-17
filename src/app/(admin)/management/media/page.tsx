@@ -1,8 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { Image as ImageIcon, Upload, Search, X, ChevronLeft } from 'lucide-react';
+import {
+  Image as ImageIcon,
+  Upload,
+  Search,
+  X,
+  ChevronLeft,
+  Palette,
+  LayoutGrid,
+  Compass,
+  Home,
+  Info,
+  Users,
+  Briefcase,
+  BarChart3,
+  Calculator,
+  Handshake,
+  Target,
+  Mail,
+  Package,
+  Pencil,
+  Save,
+  Languages,
+} from 'lucide-react';
 import Button from '@/components/ui/button';
 import { imagePathFinder } from '@/utils/imagePathFinder';
 
@@ -25,10 +47,12 @@ interface MediaAsset {
   updatedAt: string;
 }
 
+type IconComponent = React.ComponentType<{ className?: string; size?: number }>;
+
 interface ImageGroup {
   id: string;
   name: string;
-  icon: string;
+  icon: IconComponent;
   color: string;
   description: string;
   keys: string[];
@@ -38,7 +62,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'branding',
     name: 'Branding & Logos',
-    icon: '🎨',
+    icon: Palette,
     color: 'blue',
     description: 'Logos et éléments de marque',
     keys: ['logo', 'logo_light', 'logo_only']
@@ -46,7 +70,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'banners',
     name: 'Bannières & Carrousel',
-    icon: '🖼️',
+    icon: LayoutGrid,
     color: 'purple',
     description: 'Images du carrousel et bannières',
     keys: ['banner', 'banner_1', 'banner_2', 'banner_3', 'cardFond']
@@ -54,7 +78,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'navigation',
     name: 'Navigation',
-    icon: '🧭',
+    icon: Compass,
     color: 'green',
     description: 'Images du menu de navigation',
     keys: ['find_jobs', 'hire_talent', 'consulting_solutions', 'discover_insights']
@@ -62,7 +86,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'home',
     name: 'Page Accueil',
-    icon: '🏠',
+    icon: Home,
     color: 'indigo',
     description: 'Images de la page d\'accueil',
     keys: [
@@ -81,7 +105,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'about',
     name: 'À propos',
-    icon: 'ℹ️',
+    icon: Info,
     color: 'teal',
     description: 'Images de la page à propos',
     keys: [
@@ -99,7 +123,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'team',
     name: 'Équipe',
-    icon: '👥',
+    icon: Users,
     color: 'pink',
     description: 'Photos des membres de l\'équipe',
     keys: [
@@ -109,13 +133,14 @@ const IMAGE_GROUPS: ImageGroup[] = [
       'komi_sodoke',
       'louis_caron',
       'paul_farcas',
-      'jamel_hein'
+      'jamel_hein',
+      'nathalie_fontana'
     ]
   },
   {
     id: 'hire',
     name: 'Embaucher des talents',
-    icon: '💼',
+    icon: Briefcase,
     color: 'orange',
     description: 'Images de la page embauche',
     keys: [
@@ -131,7 +156,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'jobs',
     name: 'Trouver un emploi',
-    icon: '🔍',
+    icon: Search,
     color: 'yellow',
     description: 'Images de la page recherche d\'emploi',
     keys: [
@@ -147,7 +172,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'insights',
     name: 'Ressources & Insights',
-    icon: '📊',
+    icon: BarChart3,
     color: 'emerald',
     description: 'Guides salariaux et ressources',
     keys: [
@@ -171,7 +196,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'tools',
     name: 'Outils & Calculateurs',
-    icon: '🧮',
+    icon: Calculator,
     color: 'violet',
     description: 'Calculateurs et outils',
     keys: [
@@ -186,7 +211,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'partners',
     name: 'Partenaires',
-    icon: '🤝',
+    icon: Handshake,
     color: 'cyan',
     description: 'Logos des partenaires',
     keys: [
@@ -202,7 +227,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'icons',
     name: 'Icônes',
-    icon: '🎯',
+    icon: Target,
     color: 'red',
     description: 'Icônes et petites images',
     keys: [
@@ -227,7 +252,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'contact',
     name: 'Contact',
-    icon: '📧',
+    icon: Mail,
     color: 'gray',
     description: 'Images de la page contact',
     keys: [
@@ -241,7 +266,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
   {
     id: 'misc',
     name: 'Divers',
-    icon: '📦',
+    icon: Package,
     color: 'slate',
     description: 'Autres images',
     keys: [
@@ -262,13 +287,33 @@ const IMAGE_GROUPS: ImageGroup[] = [
   }
 ];
 
+/** Tous les groupes affichés : IMAGE_GROUPS + groupe dynamique "Non classés" (clés dans imagePathFinder mais pas dans les autres groupes) */
+function useDisplayGroups(): ImageGroup[] {
+  return useMemo(() => {
+    const allDefinedKeys = new Set(IMAGE_GROUPS.flatMap((g) => g.keys));
+    const imagePathKeys = Object.keys(imagePathFinder) as (keyof typeof imagePathFinder)[];
+    const uncategorizedKeys = imagePathKeys.filter((k) => typeof imagePathFinder[k] === 'string' && !allDefinedKeys.has(k));
+    const uncategorizedGroup: ImageGroup = {
+      id: 'uncategorized',
+      name: 'Non classés',
+      icon: Package,
+      color: 'slate',
+      description: 'Images ajoutées au site mais pas encore assignées à une catégorie',
+      keys: uncategorizedKeys,
+    };
+    return uncategorizedKeys.length > 0 ? [...IMAGE_GROUPS, uncategorizedGroup] : IMAGE_GROUPS;
+  }, []);
+}
+
 export default function MediaManagementPage() {
+  const displayGroups = useDisplayGroups();
   const [mediaAssets, setMediaAssets] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [editingImage, setEditingImage] = useState<{ key: string; media: MediaAsset | null } | null>(null);
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     fetchMedia();
@@ -288,6 +333,34 @@ export default function MediaManagementPage() {
       toast.error('Erreur lors du chargement des médias');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSyncMedia = async () => {
+    try {
+      setSyncing(true);
+      const response = await fetch('/api/admin/media/sync', { method: 'POST' });
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.error || 'Erreur lors de la synchronisation');
+        return;
+      }
+
+      if (data.added > 0) {
+        await fetchMedia();
+        toast.success(`Synchronisation terminée : ${data.added} nouveau(x) média(s) ajouté(s), ${data.skipped} déjà en base.`);
+      } else {
+        toast.success(`Aucun nouveau média. ${data.skipped} déjà en base.`);
+      }
+      if (data.errors?.length) {
+        toast.error(`${data.errors.length} erreur(s) : ${data.errors.slice(0, 2).join(', ')}${data.errors.length > 2 ? '...' : ''}`);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la synchronisation des médias:', error);
+      toast.error('Erreur lors de la synchronisation');
+    } finally {
+      setSyncing(false);
     }
   };
 
@@ -315,7 +388,7 @@ export default function MediaManagementPage() {
       formData.append('altText_fr', altTextFr || key);
       formData.append('altText_en', altTextEn || key);
 
-      const currentGroup = IMAGE_GROUPS.find(g => g.keys.includes(key));
+      const currentGroup = displayGroups.find(g => g.keys.includes(key));
       if (currentGroup) {
         formData.append('category', currentGroup.name);
       }
@@ -383,7 +456,7 @@ export default function MediaManagementPage() {
     return colors[color] || colors.blue;
   };
 
-  const selectedGroupData = IMAGE_GROUPS.find(g => g.id === selectedGroup);
+  const selectedGroupData = displayGroups.find(g => g.id === selectedGroup);
   const filteredKeys = selectedGroupData?.keys.filter(key =>
     key.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
@@ -402,7 +475,7 @@ export default function MediaManagementPage() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="w-full mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">
               Gestion des médias du site
@@ -413,16 +486,34 @@ export default function MediaManagementPage() {
                 : 'Sélectionnez une catégorie à gérer'}
             </p>
           </div>
-          <div className="text-sm text-gray-600">
-            {Object.keys(imagePathFinder).length} images disponibles
+          <div className="flex items-center gap-4">
+            <Button
+              variant="secondary"
+              onClick={handleSyncMedia}
+              disabled={syncing}
+              className="flex items-center gap-2"
+            >
+              {syncing ? (
+                <>
+                  <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  Synchronisation...
+                </>
+              ) : (
+                'Synchroniser les nouveaux médias'
+              )}
+            </Button>
+            <span className="text-sm text-gray-600">
+              {Object.keys(imagePathFinder).length} images disponibles
+            </span>
           </div>
         </div>
 
         {!selectedGroup ? (
           /* Grille des catégories */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {IMAGE_GROUPS.map((group) => {
+            {displayGroups.map((group) => {
               const colorClasses = getColorClasses(group.color);
+              const GroupIcon = group.icon;
 
               return (
                 <button
@@ -430,8 +521,10 @@ export default function MediaManagementPage() {
                   onClick={() => setSelectedGroup(group.id)}
                   className={`${colorClasses.bg} ${colorClasses.hover} ${colorClasses.border} border-2 rounded-lg p-6 text-left transition-all transform hover:scale-105 hover:shadow-lg`}
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="text-4xl">{group.icon}</div>
+                <div className="flex items-start justify-between mb-4">
+                    <div className={colorClasses.text}>
+                      <GroupIcon className="h-10 w-10" />
+                    </div>
                     <span className={`${colorClasses.text} text-sm font-semibold px-3 py-1 bg-white rounded-full`}>
                       {group.keys.length} images
                     </span>
@@ -505,8 +598,9 @@ export default function MediaManagementPage() {
                             </div>
                           )}
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all flex items-center justify-center">
-                            <span className="opacity-0 group-hover:opacity-100 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                              ✏️ Modifier
+                            <span className="opacity-0 group-hover:opacity-100 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium inline-flex items-center gap-2">
+                              <Pencil className="h-4 w-4" />
+                              Modifier
                             </span>
                           </div>
                         </>
@@ -708,7 +802,10 @@ function EditImageModal({
           <div className="space-y-4 mb-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                🇫🇷 Texte alternatif (français)
+                <span className="inline-flex items-center gap-2">
+                  <Languages className="h-4 w-4" />
+                  Texte alternatif (français)
+                </span>
               </label>
               <input
                 type="text"
@@ -722,7 +819,10 @@ function EditImageModal({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                🇬🇧 Texte alternatif (anglais)
+                <span className="inline-flex items-center gap-2">
+                  <Languages className="h-4 w-4" />
+                  Texte alternatif (anglais)
+                </span>
               </label>
               <input
                 type="text"
@@ -749,7 +849,10 @@ function EditImageModal({
                   Upload en cours...
                 </>
               ) : (
-                '💾 Sauvegarder'
+                <>
+                  <Save className="h-4 w-4 mr-2" />
+                  Sauvegarder
+                </>
               )}
             </Button>
             <Button

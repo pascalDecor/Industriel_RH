@@ -79,6 +79,9 @@ export default function Notices() {
                                     if (state) {
                                         setchangeCount(c => c + 1);
                                         setOpen(false);
+                                        if (typeof state === "object" && state.clearSearch) {
+                                            setSearch("");
+                                        }
                                     }
                                 }}
                                 />)}
@@ -93,9 +96,7 @@ export default function Notices() {
                     }
                     }
                 />
-
             </div>
-
         </div>
     )
 }

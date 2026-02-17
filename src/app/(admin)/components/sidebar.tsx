@@ -178,6 +178,12 @@ const getSidebarSections = (userRole: UserRole | null): SidebarSection[] => [
             href: "/media",
             color: "text-pink-500",
           },
+          {
+            label: "Membres de l'équipe",
+            leading: Users,
+            href: "/team-members",
+            color: "text-cyan-500",
+          },
         ]
       },
       {

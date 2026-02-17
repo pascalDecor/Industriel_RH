@@ -18,19 +18,24 @@ export default function ItemFonctions({ fonction, onChange }: Readonly<{ fonctio
 
     const [loadingDelete, setLoadingDelete] = useState(false);
     const [showEnglish, setShowEnglish] = useState(false);
-    const handleDelete = (id: string) => () => {
-        console.log("id", id);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
+
+    const executeDelete = () => {
         setLoadingDelete(true);
         HttpService.delete<Fonction>({
-            url: `/fonctions/${id}`,
+            url: `/fonctions/${fonction.id}`,
         }).then((res) => {
-            console.log(res);
             setLoadingDelete(false);
+            setConfirmDelete(false);
             if (res) {
                 onChange(res);
             }
-        })
-    }
+        }).catch(() => {
+            setLoadingDelete(false);
+            setConfirmDelete(false);
+        });
+    };
 
 
     return (
@@ -64,20 +69,71 @@ export default function ItemFonctions({ fonction, onChange }: Readonly<{ fonctio
             </div>
             <div className="flex space-x-2">
 
-                <Dialog>
-                    <DialogTrigger>
+                <Dialog open={editOpen} onOpenChange={setEditOpen}>
+                    <DialogTrigger asChild>
                         <Button title="Modifier" variant="success" size="sm" className="!rounded-full text-[11px] h-8 w-8 !bg-green-200 !text-green-700 !p-2">
                             <MdOutlineModeEditOutline className="h-5 w-5" />
                         </Button>
                     </DialogTrigger>
                     <DialogContent>
-                        <AddFonctions sectorId={fonction.sectorId} fonction={fonction} onChange={onChange} />
+                        <AddFonctions
+                            sectorId={fonction.sectorId}
+                            fonction={fonction}
+                            onChange={(state) => {
+                                if (state) {
+                                    setEditOpen(false);
+                                    onChange(state);
+                                }
+                            }}
+                        />
                     </DialogContent>
                 </Dialog>
 
-                <Button loadingColor="red" isLoading={loadingDelete} onClick={handleDelete(fonction.id)} title="Supprimer" variant="danger" size="sm" className="!rounded-full text-[11px] h-8 w-8 !bg-red-200 !text-red-700 !p-2">
-                    {!loadingDelete && <LuTrash2 className="h-5 w-5" />}
-                </Button>
+                <Dialog open={confirmDelete} onOpenChange={setConfirmDelete}>
+                    <DialogTrigger asChild>
+                        <Button
+                            loadingColor="red"
+                            isLoading={loadingDelete}
+                            title="Supprimer"
+                            variant="danger"
+                            size="sm"
+                            className="!rounded-full text-[11px] h-8 w-8 !bg-red-200 !text-red-700 !p-2"
+                        >
+                            {!loadingDelete && <LuTrash2 className="h-5 w-5" />}
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-md">
+                        <h3 className="text-lg font-semibold text-slate-800 mb-2">Supprimer la fonction</h3>
+                        <p className="text-sm text-slate-600 mb-3">
+                            Êtes-vous sûr de vouloir supprimer cette fonction ? Cette action est irréversible.
+                        </p>
+                        <p className="text-sm text-slate-600 mb-2">
+                            Fonction : <strong className="text-slate-800">{fonction.libelle}</strong>
+                        </p>
+                        <div className="flex justify-end gap-2">
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => setConfirmDelete(false)}
+                                disabled={loadingDelete}
+                            >
+                                Annuler
+                            </Button>
+                            <Button
+                                variant="danger"
+                                size="sm"
+                                onClick={executeDelete}
+                                disabled={loadingDelete}
+                            >
+                                {loadingDelete ? (
+                                    <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" />
+                                ) : (
+                                    "Supprimer"
+                                )}
+                            </Button>
+                        </div>
+                    </DialogContent>
+                </Dialog>
             </div>
 
         </Card>

@@ -42,6 +42,8 @@ export const GET = async (request: NextRequest, context: { params: Promise<{ id:
                     description: true,
                     description_en: true,
                     alternativeDescriptions: true,
+                    isActive: true,
+                    isDefaultConsultingSolutions: true,
                     createdAt: true,
                     updatedAt: true,
                     // Compter les relations
@@ -178,15 +180,26 @@ export const PUT = async (req: Request, context: { params: Promise<{ id: string 
         } catch (parseError) {
             return NextResponse.json({ error: 'Données JSON invalides' }, { status: 400 });
         }
+        const dataUpdate: Record<string, unknown> = {
+            libelle: data.libelle.trim(),
+            description: data.description || null,
+            libelle_en: data.libelle_en || null,
+            description_en: data.description_en || null,
+            alternativeDescriptions: Array.isArray(data.alternativeDescriptions) ? data.alternativeDescriptions : [],
+            ...(typeof data.isActive === 'boolean' && { isActive: data.isActive }),
+        };
+        if (typeof data.isDefaultConsultingSolutions === 'boolean') {
+            dataUpdate.isDefaultConsultingSolutions = data.isDefaultConsultingSolutions;
+            if (data.isDefaultConsultingSolutions) {
+                await prisma.sector.updateMany({
+                    where: { id: { not: id } },
+                    data: { isDefaultConsultingSolutions: false },
+                });
+            }
+        }
         const updated = await prisma.sector.update({
             where: { id: id },
-            data: { 
-                libelle: data.libelle.trim(),
-                description: data.description || null,
-                libelle_en: data.libelle_en || null,
-                description_en: data.description_en || null,
-                alternativeDescriptions: Array.isArray(data.alternativeDescriptions) ? data.alternativeDescriptions : []
-            }
+            data: dataUpdate as any,
         });
 
         // Invalider le cache
@@ -210,6 +223,60 @@ export const PUT = async (req: Request, context: { params: Promise<{ id: string 
     }
 };
 
+export const PATCH = async (req: Request, context: { params: Promise<{ id: string }> }) => {
+    try {
+        let id: string;
+        try {
+            const params = await context.params;
+            id = params.id;
+            if (!id || typeof id !== 'string' || id.trim() === '') {
+                return NextResponse.json({ error: 'ID du secteur invalide' }, { status: 400 });
+            }
+        } catch {
+            return NextResponse.json({ error: 'Paramètres de requête invalides' }, { status: 400 });
+        }
+
+        const body = await req.json();
+        if (typeof body.isActive !== 'boolean') {
+            return NextResponse.json({ error: 'isActive (boolean) requis' }, { status: 400 });
+        }
+
+        // Empêcher la désactivation du secteur par défaut
+        const existing = await prisma.sector.findUnique({
+            where: { id },
+            select: { isDefaultConsultingSolutions: true, isActive: true },
+        });
+
+        if (!existing) {
+            return NextResponse.json({ error: 'Secteur introuvable' }, { status: 404 });
+        }
+
+        if (existing.isDefaultConsultingSolutions && existing.isActive && body.isActive === false) {
+            return NextResponse.json(
+                { error: "Le secteur par défaut ne peut pas être désactivé. Définissez d'abord un autre secteur par défaut." },
+                { status: 400 }
+            );
+        }
+
+        const updated = await prisma.sector.update({
+            where: { id },
+            data: { isActive: body.isActive },
+        });
+
+        const keysToDelete = Array.from(sectorCache.keys()).filter(key =>
+            key.startsWith('sector:') || key.includes(id)
+        );
+        keysToDelete.forEach(key => sectorCache.delete(key));
+
+        return NextResponse.json(updated, { status: 200 });
+    } catch (error) {
+        console.error('PATCH sector isActive:', error);
+        return NextResponse.json({
+            error: error instanceof Error ? error.message : 'Erreur inconnue',
+        }, { status: 500 });
+    }
+};
+
 export const DELETE = async (_req: Request, context: { params: Promise<{ id: string }> }) => {
     try {
         // Gestion sécurisée des paramètres
@@ -224,8 +291,24 @@ export const DELETE = async (_req: Request, context: { params: Promise<{ id: str
         } catch (error) {
             return NextResponse.json({ error: 'Paramètres de requête invalides' }, { status: 400 });
         }
-        await prisma.sector.delete({
-            where: { id: id },
+
+        // Suppression en cascade : d'abord les enregistrements liés, puis le secteur
+        await prisma.$transaction(async (tx) => {
+            // Hire a une relation many-to-many avec Sector : déconnecter le secteur des hires
+            const hiresWithSector = await tx.hire.findMany({
+                where: { sectors: { some: { id } } },
+                select: { id: true },
+            });
+            for (const hire of hiresWithSector) {
+                await tx.hire.update({
+                    where: { id: hire.id },
+                    data: { sectors: { disconnect: [{ id }] } },
+                });
+            }
+            await tx.application.deleteMany({ where: { sectorId: id } });
+            await tx.function.deleteMany({ where: { sectorId: id } });
+            await tx.sectionUI.deleteMany({ where: { sectorId: id } });
+            await tx.sector.delete({ where: { id } });
         });
 
         // Invalider le cache
