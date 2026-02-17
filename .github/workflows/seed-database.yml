@@ -33,6 +33,16 @@ jobs:
       - name: Build seed (TS → CJS)
         run: npm run build:seed
 
+      - name: Upload seed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: seed-build
+          path: |
+            prisma-seed
+            prisma
+            package.json
+          retention-days: 2
+
       - name: Copy prisma-seed, prisma and package.json to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
