@@ -7,6 +7,7 @@ import { Sector } from "@/models/sector";
 import { LoadingSpinner } from "@/lib/load.helper";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { useState } from "react";
+import { redirect } from "next/navigation";
 
 
 export function FindJobsExpandedNavbar({ sectors }: { sectors: Sector[] }) {
@@ -21,7 +22,7 @@ export function FindJobsExpandedNavbar({ sectors }: { sectors: Sector[] }) {
           <p className="text-gray-500 text-sm mb-5">
             {t('find_jobs.nav.control_career')}
           </p>
-          <Button variant="primary" size="md" onClick={() => null} className="!rounded-full text-sm px-10">
+          <Button variant="primary" size="md" onClick={() => redirect("/find-jobs")} className="!rounded-full text-sm px-10">
             {t('find_jobs.nav.find_next_job')}
           </Button>
         </div>

@@ -3,7 +3,7 @@ import prisma from '@/lib/connect_db';
 import { withQuery } from "@/lib/prisma/helpers";
 import { Article } from "@prisma/client";
 
-export const GET = withQuery<Article, typeof prisma.article>(
+const getArticles = withQuery<Article, typeof prisma.article>(
     prisma.article,
     {
         searchFields: ['titre'],
@@ -116,14 +116,22 @@ export const GET = withQuery<Article, typeof prisma.article>(
                 value: 'true'
             },
         },
+        // Désactivation du cache pour éviter des listes d'articles périmées
         cache: {
-            enabled: true,
-            ttlMs: 5 * 60 * 1000, // 5 minutes
-            maxSize: 100,
+            enabled: false,
+            ttlMs: 0,
+            maxSize: 0,
             keyPrefix: 'articles'
         }
     }
 )
+
+export const GET = async (req: Request) => {
+    const res = await getArticles(req);
+    // Évite toute mise en cache (navigateur / proxy)
+    res.headers.set('Cache-Control', 'no-store, max-age=0');
+    return res;
+};
 
 
 // export const POST = async (req: Request) => {

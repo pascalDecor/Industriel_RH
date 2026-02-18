@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import prisma from '@/lib/connect_db';
 import { withQuery } from "@/lib/prisma/helpers";
 import { Hire } from "@prisma/client";
+import { validateRecaptcha } from '@/lib/recaptcha';
 
 export const GET = withQuery<Hire, typeof prisma.hire>(
     prisma.hire,
@@ -16,9 +17,25 @@ export const GET = withQuery<Hire, typeof prisma.hire>(
 
 export const POST = async (req: Request) => {
     try {
-        const data = await req.json();
-         data.details_of_positions = [data.details_of_positions];
-         console.log("data", data);
+        const { recaptchaToken, ...data } = await req.json();
+
+        if (!recaptchaToken) {
+            return NextResponse.json(
+                { message: 'reCAPTCHA token is required' },
+                { status: 400 }
+            );
+        }
+
+        const recaptchaResult = await validateRecaptcha(recaptchaToken, 'hiring_form');
+        if (!recaptchaResult.success) {
+            return NextResponse.json(
+                { message: 'reCAPTCHA validation failed. Please try again.' },
+                { status: 400 }
+            );
+        }
+
+        data.details_of_positions = [data.details_of_positions];
+        console.log("data", data);
         const hireCreated = await prisma.hire.create({
             data: data,
         });

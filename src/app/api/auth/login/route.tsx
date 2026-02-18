@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import { sendMail } from '@/lib/mail';
 import { loginRateLimit, getRequestIdentifier, checkRateLimit } from '@/lib/rateLimit';
 import { logLoginFailed, logRateLimitExceeded, securityLogger, SecurityEventType, SecurityLevel } from '@/lib/securityLogger';
+import { validateRecaptcha } from '@/lib/recaptcha';
 
 export const POST = async (req: Request) => {
     try {
@@ -31,7 +32,23 @@ export const POST = async (req: Request) => {
             );
         }
 
-        const { email, password } = await req.json();
+        const { email, password, recaptchaToken } = await req.json();
+
+        // Validation reCAPTCHA côté serveur (via route login)
+        if (!recaptchaToken) {
+            return NextResponse.json(
+                { message: 'reCAPTCHA token is required' },
+                { status: 400 }
+            );
+        }
+
+        const recaptchaResult = await validateRecaptcha(recaptchaToken, 'login_form');
+        if (!recaptchaResult.success) {
+            return NextResponse.json(
+                { message: 'reCAPTCHA validation failed. Please try again.' },
+                { status: 400 }
+            );
+        }
 
         // Récupérer l'utilisateur correspondant à l'email
         const user = await prisma.user.findUnique({

@@ -11,15 +11,18 @@ import { toast } from "sonner";
 
 export async function useLogin({
   email,
-  password
+  password,
+  recaptchaToken,
 }: {
   email: string;
   password: string;
+  recaptchaToken?: string;
 }): Promise<any> {
   try {
     const response = await axios.post(`${baseApiURL}/auth/login`, {
       email,
-      password
+      password,
+      recaptchaToken,
     });
     if (response.status === 200 || response.status === 201) {
       toast.success(response.data.message, {

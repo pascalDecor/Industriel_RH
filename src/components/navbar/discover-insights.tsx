@@ -94,21 +94,9 @@ export function DiscoverInsightsExpandedNavbar({ sectors }: { sectors: Sector[] 
             ) : (
               // Fallback statique en cas d'erreur ou pas d'articles
               <>
-                <Link href={"/find-jobs"} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
-                  {t('discover_insights.navbar.topics.salary_trends')}
-                </Link>
-                <Link href={"/find-jobs"} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
-                  {t('discover_insights.navbar.topics.adaptive_working')}
-                </Link>
-                <Link href={"/find-jobs"} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
-                  {t('discover_insights.navbar.topics.competitive_advantage')}
-                </Link>
-                <Link href={"/find-jobs"} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
-                  {t('discover_insights.navbar.topics.work_life_balance')}
-                </Link>
-                <Link href={"/find-jobs"} className="text-gray-500 text-sm hover:text-blue-600 transition-colors">
-                  {t('discover_insights.navbar.topics.diversity_inclusion')}
-                </Link>
+                <p className="text-gray-500 text-sm">
+                  {t('discover_insights.navbar.no_trending')}
+                </p>
               </>
             )}
           </div>

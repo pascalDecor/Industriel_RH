@@ -16,9 +16,9 @@ export async function validateRecaptcha(
   "error-codes"?: string[];
 }> {
   // En développement/local, on évite d'appeler l'API Google pour faciliter les tests
-  if (process.env.NODE_ENV !== "production") {
-    return { success: true };
-  }
+  // if (process.env.NODE_ENV !== "production") {
+  //   return { success: true };
+  // }
 
   const secretKey = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
 
@@ -50,6 +50,8 @@ export async function validateRecaptcha(
     );
 
     const data = await response.json();
+
+    console.log("data recaptcha", data);
 
     // For reCAPTCHA v3, check if score is above threshold (0.5 is recommended)
     if (data.success && data.score !== undefined) {

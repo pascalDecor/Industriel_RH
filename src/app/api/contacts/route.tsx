@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { Contact } from '@prisma/client';
 import { withQuery } from "@/lib/prisma/helpers";
 import prisma from "@/lib/connect_db";
-
+import { validateRecaptcha } from '@/lib/recaptcha';
 
 
 export const GET = withQuery<Contact, typeof prisma.contact>(
@@ -17,7 +17,23 @@ export const GET = withQuery<Contact, typeof prisma.contact>(
 
 export const POST = async (req: Request) => {
   try {
-    const data = await req.json();
+    const { recaptchaToken, ...data } = await req.json();
+
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { message: 'reCAPTCHA token is required' },
+        { status: 400 }
+      );
+    }
+
+    const recaptchaResult = await validateRecaptcha(recaptchaToken, 'contact_form');
+    if (!recaptchaResult.success) {
+      return NextResponse.json(
+        { message: 'reCAPTCHA validation failed. Please try again.' },
+        { status: 400 }
+      );
+    }
+
     const contactCreated = await prisma.contact.create({
       data: {
         firstName: data.firstName,
@@ -38,5 +54,4 @@ export const POST = async (req: Request) => {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
-
 

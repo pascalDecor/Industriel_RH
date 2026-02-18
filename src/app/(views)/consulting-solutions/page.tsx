@@ -654,11 +654,11 @@ export default function ConsultingSolutions() {
     {hasRecentArticles && (
     <section>
 
-    <h2 className="text-2xl sm:text-3xl font-semibold text my-8 sm:my-14 text-gray-800 text-center">
+    <h2 className="text-2xl sm:text-3xl font-semibold text mt-8 mb-7 sm:mt-14 text-gray-800 text-center">
     {t('blog.recent_articles')}
       </h2>
 
-      <div className="flex flex-wrap mb-10 mt-12 sm:mt-20 mx-auto items-center justify-center px-4 gap-2">
+      <div className="flex flex-wrap mb-10 mt-0 mx-auto items-center justify-center px-4 gap-2">
         {tabsType.map((tab) => (
           <button
             key={tab.id}
@@ -713,7 +713,7 @@ export default function ConsultingSolutions() {
       </div>
     </section>}
     <div className="absolute mt-100" id="move_your_career_forward"></div>
-    <div className="flex items-center justify-center px-4">
+    <div className={"flex items-center justify-center px-4" + (!hasRecentArticles && sector?.isDefaultConsultingSolutions ? " -mt-10" : "")}>
       {tabsForm.map((tab) => (
         <button
           key={tab.id}
@@ -732,21 +732,20 @@ export default function ConsultingSolutions() {
     {/*  Explore success stories   */}
     <ExploreSuccessStories className="bg-white" />
 
+    {hasRecentArticles && (
+      <section className="mx-auto w-lvw mb-10 p-10">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-2xl sm:text-3xl font-semibold text mb-20 text-black text-center"
+        >
+          {t('consulting.hiring_trends.title')}
+        </motion.h2>
 
-    <section className="mx-auto w-lvw mb-10 p-10 ">
-
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="text-2xl sm:text-3xl font-semibold text mb-20 text-black text-center"
-      >
-        {t('consulting.hiring_trends.title')}
-      </motion.h2>
-
-
-      <HiringTrendsArticles limit={4} />
-    </section>
+        <HiringTrendsArticles limit={4} />
+      </section>
+    )}
   </>
 }

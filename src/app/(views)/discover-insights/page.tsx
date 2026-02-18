@@ -340,33 +340,33 @@ export default function DiscoverInsights() {
       </div>
     </section>
     {/* Articles en vedette */}
-    <section className="mx-auto w-full mb-10 px-4 md:px-6 lg:px-10 py-10">
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="text-2xl sm:text-3xl font-semibold text mb-10 md:mb-20 text-black text-center"
-      >
-        {t('discover_insights.featured.title')}
-      </motion.h2>
+    {featuredArticles.length > 0 && (
+      <section className="mx-auto w-full mb-10 px-4 md:px-6 lg:px-10 py-10">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-2xl sm:text-3xl font-semibold text mb-10 md:mb-20 text-black text-center"
+        >
+          {t('discover_insights.featured.title')}
+        </motion.h2>
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={{
-          hidden: {},
-          visible: {
-            transition: {
-              staggerChildren: 0.15
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.15
+              }
             }
-          }
-        }}
-        className="max-w-5xl mb-10 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left"
-      >
-        {featuredArticles.length > 0 ? (
-          featuredArticles.slice(0, 3).map((article, index) => (
+          }}
+          className="max-w-5xl mb-10 mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 text-left"
+        >
+          {featuredArticles.slice(0, 3).map((article) => (
             <motion.div
               key={article.id}
               variants={{
@@ -411,30 +411,16 @@ export default function DiscoverInsights() {
                 </div>
               </div>
             </motion.div>
-          ))
-        ) : (
-          // Loading placeholder avec animate-pulse si pas d'articles dynamiques
-          <>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="w-full">
-                <div className="bg-white rounded-lg p-0 shadow-xl overflow-hidden h-full animate-pulse">
-                  <div className="w-full h-48 bg-gray-200"></div>
-                  <div className="p-5">
-                    <div className="h-4 bg-gray-200 rounded mb-5 w-3/4"></div>
-                    <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </>
-        )}
-      </motion.div>
-    </section>
+          ))}
+        </motion.div>
+      </section>
+    )}
 
 
     {/* Articles avec filtres */}
     <div className="absolute -mt-400" id="refine_your_focus"></div>
+        {/* Newsletter CTA - affichée seulement s'il y a au moins un article */}
+        {(featuredArticles.length > 0 || articles.length > 0) && (
     <section className="mx-auto w-full mb-10 px-4 md:px-6 lg:px-10 py-10 bg-gray-200 text-center">
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
@@ -633,29 +619,31 @@ export default function DiscoverInsights() {
         </div>
       </div>
     </section>
+    )}
 
-    {/* Newsletter CTA */}
-    <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
-      <div className="w-full bg-blue-900 bg-[url(/images/bg_blue.png)] bg-cover bg-center py-10 md:py-15 px-6 md:px-12 lg:px-20 rounded-2xl md:rounded-4xl border">
-        <p className="font-medium text-xl md:text-3xl text-center mb-4 text-white">
-          {t('discover_insights.newsletter.title')}
-        </p>
 
-        <div className="flex mt-5 align-center items-center mx-auto w-fit">
-          <Button
-            variant="dark"
-            size="md"
-            onClick={() => {
-              const element = document.getElementById('newsletter-section');
-              element?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="!rounded-full px-8 md:px-10 py-3 text-sm mx-auto mt-6 md:mt-10 w-fit whitespace-nowrap"
-          >
-            {t('discover_insights.newsletter.cta')}
-          </Button>
+      <section className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">
+        <div className="w-full bg-blue-900 bg-[url(/images/bg_blue.png)] bg-cover bg-center py-10 md:py-15 px-6 md:px-12 lg:px-20 rounded-2xl md:rounded-4xl border">
+          <p className="font-medium text-xl md:text-3xl text-center mb-4 text-white">
+            {t('discover_insights.newsletter.title')}
+          </p>
+
+          <div className="flex mt-5 align-center items-center mx-auto w-fit">
+            <Button
+              variant="dark"
+              size="md"
+              onClick={() => {
+                const element = document.getElementById('newsletter-section');
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="!rounded-full px-8 md:px-10 py-3 text-sm mx-auto mt-6 md:mt-10 w-fit whitespace-nowrap"
+            >
+              {t('discover_insights.newsletter.cta')}
+            </Button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    
 
     {/* Newsletter Subscription */}
     <section id="newsletter-section" className="mx-auto max-w-5xl mb-10 px-4 md:px-6 lg:px-10 py-10">

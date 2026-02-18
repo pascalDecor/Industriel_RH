@@ -1,7 +1,6 @@
 "use client";
 
 import { FormStateAddConntact } from '@/lib/definitions';
-import { validateRecaptcha } from '@/lib/recaptcha';
 import { Contact } from '@/models/contact';
 import { HttpService } from '@/utils/http.services';
 import z from 'zod';
@@ -57,34 +56,9 @@ export async function addContact(state: FormStateAddConntact, formData: FormData
     }
 
     else {
-        // Validate reCAPTCHA token server-side (appel direct pour éviter fetch relative en prod)
-        try {
-            const recaptchaResult = await validateRecaptcha(
-                validatedFields.data.recaptchaToken,
-                'contact_form'
-            );
-            if (!recaptchaResult.success) {
-                return {
-                    errors: {
-                        recaptchaToken: ['reCAPTCHA validation failed. Please try again.'],
-                    },
-                };
-            }
-        } catch (error) {
-            console.error('reCAPTCHA verification error:', error);
-            return {
-                errors: {
-                    recaptchaToken: ['reCAPTCHA verification error. Please try again.'],
-                },
-            };
-        }
-
-        // Remove recaptchaToken from data before sending to API
-        const { recaptchaToken, ...contactData } = validatedFields.data;
-
         const temp = await HttpService.add<Contact>({
             url: "/contacts",
-            data: contactData,
+            data: validatedFields.data,
         }).then((res) => {
             console.log(res);
             return res;

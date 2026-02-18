@@ -2,7 +2,6 @@
 
 import { baseApiURL, uploadApiURL } from '@/constant/api';
 import { Hire } from '@/models/hire';
-import { validateRecaptcha } from '@/lib/recaptcha';
 import { HttpService } from '@/utils/http.services'
 import { z } from 'zod';
 
@@ -105,27 +104,6 @@ export async function addHire(state: FormStateAddHire, formData: FormData) {
         }
     }
     else {
-        // Validate reCAPTCHA token server-side (appel direct pour éviter fetch relative en prod)
-        try {
-            const recaptchaResult = await validateRecaptcha(
-                validatedFields.data.recaptchaToken,
-                'hiring_form'
-            );
-            if (!recaptchaResult.success) {
-                return {
-                    errors: {
-                        recaptchaToken: ['reCAPTCHA validation failed. Please try again.'],
-                    },
-                };
-            }
-        } catch (error) {
-            console.error('reCAPTCHA verification error:', error);
-            return {
-                errors: {
-                    recaptchaToken: ['reCAPTCHA verification error. Please try again.'],
-                },
-            };
-        }
         // Upload cv
         if (documentSupport.size > 0) {
             const formDataImage = new FormData();
@@ -141,15 +119,12 @@ export async function addHire(state: FormStateAddHire, formData: FormData) {
         }
         // 
 
-         validatedFields.data.details_of_positions = details_of_positions;
-
-        // Remove recaptchaToken from data before sending to API
-        const { recaptchaToken, ...hireData } = validatedFields.data;
+        validatedFields.data.details_of_positions = details_of_positions;
 
         if (documentSupportPath.startsWith("http")) {
             const temp = await HttpService.add<Hire>({
                 url: "/hires",
-                data: {...hireData, document_support: documentSupportPath},
+                data: { ...validatedFields.data, document_support: documentSupportPath },
             }).then((res) => {
                 console.log(res);
                 return res;

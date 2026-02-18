@@ -3,7 +3,6 @@
 import { baseApiURL, uploadApiURL } from '@/constant/api';
 import { FormStateAddApplication, AddApplicationFormSchema, } from '@/lib/definitions'
 import { Application } from '@/models/application';
-import { validateRecaptcha } from '@/lib/recaptcha';
 import { HttpService } from '@/utils/http.services'
 import { z } from 'zod';
 
@@ -49,28 +48,6 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
         }
     }
     else {
-        // Validate reCAPTCHA token server-side (appel direct pour éviter fetch relative en prod)
-        try {
-            const recaptchaResult = await validateRecaptcha(
-                validatedFields.data.recaptchaToken,
-                'application_form'
-            );
-            if (!recaptchaResult.success) {
-                return {
-                    errors: {
-                        recaptchaToken: ['reCAPTCHA validation failed. Please try again.'],
-                    },
-                };
-            }
-        } catch (error) {
-            console.error('reCAPTCHA verification error:', error);
-            return {
-                errors: {
-                    recaptchaToken: ['reCAPTCHA verification error. Please try again.'],
-                },
-            };
-        }
-
         // Upload cv
         if (fileCv.size > 0) {
             const formDataImage = new FormData();
@@ -100,12 +77,9 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
         }
         //
         if (imageCvPath.startsWith("http") && imageLetterPath.startsWith("http")) {
-            // Remove recaptchaToken from data before sending to API
-            const { recaptchaToken, ...applicationData } = validatedFields.data;
-
             const temp = await HttpService.add<Application>({
                 url: "/applications",
-                data: applicationData,
+                data: validatedFields.data,
             }).then((res) => {
                 console.log(res);
                 return res;
