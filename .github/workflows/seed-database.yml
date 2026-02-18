@@ -64,6 +64,7 @@ jobs:
           port: ${{ secrets.VPS_PORT || 22 }}
           envs: DATABASE_URL
           script: |
+            set -euo pipefail
             echo "📌 Running database seed on server..."
             cd ${{ secrets.VPS_DEPLOY_PATH || '/home/deploy/Industriel_RH' }}
             source ~/.nvm/nvm.sh 2>/dev/null || true
