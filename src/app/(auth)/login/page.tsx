@@ -36,8 +36,9 @@ function LoginForm() {
 
         try {
             // Generate reCAPTCHA token
+            console.log('avant executeRecaptcha');
             const token = await executeRecaptcha('login_form');
-
+            console.log("après executeRecaptcha", token);
             // Create FormData and add the token
             const formData = new FormData(form);
             formData.set('recaptchaToken', token);
