@@ -3,6 +3,7 @@
 import { baseApiURL, uploadApiURL } from '@/constant/api';
 import { FormStateAddApplication, AddApplicationFormSchema, } from '@/lib/definitions'
 import { Application } from '@/models/application';
+import { validateRecaptcha } from '@/lib/recaptcha';
 import { HttpService } from '@/utils/http.services'
 import { z } from 'zod';
 
@@ -48,22 +49,13 @@ export async function addCandidature(state: FormStateAddApplication, formData: F
         }
     }
     else {
-        // Validate reCAPTCHA token server-side
+        // Validate reCAPTCHA token server-side (appel direct pour éviter fetch relative en prod)
         try {
-            const recaptchaResponse = await fetch('/api/verify-recaptcha', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    token: validatedFields.data.recaptchaToken,
-                    action: 'application_form',
-                }),
-            });
-
-            const recaptchaData = await recaptchaResponse.json();
-
-            if (!recaptchaData.success) {
+            const recaptchaResult = await validateRecaptcha(
+                validatedFields.data.recaptchaToken,
+                'application_form'
+            );
+            if (!recaptchaResult.success) {
                 return {
                     errors: {
                         recaptchaToken: ['reCAPTCHA validation failed. Please try again.'],

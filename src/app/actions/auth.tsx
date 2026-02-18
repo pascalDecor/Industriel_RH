@@ -2,6 +2,7 @@
 
 import { useLogin, useLoginOTP } from '@/hooks/useLogin'
 import { SignUpFormSchema, FormState, FormStateOTP, SignUpOTPFormSchema } from '@/lib/definitions'
+import { validateRecaptcha } from '@/lib/recaptcha'
 import { LocalStorageHelper } from '@/utils/localStorage.helper';
 
 export async function signUp(state: FormState, formData: FormData) {
@@ -20,23 +21,14 @@ export async function signUp(state: FormState, formData: FormData) {
     }
 
     else {
-        // Validate reCAPTCHA token server-side
+        // Validate reCAPTCHA token server-side (appel direct pour éviter fetch relative en prod)
         if (validatedFields.data.recaptchaToken) {
             try {
-                const recaptchaResponse = await fetch('/api/verify-recaptcha', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        token: validatedFields.data.recaptchaToken,
-                        action: 'login_form',
-                    }),
-                });
-
-                const recaptchaData = await recaptchaResponse.json();
-
-                if (!recaptchaData.success) {
+                const recaptchaResult = await validateRecaptcha(
+                    validatedFields.data.recaptchaToken,
+                    'login_form'
+                );
+                if (!recaptchaResult.success) {
                     return {
                         errors: {
                             recaptchaToken: ['reCAPTCHA validation failed. Please try again.'],
