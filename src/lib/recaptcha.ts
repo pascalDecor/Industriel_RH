@@ -6,42 +6,47 @@
  */
 export async function validateRecaptcha(
   token: string,
-  action?: string
+  action?: string,
 ): Promise<{
   success: boolean;
   score?: number;
   action?: string;
   challenge_ts?: string;
   hostname?: string;
-  'error-codes'?: string[];
+  "error-codes"?: string[];
 }> {
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  // En développement/local, on évite d'appeler l'API Google pour faciliter les tests
+  if (process.env.NODE_ENV !== "production") {
+    return { success: true };
+  }
+
+  const secretKey = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
 
   if (!secretKey) {
-    console.error('RECAPTCHA_SECRET_KEY is not defined');
+    console.error("NEXT_PUBLIC_RECAPTCHA_SECRET_KEY is not defined");
     return {
       success: false,
-      'error-codes': ['missing-secret-key'],
+      "error-codes": ["missing-secret-key"],
     };
   }
 
   if (!token) {
     return {
       success: false,
-      'error-codes': ['missing-input-response'],
+      "error-codes": ["missing-input-response"],
     };
   }
 
   try {
     const response = await fetch(
-      'https://www.google.com/recaptcha/api/siteverify',
+      "https://www.google.com/recaptcha/api/siteverify",
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          "Content-Type": "application/x-www-form-urlencoded",
         },
         body: `secret=${secretKey}&response=${token}`,
-      }
+      },
     );
 
     const data = await response.json();
@@ -54,7 +59,7 @@ export async function validateRecaptcha(
         return {
           ...data,
           success: false,
-          'error-codes': ['score-too-low'],
+          "error-codes": ["score-too-low"],
         };
       }
     }
@@ -62,21 +67,21 @@ export async function validateRecaptcha(
     // Optionally verify the action matches
     if (action && data.action && data.action !== action) {
       console.warn(
-        `reCAPTCHA action mismatch. Expected: ${action}, Got: ${data.action}`
+        `reCAPTCHA action mismatch. Expected: ${action}, Got: ${data.action}`,
       );
       return {
         ...data,
         success: false,
-        'error-codes': ['action-mismatch'],
+        "error-codes": ["action-mismatch"],
       };
     }
 
     return data;
   } catch (error) {
-    console.error('Error validating reCAPTCHA:', error);
+    console.error("Error validating reCAPTCHA:", error);
     return {
       success: false,
-      'error-codes': ['network-error'],
+      "error-codes": ["network-error"],
     };
   }
 }

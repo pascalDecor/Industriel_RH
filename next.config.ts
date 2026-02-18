@@ -45,6 +45,13 @@ const nextConfig: NextConfig = {
         // port: "443", // if you're using self-signed certificates
         pathname: "/**",
         search: ""
+      },
+      {
+        protocol: "https",
+        hostname: "google.com",
+        // port: "443", // if you're using self-signed certificates
+        pathname: "/**",
+        search: ""
       }
     ],
     formats: ["image/avif", "image/webp"],
