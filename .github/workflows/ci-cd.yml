@@ -156,4 +156,4 @@ jobs:
             pm2 delete industriel-rh || true
             pm2 start npm --name "industriel-rh" -- start
 
-            echo "✅ Déploiement terminé avec succès!"
+            echo "✅ Déploiement terminé avec succès !"
