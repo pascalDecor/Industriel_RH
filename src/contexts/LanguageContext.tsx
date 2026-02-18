@@ -899,6 +899,7 @@ const translations: Record<Language, Record<string, string>> = {
     'discover_insights.static.jobs_demand_desc': 'Explorez notre rapport sur la demande de talents qualifiés pour voir quelles spécialisations les employeurs recherchent le plus.',
     'discover_insights.static.engagement': 'Créer l\'engagement des employés',
     'discover_insights.static.engagement_desc': 'Attirez et retenez les meilleurs talents et améliorez votre rentabilité avec nos conseils pour la reconnaissance et les récompenses créatives des employés.',
+    'discover_insights.navbar.no_trending': 'Aucun article trouvé pour le moment',
     
     // Communs
     'common.views': 'vues',
@@ -1907,6 +1908,7 @@ const translations: Record<Language, Record<string, string>> = {
     'discover_insights.static.jobs_demand_desc': 'Explore our Demand for Skilled Talent report to see what specializations employers need most.',
     'discover_insights.static.engagement': 'Build employee engagement',
     'discover_insights.static.engagement_desc': 'Attract and retain top talent and boost your bottom line-with our tips for creative employee recognition and rewards.',
+    'discover_insights.navbar.no_trending': 'No trending articles found at the moment',
     
     // Common
     'common.views': 'views',
