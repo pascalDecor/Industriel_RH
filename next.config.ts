@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://192.168.5.178:3000"
+    "http://192.168.5.178:3000",
+    "http://industriellerh.com"
   ],
   images: {
     remotePatterns: [
@@ -27,6 +28,13 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "industriel-rh.vercel.app",
+        // port: "443", // if you're using self-signed certificates
+        pathname: "/**",
+        search: ""
+      },
+      {
+        protocol: "https",
+        hostname: "industriellerh.com",
         // port: "443", // if you're using self-signed certificates
         pathname: "/**",
         search: ""
