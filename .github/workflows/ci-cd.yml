@@ -148,9 +148,7 @@ jobs:
             echo "✅ Build extrait sur le serveur"
 
             # Migrations Prisma (base locale sur le VPS)
-            npx prisma generate
-            npx prisma migrate status migrate
-            npx prisma migrate db push
+            npx prisma migrate deploy
 
             # Redémarrage PM2
             pm2 delete industriel-rh || true
