@@ -150,7 +150,7 @@ jobs:
             # Migrations Prisma (base locale sur le VPS)
             npx prisma generate
             npx prisma migrate status migrate
-            npx prisma migrate deploy
+            npx prisma migrate db push
 
             # Redémarrage PM2
             pm2 delete industriel-rh || true
