@@ -85,14 +85,6 @@ export async function PUT(
   { params }: { params: Promise<{ key: string }> }
 ) {
   try {
-    const supabase = getSupabaseAdminClient();
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Supabase is not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY).' },
-        { status: 500 }
-      );
-    }
-
     // Vérifier l'authentification et les permissions
     const authResult = await verifyAuth(request);
     if (!authResult.success || !authResult.user) {
@@ -133,58 +125,36 @@ export async function PUT(
       where: { key }
     });
 
-    // Upload du fichier vers Supabase Storage
-    const safeName = sanitizeFileName(file.name);
-    const safeCategory = category ? sanitizeFileName(category) : 'misc';
-    const storagePath = `media/${safeCategory}/${Date.now()}-${safeName}`;
-    const bucket = process.env.SUPABASE_BUCKET_NAME;
-    if (!bucket) {
+    // Déléguer l'upload à la route dédiée /api/upload
+    const uploadFormData = new FormData();
+    uploadFormData.append('image', file, file.name);
+    if (category) uploadFormData.append('category', category);
+
+    const uploadUrl = new URL('/api/upload', request.url);
+    const uploadResponse = await fetch(uploadUrl.toString(), {
+      method: 'POST',
+      body: uploadFormData,
+    });
+
+    if (!uploadResponse.ok) {
+      const errorBody = await uploadResponse.text();
+      console.error('Erreur lors de l\'appel à /api/upload_vercel:', errorBody);
       return NextResponse.json(
-        { error: 'Supabase bucket is not configured (SUPABASE_BUCKET_NAME).' },
+        { error: 'Erreur lors de l\'upload du fichier via la route dédiée.' },
         { status: 500 }
       );
     }
 
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from(bucket)
-      .upload(storagePath, file, {
-        contentType: file.type,
-        cacheControl: '31536000',
-        upsert: true,
-      });
+    const uploadResult = await uploadResponse.json() as any;
+    const publicUrl: string | undefined =
+      uploadResult?.file?.url || uploadResult?.url;
 
-    if (uploadError) {
-      console.error('Erreur Supabase upload:', uploadError);
+    if (!publicUrl) {
+      console.error('Réponse inattendue de /api/upload_vercel:', uploadResult);
       return NextResponse.json(
-        { error: `Erreur d'upload: ${uploadError.message}` },
+        { error: 'Impossible de récupérer l\'URL publique du fichier.' },
         { status: 500 }
       );
-    }
-
-    // Récupérer l'URL publique
-    const { data: publicUrlData } = supabase.storage
-      .from(bucket)
-      .getPublicUrl(storagePath);
-
-    let publicUrl = publicUrlData.publicUrl;
-
-    // Vérifier si l'URL est relative (commence par /) et la convertir en URL absolue
-    if (publicUrl.startsWith('/')) {
-      publicUrl = `${process.env.SUPABASE_URL}${publicUrl}`;
-    }
-
-    console.log('📸 Public URL générée:', publicUrl);
-
-    // Si un média existait, supprimer l'ancien fichier du storage
-    if (existingMedia?.storagePath) {
-      try {
-        await supabase.storage
-          .from(bucket)
-          .remove([existingMedia.storagePath]);
-      } catch (error) {
-        console.error('Erreur lors de la suppression de l\'ancien fichier:', error);
-        // Continue même si la suppression échoue
-      }
     }
 
     // Créer ou mettre à jour le média dans la BD
@@ -193,8 +163,7 @@ export async function PUT(
       create: {
         key,
         category: category || null,
-        publicUrl: publicUrl,
-        storagePath: storagePath,
+        publicUrl,
         fileName: file.name,
         altText_fr: altText_fr || null,
         altText_en: altText_en || null,
@@ -206,8 +175,7 @@ export async function PUT(
         isActive: true
       },
       update: {
-        publicUrl: publicUrl,
-        storagePath: storagePath,
+        publicUrl,
         fileName: file.name,
         altText_fr: altText_fr || undefined,
         altText_en: altText_en || undefined,
