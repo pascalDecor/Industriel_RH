@@ -184,7 +184,8 @@ export async function PUT(
         priority: priority || undefined,
         description: description || undefined,
         category: category || undefined,
-        uploadedBy: user.id
+        uploadedBy: user.id,
+        isActive: true
       }
     });
 
