@@ -221,7 +221,7 @@ export async function PUT(
   } catch (error) {
     console.error('Erreur lors de l\'upload du média:', error);
     return NextResponse.json(
-      { error: 'Erreur interne du serveur' },
+      { error: 'Erreur lors de l\'upload du média: ' + error },
       { status: 500 }
     );
   }
