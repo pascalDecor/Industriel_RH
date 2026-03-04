@@ -13,11 +13,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: validation.error }, { status: 400 });
   }
 
-  const host = req.headers.get('host');
-  const protocol = req.headers.get('x-forwarded-proto') ?? 'http';
-  const baseUrl = `${protocol}://${host}`;
-
-  const result = await uploadToLocalPublicUploads(file, baseUrl);
+  const result = await uploadToLocalPublicUploads(file);
 
   return NextResponse.json({
     success: 1,

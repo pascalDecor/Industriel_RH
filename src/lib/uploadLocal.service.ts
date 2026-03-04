@@ -28,7 +28,7 @@ const sanitizeFileName = (name: string) =>
     .toLowerCase();
 
 export interface LocalUploadResult {
-  url: string;
+  url: string; // URL relative depuis la racine du site, ex: /uploads/xxx.png
 }
 
 export function validateLocalFile(file: File): { isValid: boolean; error?: string } {
@@ -50,8 +50,7 @@ export function validateLocalFile(file: File): { isValid: boolean; error?: strin
 }
 
 export async function uploadToLocalPublicUploads(
-  file: File,
-  baseUrl: string
+  file: File
 ): Promise<LocalUploadResult> {
   const validation = validateLocalFile(file);
   if (!validation.isValid) {
@@ -67,7 +66,9 @@ export async function uploadToLocalPublicUploads(
 
   await writeFile(filePath, buffer);
 
-  const fileUrl = `${baseUrl}/uploads/${filename}`;
+  // Next/Node sert automatiquement les fichiers dans public à partir de /
+  // Donc un fichier dans public/uploads/xxx est accessible via /uploads/xxx
+  const fileUrl = `/uploads/${filename}`;
 
   return { url: fileUrl };
 }

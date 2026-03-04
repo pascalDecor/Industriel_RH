@@ -127,11 +127,7 @@ export async function PUT(
     });
 
     // Upload direct sur le disque local (même logique que /api/upload)
-    const host = request.headers.get('host');
-    const protocol = request.headers.get('x-forwarded-proto') ?? 'http';
-    const baseUrl = `${protocol}://${host}`;
-
-    const uploadResult = await uploadToLocalPublicUploads(file, baseUrl);
+    const uploadResult = await uploadToLocalPublicUploads(file);
     const publicUrl = uploadResult.url;
 
     // Créer ou mettre à jour le média dans la BD
