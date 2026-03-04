@@ -62,7 +62,7 @@ export async function uploadToLocalPublicUploads(
   const safeName = sanitizeFileName(file.name);
   const filename = `${Date.now()}-${safeName}`;
   const uploadDir = path.join(process.cwd(), 'public/uploads');
-  // await mkdir(uploadDir, { recursive: true });
+  await mkdir(uploadDir, { recursive: true });
   const filePath = path.join(uploadDir, filename);
 
   await writeFile(filePath, buffer);
