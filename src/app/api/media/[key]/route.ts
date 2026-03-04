@@ -4,6 +4,7 @@ import { verifyAuth } from '@/lib/auth-middleware';
 import { hasPermission } from '@/lib/permissions/server-permissions';
 import { Permission, UserWithRole } from '@/types/server-auth';
 import { createClient } from '@supabase/supabase-js';
+import { uploadToLocalPublicUploads } from '@/lib/uploadLocal.service';
 
 function getSupabaseAdminClient() {
   const url = process.env.SUPABASE_URL;
@@ -125,37 +126,13 @@ export async function PUT(
       where: { key }
     });
 
-    // Déléguer l'upload à la route dédiée /api/upload
-    const uploadFormData = new FormData();
-    uploadFormData.append('image', file, file.name);
-    if (category) uploadFormData.append('category', category);
+    // Upload direct sur le disque local (même logique que /api/upload)
+    const host = request.headers.get('host');
+    const protocol = request.headers.get('x-forwarded-proto') ?? 'http';
+    const baseUrl = `${protocol}://${host}`;
 
-    const uploadUrl = new URL('/api/upload', request.url);
-    const uploadResponse = await fetch(uploadUrl.toString(), {
-      method: 'POST',
-      body: uploadFormData,
-    });
-
-    if (!uploadResponse.ok) {
-      const errorBody = await uploadResponse.text();
-      console.error('Erreur lors de l\'appel à /api/upload_vercel:', errorBody);
-      return NextResponse.json(
-        { error: 'Erreur lors de l\'upload du fichier via la route dédiée.' },
-        { status: 500 }
-      );
-    }
-
-    const uploadResult = await uploadResponse.json() as any;
-    const publicUrl: string | undefined =
-      uploadResult?.file?.url || uploadResult?.url;
-
-    if (!publicUrl) {
-      console.error('Réponse inattendue de /api/upload_vercel:', uploadResult);
-      return NextResponse.json(
-        { error: 'Impossible de récupérer l\'URL publique du fichier.' },
-        { status: 500 }
-      );
-    }
+    const uploadResult = await uploadToLocalPublicUploads(file, baseUrl);
+    const publicUrl = uploadResult.url;
 
     // Créer ou mettre à jour le média dans la BD
     const mediaAsset = await prisma.mediaAsset.upsert({
