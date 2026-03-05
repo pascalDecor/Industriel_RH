@@ -147,8 +147,9 @@ jobs:
             fi
 
             # Supprimer l'ancien build (fichiers parfois créés par PM2 avec permissions différentes)
+            # Ne pas supprimer public/ pour préserver public/uploads (fichiers uploadés par les utilisateurs)
             chmod -R u+rwX .next 2>/dev/null || true
-            rm -rf .next node_modules package.json package-lock.json public prisma prisma-seed || sudo rm -rf .next node_modules package.json package-lock.json public prisma prisma-seed
+            rm -rf .next node_modules package.json package-lock.json prisma prisma-seed || sudo rm -rf .next node_modules package.json package-lock.json prisma prisma-seed
 
             # Extraire le build
             tar -xzf "$TARBALL"
