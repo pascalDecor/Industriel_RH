@@ -131,7 +131,7 @@ export default function QuebecTaxCalculator() {
           </div>
           <div className="flex items-center justify-center">
             {section2?.image ? (
-              <Image loading="lazy" src={section2.image} width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
+              <Image loading="lazy" src={section2.image} width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" unoptimized={section2.image?.startsWith?.('/uploads/')} />
             ) : (
               <DynamicImage imageKey="trending_job_titles" alt="We Source the Talent" className="mb-4 mx-auto max-w-full h-auto" />
             )}

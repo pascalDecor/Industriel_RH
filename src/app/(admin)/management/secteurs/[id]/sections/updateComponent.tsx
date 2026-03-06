@@ -35,7 +35,7 @@ function SectionImageByKey({
 }) {
   const { src, isLoading } = useImage(imageKey, "fr");
   if (isLoading || !src) return <div className={`bg-slate-200 animate-pulse ${className || ""}`} style={{ width, height }} />;
-  return <Image loading="lazy" src={src} alt={alt} width={width} height={height} className={className} />;
+  return <Image loading="lazy" src={src} alt={alt} width={width} height={height} className={className} unoptimized={typeof src === 'string' && src.startsWith('/uploads/')} />;
 }
 
 /** Aperçu d'image de section : gère clé média (useImage) ou URL/path directe. */
@@ -59,7 +59,7 @@ export function SectionImagePreview({
   }
   const src = image || fallback;
   if (!src) return <div className={`bg-slate-200 animate-pulse ${className || ""}`} style={{ width, height }} />;
-  return <Image loading="lazy" src={src} alt={alt} width={width!} height={height!} className={className} />;
+  return <Image loading="lazy" src={src} alt={alt} width={width!} height={height!} className={className} unoptimized={typeof src === 'string' && src.startsWith('/uploads/')} />;
 }
 
 export function UpdateDescriptionSectorComponent({ section, onChange, libelle,libelle_en, value, value_en }: { section: Section, onChange: (state: any) => void, libelle: string, libelle_en: string, value: string, value_en: string | undefined }) {

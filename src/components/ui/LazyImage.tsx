@@ -26,6 +26,7 @@ export default function LazyImage({
 }: LazyImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const isLocalUpload = typeof src === 'string' && src.startsWith('/uploads/');
 
   return (
     <div className={`relative ${className}`}>
@@ -49,6 +50,7 @@ export default function LazyImage({
             setIsLoading(false);
           }}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          unoptimized={isLocalUpload}
         />
       ) : (
         <div className="bg-gray-300 flex items-center justify-center text-gray-500 text-sm">

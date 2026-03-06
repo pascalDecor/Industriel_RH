@@ -128,6 +128,9 @@ export function DynamicImage({
   // Si ni width ni height ne sont définis et qu'on n'utilise pas fill, utiliser fill par défaut
   const shouldFill = fill || (!imgWidth && !imgHeight);
 
+  // Images /uploads/ : URL directe (pas d'optimisation) pour éviter _next/image?url=... en prod
+  const isLocalUpload = typeof imageSrc === 'string' && imageSrc.startsWith('/uploads/');
+
   return (
     <div className={`relative ${isEditMode ? 'group' : ''} ${shouldFill && !className?.includes('w-') && !className?.includes('h-') ? 'w-full h-full' : ''}`}>
       <Image
@@ -143,6 +146,7 @@ export function DynamicImage({
         placeholder={placeholder}
         blurDataURL={blurDataURL}
         loading={loading}
+        unoptimized={isLocalUpload}
       />
 
       {isEditMode && (

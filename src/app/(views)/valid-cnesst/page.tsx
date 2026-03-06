@@ -135,7 +135,7 @@ export default function QuebecTaxCalculator() {
               </Button>
             </div>
             <div className="col-span-3 p-0">
-              <Image loading="lazy" src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="  We Source the Talent" className=" mb-4 mx-auto" />
+              <Image loading="lazy" src={section2?.image || imagePathFinder.trending_job_titles} width={500} height={500} alt="  We Source the Talent" className=" mb-4 mx-auto" unoptimized={typeof section2?.image === 'string' && section2.image.startsWith('/uploads/')} />
             </div>
           </div>
 
