@@ -65,7 +65,7 @@ export async function uploadToLocalPublicUploads(
   const filePath = path.join(uploadDir, filename);
 
   await writeFile(filePath, buffer); 
-
+ 
   // Next/Node sert automatiquement les fichiers dans public à partir de /
   // Donc un fichier dans public/uploads/xxx est accessible via /uploads/xxx
   const fileUrl = `/uploads/${filename}`;
