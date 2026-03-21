@@ -1,7 +1,6 @@
 
 "use client";
 
-import { DynamicImage } from "@/components/ui/DynamicImage";
 import { FiArrowRight } from "react-icons/fi";
 import Button from "./ui/button";
 import Image from 'next/image'
@@ -12,8 +11,8 @@ import { motion } from "framer-motion";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { LocalStorageHelper } from "@/utils/localStorage.helper";
 import { useRouter } from "next/navigation";
-import { useImage } from "@/hooks/useImage";
 import { imagePathFinder } from "@/utils/imagePathFinder";
+import { SectionImagePreview } from "@/components/media/SectionImagePreview";
 
 export default function AddSpecializedTalentAcrossYourOrganization() {
     const { t, language } = useTranslation();
@@ -35,6 +34,8 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
 
     const [sectorActive, setSectorActive] = useState<Sector | undefined>(undefined);
     const [sectors, setSectors] = useState<Sector[]>([]);
+
+    const sectorHomeImage = sectorActive?.sections?.find((s) => s.page === "home")?.image;
 
     useEffect(() => {
         HttpService.index<Sector>({ url: '/sectors', fromJson: (json: any) => Sector.fromJSON(json), })
@@ -77,7 +78,7 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                         {
                             sectorActive &&
                             sectors.map((s) =>
-                                <Button key={s.id} variant={sectorActive.id === s.id ? "dark" : "light"} size="md" onClick={() => handleClickSector(s)} className="!rounded-full text-xs sm:text-sm">
+                                <Button key={s.id} variant={sectorActive.id === s.id ? "dark" : "light"} size="md" onClick={() => handleClickSector(s)} className="rounded-full! text-xs sm:text-sm">
                                     {isFrench ? s.libelle : s.libelle_en}
                                 </Button>
                             )}
@@ -132,12 +133,12 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                     variant="light"
                                     size="md"
                                     onClick={() => handleClickFunction(sectorActive?.id ?? "")}
-                                    className="!rounded-full text-xs sm:text-sm border border-gray-300 !text-gray-500 flex items-center px-4 sm:px-6 lg:px-10 relative z-30 w-full sm:w-auto sm:mt-20"
+                                    className="rounded-full! text-xs sm:text-sm border border-gray-300 text-gray-500! flex items-center px-4 sm:px-6 lg:px-10 relative z-30 w-full sm:w-auto sm:mt-20"
                                 >
                                     <span className="flex-1 sm:flex-none">
                                         {t('specialized_talent.learn_more', { sector: sectorActive?.libelle || 'Manufacturing' })}
                                     </span>
-                                    <div className="bg-blue-700 p-1 rounded-full ml-2 sm:ml-3 flex-shrink-0">
+                                    <div className="bg-blue-700 p-1 rounded-full ml-2 sm:ml-3 shrink-0">
                                         <FiArrowRight className="text-white" />
                                     </div>
                                 </Button>
@@ -158,16 +159,16 @@ export default function AddSpecializedTalentAcrossYourOrganization() {
                                 alt="Background"
                                 className="absolute top-0 left-0 w-full h-full object-cover z-0 rounded-lg"
                             />
-                            {sectorActive &&
-                                <Image
-                                    loading="lazy"
-                                    src={sectorActive === undefined ? imagePathFinder.add_specialized_talent_across_your_organization : sectorActive.sections.filter((s) => s.page === "home")[0]?.image}
+                            {sectorActive && (
+                                <SectionImagePreview
+                                    image={sectorHomeImage}
+                                    fallback={imagePathFinder.add_specialized_talent_across_your_organization}
                                     width={500}
                                     height={500}
                                     alt="Sector illustration"
                                     className="relative z-10 w-full h-auto rounded-lg"
                                 />
-                            }
+                            )}
                         </motion.div>
                     </div>
 

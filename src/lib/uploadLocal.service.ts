@@ -2,13 +2,6 @@ import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
 const ALLOWED_FILE_TYPES = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/gif',
-  'image/webp',
-  'image/svg+xml',
-  'image/x-icon',
   'application/pdf',
   'application/vnd.ms-excel',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -32,10 +25,14 @@ export interface LocalUploadResult {
 }
 
 export function validateLocalFile(file: File): { isValid: boolean; error?: string } {
-  if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+  const isImage = typeof file.type === 'string' && file.type.toLowerCase().startsWith('image/');
+  const isAllowedDoc = ALLOWED_FILE_TYPES.includes(file.type);
+
+  if (!isImage && !isAllowedDoc) {
     return {
       isValid: false,
-      error: 'File type not allowed. Please upload images (JPEG, PNG, GIF, WebP) or documents (PDF, DOC, DOCX).'
+      error:
+        'File type not allowed. Please upload an image (any image/* MIME type) or an allowed document (PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX).'
     };
   }
 

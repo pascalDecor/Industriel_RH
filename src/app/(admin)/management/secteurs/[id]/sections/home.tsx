@@ -34,18 +34,20 @@ export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn, 
                         fromJson: (json: any) => Section.fromJSON(json)
                     });
                 }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>} callDataListen={count}
-                    hasData={(data) => {
-                        setSection(data.data!);
+                    autoRefreshOnListen={true}
+                    hasData={(payload) => {
+                        const fresh = payload.data!;
+                        setSection(fresh);
                         return <div className="grid grid-cols-6 w-full ">
                             <div className="col-span-3 relative">
                                 <Popover>
                                     <PopoverTrigger>
                                         <p className="text-sm font-light text text-start mb-4 cursor-pointer">
-                                            {showEnglish ? section.description_en : section.description}
+                                            {showEnglish ? fresh.description_en : fresh.description}
                                         </p>
                                     </PopoverTrigger>
                                     <PopoverContent className="z-50">
-                                        <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="description" value={section.description} libelle_en="description_en" value_en={section.description_en} />
+                                        <UpdateDescriptionSectorComponent section={fresh} onChange={() => setCount(c => c + 1)} libelle="description" value={fresh.description} libelle_en="description_en" value_en={fresh.description_en} />
                                     </PopoverContent>
                                 </Popover>
                                 <p className="text-sm font-bold text text-start mb-4">
@@ -85,10 +87,10 @@ export function SectionUIAddSpecializedTalentAcrossYourOrganization({ sectorIn, 
                                     width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full absolute top-0 z-0" />
                                 <Popover>
                                     <PopoverTrigger>
-                                        {sector && <SectionImagePreview image={sector.sections.filter((s) => s.page === "home")[0]?.image} fallback={imagePathFinder.add_specialized_talent_across_your_organization} width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full relative z-10 cursor-pointer" />}
+                                        {sector && <SectionImagePreview image={fresh.image} fallback={imagePathFinder.add_specialized_talent_across_your_organization} width={500} height={500} alt="We Source the Talent" className="mb-4 mx-auto w-full relative z-10 cursor-pointer" />}
                                     </PopoverTrigger>
                                     <PopoverContent className="z-50">
-                                        <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />
+                                        <UpdateImageSectorComponent section={fresh} onChange={() => setCount(c => c + 1)} />
                                     </PopoverContent>
                                 </Popover>
 

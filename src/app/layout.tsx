@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "../css/globals.css";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { TranslationLoadingOverlay } from "@/components/TranslationLoadingOverlay";
 import { RecaptchaProvider } from "@/contexts/RecaptchaContext";
 import CookieConsent from "@/components/CookieConsent";
 
@@ -61,6 +62,7 @@ export default function RootLayout({
           }}>
             <RecaptchaProvider>
               <LanguageProvider>
+                <TranslationLoadingOverlay />
                 {children}
                 <CookieConsent />
               </LanguageProvider>

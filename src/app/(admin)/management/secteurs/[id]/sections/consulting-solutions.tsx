@@ -27,38 +27,40 @@ export function SectionUIConsultingSolutionsSection1({ sectorIn, showEnglish }: 
                     fromJson: (json: any) => Section.fromJSON(json)
                 });
             }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>} callDataListen={count}
-                hasData={(data) => {
-                    setSection(data.data!);
+                autoRefreshOnListen={true}
+                hasData={(payload) => {
+                    const fresh = payload.data!;
+                    setSection(fresh);
                     return <div className="grid grid-cols-5 items-center gap-4 mt-10">
                         <div className="lg:col-span-3 col-span-12  pr-4">
                             <Popover>
                                 <PopoverTrigger>
                                     <h2 className="text-3xl font-semibold text mb-14 text-gray-800 text-start">
-                                        { showEnglish ? section.libelle_en : section.libelle }
+                                        { showEnglish ? fresh.libelle_en : fresh.libelle }
                                     </h2>
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="libelle" value={section.libelle} libelle_en="libelle_en" value_en={section.libelle_en} />
+                                    <UpdateDescriptionSectorComponent section={fresh} onChange={() => setCount(c => c + 1)} libelle="libelle" value={fresh.libelle} libelle_en="libelle_en" value_en={fresh.libelle_en} />
                                 </PopoverContent>
                             </Popover>
                             <Popover>
                                 <PopoverTrigger>
                                     <p className="text-gray-500 text-sm mb-5 text-start">
-                                        { showEnglish ? section.description_en : section.description }
+                                        { showEnglish ? fresh.description_en : fresh.description }
                                     </p>
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="description" value={section.description} libelle_en="description_en" value_en={section.description_en} />
+                                    <UpdateDescriptionSectorComponent section={fresh} onChange={() => setCount(c => c + 1)} libelle="description" value={fresh.description} libelle_en="description_en" value_en={fresh.description_en} />
                                 </PopoverContent>
                             </Popover>
                         </div>
                         <div className="lg:col-span-2 col-span-12">
                             <Popover>
                                 <PopoverTrigger>
-                                    <SectionImagePreview image={section.image} fallback={imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
+                                    <SectionImagePreview image={fresh.image} fallback={imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={fresh.libelle} />
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />
+                                    <UpdateImageSectorComponent section={fresh} onChange={() => setCount(c => c + 1)} />
                                 </PopoverContent>
                             </Popover>
 
@@ -85,8 +87,10 @@ export function SectionUIConsultingSolutionsSection2({ sectorIn, showEnglish }: 
                     fromJson: (json: any) => Section.fromJSON(json)
                 });
             }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>} callDataListen={count}
-                hasData={(data) => {
-                    setSection(data.data!);
+                autoRefreshOnListen={true}
+                hasData={(payload) => {
+                    const fresh = payload.data!;
+                    setSection(fresh);
                     return <div className="w-full bg-blue-900  bg-[url(/images/bg_blue.png)] bg-cover bg-center py-15 px-20 rounded-4xl border text-white">
                         <div className="grid grid-cols-6 w-full ">
                             <div className="col-span-3">
@@ -111,10 +115,10 @@ export function SectionUIConsultingSolutionsSection2({ sectorIn, showEnglish }: 
                             <div className="col-span-3 p-0">
                                 <Popover>
                                     <PopoverTrigger>
-                                        <SectionImagePreview image={section.image} fallback={imagePathFinder.trending_job_titles} width={500} height={500} alt="image" />
+                                        <SectionImagePreview image={fresh.image} fallback={imagePathFinder.trending_job_titles} width={500} height={500} alt="image" />
                                     </PopoverTrigger>
                                     <PopoverContent className="z-50">
-                                        <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />
+                                        <UpdateImageSectorComponent section={fresh} onChange={() => setCount(c => c + 1)} />
                                     </PopoverContent>
                                 </Popover>
 
@@ -143,16 +147,18 @@ export function SectionUIConsultingSolutionsSection3({ sectorIn, showEnglish }: 
                     fromJson: (json: any) => Section.fromJSON(json)
                 });
             }} loadingComponent={<LoadingSpinner color="#0F766E"></LoadingSpinner>} callDataListen={count}
-                hasData={(data) => {
-                    setSection(data.data!);
+                autoRefreshOnListen={true}
+                hasData={(payload) => {
+                    const fresh = payload.data!;
+                    setSection(fresh);
                     return <div className="grid grid-cols-5 items-center gap-4 mt-10">
                         <div className="lg:col-span-2 col-span-12 pr-4">
                             <Popover>
                                 <PopoverTrigger>
-                                    <SectionImagePreview image={section.image} fallback={imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={section.libelle} />
+                                    <SectionImagePreview image={fresh.image} fallback={imagePathFinder.your_partner_for_manufacturing_workforce_solutions} width={500} height={500} alt={fresh.libelle} />
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateImageSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} />
+                                    <UpdateImageSectorComponent section={fresh} onChange={() => setCount(c => c + 1)} />
                                 </PopoverContent>
                             </Popover>
 
@@ -161,21 +167,21 @@ export function SectionUIConsultingSolutionsSection3({ sectorIn, showEnglish }: 
                             <Popover>
                                 <PopoverTrigger>
                                     <h2 className="text-3xl font-semibold text mb-14 text-gray-800 text-start">
-                                        { showEnglish ? section.libelle_en : section.libelle }
+                                        { showEnglish ? fresh.libelle_en : fresh.libelle }
                                     </h2>
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="libelle" value={section.libelle} libelle_en="libelle_en" value_en={section.libelle_en} />
+                                    <UpdateDescriptionSectorComponent section={fresh} onChange={() => setCount(c => c + 1)} libelle="libelle" value={fresh.libelle} libelle_en="libelle_en" value_en={fresh.libelle_en} />
                                 </PopoverContent>
                             </Popover>
                             <Popover>
                                 <PopoverTrigger>
                                     <p className="text-gray-500 text-sm mb-5 text-start">
-                                        {  showEnglish ? section.description_en : section.description }
+                                        {  showEnglish ? fresh.description_en : fresh.description }
                                     </p>
                                 </PopoverTrigger>
                                 <PopoverContent className="z-50">
-                                    <UpdateDescriptionSectorComponent section={section} onChange={(s) => setCount(c => c + 1)} libelle="description" value={section.description} libelle_en="description_en" value_en={section.description_en} />
+                                    <UpdateDescriptionSectorComponent section={fresh} onChange={() => setCount(c => c + 1)} libelle="description" value={fresh.description} libelle_en="description_en" value_en={fresh.description_en} />
                                 </PopoverContent>
                             </Popover>
                         </div>

@@ -3,7 +3,7 @@
 
 import dynamic from "next/dynamic";
 import { DynamicImage } from "@/components/ui/DynamicImage";
-import { SectionImagePreview } from "@/app/(admin)/management/secteurs/[id]/sections/updateComponent";
+import { SectionImagePreview } from "@/components/media/SectionImagePreview";
 
 import { FiArrowRight } from "react-icons/fi";
 import { Users, FileText, Rocket, Check, X } from "lucide-react";

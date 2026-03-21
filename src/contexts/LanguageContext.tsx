@@ -7,6 +7,8 @@ export type Language = 'fr' | 'en';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
+  /** True tant que les traductions (API) ne sont pas chargées — évite d'afficher les textes statiques embarqués par défaut */
+  isLoadingTranslations: boolean;
   t: (key: string, params?: Record<string, string | number>) => string;
   translateDynamic: (category: 'sectors' | 'functions' | 'cities', originalText: string) => string;
 }
@@ -2091,6 +2093,10 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
   // Fonction de traduction
   const t = (key: string, params?: Record<string, string | number>): string => {
+    // Ne pas afficher les chaînes statiques du fichier tant que l'API n'a pas répondu (évite flash de mauvaise langue / contenu)
+    if (isLoadingTranslations) {
+      return '';
+    }
     // Utiliser les traductions de la DB si disponibles, sinon fallback vers les traductions statiques
     const activeTranslations = dbTranslations || translations;
     let text = activeTranslations[language][key] || translations[language][key] || key;
@@ -2107,6 +2113,10 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
   // Fonction pour traduire les champs dynamiques
   const translateDynamic = (category: 'sectors' | 'functions' | 'cities', originalText: string): string => {
+    // Afficher le texte source (ex. libellé API) jusqu'au chargement des surcouches de traduction
+    if (isLoadingTranslations) {
+      return originalText;
+    }
     const activeTranslations = dbTranslations || translations;
     const dynamicTranslations = activeTranslations[language].dynamic as any;
     const translation = dynamicTranslations?.[category]?.[originalText];
@@ -2116,6 +2126,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   const value: LanguageContextType = {
     language,
     setLanguage,
+    isLoadingTranslations,
     t,
     translateDynamic,
   };
@@ -2137,6 +2148,6 @@ export function useLanguage(): LanguageContextType {
 
 // Hook pour obtenir seulement la fonction de traduction
 export function useTranslation() {
-  const { t, translateDynamic, language } = useLanguage();
-  return { t, translateDynamic, language };
+  const { t, translateDynamic, language, isLoadingTranslations } = useLanguage();
+  return { t, translateDynamic, language, isLoadingTranslations };
 }
