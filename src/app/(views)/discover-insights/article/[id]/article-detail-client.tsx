@@ -272,11 +272,11 @@ export default function ArticleDetailClient() {
           <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-gray-500 mb-6">
             <span>{t('common.published_on')} {formatDate(article.createdAt)}</span>
             {article.updatedAt !== article.createdAt && (
-              <span className="hidden sm:inline">ÔÇó {t('common.updated_on')} {formatDate(article.updatedAt)}</span>
+              <span className="hidden sm:inline">• {t('common.updated_on')} {formatDate(article.updatedAt)}</span>
             )}
-            <span>ÔÇó {article.views} {t('common.views')}</span>
+            <span>• {article.views} {t('common.views')}</span>
             {article.author && (
-              <span className="uppercase text-blue-700 font-bold">ÔÇó {t('common.by_author')}  {article.author.name}</span>
+              <span className="uppercase text-blue-700 font-bold">• {t('common.by_author')}  {article.author.name}</span>
             )}
           </div>
 
@@ -449,7 +449,7 @@ export default function ArticleDetailClient() {
                           </h4>
                           <div className="flex items-center text-[9px] sm:text-[10px] text-gray-500 gap-2">
                             <span>{relatedArticle.views} {t('common.views')}</span>
-                            <span>ÔÇó</span>
+                            <span>•</span>
                             <span>{formatDate(relatedArticle.createdAt)}</span>
                           </div>
                           {/* {relatedArticle.tags.length > 0 && (
