@@ -110,12 +110,15 @@ export default function ConsultingSolutions() {
         if (result.data) {
           const sectorTabs = result.data.map((sector: any, index: number) => ({
             id: index.toString(),
-            label: sector.libelle.toLowerCase(),
-            label_en: sector.libelle_en.toLowerCase(),
+            label: (sector.libelle || '').toLowerCase(),
+            label_en: (sector.libelle_en || sector.libelle || '').toLowerCase(),
             sectorId: sector.id,
             sectorName: sector.libelle
           }));
           setTabsType(sectorTabs);
+          if (sectorTabs.length > 0) {
+            setActiveTabType(sectorTabs[0].id);
+          }
         }
       } catch (error) {
         console.error('Erreur lors de la récupération des secteurs:', error);
@@ -143,9 +146,9 @@ export default function ConsultingSolutions() {
   ];
 
   const [tabsType, setTabsType] = useState([
-    { id: "0", label: t('sectors.construction'), label_en: t('sectors.construction') },
-    { id: "1", label: t('sectors.manufacturing'), label_en: t('sectors.manufacturing') },
-    { id: "2", label: t('sectors.healthcare'), label_en: t('sectors.healthcare') },
+    { id: "0", label: t('sectors.construction').toLowerCase(), label_en: t('sectors.construction').toLowerCase() },
+    { id: "1", label: t('sectors.manufacturing').toLowerCase(), label_en: t('sectors.manufacturing').toLowerCase() },
+    { id: "2", label: t('sectors.healthcare').toLowerCase(), label_en: t('sectors.healthcare').toLowerCase() },
   ]);
 
   const [activeTab, setActiveTab] = useState("0");
@@ -153,6 +156,7 @@ export default function ConsultingSolutions() {
   const [activeTabForm, setActiveTabForm] = useState("0");
   const [ctaModal, setCtaModal] = useState<"growth" | "process" | "performance" | null>(null);
   const [hasRecentArticles, setHasRecentArticles] = useState(false);
+  const activeSpecialityFilter = tabsType.find(tab => tab.id === activeTabType)?.label?.trim() || "all";
 
   useEffect(() => {
     const checkArticles = async () => {
@@ -198,6 +202,7 @@ export default function ConsultingSolutions() {
     </section>
 
     {/* Section CTA expertise + 3 colonnes + subventions */}
+    <div id="expertise-section" className="-mt-20 absolute"></div>
     <section className="bg-white py-16 sm:py-20 px-4 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <p className="text-center text-lg sm:text-xl text-black font-medium mb-12 sm:mb-16 leading-relaxed max-w-4xl mx-auto">
@@ -455,7 +460,7 @@ export default function ConsultingSolutions() {
                 <p className="text-sm font-regular text-gray-500 ">
                   {t('hire_talent.solutions.outsourced.description')}
                 </p>
-                <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
+                <Button variant="primary" size="md" onClick={() => document.getElementById("expertise-section")?.scrollIntoView({ behavior: "smooth", block: "start" })} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('button.learn_more')}
                 </Button>
               </motion.div>
@@ -472,7 +477,7 @@ export default function ConsultingSolutions() {
                 <p className="text-sm font-regular text-gray-500 ">
                   {t('hire_talent.solutions.international.description')}
                 </p>
-                <Button variant="primary" size="md" onClick={() => router.push("/hire-talent#international_recruitment")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
+                <Button variant="primary" size="md" onClick={() => document.getElementById("expertise-section")?.scrollIntoView({ behavior: "smooth", block: "start" })} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('button.learn_more')}
                 </Button>
               </motion.div>
@@ -527,7 +532,7 @@ export default function ConsultingSolutions() {
                 <p className="text-sm font-regular text-gray-500 ">
                   {t('find_jobs.upload_resume.description')}
                 </p>
-                <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
+                <Button variant="primary" size="md" onClick={() => window.open("https://www.careers-page.com/ir-2/apply", "_blank", "noopener,noreferrer")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('find_jobs.upload_resume.button')}
                 </Button>
               </motion.div>
@@ -544,7 +549,7 @@ export default function ConsultingSolutions() {
                 <p className="text-sm font-regular text-gray-500 ">
                   {t('find_jobs.search_jobs.description')}
                 </p>
-                <Button variant="primary" size="md" onClick={() => router.push("#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
+                <Button variant="primary" size="md" onClick={() => window.open("https://www.careers-page.com/ir-2/apply", "_blank", "noopener,noreferrer")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                   {t('find_jobs.search_jobs.button')}
                 </Button>
               </motion.div>
@@ -555,7 +560,7 @@ export default function ConsultingSolutions() {
                 }}
                 className="md:col-span-2 text-center"
               >
-                <Button variant="dark" size="md" onClick={handleClick} className="mt-5 mx-auto text-center !rounded-full text-sm w-full sm:w-auto">
+                <Button variant="dark" size="md" onClick={() => router.push("/hire-talent#contact-infos")} className="mt-5 mx-auto text-center !rounded-full text-sm w-full sm:w-auto">
                   {t('consulting.cta.button')}
                 </Button>
               </motion.div>
@@ -671,11 +676,8 @@ export default function ConsultingSolutions() {
         ))}
       </div>
 
-
-
       <DynamicArticlesGrid
-        category={tabsType.find(tab => tab.id === activeTabType)?.label.toLowerCase() || "all"}
-        sectorId={tabsType.find(tab => tab.id === activeTabType)?.id}
+        category={activeSpecialityFilter}
         limit={12}
         showFeaturedBlocks={true}
       />

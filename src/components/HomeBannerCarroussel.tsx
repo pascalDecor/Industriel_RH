@@ -30,7 +30,7 @@ export default function HomeBannerCarroussel() {
     };
 
     function handleClickFindJobs() {
-        redirect("/find-jobs#");
+        window.open("https://www.careers-page.com/ir-2", "_blank", "noopener,noreferrer");
     }
 
     function handleClickPreviewCandidates() {

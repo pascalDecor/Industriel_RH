@@ -12,7 +12,6 @@ import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 
 interface DynamicArticlesGridProps {
   category?: string;
-  sectorId?: string | null;
   limit?: number;
   showFeaturedBlocks?: boolean;
 }
@@ -52,7 +51,6 @@ interface FeaturedBlockData {
 
 export default function DynamicArticlesGrid({
   category = "all",
-  sectorId = null,
   limit = 12,
   showFeaturedBlocks = true
 }: DynamicArticlesGridProps) {
@@ -75,18 +73,19 @@ export default function DynamicArticlesGrid({
     if (showFeaturedBlocks) {
       fetchFeaturedBlocks();
     }
-  }, [category, sectorId, limit, showFeaturedBlocks]);
+  }, [category, limit, showFeaturedBlocks]);
 
   const fetchArticles = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      let url = `/api/articles?limit=${limit}&sortBy=createdAt&sortOrder=desc&includeContent=true&published=true`;
+      const baseUrl = `/api/articles?limit=${limit}&sortBy=createdAt&sortOrder=desc&includeContent=true&published=true`;
+      let url = baseUrl;
 
       // Si une catégorie spécifique est demandée, on peut filtrer par spécialité
       if (category !== "all" && category) {
-        url += `&specialityname=${category}`;
+        url += `&specialityname=${encodeURIComponent(category)}`;
       }
 
       const response = await fetch(url);
@@ -96,7 +95,8 @@ export default function DynamicArticlesGrid({
       }
 
       const data = await response.json();
-      setArticles(data.data || []);
+      const fetchedArticles = data.data || [];
+      setArticles(fetchedArticles);
     } catch (error) {
       console.error('Erreur lors de la récupération des articles:', error);
       setError(t('common.error_loading_articles'));

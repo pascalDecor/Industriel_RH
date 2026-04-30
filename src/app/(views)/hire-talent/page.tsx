@@ -17,6 +17,7 @@ import { useTranslation } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const DynamicArticlesGrid = dynamic(() => import("@/components/articles/DynamicArticlesGrid"), {
     loading: () => <div className="animate-pulse bg-gray-200 h-96 rounded-lg" />
@@ -36,6 +37,7 @@ interface ContactFormData {
 
 export default function FindJobs() {
     const { t } = useTranslation();
+    const { executeRecaptcha } = useGoogleReCaptcha();
     const [formData, setFormData] = useState<ContactFormData>({
         firstName: '',
         lastName: '',
@@ -52,6 +54,16 @@ export default function FindJobs() {
 
     function handleClick() {
         console.log("Clic !");
+    }
+
+    function scrollToHowItWorks() {
+        const section = document.getElementById("hire-talent-how-it-works");
+        section?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function scrollToContactInfos() {
+        const section = document.getElementById("contact-infos");
+        section?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -72,17 +84,30 @@ export default function FindJobs() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!executeRecaptcha) {
+            console.error("reCAPTCHA not yet available");
+            setSubmitStatus('error');
+            return;
+        }
+
         setIsSubmitting(true);
         setSubmitStatus('idle');
 
         try {
+            const recaptchaToken = await executeRecaptcha('contact_form');
+
             // TODO: Replace with actual API endpoint
             const response = await fetch('/api/contacts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    ...formData,
+                    recaptchaToken,
+                    source: "hire_talent_page"
+                })
             });
 
             if (response.ok) {
@@ -176,7 +201,7 @@ export default function FindJobs() {
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('hire_talent.solutions.outsourced.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("#recruitment_by_outsourcing")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
+                    <Button variant="primary" size="md" onClick={scrollToHowItWorks} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.solutions.learn_more')}
                     </Button>
                 </motion.div>
@@ -193,7 +218,7 @@ export default function FindJobs() {
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('hire_talent.solutions.international.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("#international_recruitment")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
+                    <Button variant="primary" size="md" onClick={scrollToHowItWorks} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.solutions.learn_more')}
                     </Button>
                 </motion.div>
@@ -205,7 +230,7 @@ export default function FindJobs() {
         <section className="mx-auto w-full mb-0 sm:px-10 py-24 bg-gray-200">
 
             {/*How it works */}
-            <section className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
+            <section id="hire-talent-how-it-works" className="mx-auto max-w-5xl mb-10 px-4 sm:px-6 lg:px-10 py-10">
                 <div className="grid grid-cols-1 lg:grid-cols-4 items-center justify-center gap-6 lg:gap-10 w-full">
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
@@ -508,7 +533,7 @@ export default function FindJobs() {
                     <p className="text-gray-500 text-sm mb-5">
                         {t('hire_talent.outsourcing.hero.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm w-full sm:w-auto">
+                    <Button variant="primary" size="md" onClick={scrollToContactInfos} className="!rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.outsourcing.hire_talents')}
                     </Button>
                 </motion.div>
@@ -774,7 +799,7 @@ export default function FindJobs() {
                     <p className="text-gray-500 text-sm mb-5">
                         {t('hire_talent.international.hero.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("#candidates")} className="!rounded-full text-sm w-full sm:w-auto">
+                    <Button variant="primary" size="md" onClick={scrollToContactInfos} className="!rounded-full text-sm w-full sm:w-auto">
                         {t('hire_talent.outsourcing.hire_talents')}
                     </Button>
                 </motion.div>

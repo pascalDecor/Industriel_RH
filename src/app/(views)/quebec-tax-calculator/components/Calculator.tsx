@@ -3,7 +3,7 @@ import { SelectDropdown } from './SelectDropdown';
 import { InputField } from './InputField';
 import { Results } from './Results';
 import { calculateTaxes } from './utils/taxCalculator';
-import { provinces, taxYears } from './data/taxData';
+import { provinces } from './data/taxData';
 import { formatCurrency } from './utils/formatters';
 import { minimumWage } from './data/minimumWage';
 import { Alert } from './Alert';
@@ -14,8 +14,10 @@ import { useTranslation } from '@/contexts/LanguageContext';
 
 export const TaxCalculator: React.FC = () => {
   const { t } = useTranslation();
+  const currentYear = new Date().getFullYear();
+  const lastTenYears = Array.from({ length: 10 }, (_, index) => String(currentYear - index));
   const [province, setProvince] = useState('');
-  const [taxYear, setTaxYear] = useState('2025');
+  const [taxYear, setTaxYear] = useState(String(currentYear));
   const [incomeType, setIncomeType] = useState<'annual' | 'hourly'>('annual');
   const [income, setIncome] = useState<string>('');
   const [hoursPerWeek, setHoursPerWeek] = useState<string>('40');
@@ -178,7 +180,7 @@ export const TaxCalculator: React.FC = () => {
 
   const handleClear = () => {
     setProvince('');
-    setTaxYear('2023');
+    setTaxYear(String(currentYear));
     setIncome('');
     setHoursPerWeek('40');
     setRrspContribution('');
@@ -258,7 +260,7 @@ export const TaxCalculator: React.FC = () => {
             label={t('quebec_tax_calculator.calculator.tax_year')}
             value={taxYear}
             onChange={setTaxYear}
-            options={taxYears.map(year => ({ value: year, label: year }))}
+            options={lastTenYears.map(year => ({ value: year, label: year }))}
             placeholder={t('quebec_tax_calculator.calculator.select_tax_year')}
           />
 

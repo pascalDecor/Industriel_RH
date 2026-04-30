@@ -205,6 +205,7 @@ export default function ContactPage() {
                     {state === true ?
                         <SuccessSend />
                         : <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-10">
+                            <input type="hidden" name="source" value="contact_page" />
                             <div className="w-full text-left">
                                 <input
                                     type="text"

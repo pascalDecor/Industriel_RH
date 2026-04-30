@@ -29,6 +29,7 @@ const addContactFormSchema = z.object({
     status: z.string().trim().default("pending"),
     priority: z.string().trim().default("normal"),
     recaptchaToken: z.string().min(1, { message: "reCAPTCHA validation required." }),
+    source: z.string().trim().optional(),
 });
 
 export async function addContact(state: FormStateAddConntact, formData: FormData) {
@@ -44,6 +45,7 @@ export async function addContact(state: FormStateAddConntact, formData: FormData
         postalCode: formData.get('postalCode'),
         message: formData.get('message'),
         recaptchaToken: formData.get('recaptchaToken'),
+        source: formData.get('source'),
     })
 
     console.log("validatedFields", validatedFields.data);

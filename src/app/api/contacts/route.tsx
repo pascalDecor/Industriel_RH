@@ -3,6 +3,7 @@ import { Contact } from '@prisma/client';
 import { withQuery } from "@/lib/prisma/helpers";
 import prisma from "@/lib/connect_db";
 import { validateRecaptcha } from '@/lib/recaptcha';
+import { sendMail } from '@/lib/mail';
 
 
 export const GET = withQuery<Contact, typeof prisma.contact>(
@@ -48,6 +49,51 @@ export const POST = async (req: Request) => {
         workPhone: data.workPhone
       }
     });
+
+    const contactSummaryRecipient =
+      data.source === 'contact_page'
+        ? (process.env.CONTACT_PAGE_SUMMARY_EMAIL || process.env.CONTACT_SUMMARY_EMAIL)
+        : process.env.CONTACT_SUMMARY_EMAIL;
+    if (contactSummaryRecipient) {
+      const subject = `Nouveau contact - ${data.firstName} ${data.lastName}`;
+      const textContent = `
+Un nouveau contact a ete soumis.
+
+Nom: ${data.firstName} ${data.lastName}
+Entreprise: ${data.companyName}
+Poste: ${data.jobTitle}
+Email professionnel: ${data.workEmail}
+Telephone: ${data.workPhone}
+Code postal: ${data.postalCode}
+Message:
+${data.message}
+      `.trim();
+
+      const htmlContent = `
+<h2>Nouveau contact recu</h2>
+<p><strong>Nom:</strong> ${data.firstName} ${data.lastName}</p>
+<p><strong>Entreprise:</strong> ${data.companyName}</p>
+<p><strong>Poste:</strong> ${data.jobTitle}</p>
+<p><strong>Email professionnel:</strong> ${data.workEmail}</p>
+<p><strong>Telephone:</strong> ${data.workPhone}</p>
+<p><strong>Code postal:</strong> ${data.postalCode}</p>
+<p><strong>Message:</strong><br/>${data.message}</p>
+      `.trim();
+
+      const emailSent = await sendMail(
+        contactSummaryRecipient,
+        subject,
+        textContent,
+        htmlContent
+      );
+
+      if (!emailSent) {
+        console.error('Echec de l envoi de l email de resume du contact.');
+      }
+    } else {
+      console.warn('CONTACT_SUMMARY_EMAIL n est pas defini. Email de resume non envoye.');
+    }
+
     return NextResponse.json(contactCreated, { status: 201 });
   } catch (error) {
     console.log(error);

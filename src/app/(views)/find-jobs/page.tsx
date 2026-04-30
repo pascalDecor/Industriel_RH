@@ -104,7 +104,7 @@ export default function FindJobs() {
                         transition={{ duration: 0.5, delay: 0.6 }}
                         viewport={{ once: true }}
                     >
-                        <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-6 sm:mt-10 !rounded-full text-sm w-full sm:w-auto">
+                        <Button variant="primary" size="md" onClick={() => window.open("https://www.careers-page.com/ir-2/apply", "_blank", "noopener,noreferrer")} className="mt-6 sm:mt-10 !rounded-full text-sm w-full sm:w-auto">
                             {t('find_jobs.hero.submit_cv')}
                         </Button>
                     </motion.div>
@@ -177,7 +177,7 @@ export default function FindJobs() {
                     <p className="text-sm font-regular text-gray-500 ">
                         {t('find_jobs.search_jobs.description')}
                     </p>
-                    <Button variant="primary" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
+                    <Button variant="primary" size="md" onClick={() => redirect("/contact")} className="mt-5 !rounded-full text-sm w-full sm:w-auto">
                         {t('find_jobs.search_jobs.button')}
                     </Button>
                 </motion.div>
@@ -295,7 +295,7 @@ export default function FindJobs() {
                                     {t('find_jobs.step1.description')}
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-5">
-                                    <Button variant="dark" size="md" onClick={() => redirect("/consulting-solutions#move_your_career_forward")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
+                                    <Button variant="dark" size="md" onClick={() => window.open("https://www.careers-page.com/ir-2, blank", "noopener,noreferrer")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step1.apply_button')}
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
@@ -361,13 +361,13 @@ export default function FindJobs() {
                                     {t('find_jobs.step3.description')}
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-5">
-                                    <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
+                                    <Button variant="dark" size="md" onClick={() =>window.open("https://www.careers-page.com/ir-2/apply", "_blank", "noopener,noreferrer")} className="!rounded-full text-[12px] !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step3.interview_tips')}
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />
                                         </div>
                                     </Button>
-                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-[12px] !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
+                                    <Button variant="light" size="md" onClick={() => redirect("/salary-guide")} className="!rounded-full text-[12px] !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step3.salary_guide')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -392,7 +392,7 @@ export default function FindJobs() {
                                     {t('find_jobs.step4.description')}
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-5">
-                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
+                                    <Button variant="light" size="md" onClick={() => redirect("/discover-insights#newsletter-section")} className="!rounded-full text-sm !font-light !text-gray-600 flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step4.career_advice')}
                                         <div className="bg-black p-2 rounded-full">
                                             <FiArrowRight className="text-white" />
@@ -430,7 +430,7 @@ export default function FindJobs() {
                                 </p>
 
                                 <div className="mt-6 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
-                                    <Button variant="dark" size="md" onClick={() => redirect("/discover-insights")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
+                                    <Button variant="dark" size="md" onClick={() => redirect("/#shape_the_career_you_want")} className="!rounded-full text-sm !font-light !text-white flex items-center gap-3 !pl-4 !pr-1.5 !py-1 justify-center">
                                         {t('find_jobs.step5.training_button')}
                                         <div className="bg-white p-2 rounded-full">
                                             <FiArrowRight className="text-black" />

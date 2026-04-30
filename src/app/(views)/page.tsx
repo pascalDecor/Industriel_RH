@@ -35,9 +35,22 @@ const HomeBannerCarroussel = dynamic(() => import("@/components/HomeBannerCarrou
 export default function Home() {
   const { t } = useTranslation();
 
-  function handleClick() {
-    console.log("Clic !");
+  function handleClickConsultingSolutions() {
+    redirect("/consulting-solutions");
   }
+
+  function scrollToHowItWorks() {
+    const section = document.getElementById("how-it-works");
+    section?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function handleClickHireNow() {
+    redirect("/hire-talent#contact-infos");
+}
+
+function handleClickFindJobs() {
+  redirect("/find-jobs#seekers-section");
+}
 
   return (
     < >
@@ -155,6 +168,7 @@ export default function Home() {
       </section> */}
 
       {/*   How it works */}
+      <div id="how-it-works" className="-mt-20 absolute"></div>
       <section className="mx-auto  max-w-5xl mb-10 p-4 sm:p-6 lg:p-10">
         <div className="w-full bg-[url(/images/how_it_work.png)] bg-cover bg-center bg-blue-900 p-6 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl lg:rounded-4xl border">
 
@@ -231,10 +245,10 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="primary" size="md" onClick={() => redirect("/hire-talent#")} className="!rounded-full text-sm">
+              <Button variant="primary" size="md" onClick={handleClickHireNow}  className="!rounded-full text-sm">
                 {t('home.partner_talent.find_hire_btn')}
               </Button>
-              <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300">
+              <Button variant="light" size="md" onClick={scrollToHowItWorks}  className="!rounded-full text-sm border border-gray-300">
                 {t('home.partner_talent.learn_more_btn')}
               </Button>
             </div>
@@ -290,10 +304,10 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="primary" size="md" onClick={() => redirect("/hire-talent#")} className="!rounded-full text-sm">
+              <Button variant="primary" size="md" onClick={handleClickHireNow} className="!rounded-full text-sm">
                 {t('home.employee_recognition.consulting_btn')}
               </Button>
-              <Button variant="light" size="md" onClick={handleClick} className="!rounded-full text-sm border border-gray-300">
+              <Button variant="light" size="md" onClick={handleClickConsultingSolutions} className="!rounded-full text-sm border border-gray-300">
                 {t('button.learn_more')}
               </Button>
             </div>
@@ -303,6 +317,7 @@ export default function Home() {
       </section>
 
       {/*  Shape the career you want   */}
+      <div id="shape_the_career_you_want" className="-mt-20 absolute"></div>
       <section className="mx-auto max-w-5xl mb-10 p-4 sm:p-6 lg:p-10">
         <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
           <div className="w-full lg:w-3/5 lg:pr-4">
@@ -345,7 +360,7 @@ export default function Home() {
               <Button variant="primary" size="md" onClick={() => redirect("/find-jobs#")} className="mt-10 !rounded-full text-sm">
               {t('home.shape_career.job_matches_btn')}
               </Button>
-              <Button variant="light" size="md" onClick={handleClick} className="mt-10 !rounded-full text-sm border border-gray-300">
+              <Button variant="light" size="md" onClick={handleClickFindJobs} className="mt-10 !rounded-full text-sm border border-gray-300">
                 {t('button.learn_more')}
               </Button>
             </div>
